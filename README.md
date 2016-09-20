@@ -1,5 +1,5 @@
-## Movie app - iOS development
-#Internship at Atlantbh
+# Movie app - iOS development
+###Internship at Atlantbh
 
 From the headline it is not hard to conclude that this application will be about movies, but it is important to note that it will also provide informations about tv shows and actors. 
 
