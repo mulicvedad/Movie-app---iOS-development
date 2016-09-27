@@ -19,12 +19,21 @@
 
 @implementation NewsFeedTableViewController
 
++(NSURL *)getFeedsSource
+{
+    return [NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"];
+}
+
 -(void)updateViewWithNewData:(NSMutableArray *)feedItemsArray{
     news=feedItemsArray;
     
     if(![news count])
     {
-        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"nema" andWithText:@"rezultat" andWithWebPage:@"sry"]];
+        if(!news)
+        {
+            news = [[NSMutableArray alloc] init];
+        }
+        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"nema" andWithText:@"rezultata" andWithWebPage:@"sry"]];
     }
     [self.tableView reloadData];
     
@@ -48,15 +57,14 @@
     
     FeedDownloader *downloader = [[FeedDownloader alloc]init];
     
-    //using hardcoded and known url to check if everything is working
-    // will be changed to http://www.boxofficemojo.com/about/rss.htm
-    
-    NSURL *feedUrl=[NSURL URLWithString:@"http://images.apple.com/main/rss/hotnews/hotnews.rss"];
-    
-    [downloader downloadNewsFromFeed:feedUrl andReturnTo:self];
-    
-    
+    @try {
+        [downloader downloadNewsFromFeed:[NewsFeedTableViewController getFeedsSource] andReturnTo:self];
         
+    } @catch (NSException *exception) {
+        [news removeAllObjects];
+        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"Error" andWithText:[exception description]
+                                                andWithWebPage:@""]];
+    } 
     
 }
 

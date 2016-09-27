@@ -22,7 +22,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 200;
+    return 206;
 }
 
 + (NSString *)cellIdentifier{

@@ -12,6 +12,6 @@
 
 @interface NewsFeedTableViewController : UITableViewController<FeedDataReceiver>
 
-
++(NSURL *)getFeedsSource;
 
 @end
