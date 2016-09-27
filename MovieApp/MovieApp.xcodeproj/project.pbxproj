@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE530D921D993061003A708F /* CustomTableViewCell.m */; };
+		CE530D971D996043003A708F /* FeedDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CE530D961D996043003A708F /* FeedDownloader.m */; };
+		CE530D9A1D9960A2003A708F /* BoxOfficeFeedDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CE530D991D9960A2003A708F /* BoxOfficeFeedDownloader.m */; };
 		CE741D341D91ED5D0081C33A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D331D91ED5D0081C33A /* main.m */; };
 		CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D361D91ED5D0081C33A /* AppDelegate.m */; };
 		CE741D3A1D91ED5D0081C33A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D391D91ED5D0081C33A /* ViewController.m */; };
@@ -15,6 +18,13 @@
 		CE741D421D91ED5D0081C33A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE741D401D91ED5D0081C33A /* LaunchScreen.storyboard */; };
 		CE741D4D1D91ED5E0081C33A /* MovieAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D4C1D91ED5E0081C33A /* MovieAppTests.m */; };
 		CE741D581D91ED5E0081C33A /* MovieAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D571D91ED5E0081C33A /* MovieAppUITests.m */; };
+		CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */; };
+		CEE832D11D9547FC0074648B /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE832CF1D9547FC0074648B /* FeedTableViewCell.xib */; };
+		CEEA7CF71D947C9700D90DEF /* MoviesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEA7CF61D947C9700D90DEF /* MoviesViewController.m */; };
+		CEEA7CFA1D947CB400D90DEF /* TvShowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEA7CF91D947CB400D90DEF /* TvShowsViewController.m */; };
+		CEEA7D001D947D3300D90DEF /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEA7CFF1D947D3300D90DEF /* Movie.m */; };
+		CEEA7D031D947D8B00D90DEF /* NewFeedsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEA7D021D947D8B00D90DEF /* NewFeedsItem.m */; };
+		CEEA7D081D9487CF00D90DEF /* NewsFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEA7D071D9487CF00D90DEF /* NewsFeedTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +45,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE530D911D993061003A708F /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
+		CE530D921D993061003A708F /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
+		CE530D951D996043003A708F /* FeedDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDownloader.h; sourceTree = "<group>"; };
+		CE530D961D996043003A708F /* FeedDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDownloader.m; sourceTree = "<group>"; };
+		CE530D981D9960A2003A708F /* BoxOfficeFeedDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxOfficeFeedDownloader.h; sourceTree = "<group>"; };
+		CE530D991D9960A2003A708F /* BoxOfficeFeedDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxOfficeFeedDownloader.m; sourceTree = "<group>"; };
 		CE741D2F1D91ED5D0081C33A /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE741D331D91ED5D0081C33A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CE741D351D91ED5D0081C33A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,6 +67,19 @@
 		CE741D531D91ED5E0081C33A /* MovieAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE741D571D91ED5E0081C33A /* MovieAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieAppUITests.m; sourceTree = "<group>"; };
 		CE741D591D91ED5E0081C33A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
+		CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
+		CEE832CF1D9547FC0074648B /* FeedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
+		CEEA7CF51D947C9700D90DEF /* MoviesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviesViewController.h; sourceTree = "<group>"; };
+		CEEA7CF61D947C9700D90DEF /* MoviesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoviesViewController.m; sourceTree = "<group>"; };
+		CEEA7CF81D947CB400D90DEF /* TvShowsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TvShowsViewController.h; sourceTree = "<group>"; };
+		CEEA7CF91D947CB400D90DEF /* TvShowsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TvShowsViewController.m; sourceTree = "<group>"; };
+		CEEA7CFE1D947D3300D90DEF /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		CEEA7CFF1D947D3300D90DEF /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		CEEA7D011D947D8B00D90DEF /* NewFeedsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewFeedsItem.h; sourceTree = "<group>"; };
+		CEEA7D021D947D8B00D90DEF /* NewFeedsItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewFeedsItem.m; sourceTree = "<group>"; };
+		CEEA7D061D9487CF00D90DEF /* NewsFeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedTableViewController.h; sourceTree = "<group>"; };
+		CEEA7D071D9487CF00D90DEF /* NewsFeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +107,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE530D941D995FC5003A708F /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				CE530D951D996043003A708F /* FeedDownloader.h */,
+				CE530D961D996043003A708F /* FeedDownloader.m */,
+				CE530D981D9960A2003A708F /* BoxOfficeFeedDownloader.h */,
+				CE530D991D9960A2003A708F /* BoxOfficeFeedDownloader.m */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
 		CE741D261D91ED5D0081C33A = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +184,7 @@
 		CE741D651D91ED900081C33A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE530D941D995FC5003A708F /* Help */,
 				CE741D691D91EDE80081C33A /* Controllers */,
 				CE741D681D91EDD50081C33A /* Views */,
 				CE741D661D91ED9D0081C33A /* Models */,
@@ -154,6 +195,10 @@
 		CE741D661D91ED9D0081C33A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CEEA7D011D947D8B00D90DEF /* NewFeedsItem.h */,
+				CEEA7D021D947D8B00D90DEF /* NewFeedsItem.m */,
+				CEEA7CFE1D947D3300D90DEF /* Movie.h */,
+				CEEA7CFF1D947D3300D90DEF /* Movie.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -161,6 +206,11 @@
 		CE741D681D91EDD50081C33A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */,
+				CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */,
+				CEE832CF1D9547FC0074648B /* FeedTableViewCell.xib */,
+				CE530D911D993061003A708F /* CustomTableViewCell.h */,
+				CE530D921D993061003A708F /* CustomTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -168,6 +218,12 @@
 		CE741D691D91EDE80081C33A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CEEA7D061D9487CF00D90DEF /* NewsFeedTableViewController.h */,
+				CEEA7D071D9487CF00D90DEF /* NewsFeedTableViewController.m */,
+				CEEA7CF51D947C9700D90DEF /* MoviesViewController.h */,
+				CEEA7CF61D947C9700D90DEF /* MoviesViewController.m */,
+				CEEA7CF81D947CB400D90DEF /* TvShowsViewController.h */,
+				CEEA7CF91D947CB400D90DEF /* TvShowsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -278,6 +334,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE832D11D9547FC0074648B /* FeedTableViewCell.xib in Resources */,
 				CE741D421D91ED5D0081C33A /* LaunchScreen.storyboard in Resources */,
 				CE741D3F1D91ED5D0081C33A /* Assets.xcassets in Resources */,
 				CE741D3D1D91ED5D0081C33A /* Main.storyboard in Resources */,
@@ -306,8 +363,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE741D3A1D91ED5D0081C33A /* ViewController.m in Sources */,
+				CEEA7D031D947D8B00D90DEF /* NewFeedsItem.m in Sources */,
 				CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */,
+				CEEA7D081D9487CF00D90DEF /* NewsFeedTableViewController.m in Sources */,
+				CE530D9A1D9960A2003A708F /* BoxOfficeFeedDownloader.m in Sources */,
+				CEEA7CF71D947C9700D90DEF /* MoviesViewController.m in Sources */,
+				CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */,
+				CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */,
+				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,
+				CE530D971D996043003A708F /* FeedDownloader.m in Sources */,
 				CE741D341D91ED5D0081C33A /* main.m in Sources */,
+				CEEA7CFA1D947CB400D90DEF /* TvShowsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,6 +603,7 @@
 				CE741D5E1D91ED5E0081C33A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CE741D5F1D91ED5E0081C33A /* Build configuration list for PBXNativeTarget "MovieAppTests" */ = {
 			isa = XCConfigurationList;
@@ -545,6 +612,7 @@
 				CE741D611D91ED5E0081C33A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CE741D621D91ED5E0081C33A /* Build configuration list for PBXNativeTarget "MovieAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -553,6 +621,7 @@
 				CE741D641D91ED5E0081C33A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
