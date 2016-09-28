@@ -12,9 +12,8 @@
 
 @property (strong, nonatomic) NSString *headline;
 @property (strong, nonatomic) NSString *text;
-@property (strong, nonatomic) NSString *webPage;
-//@property (strong, nonatomic) NSDate *dateOfArticle;
+@property (strong, nonatomic) NSString *sourceUrlPath;
 
-- (id)initWithHeadline:(NSString *)pheadline andWithText:(NSString *)ptext andWithWebPage:(NSString *)pwebPage;
+- (id)initWithHeadline:(NSString *)pheadline text:(NSString *)ptext sourceUrlPath:(NSString *)pwebPage;
 
 @end

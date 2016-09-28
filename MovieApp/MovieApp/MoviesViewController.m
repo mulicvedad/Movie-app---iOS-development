@@ -1,39 +1,55 @@
 #import "MoviesViewController.h"
+#import "MoviesCollectionViewCell.h"
 
-@interface MoviesViewController ()
+@interface MoviesViewController (){
+    UISearchBar *searchBar;
+    UIBarButtonItem *leftButton;
+    UIBarButtonItem *rightButton;
+    NSArray *movies;
+}
 
 @end
 
 @implementation MoviesViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-   /* trying to load image for when tab bar item is selected 
     
-    UITabBar *tabBar = self.navigationController.tabBarController.tabBar;
-    UITabBarItem *targetTabBarItem = [[tabBar items] objectAtIndex:1];
-    UIImage *selectedIcon = [UIImage imageNamed:@"movies-active"];
-    [targetTabBarItem setSelectedImage:selectedIcon];
+     [self.collectionView registerNib:[UINib nibWithNibName:@"MoviesCollectionViewCell" bundle:nil]  forCellWithReuseIdentifier:@"collectionCell"];
     
-    UIImage *image = targetTabBarItem.image;
-    UIImage *selImage = targetTabBarItem.selectedImage;
-    */
-
+    searchBar = [[UISearchBar alloc] init];
+    leftButton = [[UIBarButtonItem alloc]init];
+    rightButton = [[UIBarButtonItem alloc]init];
+    
+    searchBar.placeholder=@"Search";
+    
+    leftButton.title=@"left";
+    leftButton.tintColor=[UIColor whiteColor];
+    
+    rightButton.title=@"right";
+    rightButton.tintColor=[UIColor whiteColor];
+    
+    self.navigationItem.titleView = searchBar;
+    self.navigationItem.leftBarButtonItem = leftButton;
+    self.navigationItem.rightBarButtonItem = rightButton;
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return 4;
+    
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+     MoviesCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"collectionCell" forIndexPath:indexPath];
+    
+    cell.labelTest.text=@"test";
+    
+    return cell;
+    
 }
-*/
 
 @end

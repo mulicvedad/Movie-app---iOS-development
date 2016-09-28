@@ -65,7 +65,7 @@
         [feeds removeAllObjects];
     }
     
-    [feeds addObject:[[NewFeedsItem alloc] initWithHeadline:@"Error" andWithText:error.localizedDescription andWithWebPage:@""]];
+    [feeds addObject:[[NewFeedsItem alloc] initWithHeadline:@"Error" text:error.localizedDescription sourceUrlPath:@""]];
     
     
 }
@@ -108,7 +108,7 @@
         
         newItem.headline=title;
         newItem.text=[descripition stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \n"]];
-        newItem.webPage=link;
+        newItem.sourceUrlPath=link;
         if(!feeds)
         {
             feeds=[[NSMutableArray alloc] init];

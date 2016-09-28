@@ -12,7 +12,6 @@
 
 @property (nonatomic, readonly) CGFloat height;
 
-- (CGFloat)getHeight;
 +(CGFloat)cellHeight;
 +(NSString*)cellIdentifier;
 

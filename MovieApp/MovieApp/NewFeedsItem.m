@@ -10,14 +10,14 @@
 
 @implementation NewFeedsItem
 
-@synthesize headline, text, webPage;
+@synthesize headline, text, sourceUrlPath;
 
-- (instancetype)initWithHeadline:(NSString *)pheadline andWithText:(NSString *)ptext andWithWebPage:(NSString *)pwebPage
+- (instancetype)initWithHeadline:(NSString *)pheadline text:(NSString *)ptext sourceUrlPath:(NSString *)pwebPage
 {
     self = [super init];
     headline=pheadline;
     text=ptext;
-    webPage=pwebPage;
+    sourceUrlPath=pwebPage;
     return self;
 }
 

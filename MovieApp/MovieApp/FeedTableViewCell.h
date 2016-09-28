@@ -11,9 +11,10 @@
 
 @interface FeedTableViewCell : CustomTableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *labelHeadline;
-@property (weak, nonatomic) IBOutlet UITextView *textViewText;
-@property (weak, nonatomic) IBOutlet UITextView *textViewWebPage;
+@property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UITextView *linkTextView;
 
+-(void)setupWithHeadline:(NSString *)pHeadline text:(NSString *)pText sourceUrlPath:(NSString *)pUrlPath;
 
 @end

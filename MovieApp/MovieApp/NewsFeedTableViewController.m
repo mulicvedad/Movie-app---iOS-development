@@ -13,6 +13,9 @@
 
 @interface NewsFeedTableViewController (){
     NSMutableArray *news;
+    UISearchBar *searchBar;
+    UIBarButtonItem *leftButton;
+    UIBarButtonItem *rightButton;
 }
 
 @end
@@ -33,7 +36,7 @@
         {
             news = [[NSMutableArray alloc] init];
         }
-        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"nema" andWithText:@"rezultata" andWithWebPage:@"sry"]];
+        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"No results" text:@"" sourceUrlPath:@""]];
     }
     [self.tableView reloadData];
     
@@ -42,16 +45,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /*
-     //hardcoded items
-     news = [[NSMutableArray alloc] init];
+    searchBar = [[UISearchBar alloc] init];
+    leftButton = [[UIBarButtonItem alloc]init];
+    rightButton = [[UIBarButtonItem alloc]init];
     
-    NewFeedsItem *item = [[NewFeedsItem alloc] initWithHeadline:@"Testni naslov" andWithText:@"Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda." andWithWebPage:@"www.klix.ba"];
+    searchBar.placeholder=@"Search";
+
+    leftButton.title=@"left";
+    leftButton.tintColor=[UIColor whiteColor];
     
-    for(int i=0;i<5;i++){
-        [news addObject:item];
-    }
-     */
+    rightButton.title=@"right";
+    rightButton.tintColor=[UIColor whiteColor];
+    
+    self.navigationItem.titleView = searchBar;
+    self.navigationItem.leftBarButtonItem = leftButton;
+    self.navigationItem.rightBarButtonItem = rightButton;
    
      [self.tableView registerNib:[UINib nibWithNibName:@"FeedTableViewCell" bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
@@ -62,15 +70,9 @@
         
     } @catch (NSException *exception) {
         [news removeAllObjects];
-        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"Error" andWithText:[exception description]
-                                                andWithWebPage:@""]];
+        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"Error" text:[exception description] sourceUrlPath:@""]];
     } 
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -88,18 +90,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *feedCell = [tableView dequeueReusableCellWithIdentifier:[FeedTableViewCell cellIdentifier]];
     
-    if(!feedCell)
-    {
-       
-        feedCell = [tableView dequeueReusableCellWithIdentifier:@"feedCell"];
+    
+    [feedCell setupWithHeadline:((NewFeedsItem *)news[indexPath.row]).headline text:((NewFeedsItem *)news[indexPath.row]).text sourceUrlPath:((NewFeedsItem *)news[indexPath.row]).sourceUrlPath];
 
-    }
-    
-    feedCell.labelHeadline.text = ((NewFeedsItem *)news[indexPath.row]).headline;
-    feedCell.textViewText.text = ((NewFeedsItem *)news[indexPath.row]).text;
-    feedCell.textViewWebPage.text = ((NewFeedsItem *)news[indexPath.row]).webPage;
-    
-    
     
     return feedCell;
 }
@@ -108,14 +101,5 @@
 {
     return [FeedTableViewCell cellHeight];
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

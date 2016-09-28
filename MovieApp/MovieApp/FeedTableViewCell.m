@@ -22,11 +22,26 @@
 }
 
 + (CGFloat)cellHeight{
-    return 206;
+    return 200;
 }
 
 + (NSString *)cellIdentifier{
     return @"feedCell";
+}
+
+-(void)setupWithHeadline:(NSString *)pHeadline text:(NSString *)pText sourceUrlPath:(NSString *)pUrlPath{
+    _headlineLabel.text=pHeadline;
+    _descriptionLabel.text=pText;
+
+    NSString *cleanUrl = [pUrlPath stringByTrimmingCharactersInSet:
+                          [NSCharacterSet characterSetWithCharactersInString: @"\n "]];
+    
+    NSURL *url = [NSURL URLWithString:cleanUrl];
+    
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[UIColor yellowColor], NSFontAttributeName:[UIFont systemFontOfSize:13],NSLinkAttributeName:url}];
+    
+    _linkTextView.attributedText=sourceLink;
+
 }
 
 @end
