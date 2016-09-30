@@ -11,6 +11,5 @@
 
 
 @interface NewsFeedTableViewController : UITableViewController<FeedDataReceiver>
-
-
+-(void)startDownload;
 @end

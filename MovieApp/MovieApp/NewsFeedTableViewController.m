@@ -17,6 +17,7 @@
     UISearchBar *searchBar;
     UIBarButtonItem *leftButton;
     UIBarButtonItem *rightButton;
+    FeedDownloader *downloader;
 }
 
 @end
@@ -26,7 +27,7 @@
 -(void)updateViewWithNewData:(NSMutableArray *)feedItemsArray{
     news=feedItemsArray;
     
-    if([news count])
+    if(![news count])
     {
         if(!news)
         {
@@ -43,7 +44,8 @@
         UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action)
                                                             {
-                                                                [self viewDidLoad];
+                                                                
+                                                                [self startDownload];
                                                                  
                                                              }];
         
@@ -51,6 +53,8 @@
         [alert addAction:reloadAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
+    
+
     [self.tableView reloadData];
     
 }
@@ -76,7 +80,14 @@
    
      [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
-    FeedDownloader *downloader = [[FeedDownloader alloc]init];
+    downloader = [[FeedDownloader alloc]init] ;
+    [self startDownload];
+    
+   
+    
+}
+
+-(void)startDownload{
     
     @try {
         [downloader downloadNewsFromFeed:[MovieAppConfiguration getFeedsSourceUrlPath] andReturnTo:self];
@@ -93,9 +104,8 @@
         
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
-
+        
     }
-    
 }
 
 #pragma mark - Table view data source
@@ -111,7 +121,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FeedTableViewCell *feedCell = [tableView dequeueReusableCellWithIdentifier:[FeedTableViewCell cellIdentifier]];
+    FeedTableViewCell *feedCell = [tableView dequeueReusableCellWithIdentifier:[FeedTableViewCell cellIdentifier] forIndexPath:indexPath];
     
     
     [feedCell setupWithHeadline:((NewFeedsItem *)news[indexPath.row]).headline text:((NewFeedsItem *)news[indexPath.row]).text sourceUrlPath:((NewFeedsItem *)news[indexPath.row]).sourceUrlPath];
