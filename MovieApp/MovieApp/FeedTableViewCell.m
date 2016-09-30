@@ -28,6 +28,9 @@
 + (NSString *)cellIdentifier{
     return @"feedCell";
 }
++(NSString *)cellViewClassName{
+    return @"FeedTableViewCell";
+}
 
 -(void)setupWithHeadline:(NSString *)pHeadline text:(NSString *)pText sourceUrlPath:(NSString *)pUrlPath{
     _headlineLabel.text=pHeadline;

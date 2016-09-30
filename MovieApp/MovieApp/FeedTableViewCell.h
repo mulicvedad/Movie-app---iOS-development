@@ -16,5 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *linkTextView;
 
 -(void)setupWithHeadline:(NSString *)pHeadline text:(NSString *)pText sourceUrlPath:(NSString *)pUrlPath;
++ (CGFloat)cellHeight;
++ (NSString *)cellIdentifier;
++(NSString *)cellViewClassName;
 
 @end

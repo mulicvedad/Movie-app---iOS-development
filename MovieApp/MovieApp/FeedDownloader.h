@@ -16,9 +16,7 @@
 
 @end
 
-@interface FeedDownloader : NSObject <NSURLConnectionDelegate, NSXMLParserDelegate>
-
-@property (strong, nonatomic) NSURL * feedURL;
+@interface FeedDownloader : NSObject <NSXMLParserDelegate, NSURLSessionDataDelegate,NSURLSessionDelegate>
 
 - (void)downloadNewsFromFeed:(NSURL *)feedUrl andReturnTo:(id)dataHandler;
 

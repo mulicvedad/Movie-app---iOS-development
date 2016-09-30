@@ -15,4 +15,12 @@
     // Initialization code
 }
 
++(UIEdgeInsets)cellInsets{
+    return UIEdgeInsetsMake(2, 2, 2, 2);
+}
+
++(CGFloat)cellHeight{
+    return 254;
+}
+
 @end

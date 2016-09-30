@@ -10,6 +10,7 @@
 #import "FeedTableViewCell.h"
 #import "NewFeedsItem.h"
 #import "FeedDownloader.h"
+#import "MovieAppConfiguration.h"
 
 @interface NewsFeedTableViewController (){
     NSMutableArray *news;
@@ -22,21 +23,33 @@
 
 @implementation NewsFeedTableViewController
 
-+(NSURL *)getFeedsSource
-{
-    return [NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"];
-}
-
 -(void)updateViewWithNewData:(NSMutableArray *)feedItemsArray{
     news=feedItemsArray;
     
-    if(![news count])
+    if([news count])
     {
         if(!news)
         {
             news = [[NSMutableArray alloc] init];
         }
-        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"No results" text:@"" sourceUrlPath:@""]];
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"No results"
+                                                                       message:@"There arent any news."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * action)
+                                                            {
+                                                                [self viewDidLoad];
+                                                                 
+                                                             }];
+        
+        [alert addAction:defaultAction];
+        [alert addAction:reloadAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     [self.tableView reloadData];
     
@@ -61,17 +74,27 @@
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
    
-     [self.tableView registerNib:[UINib nibWithNibName:@"FeedTableViewCell" bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
+     [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
     FeedDownloader *downloader = [[FeedDownloader alloc]init];
     
     @try {
-        [downloader downloadNewsFromFeed:[NewsFeedTableViewController getFeedsSource] andReturnTo:self];
+        [downloader downloadNewsFromFeed:[MovieAppConfiguration getFeedsSourceUrlPath] andReturnTo:self];
         
     } @catch (NSException *exception) {
         [news removeAllObjects];
-        [news addObject:[[NewFeedsItem alloc] initWithHeadline:@"Error" text:[exception description] sourceUrlPath:@""]];
-    } 
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:[exception description]
+                                                                preferredStyle:UIAlertActionStyleDestructive];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+
+    }
     
 }
 

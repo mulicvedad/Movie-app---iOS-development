@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MoviesViewController : UICollectionViewController
+@interface MoviesViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource>
+@property (weak, nonatomic) IBOutlet UICollectionView *moviesCollectionView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *sortSegmentedControl;
 
 @end

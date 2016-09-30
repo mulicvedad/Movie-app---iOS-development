@@ -11,4 +11,7 @@
 @interface MoviesCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *labelTest;
 
++(UIEdgeInsets)cellInsets;
++(CGFloat)cellHeight;
+
 @end
