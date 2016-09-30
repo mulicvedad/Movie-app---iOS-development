@@ -19,6 +19,7 @@
 		CE741D421D91ED5D0081C33A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE741D401D91ED5D0081C33A /* LaunchScreen.storyboard */; };
 		CE741D4D1D91ED5E0081C33A /* MovieAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D4C1D91ED5E0081C33A /* MovieAppTests.m */; };
 		CE741D581D91ED5E0081C33A /* MovieAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D571D91ED5E0081C33A /* MovieAppUITests.m */; };
+		CE79EE771D9E8410000B03D6 /* CustomSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79EE761D9E8410000B03D6 /* CustomSegmentedControl.m */; };
 		CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */; };
 		CEE832D11D9547FC0074648B /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE832CF1D9547FC0074648B /* FeedTableViewCell.xib */; };
 		CEEA7CF71D947C9700D90DEF /* MoviesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEA7CF61D947C9700D90DEF /* MoviesViewController.m */; };
@@ -73,6 +74,8 @@
 		CE741D531D91ED5E0081C33A /* MovieAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE741D571D91ED5E0081C33A /* MovieAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieAppUITests.m; sourceTree = "<group>"; };
 		CE741D591D91ED5E0081C33A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE79EE751D9E8410000B03D6 /* CustomSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegmentedControl.h; sourceTree = "<group>"; };
+		CE79EE761D9E8410000B03D6 /* CustomSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSegmentedControl.m; sourceTree = "<group>"; };
 		CE83C6731D9D5BA1008ECA96 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CE83C6751D9D5BA8008ECA96 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CE83C6771D9D5BC4008ECA96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -235,6 +238,8 @@
 				CE72729C1D9B38D80073AD6A /* MoviesCollectionViewCell.h */,
 				CE72729D1D9B38D80073AD6A /* MoviesCollectionViewCell.m */,
 				CE72729E1D9B38D80073AD6A /* MoviesCollectionViewCell.xib */,
+				CE79EE751D9E8410000B03D6 /* CustomSegmentedControl.h */,
+				CE79EE761D9E8410000B03D6 /* CustomSegmentedControl.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -457,6 +462,7 @@
 				CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */,
 				CE72729F1D9B38D80073AD6A /* MoviesCollectionViewCell.m in Sources */,
 				CEEA7CF71D947C9700D90DEF /* MoviesViewController.m in Sources */,
+				CE79EE771D9E8410000B03D6 /* CustomSegmentedControl.m in Sources */,
 				CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */,
 				CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */,
 				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,

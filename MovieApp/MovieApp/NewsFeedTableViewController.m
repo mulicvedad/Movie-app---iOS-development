@@ -86,7 +86,7 @@
         
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
                                                                        message:[exception description]
-                                                                preferredStyle:UIAlertActionStyleDestructive];
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
