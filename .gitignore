@@ -21,7 +21,6 @@ xcuserdata/
 *.moved-aside
 *.xcuserstate
 *.xcworkspace
-/xcuserdata
 *.lock
 
 ## Obj-C/Swift specific
