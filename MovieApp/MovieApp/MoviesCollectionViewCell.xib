@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionCell" id="gTV-IL-0wX" customClass="MoviesCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="177" height="220"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="177" height="220"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gamer-movie-poster" translatesAutoresizingMaskIntoConstraints="NO" id="U8R-jC-kn7"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="21 January 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Mv-SD-fTm">
+                        <frame key="frameInset" minX="8" minY="169" width="126" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="★★☆☆☆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxD-bm-PhV">
+                        <frame key="frameInset" minX="8" minY="190" width="84" height="22"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Harry Potter " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcf-Pg-EdW">
+                        <frame key="frameInset" minX="8" minY="125" width="161" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1h 45min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOE-Zc-aF1">
+                        <frame key="frameInset" minX="8" minY="151" width="71" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="rxD-bm-PhV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="0TH-q5-agZ"/>
+                <constraint firstItem="4Mv-SD-fTm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="1fp-sI-hj2"/>
+                <constraint firstItem="GOE-Zc-aF1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="3Mn-c8-8y0"/>
+                <constraint firstItem="GOE-Zc-aF1" firstAttribute="top" secondItem="bcf-Pg-EdW" secondAttribute="bottom" constant="5" id="5pg-kK-igq"/>
+                <constraint firstItem="rxD-bm-PhV" firstAttribute="top" secondItem="4Mv-SD-fTm" secondAttribute="bottom" constant="-5" id="7Vk-03-PKW"/>
+                <constraint firstAttribute="trailing" secondItem="bcf-Pg-EdW" secondAttribute="trailing" constant="8" id="8TS-sn-wNW"/>
+                <constraint firstItem="rxD-bm-PhV" firstAttribute="top" secondItem="GOE-Zc-aF1" secondAttribute="bottom" constant="13" id="FU9-fs-9S1"/>
+                <constraint firstAttribute="bottom" secondItem="rxD-bm-PhV" secondAttribute="bottom" constant="8" id="Gse-l9-ofY"/>
+                <constraint firstAttribute="bottom" secondItem="U8R-jC-kn7" secondAttribute="bottom" id="I39-di-NG9"/>
+                <constraint firstItem="U8R-jC-kn7" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="bZb-mi-aL7"/>
+                <constraint firstItem="bcf-Pg-EdW" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="u2B-Ux-Hpc"/>
+                <constraint firstItem="U8R-jC-kn7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ujc-1b-zAr"/>
+                <constraint firstAttribute="trailing" secondItem="U8R-jC-kn7" secondAttribute="trailing" id="v0W-yw-LeQ"/>
+            </constraints>
+            <size key="customSize" width="177" height="220"/>
+            <point key="canvasLocation" x="-369.5" y="-159"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="gamer-movie-poster" width="310" height="459"/>
+    </resources>
+</document>
