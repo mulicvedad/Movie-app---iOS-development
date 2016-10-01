@@ -23,4 +23,8 @@
     return 254;
 }
 
++(NSString *)cellIdentifier{
+    return @"collectionCell";
+}
+
 @end

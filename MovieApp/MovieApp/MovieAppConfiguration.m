@@ -4,9 +4,12 @@
 @implementation MovieAppConfiguration
 
 +(NSURL *)getFeedsSourceUrlPath{
-    
-    return [NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"];
-    
+    NSString *sourcePath= [[NSBundle mainBundle] objectForInfoDictionaryKey:@"BoxOfficeAPI"];
+    return [NSURL URLWithString:sourcePath];
+}
+
++(NSString *)getApiKey{
+    return @"0bb62fb7a597e6b58ba06172fbd214f6";
 }
 
 @end

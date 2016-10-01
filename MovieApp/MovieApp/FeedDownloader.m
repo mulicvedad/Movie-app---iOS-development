@@ -1,4 +1,5 @@
 #import "FeedDownloader.h"
+#import "ItemsArrayReceiver.h"
 
 @interface FeedDownloader ()
 {
@@ -14,7 +15,7 @@
     NSMutableString *descripition;
     
 }
-@property (nonatomic, assign) id<FeedDataReceiver> delegate;
+@property (nonatomic, assign) id<ItemsArrayReceiver> delegate;
 @end
 
 @implementation FeedDownloader
