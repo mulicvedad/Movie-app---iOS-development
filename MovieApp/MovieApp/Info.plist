@@ -39,5 +39,9 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
+    <key>BoxOfficeAPI</key>
+    <string>http://www.boxofficemojo.com/data/rss.php?file=topstories.xml</string>
+    <key>TheMovieDBBaseUrl</key>
+    <string>https://api.themoviedb.org</string>
 </dict>
 </plist>

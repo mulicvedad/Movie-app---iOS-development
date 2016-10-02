@@ -1,14 +1,7 @@
-//
-//  MoviesViewController.h
-//  MovieApp
-//
-//  Created by user on 22/09/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
+#import "ItemsArrayReceiver.h"
 
-@interface MoviesViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface MoviesViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, ItemsArrayReceiver>
 @property (weak, nonatomic) IBOutlet UICollectionView *moviesCollectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sortSegmentedControl;
 

@@ -9,12 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "NewFeedsItem.h"
 
-@protocol FeedDataReceiver <NSObject>
-
-@required
--(void)updateViewWithNewData:(NSMutableArray *)feedItemsArray;
-
-@end
 
 @interface FeedDownloader : NSObject <NSXMLParserDelegate, NSURLSessionDataDelegate,NSURLSessionDelegate>
 

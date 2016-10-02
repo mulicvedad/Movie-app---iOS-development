@@ -1,5 +1,7 @@
 #import "MoviesViewController.h"
 #import "MoviesCollectionViewCell.h"
+#import "Movie.h"
+#import "MovieDBDownloader.h"
 
 
 @interface MoviesViewController (){
@@ -36,19 +38,23 @@
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
     
+    MovieDBDownloader *downloader = [MovieDBDownloader alloc];
+    [downloader configure];
+    [downloader getdMoviesByCriterion:TOP_RATED returnToHandler:self];
+    
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 0;
+    return [movies count];
     
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-     MoviesCollectionViewCell *cell = [_moviesCollectionView dequeueReusableCellWithReuseIdentifier:@"collectionCell" forIndexPath:indexPath];
+     MoviesCollectionViewCell *cell = [_moviesCollectionView dequeueReusableCellWithReuseIdentifier:[MoviesCollectionViewCell cellIdentifier] forIndexPath:indexPath];
     
-    cell.labelTest.text=@"test";
+    cell.titleLabel.text=((Movie *)movies[indexPath.row]).title;
     
     return cell;
     
@@ -71,6 +77,11 @@
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
     return 2.0;
+}
+
+-(void)updateViewWithNewData:(NSMutableArray *)customItemsArray{
+    movies=[NSArray arrayWithArray:customItemsArray];
+    [self.moviesCollectionView reloadData];
 }
 
 @end

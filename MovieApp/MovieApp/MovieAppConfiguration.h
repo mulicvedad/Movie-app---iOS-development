@@ -11,5 +11,6 @@
 @interface MovieAppConfiguration : NSObject
 
 +(NSURL *)getFeedsSourceUrlPath;
++(NSString *)getApiKey;
 
 @end

@@ -58,6 +58,11 @@
                 <constraint firstAttribute="trailing" secondItem="U8R-jC-kn7" secondAttribute="trailing" id="v0W-yw-LeQ"/>
             </constraints>
             <size key="customSize" width="177" height="220"/>
+            <connections>
+                <outlet property="durationLabel" destination="GOE-Zc-aF1" id="hOe-d6-dAe"/>
+                <outlet property="releaseDateLabel" destination="4Mv-SD-fTm" id="aMD-2n-v92"/>
+                <outlet property="titleLabel" destination="bcf-Pg-EdW" id="sD5-EU-egy"/>
+            </connections>
             <point key="canvasLocation" x="-369.5" y="-159"/>
         </collectionViewCell>
     </objects>
