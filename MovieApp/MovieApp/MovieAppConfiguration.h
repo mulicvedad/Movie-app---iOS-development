@@ -12,5 +12,7 @@
 
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
++(NSString *)getMoviesCollectionViewCellNibName;
++(NSString *)getMoviesCollectionViewCellIdentifier;
 
 @end

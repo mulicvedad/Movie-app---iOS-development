@@ -1,17 +1,10 @@
-//
-//  FeedDownloader.h
-//  MovieApp
-//
-//  Created by user on 26/09/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "NewFeedsItem.h"
+#import "ItemsArrayReceiver.h"
 
 
-@interface FeedDownloader : NSObject <NSXMLParserDelegate, NSURLSessionDataDelegate,NSURLSessionDelegate>
+@interface FeedDownloader : NSObject <NSURLSessionDataDelegate,NSURLSessionDelegate>
 
-- (void)downloadNewsFromFeed:(NSURL *)feedUrl andReturnTo:(id)dataHandler;
+- (void)downloadNewsFromFeed:(NSURL *)feedUrl andReturnTo:(id<ItemsArrayReceiver>)dataHandler;
 
 @end

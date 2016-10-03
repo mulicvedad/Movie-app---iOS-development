@@ -12,4 +12,12 @@
     return @"0bb62fb7a597e6b58ba06172fbd214f6";
 }
 
++(NSString *)getMoviesCollectionViewCellNibName{
+    return @"MoviesCollectionViewCell";
+}
+
++(NSString *)getMoviesCollectionViewCellIdentifier{
+    return @"collectionCell";
+}
+
 @end

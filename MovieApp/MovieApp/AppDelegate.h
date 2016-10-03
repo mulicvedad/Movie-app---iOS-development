@@ -1,17 +1,11 @@
-//
-//  AppDelegate.h
-//  MovieApp
-//
-//  Created by user on 21/09/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
+#import "ItemsArrayReceiver.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, ItemsArrayReceiver>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSArray *topRatedMovies;
 
 
 @end

@@ -24,8 +24,8 @@
 
 @implementation NewsFeedTableViewController
 
--(void)updateViewWithNewData:(NSMutableArray *)feedItemsArray{
-    news=feedItemsArray;
+-(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
+    news=customItemsArray;
     
     if(![news count])
     {
