@@ -2,11 +2,9 @@
 #import <RestKit/RestKit.h>
 #import "ItemsArrayReceiver.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, ItemsArrayReceiver>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) NSArray *topRatedMovies;
-
 
 @end
 

@@ -2,24 +2,21 @@
 #import "MoviesCollectionViewCell.h"
 #import "Movie.h"
 #import "MovieDBDownloader.h"
-#import "AppDelegate.h"
 #import "MovieAppConfiguration.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define BASE_IMAGE_URL @"http://image.tmdb.org/t/p/w185"
-#define TOP_RATED_MOVIES_KEY @"top_rated_movies"
-#define MOST_POPULAR_MOVIES_KEY @"most_popular_movies"
-#define LATEST_MOVIES_KEY @"latest_movies"
+#define CRITERION_KEY @"criterion"
+#define FILLED_STAR_CODE @"\u2605"
+#define UNFILLED_STAR_CODE @"\u2606"
+#define PREFFERED_DATE_FORMAT @"dd MMMM yyyy"
 
 @interface MoviesViewController (){
     UISearchBar *searchBar;
     UIBarButtonItem *leftButton;
     UIBarButtonItem *rightButton;
-    NSArray *topRatedMovies;
-    NSArray *mostPopularMovies;
-    NSArray *latestMovies;
+    NSArray *movies;
     MovieDBDownloader *downloader;
-    AppDelegate *myAppDelegate;
-    static const NSArray *criterionsForSorting=@[@"most_popular",@"top_rated",@"latest"];
 }
 
 @end
@@ -29,10 +26,15 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+    [self configureView];
+
+    downloader = [[MovieDBDownloader alloc] init];
+    [downloader configure];
     [self.sortSegmentedControl setSelectedSegmentIndex:2];
-    myAppDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [Movie saveArrayOfMovies:myAppDelegate.topRatedMovies forKey:TOP_RATED_MOVIES_KEY];
+    [self.sortSegmentedControl sendActionsForControlEvents:UIControlEventValueChanged];
+}
+
+-(void)configureView{
     
     [_moviesCollectionView registerNib:[UINib nibWithNibName:[MovieAppConfiguration getMoviesCollectionViewCellNibName] bundle:nil]  forCellWithReuseIdentifier:[MovieAppConfiguration getMoviesCollectionViewCellIdentifier]];
     
@@ -51,11 +53,10 @@
     self.navigationItem.titleView = searchBar;
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return [myAppDelegate.topRatedMovies count];
+    return movies ? [movies count] : 0;
     
 }
 
@@ -63,54 +64,76 @@
     
     MoviesCollectionViewCell *cell = [_moviesCollectionView dequeueReusableCellWithReuseIdentifier:[MoviesCollectionViewCell cellIdentifier] forIndexPath:indexPath];
     
-    NSArray *moviesFromDB=[Movie loadArrayOfMoviesForKey:TOP_RATED_MOVIES_KEY];
-    Movie *currentMovie=(Movie *)moviesFromDB[indexPath.row];
+    Movie *currentMovie=(Movie *)movies[indexPath.row];
     
     cell.titleLabel.text=currentMovie.title;
-    cell.releaseDateLabel.text=[NSString stringWithFormat:@"%.2f", currentMovie.vote_average];
-    cell.durationLabel.text = [NSString stringWithFormat:@"%d",(int)(currentMovie.vote_count)];
-    cell.posterImageView.image=[UIImage imageWithData:currentMovie.posterImageData];
+    
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:PREFFERED_DATE_FORMAT];
+    cell.releaseDateLabel.text=[dateFormatter stringFromDate:currentMovie.releaseDate];
+    
+    //hardcoded for now
+    cell.durationLabel.text = @"1h 45min";
+
+    cell.starsLabel.text=@"";
+    NSMutableString *stars=[[NSMutableString alloc]init];
+    NSUInteger numberOfStars=[self numberOfStarsFromRating:currentMovie.voteAverage];
+    
+    for(int i=0;i<numberOfStars;i++){
+        stars=[[stars stringByAppendingString:FILLED_STAR_CODE] mutableCopy];
+    }
+    for(int i=0;i<5-numberOfStars;i++){
+        stars=[[stars stringByAppendingString:UNFILLED_STAR_CODE] mutableCopy];
+
+    }
+    cell.starsLabel.text=stars;
+    
+    [cell.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:currentMovie.posterPath]]];
     
     return cell;
     
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGFloat cellWidth=collectionView.bounds.size.width/2-[MoviesCollectionViewCell cellInsets].left*2 - [MoviesCollectionViewCell cellInsets].right*2;
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat cellWidth=collectionView.bounds.size.width/2-2;
  
     return CGSizeMake(cellWidth, [MoviesCollectionViewCell cellHeight]);
 }
 
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return [MoviesCollectionViewCell cellInsets];
 }
 
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
     return 2.0;
 }
 
 -(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
-    NSString *criterionForSorting=[info objectForKey:@"criterion"];
-    
-    if([criterionForSorting isEqualToString:criterionsForSortingp[TOP_RATED]){
-        topRatedMovies=[NSArray arrayWithArray:customItemsArray];
-    }
-    else if([criterionForSorting isEqualToString:criterionsForSortingp[MOST_POPULAR]){
-        mostPopularMovies=[NSArray arrayWithArray:customItemsArray];
-    }
-    else{
-        latestMovies=[NSArray arrayWithArray:customItemsArray];
-    }
-    
+    movies=customItemsArray;
     [self.moviesCollectionView reloadData];
 }
 
 - (IBAction)sortByChanged:(UISegmentedControl *)sender {
-    if(sender.selectedSegmentIndex==0){
-        
+        [downloader getdMoviesByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
+}
+
+-(NSUInteger)numberOfStarsFromRating:(float)popularity{
+    if(popularity<=2){
+        return 1;
+    }
+    else if(popularity>2 && popularity<=4){
+        return 2;
+    }
+    else if(popularity>4 && popularity<=6){
+        return 3;
+    }
+    else if(popularity>6 && popularity<=8)
+        return 4;
+    else{
+        return 5;
     }
 }
+
+
+
 @end

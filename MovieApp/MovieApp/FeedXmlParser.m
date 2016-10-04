@@ -19,6 +19,7 @@
 
 @implementation FeedXmlParser
 -(void)parseXmlFromData:(NSData *)data returnToHandler:(id<ItemsArrayReceiver>)dataHandler{
+    
     dataReceiver=dataHandler;
     parser = [[NSXMLParser alloc] initWithData:data];
     [parser setDelegate:self];
@@ -37,8 +38,6 @@
         title   = [[NSMutableString alloc] init];
         link    = [[NSMutableString alloc] init];
         descripition = [[NSMutableString alloc] init];
-        
-        
     }
     
 }
@@ -67,7 +66,6 @@
         if(!feeds)
         {
             feeds=[[NSMutableArray alloc] init];
-            
         }
         
         [feeds addObject:newItem];

@@ -2,11 +2,13 @@
 #import "Movie.h"
 #import "MovieAppConfiguration.h"
 #import "ItemsArrayReceiver.h"
+#import <UIKit/UIKit.h>
 #import <RestKit.h>
 
-#define API_KEY_PARAMETER @"api_key"
-#define SORT_BY_PARAMETER @"sort_by"
-#define VOTE_COUNT_PARAMETER @"vote_count.gte"
+#define API_KEY_PARAMETER_NAME @"api_key"
+#define SORT_BY_PARAMETER_NAME @"sort_by"
+#define CRITERION_KEY_NAME @"criterion"
+#define VOTE_COUNT_PARAMETER_NAME @"vote_count.gte"
 #define VOTE_AVERAGE_CRIITERION_VALUE @"vote_average.desc"
 #define MOVIE_SUBPATH @"/3/discover/movie"
 #define RESULTS_PATH @"results"
@@ -17,7 +19,7 @@
 @interface MovieDBDownloader(){
     NSMutableArray *movies;
     id<ItemsArrayReceiver> dataHandler;
-    NSURL *baseURL;
+    NSURL *apiBaseURL;
     AFRKHTTPClient *httpClient;
     RKObjectManager *objectManager;
     RKObjectMapping *movieMapping;
@@ -25,19 +27,20 @@
 }
 
 @end
-NSArray* niz;
+
 @implementation MovieDBDownloader
 
 -(void)configure{
 
     NSString *urlString=[[NSBundle mainBundle] objectForInfoDictionaryKey:@"TheMovieDBBaseUrl"];
-    baseURL = [NSURL URLWithString:urlString];
-    httpClient = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
+    apiBaseURL = [NSURL URLWithString:urlString];
+    httpClient = [[AFRKHTTPClient alloc] initWithBaseURL:apiBaseURL];
     
     objectManager = [[RKObjectManager alloc] initWithHTTPClient:httpClient];
 
     movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
-    [movieMapping addAttributeMappingsFromArray:[Movie getPropertiesNames]];
+    
+    [movieMapping addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
     
     responseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
@@ -49,28 +52,28 @@ NSArray* niz;
     [objectManager addResponseDescriptor:responseDescriptor];
 }
 
--(void)getdMoviesByCriterion:(Criterion)criterion returnToHandler:(id)delegate{
-    dataHandler=delegate;
-
-    NSDictionary *queryParams = @{API_KEY_PARAMETER: [MovieAppConfiguration getApiKey],
-                                  SORT_BY_PARAMETER: [MovieDBDownloader getCriterionsForSorting][criterion],
-                                  VOTE_COUNT_PARAMETER: VOTE_COUNT_LOWER_BOUND};
+-(void)getdMoviesByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
+    
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey],
+                                  SORT_BY_PARAMETER_NAME: [MovieDBDownloader getCriteriaForSorting][criterion],
+                                  VOTE_COUNT_PARAMETER_NAME: VOTE_COUNT_LOWER_BOUND};
     
     [[RKObjectManager sharedManager] getObjectsAtPath:MOVIE_SUBPATH
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   movies = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  [dataHandler updateReceiverWithNewData:movies info:@{@"criterion":[MovieDBDownloader getCriterionsForSorting][criterion]}];
+                                                  [delegate updateReceiverWithNewData:movies info:@{CRITERION_KEY_NAME:[MovieDBDownloader getCriteriaForSorting][criterion]}];
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
                                                   NSLog(@"Error: %@", error);
                                               }];
     
 }
 
-+(NSArray *)getCriterionsForSorting{
-    return @[@"most_popular",@"top_rated",@"latest"];
++(NSArray *)getCriteriaForSorting{
+    return @[@"popularity.desc",@"release_date.desc",@"vote_average.desc"];
 }
 
 
