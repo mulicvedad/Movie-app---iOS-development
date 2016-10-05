@@ -10,7 +10,7 @@ typedef enum Criteria
     
 }Criterion;
 
-@interface MovieDBDownloader : NSObject
+@interface DataProviderService : NSObject
 extern NSArray *niz;
 -(void)configure;
 -(void)getdMoviesByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate;

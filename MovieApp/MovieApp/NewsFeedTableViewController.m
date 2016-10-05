@@ -1,11 +1,3 @@
-//
-//  NewsFeedTableViewController.m
-//  MovieApp
-//
-//  Created by user on 22/09/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import "NewsFeedTableViewController.h"
 #import "FeedTableViewCell.h"
 #import "NewFeedsItem.h"

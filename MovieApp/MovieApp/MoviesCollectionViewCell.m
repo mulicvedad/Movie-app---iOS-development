@@ -33,4 +33,21 @@
     return @"collectionCell";
 }
 
++(NSUInteger)numberOfStarsFromRating:(float)popularity;{
+    if(popularity<=2){
+        return 1;
+    }
+    else if(popularity>2 && popularity<=4){
+        return 2;
+    }
+    else if(popularity>4 && popularity<=6){
+        return 3;
+    }
+    else if(popularity>6 && popularity<=8)
+        return 4;
+    else{
+        return 5;
+    }
+}
+
 @end

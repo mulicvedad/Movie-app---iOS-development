@@ -20,4 +20,5 @@
     return @"collectionCell";
 }
 
+
 @end

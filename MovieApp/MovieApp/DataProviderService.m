@@ -1,4 +1,4 @@
-#import "MovieDBDownloader.h"
+#import "DataProviderService.h"
 #import "Movie.h"
 #import "MovieAppConfiguration.h"
 #import "ItemsArrayReceiver.h"
@@ -16,7 +16,7 @@
 #define RELEASE_DATE_CRITERION @"release_date.desc"
 #define VOTE_COUNT_LOWER_BOUND @1000
 
-@interface MovieDBDownloader(){
+@interface DataProviderService(){
     NSMutableArray *movies;
     id<ItemsArrayReceiver> dataHandler;
     NSURL *apiBaseURL;
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation MovieDBDownloader
+@implementation DataProviderService
 
 -(void)configure{
 
@@ -55,14 +55,14 @@
 -(void)getdMoviesByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
     
     NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey],
-                                  SORT_BY_PARAMETER_NAME: [MovieDBDownloader getCriteriaForSorting][criterion],
+                                  SORT_BY_PARAMETER_NAME: [DataProviderService getCriteriaForSorting][criterion],
                                   VOTE_COUNT_PARAMETER_NAME: VOTE_COUNT_LOWER_BOUND};
     
     [[RKObjectManager sharedManager] getObjectsAtPath:MOVIE_SUBPATH
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   movies = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  [delegate updateReceiverWithNewData:movies info:@{CRITERION_KEY_NAME:[MovieDBDownloader getCriteriaForSorting][criterion]}];
+                                                  [delegate updateReceiverWithNewData:movies info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {

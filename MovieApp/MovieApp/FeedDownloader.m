@@ -3,7 +3,6 @@
 
 @implementation FeedDownloader
 
-//making connection between our downloader and caller
 - (void)downloadNewsFromFeed:(NSURL *)feedUrl andReturnTo:(id<ItemsArrayReceiver>)dataHandler
 {
     NSURLSession *session=[NSURLSession sharedSession];
@@ -12,8 +11,12 @@
                                      ^(NSData *data, NSURLResponse * response, NSError *eror)
                                       {
                                           //MISSING ERROR HANDLING
-                                          [[[FeedXmlParser alloc] init] parseXmlFromData:data returnToHandler:dataHandler];
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [[[FeedXmlParser alloc] init] parseXmlFromData:data returnToHandler:dataHandler];
+
+                                          });
                                       } ];
     [dataTask resume];
 }
+
 @end

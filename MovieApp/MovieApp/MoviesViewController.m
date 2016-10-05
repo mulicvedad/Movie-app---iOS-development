@@ -1,22 +1,22 @@
 #import "MoviesViewController.h"
 #import "MoviesCollectionViewCell.h"
 #import "Movie.h"
-#import "MovieDBDownloader.h"
 #import "MovieAppConfiguration.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "AppDelegate.h"
 
 #define BASE_IMAGE_URL @"http://image.tmdb.org/t/p/w185"
 #define CRITERION_KEY @"criterion"
 #define FILLED_STAR_CODE @"\u2605"
 #define UNFILLED_STAR_CODE @"\u2606"
 #define PREFFERED_DATE_FORMAT @"dd MMMM yyyy"
+#define TEXT_FIELD_PROPERTY_NAME @"_searchField"
 
 @interface MoviesViewController (){
     UISearchBar *searchBar;
     UIBarButtonItem *leftButton;
     UIBarButtonItem *rightButton;
     NSArray *movies;
-    MovieDBDownloader *downloader;
 }
 
 @end
@@ -28,8 +28,6 @@
     [super viewDidLoad];
     [self configureView];
 
-    downloader = [[MovieDBDownloader alloc] init];
-    [downloader configure];
     [self.sortSegmentedControl setSelectedSegmentIndex:2];
     [self.sortSegmentedControl sendActionsForControlEvents:UIControlEventValueChanged];
 }
@@ -37,22 +35,13 @@
 -(void)configureView{
     
     [_moviesCollectionView registerNib:[UINib nibWithNibName:[MovieAppConfiguration getMoviesCollectionViewCellNibName] bundle:nil]  forCellWithReuseIdentifier:[MovieAppConfiguration getMoviesCollectionViewCellIdentifier]];
-    
-    searchBar = [[UISearchBar alloc] init];
-    leftButton = [[UIBarButtonItem alloc]init];
-    rightButton = [[UIBarButtonItem alloc]init];
-    
+    searchBar=[[UISearchBar alloc]init];
     searchBar.placeholder=@"Search";
     
-    leftButton.title=@"left";
-    leftButton.tintColor=[UIColor whiteColor];
-    
-    rightButton.title=@"right";
-    rightButton.tintColor=[UIColor whiteColor];
+    UITextField *txfSearchField = [searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
+    txfSearchField.backgroundColor = [UIColor darkGrayColor];
     
     self.navigationItem.titleView = searchBar;
-    self.navigationItem.leftBarButtonItem = leftButton;
-    self.navigationItem.rightBarButtonItem = rightButton;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -73,20 +62,10 @@
     cell.releaseDateLabel.text=[dateFormatter stringFromDate:currentMovie.releaseDate];
     
     //hardcoded for now
-    cell.durationLabel.text = @"1h 45min";
-
-    cell.starsLabel.text=@"";
-    NSMutableString *stars=[[NSMutableString alloc]init];
-    NSUInteger numberOfStars=[self numberOfStarsFromRating:currentMovie.voteAverage];
+    cell.genreLabel.text = @"Mistery, Thriller";
+    cell.ratingLabel.text=[NSString stringWithFormat:@"%.1f", currentMovie.voteAverage];
     
-    for(int i=0;i<numberOfStars;i++){
-        stars=[[stars stringByAppendingString:FILLED_STAR_CODE] mutableCopy];
-    }
-    for(int i=0;i<5-numberOfStars;i++){
-        stars=[[stars stringByAppendingString:UNFILLED_STAR_CODE] mutableCopy];
-
-    }
-    cell.starsLabel.text=stars;
+    
     
     [cell.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:currentMovie.posterPath]]];
     
@@ -114,24 +93,7 @@
 }
 
 - (IBAction)sortByChanged:(UISegmentedControl *)sender {
-        [downloader getdMoviesByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
-}
-
--(NSUInteger)numberOfStarsFromRating:(float)popularity{
-    if(popularity<=2){
-        return 1;
-    }
-    else if(popularity>2 && popularity<=4){
-        return 2;
-    }
-    else if(popularity>4 && popularity<=6){
-        return 3;
-    }
-    else if(popularity>6 && popularity<=8)
-        return 4;
-    else{
-        return 5;
-    }
+        [ [AppDelegate sharedDownloader]  getdMoviesByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
 }
 
 

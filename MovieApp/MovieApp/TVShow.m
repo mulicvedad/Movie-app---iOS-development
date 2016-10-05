@@ -1,18 +1,15 @@
+#import "TVShow.h"
 
-
-#import "Movie.h"
-
-@implementation Movie
+@implementation TVShow
 
 +(NSDictionary *)propertiesMapping{
     return @{@"id":@"id",
-             @"title":@"title",
+             @"name":@"title",
              @"vote_average":@"voteAverage",
              @"overview":@"overview",
-             @"release_date":@"releaseDate",
+             @"first_air_date":@"releaseDate",
              @"vote_count":@"voteCount",
              @"poster_path":@"posterPath",
-             @"video":@"hasVideo",
              @"genre_ids":@"genreIDs",
              @"original_language":@"originalLanguage"};
 }
