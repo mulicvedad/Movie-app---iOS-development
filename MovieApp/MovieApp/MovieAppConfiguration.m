@@ -12,4 +12,18 @@
     return @"0bb62fb7a597e6b58ba06172fbd214f6";
 }
 
++(NSURL *)getApiBaseURL{
+    return [NSURL URLWithString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"TheMovieDBBaseUrl"]];
+}
+
++(NSString *)getSearchSubpathForMovies{
+    return  @"/3/discover/movie";
+
+}
+
++(NSString *)getSearchSubpathForTvShows{
+    return  @"/3/discover/tv";
+}
+
+
 @end

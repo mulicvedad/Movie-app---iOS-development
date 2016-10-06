@@ -5,10 +5,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tv Shows View Controller-->
+        <!--Events View Controller-->
         <scene sceneID="MyB-8J-A6N">
             <objects>
-                <viewController id="fy7-80-hih" customClass="TvShowsViewController" sceneMemberID="viewController">
+                <viewController id="fy7-80-hih" customClass="TVEventsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="odH-aq-i9S"/>
                         <viewControllerLayoutGuide type="bottom" id="e6q-Id-fwq"/>
@@ -17,34 +17,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Enter a title" translatesAutoresizingMaskIntoConstraints="NO" id="3M0-7P-Wep">
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nic-V3-0Oy">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nic-V3-0Oy">
+                                <frame key="frameInset" minY="64" width="375" height="29"/>
                                 <segments>
-                                    <segment title="Date"/>
-                                    <segment title="Rating"/>
-                                    <segment title="Genre"/>
-                                    <segment title="More..."/>
+                                    <segment title="Most popular"/>
+                                    <segment title="Latest"/>
+                                    <segment title="Highest-rated"/>
+                                    <segment title="Airing today"/>
+                                    <segment title="On the ait"/>
                                 </segments>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="sortByChanged:" destination="fy7-80-hih" eventType="valueChanged" id="AIZ-7p-OZk"/>
+                                </connections>
                             </segmentedControl>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jXb-73-say">
+                                <frame key="frameInset" minY="100" width="375" height="527"/>
+                                <color key="backgroundColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="56p-3d-2cQ">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="fy7-80-hih" id="cpp-HP-Zfx"/>
+                                    <outlet property="delegate" destination="fy7-80-hih" id="KVA-4F-IJD"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="3M0-7P-Wep" firstAttribute="trailing" secondItem="Nic-V3-0Oy" secondAttribute="trailing" id="684-1y-CSA"/>
-                            <constraint firstAttribute="trailing" secondItem="3M0-7P-Wep" secondAttribute="trailing" id="AAf-w0-a41"/>
-                            <constraint firstItem="3M0-7P-Wep" firstAttribute="leading" secondItem="Nic-V3-0Oy" secondAttribute="leading" id="NO8-qu-OyC"/>
-                            <constraint firstItem="3M0-7P-Wep" firstAttribute="top" secondItem="odH-aq-i9S" secondAttribute="bottom" id="f4r-YK-L7F"/>
-                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="top" secondItem="3M0-7P-Wep" secondAttribute="bottom" id="iyE-Z0-q7d"/>
-                            <constraint firstItem="3M0-7P-Wep" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" id="pw3-jo-Cms"/>
+                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="GfX-BR-MWL"/>
+                            <constraint firstAttribute="trailing" secondItem="Nic-V3-0Oy" secondAttribute="trailing" constant="8" id="JZa-Mo-UdU"/>
+                            <constraint firstItem="jXb-73-say" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="Jrd-cR-jyz"/>
+                            <constraint firstAttribute="trailing" secondItem="jXb-73-say" secondAttribute="trailing" constant="8" id="PMP-ZR-NdD"/>
+                            <constraint firstAttribute="bottom" secondItem="jXb-73-say" secondAttribute="bottom" id="Sms-b2-rq7"/>
+                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="top" secondItem="odH-aq-i9S" secondAttribute="bottom" id="Ylm-Mn-nbm"/>
+                            <constraint firstItem="jXb-73-say" firstAttribute="top" secondItem="Nic-V3-0Oy" secondAttribute="bottom" constant="10" id="pn8-zl-8Q2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="IJX-iP-PTv"/>
+                    <connections>
+                        <outlet property="sortSegmentedControl" destination="Nic-V3-0Oy" id="K7E-rq-aYS"/>
+                        <outlet property="tvEventsCollectionView" destination="jXb-73-say" id="7mm-e9-Ht6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pm2-Vc-JSV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="980" y="722"/>
+            <point key="canvasLocation" x="980" y="721.88905547226398"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="S07-PJ-wE3">
@@ -68,10 +90,10 @@
             </objects>
             <point key="canvasLocation" x="-641" y="-119"/>
         </scene>
-        <!--Movies View Controller-->
+        <!--Events View Controller-->
         <scene sceneID="IhU-N1-6Hl">
             <objects>
-                <viewController id="2Fh-7f-BmS" customClass="MoviesViewController" sceneMemberID="viewController">
+                <viewController id="2Fh-7f-BmS" customClass="TVEventsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iol-ye-JxO"/>
                         <viewControllerLayoutGuide type="bottom" id="8K9-LN-zQI"/>
@@ -80,7 +102,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RpM-yu-K9Y">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RpM-yu-K9Y">
+                                <frame key="frameInset" minX="82" minY="64" width="293" height="29"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <segments>
                                     <segment title="Most popular"/>
@@ -88,6 +111,9 @@
                                     <segment title="Highest rated"/>
                                 </segments>
                                 <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="sortByChanged:" destination="2Fh-7f-BmS" eventType="valueChanged" id="byR-nq-5FO"/>
+                                </connections>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wbz-xJ-Veh">
                                 <frame key="frameInset" minY="90" width="375" height="528"/>
@@ -107,19 +133,21 @@
                         </subviews>
                         <color key="backgroundColor" red="0.19215686269999999" green="0.19215686269999999" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Wbz-xJ-Veh" secondAttribute="trailing" constant="3" id="1dD-6U-7kE"/>
-                            <constraint firstItem="Wbz-xJ-Veh" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="3" id="78J-JA-Qna"/>
-                            <constraint firstItem="RpM-yu-K9Y" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" id="BoK-Ow-Fgk"/>
-                            <constraint firstItem="Wbz-xJ-Veh" firstAttribute="top" secondItem="RpM-yu-K9Y" secondAttribute="bottom" constant="3" id="WkT-UO-TN5"/>
-                            <constraint firstAttribute="trailing" secondItem="RpM-yu-K9Y" secondAttribute="trailing" id="YYa-FI-rHK"/>
+                            <constraint firstAttribute="trailing" secondItem="Wbz-xJ-Veh" secondAttribute="trailing" constant="8" id="1dD-6U-7kE"/>
+                            <constraint firstItem="Wbz-xJ-Veh" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="8" id="78J-JA-Qna"/>
+                            <constraint firstItem="RpM-yu-K9Y" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="8" id="Akm-Se-1Zp"/>
+                            <constraint firstItem="Wbz-xJ-Veh" firstAttribute="top" secondItem="RpM-yu-K9Y" secondAttribute="bottom" constant="10" id="WkT-UO-TN5"/>
+                            <constraint firstAttribute="trailing" secondItem="RpM-yu-K9Y" secondAttribute="trailing" constant="8" id="g5m-ZX-XmL"/>
                             <constraint firstItem="8K9-LN-zQI" firstAttribute="top" secondItem="Wbz-xJ-Veh" secondAttribute="bottom" id="pad-eU-LxO"/>
                             <constraint firstItem="RpM-yu-K9Y" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" id="s4e-Hw-b1E"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Tn8-aW-6C6"/>
+                    <navigationItem key="navigationItem" id="Tn8-aW-6C6">
+                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="uug-kC-z5t"/>
+                    </navigationItem>
                     <connections>
-                        <outlet property="moviesCollectionView" destination="Wbz-xJ-Veh" id="ceT-rM-l7V"/>
                         <outlet property="sortSegmentedControl" destination="RpM-yu-K9Y" id="5uY-Wr-s8o"/>
+                        <outlet property="tvEventsCollectionView" destination="Wbz-xJ-Veh" id="Iow-Dc-Krr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A7n-cR-pMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -139,7 +167,9 @@
                             <outlet property="delegate" destination="tkD-4c-zu7" id="TY2-nj-oWH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News Feed" id="sYx-fp-H4h"/>
+                    <navigationItem key="navigationItem" title="News Feed" id="sYx-fp-H4h">
+                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="i7U-zG-fmC"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uem-vf-TZF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -151,7 +181,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WIC-f1-jF2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Toc-kM-RfY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="Toc-kM-RfY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -170,7 +200,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="arx-cm-fXC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feeds" image="feed-inactive" id="DKl-Pj-yTU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="yeC-kJ-7WM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="yeC-kJ-7WM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -190,9 +220,14 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kaQ-mv-8os" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Movies" image="movies-inactive" selectedImage="movies-active" id="7mt-Gm-Qtd"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="b96-Zj-pYg">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="b96-Zj-pYg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textShadowColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -206,10 +241,11 @@
     </scenes>
     <resources>
         <image name="feed-inactive" width="20" height="20"/>
+        <image name="menu-item" width="25" height="16"/>
         <image name="movies-active" width="21" height="20"/>
         <image name="movies-inactive" width="21" height="20"/>
         <image name="tv-active" width="23" height="22"/>
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
-    <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
