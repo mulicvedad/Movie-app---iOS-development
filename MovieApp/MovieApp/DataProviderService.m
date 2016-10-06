@@ -4,76 +4,164 @@
 #import "ItemsArrayReceiver.h"
 #import <UIKit/UIKit.h>
 #import <RestKit.h>
+#import "TVEventsViewController.h"
+#import "TVShow.h"
 
 #define API_KEY_PARAMETER_NAME @"api_key"
 #define SORT_BY_PARAMETER_NAME @"sort_by"
 #define CRITERION_KEY_NAME @"criterion"
-#define VOTE_COUNT_PARAMETER_NAME @"vote_count.gte"
-#define VOTE_AVERAGE_CRIITERION_VALUE @"vote_average.desc"
-#define MOVIE_SUBPATH @"/3/discover/movie"
+#define MOVIE_SUBPATH @"/3/movie"
+#define TVSHOW_SUBPATH @"/3/tv"
 #define RESULTS_PATH @"results"
+#define DISCOVER_SUBPATH_MOVIE @"/3/discover/movie"
+#define DISCOVER_SUBPATH_TVSHOW @"/3/discover/tv"
+#define LATEST_MOVIES @"release_date.desc"
+#define LATEST_TVSHOWS @"first_air_date.desc"
+
 #define POPULARITY_CRITERION_VALUE @"popularity.desc"
 #define RELEASE_DATE_CRITERION @"release_date.desc"
 #define VOTE_COUNT_LOWER_BOUND @1000
 
 @interface DataProviderService(){
-    NSMutableArray *movies;
+    NSMutableArray *tvEvents;
     id<ItemsArrayReceiver> dataHandler;
-    NSURL *apiBaseURL;
-    AFRKHTTPClient *httpClient;
     RKObjectManager *objectManager;
-    RKObjectMapping *movieMapping;
-    RKResponseDescriptor *responseDescriptor;
 }
-
 @end
 
 @implementation DataProviderService
+static DataProviderService *sharedService;
 
++(id)init{
+    if(!sharedService){
+        sharedService=[super init];
+    }
+    return sharedService;
+}
++(DataProviderService *)sharedDataProviderService{
+    if(!sharedService){
+        sharedService=[[DataProviderService alloc]init];
+        [sharedService configure];
+    }
+    return sharedService;
+}
 -(void)configure{
 
-    NSString *urlString=[[NSBundle mainBundle] objectForInfoDictionaryKey:@"TheMovieDBBaseUrl"];
-    apiBaseURL = [NSURL URLWithString:urlString];
-    httpClient = [[AFRKHTTPClient alloc] initWithBaseURL:apiBaseURL];
+    
+    AFRKHTTPClient *httpClient = [[AFRKHTTPClient alloc] initWithBaseURL:[MovieAppConfiguration getApiBaseURL]];
     
     objectManager = [[RKObjectManager alloc] initWithHTTPClient:httpClient];
+    
+    NSString *subpathForMovies=[DataProviderService getSubpathForClass:[Movie class]];
+    NSString *subpathForTvShows=[DataProviderService getSubpathForClass:[TVShow class]];
+    
+    RKObjectMapping *mappingForMovie = [RKObjectMapping mappingForClass:[Movie class]];
+    RKObjectMapping *mappingForTvShow = [RKObjectMapping mappingForClass:[TVShow class]];
+    
+    [mappingForMovie addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
+    [mappingForTvShow addAttributeMappingsFromDictionary:[TVShow propertiesMapping]];
+                                 
+    NSMutableArray *responseDescriptors=[[NSMutableArray alloc] init];
+                                 
+    for(NSString *tailPath in [DataProviderService getCriteriaForSorting]){
+        NSString *keyPath=[subpathForMovies stringByAppendingString:tailPath];
+        
+        RKResponseDescriptor *responseDescriptorForMovie =
+        [RKResponseDescriptor responseDescriptorWithMapping:mappingForMovie
+                                                     method:RKRequestMethodGET
+                                                pathPattern:keyPath
+                                                    keyPath:RESULTS_PATH
+                                                statusCodes:[NSIndexSet indexSetWithIndex:200]];
+     
+        [responseDescriptors addObject:responseDescriptorForMovie];
+        if([responseDescriptors count]==3){
+            break;
+        }
+    }
+    
+    for(NSString *tailPath in [DataProviderService getCriteriaForSorting]){
+        NSString *keyPath=[subpathForTvShows stringByAppendingString:tailPath];
 
-    movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
+        RKResponseDescriptor *responseDescriptorForTvShow =
+        [RKResponseDescriptor responseDescriptorWithMapping:mappingForTvShow
+                                                     method:RKRequestMethodGET
+                                                pathPattern:keyPath
+                                                    keyPath:RESULTS_PATH
+                                                statusCodes:[NSIndexSet indexSetWithIndex:200]];
+        
+        [responseDescriptors addObject:responseDescriptorForTvShow];
+    }
     
-    [movieMapping addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
-    
-    responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
+    RKResponseDescriptor *responseDescriptorForLatestMovies =
+    [RKResponseDescriptor responseDescriptorWithMapping:mappingForMovie
                                                  method:RKRequestMethodGET
-                                            pathPattern:MOVIE_SUBPATH
+                                            pathPattern:DISCOVER_SUBPATH_MOVIE
                                                 keyPath:RESULTS_PATH
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
-    [objectManager addResponseDescriptor:responseDescriptor];
+    [responseDescriptors addObject:responseDescriptorForLatestMovies];
+    
+    
+    RKResponseDescriptor *responseDescriptorForLatestTvShows =
+    [RKResponseDescriptor responseDescriptorWithMapping:mappingForTvShow
+                                                 method:RKRequestMethodGET
+                                            pathPattern:DISCOVER_SUBPATH_TVSHOW
+                                                keyPath:RESULTS_PATH
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [responseDescriptors addObject:responseDescriptorForLatestTvShows];
+    
+    [objectManager addResponseDescriptorsFromArray:responseDescriptors];
 }
 
--(void)getdMoviesByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
+-(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
     
-    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey],
-                                  SORT_BY_PARAMETER_NAME: [DataProviderService getCriteriaForSorting][criterion],
-                                  VOTE_COUNT_PARAMETER_NAME: VOTE_COUNT_LOWER_BOUND};
+    Class currentClass=((TVEventsViewController *)delegate).isMovieViewController ? [Movie class] : [TVShow class];
     
-    [[RKObjectManager sharedManager] getObjectsAtPath:MOVIE_SUBPATH
-                                           parameters:queryParams
-                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  movies = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  [delegate updateReceiverWithNewData:movies info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
-                                                  
-                                              }
-                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                  //MISSING ERROR HANDLING
-                                                  NSLog(@"Error: %@", error);
-                                              }];
+    NSString *subpath=[[DataProviderService getSubpathForClass:currentClass] stringByAppendingString:[DataProviderService getCriteriaForSorting][criterion]];
+    
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    if(criterion!=LATEST)
+    {
+        [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                               parameters:queryParams
+                                                  success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                      tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
+                                                      [delegate updateReceiverWithNewData:tvEvents info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
+                                                      
+                                                  }
+                                                  failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                      //MISSING ERROR HANDLING
+                                                      NSLog(@"Error: %@", error);
+                                                  }];
+
+    }
+    else{
+        //SPECIAL CASE: latest tv events
+        NSDictionary *discoverQueryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey],
+                                              SORT_BY_PARAMETER_NAME:(currentClass == [Movie class]) ? LATEST_MOVIES : LATEST_TVSHOWS};
+        [[RKObjectManager sharedManager] getObjectsAtPath:(currentClass == [Movie class]) ? DISCOVER_SUBPATH_MOVIE : DISCOVER_SUBPATH_TVSHOW
+                                               parameters:discoverQueryParams
+                                                  success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                      tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
+                                                      [delegate updateReceiverWithNewData:tvEvents info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
+                                                      
+                                                  }
+                                                  failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                      //MISSING ERROR HANDLING
+                                                      NSLog(@"Error: %@", error);
+                                                  }];
+        
+    }
     
 }
 
 +(NSArray *)getCriteriaForSorting{
-    return @[@"popularity.desc",@"release_date.desc",@"vote_average.desc"];
+    return @[@"/popular",@"/latest",@"/top_rated",@"/airing_today",@"/on_the_air"];
+}
+
++(NSString *)getSubpathForClass:(Class)class{
+    return (class == [Movie class]) ? MOVIE_SUBPATH : TVSHOW_SUBPATH ;
 }
 
 

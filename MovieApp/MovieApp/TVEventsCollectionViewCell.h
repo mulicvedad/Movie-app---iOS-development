@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
+#import "TVEvent.h"
 
-@interface MoviesCollectionViewCell : UICollectionViewCell
+@interface TVEventsCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *posterImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
@@ -11,6 +12,6 @@
 +(UIEdgeInsets)cellInsets;
 +(CGFloat)cellHeight;
 +(NSString *)cellIdentifier;
-+(NSUInteger)numberOfStarsFromRating:(float)popularity;
-
++(NSString *)cellViewClassName;
+-(void)setupWithTvEvent:(TVEvent *)tvEvent;
 @end

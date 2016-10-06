@@ -5,7 +5,5 @@
 
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
-+(NSString *)getMoviesCollectionViewCellNibName;
-+(NSString *)getMoviesCollectionViewCellIdentifier;
-
++(NSURL *)getApiBaseURL;
 @end

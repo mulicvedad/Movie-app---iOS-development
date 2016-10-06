@@ -14,13 +14,4 @@ static DataProviderService *downloader=nil;
     
 }
 
-+(DataProviderService *)sharedDownloader{
-    if(!downloader){
-        downloader=[[DataProviderService alloc]init];
-        [downloader configure];
-    }
-    return downloader;
-}
-
-
 @end

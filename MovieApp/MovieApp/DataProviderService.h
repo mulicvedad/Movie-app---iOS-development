@@ -6,14 +6,16 @@ typedef enum Criteria
 {
     MOST_POPULAR=0,
     LATEST=1,
-    TOP_RATED=2
+    TOP_RATED=2,
+    AIRING_TODAY=3,
+    ON_THE_AIR=4
     
 }Criterion;
-
+//singleton
 @interface DataProviderService : NSObject
-extern NSArray *niz;
++(DataProviderService *)sharedDataProviderService;
 -(void)configure;
--(void)getdMoviesByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate;
+-(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate;
 +(NSArray *)getCriteriaForSorting;
 
 @end
