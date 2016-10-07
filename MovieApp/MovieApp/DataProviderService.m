@@ -6,8 +6,10 @@
 #import <RestKit.h>
 #import "TVEventsViewController.h"
 #import "TVShow.h"
+#import "Genre.h"
 
 #define API_KEY_PARAMETER_NAME @"api_key"
+#define TYPE_KEY @"type"
 #define SORT_BY_PARAMETER_NAME @"sort_by"
 #define CRITERION_KEY_NAME @"criterion"
 #define MOVIE_SUBPATH @"/3/movie"
@@ -17,10 +19,12 @@
 #define DISCOVER_SUBPATH_TVSHOW @"/3/discover/tv"
 #define LATEST_MOVIES @"release_date.desc"
 #define LATEST_TVSHOWS @"first_air_date.desc"
-
 #define POPULARITY_CRITERION_VALUE @"popularity.desc"
 #define RELEASE_DATE_CRITERION @"release_date.desc"
 #define VOTE_COUNT_LOWER_BOUND @1000
+#define MOVIE_GENRES_SUBPATH @"3/genre/movie/list"
+#define TVSHOW_GENRES_SUBPATH @"3/genre/tv/list"
+
 
 @interface DataProviderService(){
     NSMutableArray *tvEvents;
@@ -57,9 +61,11 @@ static DataProviderService *sharedService;
     
     RKObjectMapping *mappingForMovie = [RKObjectMapping mappingForClass:[Movie class]];
     RKObjectMapping *mappingForTvShow = [RKObjectMapping mappingForClass:[TVShow class]];
-    
+    RKObjectMapping *mappingForGenres = [RKObjectMapping mappingForClass:[Genre class]];
+
     [mappingForMovie addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
     [mappingForTvShow addAttributeMappingsFromDictionary:[TVShow propertiesMapping]];
+    [mappingForGenres addAttributeMappingsFromDictionary:[Genre propertiesMapping]];
                                  
     NSMutableArray *responseDescriptors=[[NSMutableArray alloc] init];
                                  
@@ -111,6 +117,24 @@ static DataProviderService *sharedService;
     
     [responseDescriptors addObject:responseDescriptorForLatestTvShows];
     
+    RKResponseDescriptor *responseDescriptorForMovieGenres =
+    [RKResponseDescriptor responseDescriptorWithMapping:mappingForGenres
+                                                 method:RKRequestMethodGET
+                                            pathPattern:nil
+                                                keyPath:@"genres"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [responseDescriptors addObject:responseDescriptorForMovieGenres];
+    
+    RKResponseDescriptor *responseDescriptorForTVShowGenres =
+    [RKResponseDescriptor responseDescriptorWithMapping:mappingForGenres
+                                                 method:RKRequestMethodGET
+                                            pathPattern:nil
+                                                keyPath:@"genres"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [responseDescriptors addObject:responseDescriptorForTVShowGenres];
+    
     [objectManager addResponseDescriptorsFromArray:responseDescriptors];
 }
 
@@ -127,6 +151,7 @@ static DataProviderService *sharedService;
                                                parameters:queryParams
                                                   success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                       tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
+                                                      
                                                       [delegate updateReceiverWithNewData:tvEvents info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
                                                       
                                                   }
@@ -154,6 +179,24 @@ static DataProviderService *sharedService;
         
     }
     
+}
+
+-(void)getGenresForTvEvent:(Class)class ReturnTo:(id<ItemsArrayReceiver>)delegate{
+    
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:(class == [Movie class]) ? MOVIE_GENRES_SUBPATH : TVSHOW_GENRES_SUBPATH
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  
+                                                    [delegate updateReceiverWithNewData: [NSMutableArray arrayWithArray: mappingResult.array] info:@{TYPE_KEY: [class getClassName]}];
+                                                  
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+
 }
 
 +(NSArray *)getCriteriaForSorting{

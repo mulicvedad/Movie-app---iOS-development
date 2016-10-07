@@ -29,6 +29,7 @@
 		CEF544191D9F3BD300124204 /* DataProviderService.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF544181D9F3BD300124204 /* DataProviderService.m */; };
 		CEF6C5A21DA459D80008160F /* TVEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF6C5A11DA459D80008160F /* TVEvent.m */; };
 		CEF6C5A51DA459EB0008160F /* TVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF6C5A41DA459EB0008160F /* TVShow.m */; };
+		CEFE5F091DA6ED9700D5B275 /* Genre.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE5F081DA6ED9700D5B275 /* Genre.m */; };
 		DF78C7EA8AC82599D041287B /* libPods-MovieApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BDEE23B07756E1D461645C /* libPods-MovieApp.a */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +102,8 @@
 		CEF6C5A11DA459D80008160F /* TVEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVEvent.m; sourceTree = "<group>"; };
 		CEF6C5A31DA459EB0008160F /* TVShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVShow.h; sourceTree = "<group>"; };
 		CEF6C5A41DA459EB0008160F /* TVShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVShow.m; sourceTree = "<group>"; };
+		CEFE5F071DA6ED9700D5B275 /* Genre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Genre.h; sourceTree = "<group>"; };
+		CEFE5F081DA6ED9700D5B275 /* Genre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Genre.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +242,8 @@
 				CEF6C5A11DA459D80008160F /* TVEvent.m */,
 				CEF6C5A31DA459EB0008160F /* TVShow.h */,
 				CEF6C5A41DA459EB0008160F /* TVShow.m */,
+				CEFE5F071DA6ED9700D5B275 /* Genre.h */,
+				CEFE5F081DA6ED9700D5B275 /* Genre.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -471,6 +476,7 @@
 				CEF6C5A21DA459D80008160F /* TVEvent.m in Sources */,
 				CE2A404A1DA14FA7005375F1 /* FeedXmlParser.m in Sources */,
 				CEEA7D031D947D8B00D90DEF /* NewFeedsItem.m in Sources */,
+				CEFE5F091DA6ED9700D5B275 /* Genre.m in Sources */,
 				CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */,
 				CEF6C5A51DA459EB0008160F /* TVShow.m in Sources */,
 				CEEA7D081D9487CF00D90DEF /* NewsFeedTableViewController.m in Sources */,

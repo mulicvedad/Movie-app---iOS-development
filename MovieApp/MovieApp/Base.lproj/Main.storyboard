@@ -24,7 +24,7 @@
                                     <segment title="Latest"/>
                                     <segment title="Highest-rated"/>
                                     <segment title="Airing today"/>
-                                    <segment title="On the ait"/>
+                                    <segment title="On the air"/>
                                 </segments>
                                 <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -52,13 +52,18 @@
                             <constraint firstItem="Nic-V3-0Oy" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="GfX-BR-MWL"/>
                             <constraint firstAttribute="trailing" secondItem="Nic-V3-0Oy" secondAttribute="trailing" constant="8" id="JZa-Mo-UdU"/>
                             <constraint firstItem="jXb-73-say" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="Jrd-cR-jyz"/>
+                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="N3u-pi-fBX"/>
+                            <constraint firstAttribute="trailing" secondItem="Nic-V3-0Oy" secondAttribute="trailing" constant="8" id="OJB-8t-HiQ"/>
                             <constraint firstAttribute="trailing" secondItem="jXb-73-say" secondAttribute="trailing" constant="8" id="PMP-ZR-NdD"/>
                             <constraint firstAttribute="bottom" secondItem="jXb-73-say" secondAttribute="bottom" id="Sms-b2-rq7"/>
                             <constraint firstItem="Nic-V3-0Oy" firstAttribute="top" secondItem="odH-aq-i9S" secondAttribute="bottom" id="Ylm-Mn-nbm"/>
+                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="top" secondItem="odH-aq-i9S" secondAttribute="bottom" id="pA1-9d-QtX"/>
                             <constraint firstItem="jXb-73-say" firstAttribute="top" secondItem="Nic-V3-0Oy" secondAttribute="bottom" constant="10" id="pn8-zl-8Q2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="IJX-iP-PTv"/>
+                    <navigationItem key="navigationItem" id="IJX-iP-PTv">
+                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="Kjf-4F-oQZ"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="sortSegmentedControl" destination="Nic-V3-0Oy" id="K7E-rq-aYS"/>
                         <outlet property="tvEventsCollectionView" destination="jXb-73-say" id="7mm-e9-Ht6"/>
@@ -181,7 +186,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WIC-f1-jF2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="Toc-kM-RfY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Toc-kM-RfY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

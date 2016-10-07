@@ -1,6 +1,7 @@
 #import "TVEventsCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Movie.h"
+#import "TVShow.h"
 
 #define START_POINT_X 0.5
 #define START_POINT_Y 0.25
@@ -68,8 +69,23 @@
         dateString=[[@"Tv Series " stringByAppendingString:[dateFormatter stringFromDate:tvEvent.releaseDate]] stringByAppendingString:@" -"];
     }
     self.releaseDateLabel.text=dateString;
-    //hardcoded for now
-    self.genreLabel.text = @"Mistery, Thriller";
+    
+    NSString *genresRepresentation=@"";
+    NSUInteger numberOfGenres=[tvEvent.genreIDs count];
+    for(int i=0;i<numberOfGenres;i++){
+        NSUInteger genreID=[(NSNumber *)tvEvent.genreIDs[i] unsignedIntegerValue];
+        NSString *genreName=[tvEvent getGenreNameForId:genreID];
+        
+        if(i==numberOfGenres-1){
+            genresRepresentation=[genresRepresentation stringByAppendingString:genreName];
+        }
+        else{
+            genresRepresentation=[genresRepresentation stringByAppendingString:genreName ];
+            genresRepresentation=[genresRepresentation  stringByAppendingString:@", "];
+        }
+    }
+    
+    self.genreLabel.text =  genresRepresentation;
     self.ratingLabel.text=[NSString stringWithFormat:@"%.1f", tvEvent.voteAverage];
     if(tvEvent.posterPath){
         [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:tvEvent.posterPath]]];

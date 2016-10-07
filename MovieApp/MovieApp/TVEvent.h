@@ -1,14 +1,7 @@
-//
-//  TVEvent.h
-//  MovieApp
-//
-//  Created by user on 04/10/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
+#import "ItemsArrayReceiver.h"
 
-@interface TVEvent : NSObject
+@interface TVEvent : NSObject <ItemsArrayReceiver>
 
 @property (nonatomic) NSUInteger id;
 @property (nonatomic, strong) NSString *title;
@@ -21,5 +14,8 @@
 @property (nonatomic) NSUInteger voteCount;
 
 +(NSDictionary *)propertiesMapping;
++(void)initializeGenres:(NSArray *)genresArray;
+-(NSString *)getGenreNameForId:(NSUInteger)genreId;
++(NSString *)getClassName;
 
 @end

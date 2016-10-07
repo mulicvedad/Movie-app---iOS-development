@@ -1,8 +1,8 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
-#import "DataProviderService.h"
+#import "ItemsArrayReceiver.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, ItemsArrayReceiver>
 
 @property (strong, nonatomic) UIWindow *window;
 

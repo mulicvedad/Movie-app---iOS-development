@@ -3,11 +3,14 @@
 #import "Movie.h"
 #import "MovieAppConfiguration.h"
 #import "AppDelegate.h"
+#import "DataProviderService.h"
+#import "MovieDetailsViewController.h"
 
 #define CRITERION_KEY @"criterion"
 #define FILLED_STAR_CODE @"\u2605"
 #define UNFILLED_STAR_CODE @"\u2606"
 #define TEXT_FIELD_PROPERTY_NAME @"_searchField"
+#define DETAILS_SEGUE_IDENTIFIER @"MovieDetailsSegue"
 
 @interface TVEventsViewController (){
     UISearchBar *searchBar;
@@ -78,7 +81,5 @@
 - (IBAction)sortByChanged:(UISegmentedControl *)sender {
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
 }
-
-
 
 @end

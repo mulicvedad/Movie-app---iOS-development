@@ -17,5 +17,6 @@ typedef enum Criteria
 -(void)configure;
 -(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate;
 +(NSArray *)getCriteriaForSorting;
+-(void)getGenresForTvEvent:(Class)class ReturnTo:(id<ItemsArrayReceiver>)dataHandler;
 
 @end
