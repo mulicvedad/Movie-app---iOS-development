@@ -1,20 +1,22 @@
 #import "TVEventsViewController.h"
 #import "TVEventsCollectionViewCell.h"
 #import "Movie.h"
+#import "TVShow.h"
 #import "MovieAppConfiguration.h"
 #import "AppDelegate.h"
 #import "DataProviderService.h"
-#import "MovieDetailsViewController.h"
+#import "TVEventDetailsTableViewController.h"
 
 #define CRITERION_KEY @"criterion"
 #define FILLED_STAR_CODE @"\u2605"
 #define UNFILLED_STAR_CODE @"\u2606"
 #define TEXT_FIELD_PROPERTY_NAME @"_searchField"
-#define DETAILS_SEGUE_IDENTIFIER @"MovieDetailsSegue"
+#define MOVIE_SEGUE_IDENTIFIER @"MovieDetailsSegue"
+#define TVSHOW_SEGUE_IDENTIFIER @"TVShowDetailsSegue"
 
 @interface TVEventsViewController (){
-    UISearchBar *searchBar;
-    NSArray *tvEvents;
+    UISearchBar *_searchBar;
+    NSArray *_tvEvents;
 }
 
 @end
@@ -35,17 +37,17 @@
 -(void)configureView{
     
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
-    searchBar=[[UISearchBar alloc]init];
-    searchBar.placeholder=@"Search";
+    _searchBar=[[UISearchBar alloc]init];
+    _searchBar.placeholder=@"Search";
     
-    UITextField *searchTextField = [searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
+    UITextField *searchTextField = [_searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     
-    self.navigationItem.titleView = searchBar;
+    self.navigationItem.titleView = _searchBar;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return tvEvents ? [tvEvents count] : 0;
+    return _tvEvents ? [_tvEvents count] : 0;
     
 }
 
@@ -53,7 +55,7 @@
     
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
         
-    [cell setupWithTvEvent:tvEvents[indexPath.row]];
+    [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     
     return cell;
     
@@ -73,8 +75,8 @@
     return 2.0;
 }
 
--(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
-    tvEvents=customItemsArray;
+-(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
+    _tvEvents=customItemsArray;
     [self.tvEventsCollectionView reloadData];
 }
 
@@ -82,4 +84,14 @@
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [self performSegueWithIdentifier:self.isMovieViewController ? MOVIE_SEGUE_IDENTIFIER : TVSHOW_SEGUE_IDENTIFIER sender:_tvEvents[indexPath.row]];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:MOVIE_SEGUE_IDENTIFIER] || [segue.identifier isEqualToString:TVSHOW_SEGUE_IDENTIFIER] ){
+        TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
+        [destinationVC setMainTvEvent: _isMovieViewController ? (Movie *)sender : (TVShow *)sender];
+    }
+}
 @end

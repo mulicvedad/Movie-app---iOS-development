@@ -7,5 +7,5 @@
 @property (nonatomic) BOOL hasVideo;
 
 +(NSDictionary *)propertiesMapping;
-
++(void)initializeGenres:(NSArray *)genresArray;
 @end

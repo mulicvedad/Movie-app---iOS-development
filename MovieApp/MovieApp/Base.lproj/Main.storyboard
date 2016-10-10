@@ -67,6 +67,7 @@
                     <connections>
                         <outlet property="sortSegmentedControl" destination="Nic-V3-0Oy" id="K7E-rq-aYS"/>
                         <outlet property="tvEventsCollectionView" destination="jXb-73-say" id="7mm-e9-Ht6"/>
+                        <segue destination="hWE-Ol-Nq1" kind="show" identifier="TVShowDetailsSegue" id="v80-pS-FKm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pm2-Vc-JSV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -153,11 +154,32 @@
                     <connections>
                         <outlet property="sortSegmentedControl" destination="RpM-yu-K9Y" id="5uY-Wr-s8o"/>
                         <outlet property="tvEventsCollectionView" destination="Wbz-xJ-Veh" id="Iow-Dc-Krr"/>
+                        <segue destination="hWE-Ol-Nq1" kind="show" identifier="MovieDetailsSegue" id="VAR-D8-Grm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A7n-cR-pMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1199.2" y="-115.59220389805098"/>
+        </scene>
+        <!--Event Details Table View Controller-->
+        <scene sceneID="A2C-Wt-WFW">
+            <objects>
+                <tableViewController id="hWE-Ol-Nq1" customClass="TVEventDetailsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hb2-hK-Nf6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="hWE-Ol-Nq1" id="eC3-Ae-IF3"/>
+                            <outlet property="delegate" destination="hWE-Ol-Nq1" id="pBf-Rs-ssb"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x8h-Oi-0aS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2082" y="-119"/>
         </scene>
         <!--News Feed-->
         <scene sceneID="f88-ju-8A6">
@@ -252,5 +274,8 @@
         <image name="tv-active" width="23" height="22"/>
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="VAR-D8-Grm"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

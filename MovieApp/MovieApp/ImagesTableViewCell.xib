@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesTableViewCell" rowHeight="173" id="KGk-i7-Jjw" customClass="ImagesTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="376" height="173"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="376" height="172"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="e8n-hd-zsW">
+                        <frame key="frameInset" minX="8" minY="29" width="361" height="127"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="zYx-Fg-lwX"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="qxc-mJ-RTz"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tv-active" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-j8-uO0"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="1hR-Z4-ghY"/>
+                        </subviews>
+                    </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images gallery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2L-UI-Q01">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T5-5A-PCt">
+                        <frame key="frameInset" minX="296" minY="-41" width="72" height="127"/>
+                        <state key="normal" backgroundImage="see all"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="e8n-hd-zsW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="30" id="FLR-48-pau"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="e8n-hd-zsW" secondAttribute="trailing" constant="-21" id="FgM-Tf-J5v"/>
+                    <constraint firstItem="g2L-UI-Q01" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="HYa-rz-BW5"/>
+                    <constraint firstItem="e8n-hd-zsW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="QQv-Oj-NiB"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="e8n-hd-zsW" secondAttribute="bottom" id="Qpm-YV-cer"/>
+                    <constraint firstItem="9T5-5A-PCt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bc6-wS-WSi"/>
+                    <constraint firstItem="g2L-UI-Q01" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pVo-ag-fKw"/>
+                    <constraint firstAttribute="trailing" secondItem="9T5-5A-PCt" secondAttribute="trailing" id="tVb-DP-BHh"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outletCollection property="posterImageViews" destination="zYx-Fg-lwX" id="GSP-fo-N72"/>
+                <outletCollection property="posterImageViews" destination="qxc-mJ-RTz" id="WHZ-ED-nuP"/>
+                <outletCollection property="posterImageViews" destination="p6r-j8-uO0" id="TTW-nR-YHI"/>
+                <outletCollection property="posterImageViews" destination="1hR-Z4-ghY" id="inB-gU-fzc"/>
+            </connections>
+            <point key="canvasLocation" x="-3" y="116.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="feed-active" width="28" height="28"/>
+        <image name="see all" width="40" height="60"/>
+        <image name="tv-active" width="23" height="22"/>
+    </resources>
+</document>

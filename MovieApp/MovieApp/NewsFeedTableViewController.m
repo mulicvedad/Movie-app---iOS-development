@@ -7,25 +7,23 @@
 #define TEXT_FIELD_PROPERTY_NAME @"_searchField"
 
 @interface NewsFeedTableViewController (){
-    NSMutableArray *news;
-    UISearchBar *searchBar;
-    UIBarButtonItem *leftButton;
-    UIBarButtonItem *rightButton;
-    FeedDownloader *downloader;
+    NSMutableArray *_news;
+    UISearchBar *_searchBar;
+    FeedDownloader *_downloader;
 }
 
 @end
 
 @implementation NewsFeedTableViewController
 
--(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
-    news=customItemsArray;
+-(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
+    _news=[NSMutableArray arrayWithArray: customItemsArray];
     
-    if(![news count])
+    if(![_news count])
     {
-        if(!news)
+        if(!_news)
         {
-            news = [[NSMutableArray alloc] init];
+            _news = [[NSMutableArray alloc] init];
         }
         
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"No results"
@@ -38,7 +36,6 @@
         UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action)
                                                             {
-                                                                
                                                                 [self startDownload];
                                                                  
                                                              }];
@@ -56,28 +53,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureView];
-    
-    downloader = [[FeedDownloader alloc]init] ;
-    [self startDownload];
+    _downloader = [[FeedDownloader alloc]init];
+    [self startDownload];  
 }
 
 -(void)configureView{
     [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
-    searchBar = [[UISearchBar alloc] init];
-    searchBar.placeholder=@"Search";
-    UITextField *searchTextField = [searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
+    _searchBar = [[UISearchBar alloc] init];
+    _searchBar.placeholder=@"Search";
+    UITextField *searchTextField = [_searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
-    self.navigationItem.titleView = searchBar;
+    self.navigationItem.titleView = _searchBar;
 }
 
 -(void)startDownload{
     
     @try {
-        [downloader downloadNewsFromFeed:[MovieAppConfiguration getFeedsSourceUrlPath] andReturnTo:self];
+        [_downloader downloadNewsFromFeed:[MovieAppConfiguration getFeedsSourceUrlPath] andReturnTo:self];
         
     } @catch (NSException *exception) {
-        [news removeAllObjects];
+        [_news removeAllObjects];
         
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
                                                                        message:[exception description]
@@ -100,7 +96,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [news count];
+    return [_news count];
 }
 
 
@@ -108,7 +104,7 @@
     FeedTableViewCell *feedCell = [tableView dequeueReusableCellWithIdentifier:[FeedTableViewCell cellIdentifier] forIndexPath:indexPath];
     
     
-    [feedCell setupWithHeadline:((NewFeedsItem *)news[indexPath.row]).headline text:((NewFeedsItem *)news[indexPath.row]).text sourceUrlPath:((NewFeedsItem *)news[indexPath.row]).sourceUrlPath];
+    [feedCell setupWithHeadline:((NewFeedsItem *)_news[indexPath.row]).headline text:((NewFeedsItem *)_news[indexPath.row]).text sourceUrlPath:((NewFeedsItem *)_news[indexPath.row]).sourceUrlPath];
 
     
     return feedCell;
