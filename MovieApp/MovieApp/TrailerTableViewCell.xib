@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TrailerTableViewCell" rowHeight="206" id="KGk-i7-Jjw" customClass="TrailerTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="222"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="375" height="221"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="44N-C8-zzp">
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </imageView>
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qE2-J7-C4D">
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhD-ET-sTw">
+                                <state key="normal" image="Play"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MhD-ET-sTw" firstAttribute="centerX" secondItem="qE2-J7-C4D" secondAttribute="centerX" id="JmR-To-omU"/>
+                            <constraint firstItem="MhD-ET-sTw" firstAttribute="centerY" secondItem="qE2-J7-C4D" secondAttribute="centerY" id="vCI-QX-Owq"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdQ-Ws-zqa">
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="qE2-J7-C4D" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0dh-on-q34"/>
+                    <constraint firstAttribute="trailing" secondItem="qE2-J7-C4D" secondAttribute="trailing" id="5Ct-LW-jZB"/>
+                    <constraint firstAttribute="bottom" secondItem="44N-C8-zzp" secondAttribute="bottom" id="6nD-Zu-yJp"/>
+                    <constraint firstItem="qE2-J7-C4D" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="9E6-UD-SVQ"/>
+                    <constraint firstItem="LdQ-Ws-zqa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="G2l-El-6QI"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="LdQ-Ws-zqa" secondAttribute="bottom" constant="13" id="XuV-Wf-XGW"/>
+                    <constraint firstItem="44N-C8-zzp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="cLh-Jj-e8c"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="LdQ-Ws-zqa" secondAttribute="trailing" constant="150" id="djb-fs-VQm"/>
+                    <constraint firstItem="44N-C8-zzp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="pW5-3H-I9y"/>
+                    <constraint firstAttribute="trailing" secondItem="44N-C8-zzp" secondAttribute="trailing" id="pxk-iX-ofE"/>
+                    <constraint firstAttribute="bottom" secondItem="qE2-J7-C4D" secondAttribute="bottom" id="wQS-Pm-Ort"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="1" green="0.17284500838926176" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="titleLabel" destination="LdQ-Ws-zqa" id="GLi-Ep-WxU"/>
+                <outlet property="trailerImageView" destination="44N-C8-zzp" id="8ME-yh-px0"/>
+                <outlet property="viewForGradient" destination="qE2-J7-C4D" id="oUd-kO-TgM"/>
+            </connections>
+            <point key="canvasLocation" x="-393.5" y="-1022"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Play" width="45" height="45"/>
+    </resources>
+</document>
