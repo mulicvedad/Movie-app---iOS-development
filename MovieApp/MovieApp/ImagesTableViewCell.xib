@@ -9,50 +9,49 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesTableViewCell" rowHeight="173" id="KGk-i7-Jjw" customClass="ImagesTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="376" height="173"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="173"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="376" height="172"/>
+                <frame key="frameInset" width="375" height="172"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="e8n-hd-zsW">
-                        <frame key="frameInset" minX="8" minY="29" width="361" height="127"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="e8n-hd-zsW">
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="zYx-Fg-lwX"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="qxc-mJ-RTz"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tv-active" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-j8-uO0"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="1hR-Z4-ghY"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="zYx-Fg-lwX"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="qxc-mJ-RTz"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tv-active" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-j8-uO0"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="1hR-Z4-ghY"/>
                         </subviews>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images gallery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2L-UI-Q01">
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T5-5A-PCt">
-                        <frame key="frameInset" minX="296" minY="-41" width="72" height="127"/>
+                    <view opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHF-1E-F5I">
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T5-5A-PCt">
                         <state key="normal" backgroundImage="see all"/>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstItem="e8n-hd-zsW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="30" id="FLR-48-pau"/>
+                    <constraint firstItem="hHF-1E-F5I" firstAttribute="height" secondItem="1hR-Z4-ghY" secondAttribute="height" id="3Dv-4w-Avt"/>
+                    <constraint firstItem="e8n-hd-zsW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="7V2-89-hKM"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="9T5-5A-PCt" secondAttribute="trailing" constant="-8" id="7n6-Sa-GaB"/>
+                    <constraint firstItem="9T5-5A-PCt" firstAttribute="centerY" secondItem="1hR-Z4-ghY" secondAttribute="centerY" id="F2I-fc-vJZ"/>
                     <constraint firstAttribute="trailingMargin" secondItem="e8n-hd-zsW" secondAttribute="trailing" constant="-21" id="FgM-Tf-J5v"/>
-                    <constraint firstItem="g2L-UI-Q01" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="HYa-rz-BW5"/>
-                    <constraint firstItem="e8n-hd-zsW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="QQv-Oj-NiB"/>
+                    <constraint firstItem="hHF-1E-F5I" firstAttribute="leading" secondItem="1hR-Z4-ghY" secondAttribute="leading" id="P5R-So-Rff"/>
+                    <constraint firstItem="e8n-hd-zsW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="QQv-Oj-NiB" userLabel="Stack View.leading = leading+ 20"/>
                     <constraint firstAttribute="bottomMargin" secondItem="e8n-hd-zsW" secondAttribute="bottom" id="Qpm-YV-cer"/>
-                    <constraint firstItem="9T5-5A-PCt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bc6-wS-WSi"/>
-                    <constraint firstItem="g2L-UI-Q01" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pVo-ag-fKw"/>
-                    <constraint firstAttribute="trailing" secondItem="9T5-5A-PCt" secondAttribute="trailing" id="tVb-DP-BHh"/>
+                    <constraint firstItem="hHF-1E-F5I" firstAttribute="width" secondItem="1hR-Z4-ghY" secondAttribute="width" id="SMv-wQ-g4u"/>
+                    <constraint firstItem="hHF-1E-F5I" firstAttribute="top" secondItem="1hR-Z4-ghY" secondAttribute="top" id="iln-La-l8Q"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="shadowView" destination="hHF-1E-F5I" id="Ybx-3d-KyP"/>
                 <outletCollection property="posterImageViews" destination="zYx-Fg-lwX" id="GSP-fo-N72"/>
                 <outletCollection property="posterImageViews" destination="qxc-mJ-RTz" id="WHZ-ED-nuP"/>
                 <outletCollection property="posterImageViews" destination="p6r-j8-uO0" id="TTW-nR-YHI"/>
                 <outletCollection property="posterImageViews" destination="1hR-Z4-ghY" id="inB-gU-fzc"/>
             </connections>
-            <point key="canvasLocation" x="-3" y="116.5"/>
+            <point key="canvasLocation" x="-3.5" y="116.5"/>
         </tableViewCell>
     </objects>
     <resources>

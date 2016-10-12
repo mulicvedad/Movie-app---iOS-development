@@ -8,4 +8,6 @@
 @property (nonatomic) NSUInteger seasonNumber;
 
 +(NSDictionary *)propertiesMapping;
++(NSString *)getStringOfYearsForSeasons:(NSArray *)seasons;
+
 @end

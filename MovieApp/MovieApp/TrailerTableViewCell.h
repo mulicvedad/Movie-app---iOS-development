@@ -5,6 +5,9 @@
 @property (weak, nonatomic) IBOutlet UIView *viewForGradient;
 @property (weak, nonatomic) IBOutlet UIImageView *trailerImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+@property (strong, nonatomic) CAGradientLayer *myGradientLayer;
+
 +(NSString *)cellIdentifier;
 +(NSString *)cellIClassName;
 -(void)setGradientLayer;

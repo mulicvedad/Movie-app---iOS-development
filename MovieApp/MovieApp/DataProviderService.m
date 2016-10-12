@@ -12,6 +12,7 @@
 #import "TVShowDetails.h"
 #import "TvShowSeason.h"
 #import "Image.h"
+#import "TVEventReview.h"
 
 #define API_KEY_PARAMETER_NAME @"api_key"
 #define APPEND_PARAMETER_NAME @"append_to_response"
@@ -39,7 +40,8 @@
 #define SEASONS_KEYPATH @"seasons"
 #define CREDITS_KEYPATH @"/credits"
 #define IMAGE_KEYPATH @"images.posters"
-#define APPEND_IMAGES_PARAMETER_VALUE @"images"
+#define REVIEW_KEYPATH @"reviews.results"
+#define APPEND_IMAGES_PARAMETER_VALUE @"images,reviews"
 #define APPENDED_IMAGES_SUBPATH @"/3/:id/:id"
 
 @interface DataProviderService(){
@@ -84,6 +86,8 @@ static DataProviderService *sharedService;
     RKObjectMapping *tvShowDetailsMapping = [RKObjectMapping mappingForClass:[TVShowDetails class]];
     RKObjectMapping *tvShowSeasonMapping = [RKObjectMapping mappingForClass:[TvShowSeason class]];
     RKObjectMapping *imageMapping = [RKObjectMapping mappingForClass:[Image class]];
+    RKObjectMapping *reviewMapping = [RKObjectMapping mappingForClass:[TVEventReview class]];
+    
 
 
     [movieMapping addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
@@ -95,6 +99,8 @@ static DataProviderService *sharedService;
     [tvShowDetailsMapping addAttributeMappingsFromDictionary:[TVShowDetails propertiesMapping]];
     [tvShowSeasonMapping addAttributeMappingsFromDictionary:[TvShowSeason propertiesMapping]];
     [imageMapping addAttributeMappingsFromDictionary:[Image propertiesMapping]];
+    [reviewMapping addAttributeMappingsFromArray:[TVEventReview propertiesNames]];
+
 
 
     pathPattern=[subpathForMovies stringByAppendingString:@"/:id"];
@@ -113,6 +119,8 @@ static DataProviderService *sharedService;
     [self addResponseDescriptorWithMapping:castMapping pathPattern:nil keyPath:CAST_KEYPATH];
     [self addResponseDescriptorWithMapping:tvShowSeasonMapping pathPattern:[TVSHOW_SUBPATH stringByAppendingString:@"/:id"] keyPath:SEASONS_KEYPATH];
     [self addResponseDescriptorWithMapping:imageMapping pathPattern:APPENDED_IMAGES_SUBPATH keyPath:IMAGE_KEYPATH];
+    [self addResponseDescriptorWithMapping:reviewMapping pathPattern:APPENDED_IMAGES_SUBPATH keyPath:REVIEW_KEYPATH];
+
 }
 
 -(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
@@ -222,7 +230,7 @@ static DataProviderService *sharedService;
 }
 
 +(NSString *)getSubpathForClass:(Class)class{
-    return (class == [Movie class]) ? MOVIE_SUBPATH : TVSHOW_SUBPATH ;
+    return (class == [Movie class]) ? MOVIE_SUBPATH : TVSHOW_SUBPATH;
 }
 
 -(void)addResponseDescriptorWithMapping:(RKObjectMapping *)mapping pathPattern:(NSString *)pathPattern keyPath:(NSString *)keyPath{

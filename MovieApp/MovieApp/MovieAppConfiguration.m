@@ -25,5 +25,9 @@
     return  @"/3/discover/tv";
 }
 
++(UIColor *)getPrefferedSectionHeadlineColor{
+   return [UIColor colorWithRed:216/255.0 green:216/255.0 blue:216/255.0 alpha:1.0];
+}
+
 
 @end

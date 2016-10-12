@@ -2,34 +2,33 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeparatorTableViewCell" rowHeight="20" id="KGk-i7-Jjw" customClass="SeparatorTableViewCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewSeparatorTableViewCell" rowHeight="20" id="KGk-i7-Jjw" customClass="ReviewSeparatorTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <frame key="frameInset" width="375" height="20"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zmw-q6-fOA">
-                        <color key="backgroundColor" red="0.97254901959999995" green="0.79215686269999996" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kS9-70-4Hm">
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="1" id="Wff-ZR-sv6"/>
+                            <constraint firstAttribute="height" constant="1" id="N27-Bv-4YA"/>
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="Zmw-q6-fOA" secondAttribute="trailing" id="5rJ-z7-vl6"/>
-                    <constraint firstItem="Zmw-q6-fOA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IgF-eP-gsB"/>
-                    <constraint firstItem="Zmw-q6-fOA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pQb-bg-cqY"/>
+                    <constraint firstItem="kS9-70-4Hm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="5y2-4z-etc"/>
+                    <constraint firstItem="kS9-70-4Hm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="VE4-hL-yek"/>
+                    <constraint firstAttribute="trailing" secondItem="kS9-70-4Hm" secondAttribute="trailing" constant="20" id="yQZ-TS-sVD"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="19.5" y="12"/>
+            <point key="canvasLocation" x="5.5" y="74"/>
         </tableViewCell>
     </objects>
 </document>

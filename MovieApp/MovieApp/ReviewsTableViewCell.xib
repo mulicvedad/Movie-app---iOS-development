@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewsTableViewCell" rowHeight="180" id="KGk-i7-Jjw" customClass="ReviewsTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="375" height="179"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kyx-Xa-uuk">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="ahahahah" translatesAutoresizingMaskIntoConstraints="NO" id="N58-Nk-403">
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="hYl-s9-h9Y"/>
+                        </constraints>
+                        <color key="textColor" red="0.97254901959999995" green="0.79215686269999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                    </textView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Xc-DF-Qf9">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="kyx-Xa-uuk" firstAttribute="top" secondItem="9Xc-DF-Qf9" secondAttribute="bottom" constant="5" id="8E8-oO-PYH"/>
+                    <constraint firstItem="9Xc-DF-Qf9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FXM-LQ-x94"/>
+                    <constraint firstItem="N58-Nk-403" firstAttribute="height" secondItem="9Xc-DF-Qf9" secondAttribute="height" id="Ivv-Ap-s75"/>
+                    <constraint firstItem="kyx-Xa-uuk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Kil-IA-vbu"/>
+                    <constraint firstItem="N58-Nk-403" firstAttribute="top" secondItem="kyx-Xa-uuk" secondAttribute="bottom" id="SaT-J7-siR"/>
+                    <constraint firstItem="9Xc-DF-Qf9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="dix-eP-DMB"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="N58-Nk-403" secondAttribute="bottom" constant="5" id="fgC-Ee-DOL"/>
+                    <constraint firstItem="N58-Nk-403" firstAttribute="width" secondItem="kyx-Xa-uuk" secondAttribute="width" id="tzZ-sK-uDw"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="kyx-Xa-uuk" secondAttribute="trailing" constant="75" id="vLv-X2-fAO"/>
+                    <constraint firstItem="N58-Nk-403" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="zfX-4l-oCR"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="authorLabel" destination="9Xc-DF-Qf9" id="utb-AX-CAc"/>
+                <outlet property="readMoreTextView" destination="N58-Nk-403" id="8QG-FW-Auy"/>
+                <outlet property="reviewLabel" destination="kyx-Xa-uuk" id="Rn6-6e-ik6"/>
+            </connections>
+            <point key="canvasLocation" x="0.5" y="120"/>
+        </tableViewCell>
+    </objects>
+</document>

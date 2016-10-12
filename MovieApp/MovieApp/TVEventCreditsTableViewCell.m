@@ -30,9 +30,9 @@
 }
 
 -(void)setupWithDirector:(NSString *)director writers:(NSString *)writers stars:(NSString *)stars{
-    self.directrorLabelRight.text=director;
-    self.writersLabelRight.text=writers;
-    self.starsLabelRight.text=stars;
+    self.directrorLabelRight.text=[director length]==0 ? @"Not Found" : director;
+    self.writersLabelRight.text=[writers length]==0 ? @"Not Found" : writers;
+    self.starsLabelRight.text=[stars length]==0 ? @"Not Found" : stars;
 }
 
 @end

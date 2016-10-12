@@ -9,5 +9,4 @@
 
 +(NSDictionary *)propertiesMapping;
 +(NSString *)getCastStringRepresentationFromArray:(NSArray *)cast;
-
 @end

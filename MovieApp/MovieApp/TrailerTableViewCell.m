@@ -28,7 +28,7 @@
 }
 
 -(void)setGradientLayer{
-    CAGradientLayer *_myGradientLayer=[[CAGradientLayer alloc]init];
+    _myGradientLayer=[[CAGradientLayer alloc]init];
 
     _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.width/HEIGHT_WIDTH_RATIO);
     
@@ -39,8 +39,14 @@
                                (id)[[UIColor blackColor] CGColor],
                                nil];
     [self.viewForGradient.layer addSublayer:_myGradientLayer];
+    self.viewForGradient.layer.masksToBounds = YES;
+
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.width/HEIGHT_WIDTH_RATIO);
+}
 
 +(NSString *)cellIdentifier{
     return [TrailerTableViewCell cellIClassName];
