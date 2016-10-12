@@ -1,16 +1,10 @@
-//
-//  NewsFeedTableViewController.m
-//  MovieApp
-//
-//  Created by user on 22/09/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import "NewsFeedTableViewController.h"
 #import "FeedTableViewCell.h"
 #import "NewFeedsItem.h"
 #import "FeedDownloader.h"
 #import "MovieAppConfiguration.h"
+
+#define TEXT_FIELD_PROPERTY_NAME @"_searchField"
 
 @interface NewsFeedTableViewController (){
     NSMutableArray *news;
@@ -24,8 +18,8 @@
 
 @implementation NewsFeedTableViewController
 
--(void)updateViewWithNewData:(NSMutableArray *)feedItemsArray{
-    news=feedItemsArray;
+-(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
+    news=customItemsArray;
     
     if(![news count])
     {
@@ -61,30 +55,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    searchBar = [[UISearchBar alloc] init];
-    leftButton = [[UIBarButtonItem alloc]init];
-    rightButton = [[UIBarButtonItem alloc]init];
-    
-    searchBar.placeholder=@"Search";
-
-    leftButton.title=@"left";
-    leftButton.tintColor=[UIColor whiteColor];
-    
-    rightButton.title=@"right";
-    rightButton.tintColor=[UIColor whiteColor];
-    
-    self.navigationItem.titleView = searchBar;
-    self.navigationItem.leftBarButtonItem = leftButton;
-    self.navigationItem.rightBarButtonItem = rightButton;
-   
-     [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
+    [self configureView];
     
     downloader = [[FeedDownloader alloc]init] ;
     [self startDownload];
+}
+
+-(void)configureView{
+    [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
-   
-    
+    searchBar = [[UISearchBar alloc] init];
+    searchBar.placeholder=@"Search";
+    UITextField *searchTextField = [searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
+    searchTextField.backgroundColor = [UIColor darkGrayColor];
+    self.navigationItem.titleView = searchBar;
 }
 
 -(void)startDownload{

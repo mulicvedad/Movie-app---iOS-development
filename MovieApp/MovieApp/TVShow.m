@@ -1,18 +1,17 @@
-#import "Movie.h"
-#import "DataProviderService.h"
+#import "TVShow.h"
 #import "Genre.h"
 
-@implementation Movie
+@implementation TVShow
 static NSArray *genres=nil;
+
 +(NSDictionary *)propertiesMapping{
     return @{@"id":@"id",
-             @"title":@"title",
+             @"name":@"title",
              @"vote_average":@"voteAverage",
              @"overview":@"overview",
-             @"release_date":@"releaseDate",
+             @"first_air_date":@"releaseDate",
              @"vote_count":@"voteCount",
              @"poster_path":@"posterPath",
-             @"video":@"hasVideo",
              @"genre_ids":@"genreIDs",
              @"original_language":@"originalLanguage"};
 }
@@ -31,8 +30,7 @@ static NSArray *genres=nil;
 }
 
 +(NSString *)getClassName{
-    return @"Movie";
+    return @"TVShow";
 }
-
 
 @end

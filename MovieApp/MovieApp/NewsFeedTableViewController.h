@@ -6,4 +6,5 @@
 
 @interface NewsFeedTableViewController : UITableViewController <ItemsArrayReceiver>
 -(void)startDownload;
+-(void)configureView;
 @end

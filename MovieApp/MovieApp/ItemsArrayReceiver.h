@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol ItemsArrayReceiver <NSObject>
--(void)updateViewWithNewData:(NSMutableArray *)customItemsArray;
+-(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info;
 @end

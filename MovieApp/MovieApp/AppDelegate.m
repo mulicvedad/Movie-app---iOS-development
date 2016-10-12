@@ -1,24 +1,33 @@
-//
-//  AppDelegate.m
-//  MovieApp
-//
-//  Created by user on 21/09/16.
-//  Copyright © 2016 internshipABH. All rights reserved.
-//
-
 #import "AppDelegate.h"
+#import "Movie.h"
+#import "TVShow.h"
+#import "DataProviderService.h"
 
-@interface AppDelegate ()
+#define TYPE_KEY @"type"
+
+@interface AppDelegate (){
+}
 
 @end
 
 @implementation AppDelegate
-
+static DataProviderService *downloader=nil;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
+    [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
     return YES;
     
 }
+
+-(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
+    if([[info objectForKey:TYPE_KEY] isEqualToString:[Movie getClassName]]){
+        [Movie initializeGenres:customItemsArray];
+    }
+    else{
+        [TVShow initializeGenres:customItemsArray];
+    }
+}
+
 
 @end
