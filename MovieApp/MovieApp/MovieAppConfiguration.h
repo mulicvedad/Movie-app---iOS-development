@@ -6,4 +6,5 @@
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
 +(NSURL *)getApiBaseURL;
++(UIColor *)getPrefferedSectionHeadlineColor;
 @end

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "ItemsArrayReceiver.h"
-#import <UIKit/UIKit.h>
+#import "TVEvent.h"
 
 typedef enum Criteria
 {
@@ -18,5 +18,7 @@ typedef enum Criteria
 -(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate;
 +(NSArray *)getCriteriaForSorting;
 -(void)getGenresForTvEvent:(Class)class ReturnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getDetailsForTvEvent:(TVEvent *)tvEvent returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getCreditsForTvEvent:(TVEvent *)tvEvent returnTo:(id<ItemsArrayReceiver>)dataHandler;
 
 @end

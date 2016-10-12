@@ -20,7 +20,7 @@ static DataProviderService *downloader=nil;
     
 }
 
--(void)updateReceiverWithNewData:(NSMutableArray *)customItemsArray info:(NSDictionary *)info{
+-(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([[info objectForKey:TYPE_KEY] isEqualToString:[Movie getClassName]]){
         [Movie initializeGenres:customItemsArray];
     }

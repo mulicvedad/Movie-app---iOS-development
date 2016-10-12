@@ -5,14 +5,14 @@
     NSMutableArray *_items;
     NSMutableData *_responseData;
     
-    NSXMLParser *parser;
-    NSMutableArray *feeds;
-    NewFeedsItem *newItem;
-    NSMutableString *title;
-    NSMutableString *link;
-    NSString *xmlElement;
-    NSMutableString *descripition;
-    id<ItemsArrayReceiver> dataReceiver;
+    NSXMLParser *_parser;
+    NSMutableArray *_feeds;
+    NewFeedsItem *_newItem;
+    NSMutableString *_title;
+    NSMutableString *_link;
+    NSString *_xmlElement;
+    NSMutableString *_descripition;
+    id<ItemsArrayReceiver> _dataReceiver;
 }
 
 @end
@@ -20,37 +20,37 @@
 @implementation FeedXmlParser
 -(void)parseXmlFromData:(NSData *)data returnToHandler:(id<ItemsArrayReceiver>)dataHandler{
     
-    dataReceiver=dataHandler;
-    parser = [[NSXMLParser alloc] initWithData:data];
-    [parser setDelegate:self];
-    [parser setShouldResolveExternalEntities:NO];
-    [parser parse];
+    _dataReceiver=dataHandler;
+    _parser = [[NSXMLParser alloc] initWithData:data];
+    [_parser setDelegate:self];
+    [_parser setShouldResolveExternalEntities:NO];
+    [_parser parse];
 }
 
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
     
-    xmlElement = elementName;
+    _xmlElement = elementName;
     
     if ([elementName isEqualToString:@"item"]) {
         
-        newItem = [[NewFeedsItem alloc] init];
-        title   = [[NSMutableString alloc] init];
-        link    = [[NSMutableString alloc] init];
-        descripition = [[NSMutableString alloc] init];
+        _newItem = [[NewFeedsItem alloc] init];
+        _title   = [[NSMutableString alloc] init];
+        _link    = [[NSMutableString alloc] init];
+        _descripition = [[NSMutableString alloc] init];
     }
     
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
     
-    if ([xmlElement isEqualToString:@"title"]) {
-        [title appendString:string];
-    } else if ([xmlElement isEqualToString:@"link"]) {
-        [link appendString:string];
+    if ([_xmlElement isEqualToString:@"title"]) {
+        [_title appendString:string];
+    } else if ([_xmlElement isEqualToString:@"link"]) {
+        [_link appendString:string];
     }
-    else if ([xmlElement isEqualToString:@"description"]) {
-        [descripition appendString:string];
+    else if ([_xmlElement isEqualToString:@"description"]) {
+        [_descripition appendString:string];
     }
     
     
@@ -60,22 +60,22 @@
     
     if ([elementName isEqualToString:@"item"]) {
         
-        newItem.headline=title;
-        newItem.text=[descripition stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \n"]];
-        newItem.sourceUrlPath=link;
-        if(!feeds)
+        _newItem.headline=_title;
+        _newItem.text=[_descripition stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \n"]];
+        _newItem.sourceUrlPath=_link;
+        if(!_feeds)
         {
-            feeds=[[NSMutableArray alloc] init];
+            _feeds=[[NSMutableArray alloc] init];
         }
         
-        [feeds addObject:newItem];
+        [_feeds addObject:_newItem];
     }
     
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    
-    [dataReceiver updateReceiverWithNewData:feeds info:nil];
+    [_dataReceiver updateReceiverWithNewData:_feeds info:nil];
+   
 }
 
 @end
