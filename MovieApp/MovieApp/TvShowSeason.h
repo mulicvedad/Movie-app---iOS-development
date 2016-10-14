@@ -9,5 +9,5 @@
 
 +(NSDictionary *)propertiesMapping;
 +(NSString *)getStringOfYearsForSeasons:(NSArray *)seasons;
-
+-(NSString *)getReleaseYear;
 @end

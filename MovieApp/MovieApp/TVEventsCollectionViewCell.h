@@ -10,7 +10,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *genreLabel;
 
 +(UIEdgeInsets)cellInsets;
-+(CGFloat)cellHeight;
++(CGFloat)cellHeightForWidth:(CGFloat)width;
 +(NSString *)cellIdentifier;
 +(NSString *)cellViewClassName;
 -(void)setupWithTvEvent:(TVEvent *)tvEvent;

@@ -15,6 +15,7 @@
 #define FONT_SIZE_REGULAR 10
 #define FONT_SIZE_BIG 16
 #define DEFAULT_IMAGE_NAME @"black_image"
+#define CELL_WIDTH_HEIGHT_RATIO 0.69f
 
 
 @implementation TVEventsCollectionViewCell
@@ -41,8 +42,8 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-+(CGFloat)cellHeight{
-    return 254;
++(CGFloat)cellHeightForWidth:(CGFloat)width{
+    return width/CELL_WIDTH_HEIGHT_RATIO ;
 }
 
 +(NSString *)cellIdentifier{

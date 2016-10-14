@@ -29,5 +29,11 @@
    return [UIColor colorWithRed:216/255.0 green:216/255.0 blue:216/255.0 alpha:1.0];
 }
 
++(UIColor *)getPrefferedYellowColor{
+    return [UIColor colorWithRed:248/255.0 green:202/255.0 blue:0/255.0 alpha:1.0];
+}
+
+
+
 
 @end

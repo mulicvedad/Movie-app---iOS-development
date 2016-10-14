@@ -7,4 +7,5 @@
 +(NSString *)getApiKey;
 +(NSURL *)getApiBaseURL;
 +(UIColor *)getPrefferedSectionHeadlineColor;
++(UIColor *)getPrefferedYellowColor;
 @end

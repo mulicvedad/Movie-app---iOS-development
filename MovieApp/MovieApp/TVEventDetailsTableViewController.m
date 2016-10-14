@@ -22,6 +22,8 @@
 #import "Movie.h"
 #import "TVShowDetails.h"
 #import "MovieAppConfiguration.h"
+#import "EpisodesGuideTableViewController.h"
+#import "TrailerViewController.h"
 
 //these ratios are calculated based on sketch file
 //better solution is using UITableViewAutomaticDimension but in some cases it didnt help me
@@ -47,6 +49,8 @@
 #define IMAGE_GALLERY_SECTION_NAME @"Image gallery"
 #define CAST_SECTION_NAME @"Cast"
 #define REVIEWS_SECTION_NAME @"Reviews"
+#define TRAILER_SEGUE_IDENTIFIER @"TrailerSegue"
+
 
 
 @interface TVEventDetailsTableViewController (){
@@ -99,6 +103,9 @@
     _reviews=[[NSMutableArray alloc]init];
     _seasons=[[NSMutableArray alloc]init];
     
+    self.navigationItem.title=_mainTvEvent.title;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -136,6 +143,10 @@
             NSURL *imageUrl=[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:_mainTvEvent.backdropPath ]];
             
             [cell setupCellWithTitle:_mainTvEvent.originalTitle imageUrl:imageUrl releaseYear:[_mainTvEvent getReleaseYear]];
+            if(![_mainTvEvent isKindOfClass:[Movie class]]){
+                [cell.playButton setHidden:YES];
+            }
+            [cell setDelegate:self];
             return cell;
         }
         else if(indexPath.row==1){
@@ -397,6 +408,28 @@
         [self.tableView reloadData];
         
     }];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:SEASON_DETAILS_SEGUE_IDENTIFIER]){
+        EpisodesGuideTableViewController *destinationVC=(EpisodesGuideTableViewController *)segue.destinationViewController;
+        destinationVC.seasons=(NSArray *)sender;
+        destinationVC.tvShow=(TVShow *)_mainTvEvent;
+        destinationVC.navigationItem.title=_mainTvEvent.title;
+
+    }
+    else if([segue.identifier isEqualToString:TRAILER_SEGUE_IDENTIFIER]){
+        TrailerViewController *destinationVC=(TrailerViewController *)segue.destinationViewController;
+        destinationVC.tvEvent=_mainTvEvent;
+    }
+}
+
+-(void)showSeasons{
+    [self performSegueWithIdentifier:SEASON_DETAILS_SEGUE_IDENTIFIER sender:_seasons];
+}
+
+-(void)showTrailer{
+    [self performSegueWithIdentifier:TRAILER_SEGUE_IDENTIFIER sender:_mainTvEvent];
 }
 
 @end

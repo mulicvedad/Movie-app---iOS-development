@@ -1,19 +1,18 @@
-#import "SeparatorTableViewCell.h"
+#import "YearTableViewCell.h"
 
-@implementation SeparatorTableViewCell
+@implementation YearTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.selectionStyle=UITableViewCellSelectionStyleNone;
 }
 
-
 +(NSString *)cellIdentifier{
     return [self cellIClassName];
 }
-+(NSString *)cellIClassName{
-    return  @"SeparatorTableViewCell";
-}
 
++(NSString *)cellIClassName{
+    return @"YearTableViewCell";
+}
 
 @end

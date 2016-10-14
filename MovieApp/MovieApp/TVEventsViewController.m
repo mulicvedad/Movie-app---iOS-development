@@ -44,6 +44,7 @@
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     
     self.navigationItem.titleView = _searchBar;
+self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -62,9 +63,16 @@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat cellWidth=collectionView.bounds.size.width/2-2;
+    CGFloat cellWidth;
+    if([UIDevice currentDevice].orientation==UIDeviceOrientationPortrait){
+        cellWidth=collectionView.bounds.size.width/2-2;
+    }
+    else{
+        cellWidth=collectionView.bounds.size.width/4-6;
+    }
+    
  
-    return CGSizeMake(cellWidth, [TVEventsCollectionViewCell cellHeight]);
+    return CGSizeMake(cellWidth, [TVEventsCollectionViewCell cellHeightForWidth:cellWidth]);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -82,6 +90,17 @@
 
 - (IBAction)sortByChanged:(UISegmentedControl *)sender {
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+        [self.tvEventsCollectionView reloadData];
+        
+    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
