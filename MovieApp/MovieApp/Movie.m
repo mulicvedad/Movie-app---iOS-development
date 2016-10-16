@@ -47,7 +47,21 @@ static NSArray *genres=nil;
     return dateString;
 }
 
-
++(Movie *)movieWithSearchResultItem:(SearchResultItem *)searchResultItem{
+    Movie *newMovie=[[Movie alloc]init];
+    
+    newMovie.id=searchResultItem.id;
+    newMovie.title=searchResultItem.title;
+    newMovie.originalTitle=searchResultItem.originalTitle;
+    newMovie.voteAverage=searchResultItem.voteAverage;
+    newMovie.voteCount=searchResultItem.voteCount;
+    newMovie.overview=searchResultItem.overview;
+    newMovie.releaseDate=searchResultItem.releaseDate;
+    newMovie.posterPath=searchResultItem.posterPath;
+    newMovie.backdropPath=searchResultItem.backdropPath;
+    
+    return newMovie;
+}
 
 
 

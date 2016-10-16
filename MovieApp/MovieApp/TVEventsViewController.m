@@ -6,17 +6,16 @@
 #import "AppDelegate.h"
 #import "DataProviderService.h"
 #import "TVEventDetailsTableViewController.h"
-
 #define CRITERION_KEY @"criterion"
 #define FILLED_STAR_CODE @"\u2605"
 #define UNFILLED_STAR_CODE @"\u2606"
 #define TEXT_FIELD_PROPERTY_NAME @"_searchField"
-#define MOVIE_SEGUE_IDENTIFIER @"MovieDetailsSegue"
-#define TVSHOW_SEGUE_IDENTIFIER @"TVShowDetailsSegue"
+#define SHOW_DETAILS_SEGUE_IDENTIFIER @"ShowDetailsSegue"
 
 @interface TVEventsViewController (){
     UISearchBar *_searchBar;
     NSArray *_tvEvents;
+    NSTimer *_timer;
 }
 
 @end
@@ -28,23 +27,37 @@
     [super viewDidLoad];
     self.isMovieViewController=(self.tabBarController.selectedIndex==1) ? YES:NO;
     [self configureView];
-
-    [self.sortSegmentedControl setSelectedSegmentIndex:2];
-    [self.sortSegmentedControl setSelectedSegmentIndex:0];
-    [self.sortSegmentedControl sendActionsForControlEvents:UIControlEventValueChanged];
+    [self initialDataDownload];
+    
 }
 
 -(void)configureView{
     
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
-    _searchBar=[[UISearchBar alloc]init];
-    _searchBar.placeholder=@"Search";
     
-    UITextField *searchTextField = [_searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
-    searchTextField.backgroundColor = [UIColor darkGrayColor];
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    
+    self.searchController.edgesForExtendedLayout=UIRectEdgeNone;;
     
     self.navigationItem.titleView = _searchBar;
-self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    self.resultsContoller=[[SearchResultTableViewController alloc]init];
+    self.searchController=[[UISearchController alloc]initWithSearchResultsController:self.resultsContoller];
+    
+    self.navigationItem.titleView = self.searchController.searchBar;
+    self.searchController.searchBar.placeholder=@"Search";
+    UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
+    searchTextField.backgroundColor = [UIColor darkGrayColor];
+    
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate=self;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.searchController.hidesNavigationBarDuringPresentation=NO;
+    self.searchController.obscuresBackgroundDuringPresentation=YES;
+    self.definesPresentationContext=YES;
+    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -55,7 +68,7 @@ self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-        
+    
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     
     return cell;
@@ -63,16 +76,9 @@ self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat cellWidth;
-    if([UIDevice currentDevice].orientation==UIDeviceOrientationPortrait){
-        cellWidth=collectionView.bounds.size.width/2-2;
-    }
-    else{
-        cellWidth=collectionView.bounds.size.width/4-6;
-    }
+    CGFloat cellWidth=collectionView.bounds.size.width/2-2;
     
- 
-    return CGSizeMake(cellWidth, [TVEventsCollectionViewCell cellHeightForWidth:cellWidth]);
+    return CGSizeMake(cellWidth, [TVEventsCollectionViewCell cellHeight]);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -88,29 +94,49 @@ self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@
     [self.tvEventsCollectionView reloadData];
 }
 
-- (IBAction)sortByChanged:(UISegmentedControl *)sender {
-        [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)sender.selectedSegmentIndex returnToHandler:self];
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
-{
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    
-    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        
-        [self.tvEventsCollectionView reloadData];
-        
-    }];
+-(void)initialDataDownload{
+    [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:0 returnToHandler:self];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:self.isMovieViewController ? MOVIE_SEGUE_IDENTIFIER : TVSHOW_SEGUE_IDENTIFIER sender:_tvEvents[indexPath.row]];
+    [self performSegueWithIdentifier:SHOW_DETAILS_SEGUE_IDENTIFIER sender:_tvEvents[indexPath.row]];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:MOVIE_SEGUE_IDENTIFIER] || [segue.identifier isEqualToString:TVSHOW_SEGUE_IDENTIFIER] ){
+    if([segue.identifier isEqualToString:SHOW_DETAILS_SEGUE_IDENTIFIER] ){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
-        [destinationVC setMainTvEvent: _isMovieViewController ? (Movie *)sender : (TVShow *)sender];
+        [destinationVC setMainTvEvent:sender];
     }
 }
+
+//UISearchResultsUpdating method
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController{
+    ((UITableViewController *)searchController.searchResultsController).tableView.hidden=NO;
+    
+    if(_timer.isValid){
+        [_timer invalidate];
+        _timer=nil;
+    }
+    NSString *searchText=searchController.searchBar.text;
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                              target:self
+                                            selector:@selector(performSearch:)
+                                            userInfo:@{@"query":searchText} repeats:NO];
+    
+    
+}
+
+-(void)performSearch:(NSTimer *)timer{
+    if([[[timer userInfo] objectForKey:@"query"] length] == 0){
+        [(SearchResultTableViewController *)self.searchController.searchResultsController clearSearchResults];
+    }
+    else{
+        [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:[[timer userInfo] objectForKey:@"query"] returnTo:self.searchController.searchResultsController];
+    }
+    
+}
+
+
 @end

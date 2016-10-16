@@ -2,8 +2,7 @@
 #import "TVEvent.h"
 #import "ItemsArrayReceiver.h"
 #import "SeasonsTableViewCellDelegate.h"
-#import "ShowTrailerDelegate.h"
 
-@interface TVEventDetailsTableViewController : UITableViewController <ItemsArrayReceiver, SeasonsTableViewCellDelegate, ShowTrailerDelegate>
+@interface TVEventDetailsTableViewController : UITableViewController <ItemsArrayReceiver, SeasonsTableViewCellDelegate>
 -(void)setMainTvEvent:(TVEvent *)tvEvent;
 @end

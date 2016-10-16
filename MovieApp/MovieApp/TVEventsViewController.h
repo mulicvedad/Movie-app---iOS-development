@@ -1,10 +1,12 @@
 #import <UIKit/UIKit.h>
 #import "ItemsArrayReceiver.h"
+#import "SearchResultTableViewController.h"
 
-@interface TVEventsViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, ItemsArrayReceiver>
+@interface TVEventsViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, ItemsArrayReceiver, UISearchResultsUpdating, UISearchControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet UICollectionView *tvEventsCollectionView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *sortSegmentedControl;
 @property (nonatomic) BOOL isMovieViewController;
-- (IBAction)sortByChanged:(UISegmentedControl *)sender;
+@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) SearchResultTableViewController *resultsContoller;
 
 @end

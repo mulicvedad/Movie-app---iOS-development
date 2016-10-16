@@ -35,17 +35,17 @@
         
         UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action)
-                                                            {
-                                                                [self startDownload];
-                                                                 
-                                                             }];
+                                       {
+                                           [self startDownload];
+                                           
+                                       }];
         
         [alert addAction:defaultAction];
         [alert addAction:reloadAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
     
-
+    
     [self.tableView reloadData];
     
 }
@@ -54,7 +54,7 @@
     [super viewDidLoad];
     [self configureView];
     _downloader = [[FeedDownloader alloc]init];
-    [self startDownload];  
+    [self startDownload];
 }
 
 -(void)configureView{
@@ -65,6 +65,9 @@
     UITextField *searchTextField = [_searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     self.navigationItem.titleView = _searchBar;
+    
+    self.tableView.rowHeight=UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight=200.0;
 }
 
 -(void)startDownload{
@@ -91,7 +94,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
+    
     return 1;
 }
 
@@ -105,14 +108,13 @@
     
     
     [feedCell setupWithHeadline:((NewFeedsItem *)_news[indexPath.row]).headline text:((NewFeedsItem *)_news[indexPath.row]).text sourceUrlPath:((NewFeedsItem *)_news[indexPath.row]).sourceUrlPath];
-
+    
     
     return feedCell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [FeedTableViewCell cellHeight];
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
 }
 
 @end
