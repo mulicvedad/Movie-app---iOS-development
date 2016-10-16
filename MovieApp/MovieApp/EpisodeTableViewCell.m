@@ -4,7 +4,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.selectionStyle=UITableViewCellSelectionStyleDefault;
+    self.selectionStyle=UITableViewCellSelectionStyleNone;
 }
 
 -(void)setupWithEpisodeTitle:(NSString *)title airDate:(NSString *)dateAsString rating:(CGFloat)rating ordinalNumber:(NSUInteger)number{

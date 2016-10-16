@@ -13,7 +13,7 @@
 -(void)setup{
     self.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.width/SEPARATOR_CELL_WIDTH_HEIGHT_RATIO);
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20, self.frame.size.height/2, self.frame.size.width-20, 1)];
-    lineView.backgroundColor = [UIColor darkGrayColor];
+    lineView.backgroundColor = [MovieAppConfiguration getPrefferedGreyColor];
     [self addSubview:lineView];
 }
 +(NSString *)cellIdentifier{

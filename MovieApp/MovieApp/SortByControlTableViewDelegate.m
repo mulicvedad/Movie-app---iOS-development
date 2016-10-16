@@ -19,6 +19,7 @@
 
 -(void)registerDelegate:(id<SelectedIndexChangeDelegate>)delegate{
     _delegate=delegate;
+   
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -2,7 +2,6 @@
 #import "SearchResultItemTableViewCell.h"
 #import "Movie.h"
 #import "TVShow.h"
-#import "MovieAppConfiguration.h"
 #import "SearchResultItem.h"
 #import "TVEventDetailsTableViewController.h"
 

@@ -9,7 +9,6 @@
              @"duration":@"duration",
              @"number_of_seasons":@"numberOfSeasons",
              @"number_of_episodes":@"numberOfEpisodes"
-         //    @"seasons":@"seasons"
              };
 }
 

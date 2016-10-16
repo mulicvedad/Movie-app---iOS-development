@@ -17,7 +17,7 @@
     
     NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:READ_MORE attributes:@{
         NSLinkAttributeName:url}];
-    _readMoreTextView.linkTextAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:248/255.0 green:202/255.0 blue:0/255.0 alpha:0.5]};
+    _readMoreTextView.linkTextAttributes = @{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f]};
 
     _readMoreTextView.attributedText=sourceLink;
 }
