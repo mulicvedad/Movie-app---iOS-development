@@ -16,13 +16,18 @@
 #define FONT_SIZE_BIG 16
 #define DEFAULT_IMAGE_NAME @"black_image"
 
+@interface TVEventsCollectionViewCell(){
+    CAGradientLayer *_myGradientLayer;
+}
+
+@end
 
 @implementation TVEventsCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    CAGradientLayer *_myGradientLayer=[[CAGradientLayer alloc]init];
+    _myGradientLayer=[[CAGradientLayer alloc]init];
     
     _myGradientLayer.frame = self.frame;
     _myGradientLayer.startPoint = CGPointMake(START_POINT_X,START_POINT_Y);
@@ -51,14 +56,14 @@
 
 +(NSString *)cellViewClassName{
     return @"TVEventsCollectionViewCell";
-
+    
 }
 
 -(void)setupWithTvEvent:(TVEvent *)tvEvent{
     BOOL isMovie=([tvEvent isKindOfClass:[Movie class]]) ? YES : NO;
     
     self.titleLabel.text=[tvEvent.title uppercaseString];
-
+    
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;
     [dateFormatter setDateFormat:isMovie ? MOVIE_DATE_FORMAT : TVSHOW_DATE_FORMAT];
@@ -93,6 +98,11 @@
     else{
         self.posterImageView.image=[UIImage imageNamed:DEFAULT_IMAGE_NAME];
     }
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.height);
 }
 
 

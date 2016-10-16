@@ -1,6 +1,7 @@
 #import "TrailerTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+
 #define START_POINT_X 0.5
 #define START_POINT_Y 0.5
 #define END_POINT_X 0.5
@@ -12,6 +13,11 @@
 #define FONT_SIZE_REGULAR 10
 #define FONT_SIZE_BIG 16
 
+@interface TrailerTableViewCell(){
+    id<ShowTrailerDelegate> _delegate;
+}
+
+@end
 
 @implementation TrailerTableViewCell
 
@@ -53,6 +59,13 @@
 }
 +(NSString *)cellIClassName{
     return @"TrailerTableViewCell";
+}
+
+-(void)setDelegate:(id<ShowTrailerDelegate>)delegate{
+    _delegate=delegate;
+}
+- (IBAction)showTrailer:(UIButton *)sender {
+    [_delegate showTrailer];
 }
 
 @end

@@ -2,76 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4Dy-Cx-8q8">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Events View Controller-->
-        <scene sceneID="MyB-8J-A6N">
-            <objects>
-                <viewController id="fy7-80-hih" customClass="TVEventsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="odH-aq-i9S"/>
-                        <viewControllerLayoutGuide type="bottom" id="e6q-Id-fwq"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="y1l-74-KzV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nic-V3-0Oy">
-                                <segments>
-                                    <segment title="Most popular"/>
-                                    <segment title="Latest"/>
-                                    <segment title="Highest-rated"/>
-                                    <segment title="Airing today"/>
-                                    <segment title="On the air"/>
-                                </segments>
-                                <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="sortByChanged:" destination="fy7-80-hih" eventType="valueChanged" id="AIZ-7p-OZk"/>
-                                </connections>
-                            </segmentedControl>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jXb-73-say">
-                                <color key="backgroundColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="56p-3d-2cQ">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="fy7-80-hih" id="cpp-HP-Zfx"/>
-                                    <outlet property="delegate" destination="fy7-80-hih" id="KVA-4F-IJD"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="GfX-BR-MWL"/>
-                            <constraint firstAttribute="trailing" secondItem="Nic-V3-0Oy" secondAttribute="trailing" constant="8" id="JZa-Mo-UdU"/>
-                            <constraint firstItem="jXb-73-say" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="Jrd-cR-jyz"/>
-                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="leading" secondItem="y1l-74-KzV" secondAttribute="leading" constant="8" id="N3u-pi-fBX"/>
-                            <constraint firstAttribute="trailing" secondItem="Nic-V3-0Oy" secondAttribute="trailing" constant="8" id="OJB-8t-HiQ"/>
-                            <constraint firstAttribute="trailing" secondItem="jXb-73-say" secondAttribute="trailing" constant="8" id="PMP-ZR-NdD"/>
-                            <constraint firstAttribute="bottom" secondItem="jXb-73-say" secondAttribute="bottom" id="Sms-b2-rq7"/>
-                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="top" secondItem="odH-aq-i9S" secondAttribute="bottom" id="Ylm-Mn-nbm"/>
-                            <constraint firstItem="Nic-V3-0Oy" firstAttribute="top" secondItem="odH-aq-i9S" secondAttribute="bottom" id="pA1-9d-QtX"/>
-                            <constraint firstItem="jXb-73-say" firstAttribute="top" secondItem="Nic-V3-0Oy" secondAttribute="bottom" constant="10" id="pn8-zl-8Q2"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="IJX-iP-PTv">
-                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="Kjf-4F-oQZ"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="sortSegmentedControl" destination="Nic-V3-0Oy" id="K7E-rq-aYS"/>
-                        <outlet property="tvEventsCollectionView" destination="jXb-73-say" id="7mm-e9-Ht6"/>
-                        <segue destination="hWE-Ol-Nq1" kind="show" identifier="TVShowDetailsSegue" id="v80-pS-FKm"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pm2-Vc-JSV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="980" y="721.88905547226398"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="S07-PJ-wE3">
             <objects>
@@ -106,18 +40,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RpM-yu-K9Y">
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <segments>
-                                    <segment title="Most popular"/>
-                                    <segment title="Latest"/>
-                                    <segment title="Highest rated"/>
-                                </segments>
-                                <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="sortByChanged:" destination="2Fh-7f-BmS" eventType="valueChanged" id="byR-nq-5FO"/>
-                                </connections>
-                            </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wbz-xJ-Veh">
                                 <color key="backgroundColor" red="0.19215686269999999" green="0.19215686269999999" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="E01-AS-AsT">
@@ -135,22 +57,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.19215686269999999" green="0.19215686269999999" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="Wbz-xJ-Veh" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" constant="10" id="13p-gb-C3U"/>
                             <constraint firstAttribute="trailing" secondItem="Wbz-xJ-Veh" secondAttribute="trailing" constant="8" id="1dD-6U-7kE"/>
                             <constraint firstItem="Wbz-xJ-Veh" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="8" id="78J-JA-Qna"/>
-                            <constraint firstItem="RpM-yu-K9Y" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="8" id="Akm-Se-1Zp"/>
-                            <constraint firstItem="Wbz-xJ-Veh" firstAttribute="top" secondItem="RpM-yu-K9Y" secondAttribute="bottom" constant="10" id="WkT-UO-TN5"/>
-                            <constraint firstAttribute="trailing" secondItem="RpM-yu-K9Y" secondAttribute="trailing" constant="8" id="g5m-ZX-XmL"/>
                             <constraint firstItem="8K9-LN-zQI" firstAttribute="top" secondItem="Wbz-xJ-Veh" secondAttribute="bottom" id="pad-eU-LxO"/>
-                            <constraint firstItem="RpM-yu-K9Y" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" id="s4e-Hw-b1E"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Tn8-aW-6C6">
                         <barButtonItem key="leftBarButtonItem" image="menu-item" id="uug-kC-z5t"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="sortSegmentedControl" destination="RpM-yu-K9Y" id="5uY-Wr-s8o"/>
                         <outlet property="tvEventsCollectionView" destination="Wbz-xJ-Veh" id="Iow-Dc-Krr"/>
-                        <segue destination="hWE-Ol-Nq1" kind="show" identifier="MovieDetailsSegue" id="VAR-D8-Grm"/>
+                        <segue destination="hWE-Ol-Nq1" kind="show" identifier="ShowDetailsSegue" id="VAR-D8-Grm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A7n-cR-pMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -172,10 +90,105 @@
                             <outlet property="delegate" destination="hWE-Ol-Nq1" id="pBf-Rs-ssb"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="SuL-6u-bQk" kind="show" identifier="TrailerSegue" id="zGT-oV-1KQ"/>
+                        <segue destination="Kqi-hh-3bG" kind="show" identifier="SeasonsDetailsSegue" id="eM6-qo-Z1d"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8h-Oi-0aS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2082" y="-119"/>
+        </scene>
+        <!--Episodes Guide Table View Controller-->
+        <scene sceneID="FMc-L6-MpQ">
+            <objects>
+                <tableViewController id="Kqi-hh-3bG" customClass="EpisodesGuideTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Htd-yO-tFb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.60754310344827589" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Kqi-hh-3bG" id="L6e-IE-upb"/>
+                            <outlet property="delegate" destination="Kqi-hh-3bG" id="1zG-Nm-BWx"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="AiY-De-QNY" kind="show" identifier="EpisodeDetailsSegue" id="C5d-Jl-At8"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p84-1z-dNK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2910" y="-832"/>
+        </scene>
+        <!--Episode Details Table View Controller-->
+        <scene sceneID="hF0-og-jot">
+            <objects>
+                <tableViewController id="AiY-De-QNY" customClass="EpisodeDetailsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QJE-kh-iaV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="AiY-De-QNY" id="MsM-ll-MH4"/>
+                            <outlet property="delegate" destination="AiY-De-QNY" id="GHB-AO-Y8S"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rg1-ih-Opo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3818" y="-830"/>
+        </scene>
+        <!--Trailer View Controller-->
+        <scene sceneID="5pd-6S-DU7">
+            <objects>
+                <viewController id="SuL-6u-bQk" customClass="TrailerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UIE-GV-cbh"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qdw-ZP-HWm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6v9-jc-do5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9T-QS-LZC">
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Azn-hH-odF">
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" red="0.53725490200000003" green="0.53333333329999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMU-6D-yUq" customClass="YTPlayerView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="kYC-pe-3WP"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Azn-hH-odF" firstAttribute="top" secondItem="e9T-QS-LZC" secondAttribute="bottom" constant="7" id="8ux-Ga-Al8"/>
+                            <constraint firstItem="Azn-hH-odF" firstAttribute="leading" secondItem="6v9-jc-do5" secondAttribute="leading" constant="20" id="NEu-Rx-sZK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Azn-hH-odF" secondAttribute="trailing" constant="20" id="RFA-pl-EX0"/>
+                            <constraint firstItem="NMU-6D-yUq" firstAttribute="top" secondItem="UIE-GV-cbh" secondAttribute="bottom" constant="10" id="SvX-Xg-rcs"/>
+                            <constraint firstAttribute="trailing" secondItem="NMU-6D-yUq" secondAttribute="trailing" id="Vp0-Sc-GRv"/>
+                            <constraint firstItem="NMU-6D-yUq" firstAttribute="leading" secondItem="6v9-jc-do5" secondAttribute="leading" id="f0g-hf-2Ww"/>
+                            <constraint firstItem="e9T-QS-LZC" firstAttribute="leading" secondItem="6v9-jc-do5" secondAttribute="leading" constant="20" id="hFn-Fp-xAH"/>
+                            <constraint firstItem="e9T-QS-LZC" firstAttribute="top" secondItem="NMU-6D-yUq" secondAttribute="bottom" constant="7" id="n64-o6-LuL"/>
+                            <constraint firstAttribute="trailing" secondItem="e9T-QS-LZC" secondAttribute="trailing" constant="20" id="xjI-YU-B1D"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="Azn-hH-odF" id="nT1-MF-aOS"/>
+                        <outlet property="videoNameLabel" destination="e9T-QS-LZC" id="RHR-6C-hXI"/>
+                        <outlet property="youtubePlayerView" destination="NMU-6D-yUq" id="xzP-Ky-1qj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pVi-7Y-VX5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2909.5999999999999" y="-119.1904047976012"/>
         </scene>
         <!--News Feed-->
         <scene sceneID="f88-ju-8A6">
@@ -210,7 +223,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fy7-80-hih" kind="relationship" relationship="rootViewController" id="28M-Ii-5fW"/>
+                        <segue destination="2Fh-7f-BmS" kind="relationship" relationship="rootViewController" id="caU-mR-hlb"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYh-Yr-SYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -248,7 +261,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="textShadowColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
@@ -271,7 +284,7 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="v80-pS-FKm"/>
+        <segue reference="caU-mR-hlb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

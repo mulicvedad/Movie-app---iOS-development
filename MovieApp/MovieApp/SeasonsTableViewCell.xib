@@ -15,7 +15,7 @@
                 <frame key="frameInset" width="375" height="79"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seasons:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7n-nf-1fQ">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Seasons:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7n-nf-1fQ">
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -25,17 +25,17 @@
                         <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8qR-fD-cf6">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8qR-fD-cf6">
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4Y-HU-EMG">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4Y-HU-EMG">
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3F-Iy-ROL">
+                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3F-Iy-ROL">
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                         <state key="normal" title="See All &gt;">
                             <color key="titleColor" red="0.97254901959999995" green="0.79215686269999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -49,17 +49,17 @@
                 <constraints>
                     <constraint firstItem="v4Y-HU-EMG" firstAttribute="top" secondItem="8qR-fD-cf6" secondAttribute="bottom" constant="8" id="9g2-ol-FpA"/>
                     <constraint firstItem="i7n-nf-1fQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="DUo-UQ-AOR"/>
+                    <constraint firstItem="j3F-Iy-ROL" firstAttribute="leading" secondItem="8qR-fD-cf6" secondAttribute="trailing" constant="20" id="Gop-q1-CI8"/>
                     <constraint firstItem="TO2-Vz-HeO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="O8R-wY-IFY"/>
                     <constraint firstItem="i7n-nf-1fQ" firstAttribute="top" secondItem="8qR-fD-cf6" secondAttribute="top" id="PVJ-B7-yg3"/>
                     <constraint firstItem="j3F-Iy-ROL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="PsE-fb-sUQ"/>
                     <constraint firstAttribute="trailing" secondItem="j3F-Iy-ROL" secondAttribute="trailing" constant="21" id="TQ4-RJ-zaz"/>
-                    <constraint firstItem="j3F-Iy-ROL" firstAttribute="leading" secondItem="v4Y-HU-EMG" secondAttribute="trailing" constant="105" id="UPO-jn-BWA"/>
                     <constraint firstItem="i7n-nf-1fQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Uvs-72-sVF"/>
-                    <constraint firstItem="j3F-Iy-ROL" firstAttribute="leading" secondItem="8qR-fD-cf6" secondAttribute="trailing" constant="105" id="fyG-hI-fi9"/>
                     <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="v4Y-HU-EMG" secondAttribute="bottom" constant="5" id="hN6-EY-7h8"/>
                     <constraint firstItem="8qR-fD-cf6" firstAttribute="leading" secondItem="i7n-nf-1fQ" secondAttribute="trailing" constant="4" id="k2I-BK-M8M"/>
                     <constraint firstItem="v4Y-HU-EMG" firstAttribute="leading" secondItem="8qR-fD-cf6" secondAttribute="leading" id="qso-ys-PlG"/>
                     <constraint firstItem="TO2-Vz-HeO" firstAttribute="top" secondItem="v4Y-HU-EMG" secondAttribute="top" id="taJ-br-28q"/>
+                    <constraint firstItem="j3F-Iy-ROL" firstAttribute="leading" secondItem="v4Y-HU-EMG" secondAttribute="trailing" constant="20" id="uh2-UC-0nX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

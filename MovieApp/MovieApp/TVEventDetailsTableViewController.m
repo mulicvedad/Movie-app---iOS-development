@@ -22,6 +22,8 @@
 #import "Movie.h"
 #import "TVShowDetails.h"
 #import "MovieAppConfiguration.h"
+#import "EpisodesGuideTableViewController.h"
+#import "TrailerViewController.h"
 
 //these ratios are calculated based on sketch file
 //better solution is using UITableViewAutomaticDimension but in some cases it didnt help me
@@ -47,6 +49,8 @@
 #define IMAGE_GALLERY_SECTION_NAME @"Image gallery"
 #define CAST_SECTION_NAME @"Cast"
 #define REVIEWS_SECTION_NAME @"Reviews"
+#define TRAILER_SEGUE_IDENTIFIER @"TrailerSegue"
+
 
 
 @interface TVEventDetailsTableViewController (){
@@ -70,10 +74,10 @@
     [self configure];
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=44.0;
-
+    
     [[DataProviderService sharedDataProviderService] getDetailsForTvEvent:_mainTvEvent returnTo:self];
     [[DataProviderService sharedDataProviderService] getCreditsForTvEvent:_mainTvEvent returnTo:self];
- 
+    
 }
 
 -(void)configure{
@@ -85,8 +89,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:[OverviewTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[OverviewTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ImagesTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ImagesTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[CastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[CastTableViewCell cellIdentifier]];
-     [self.tableView registerNib:[UINib nibWithNibName:[AlternativeCastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[AlternativeCastTableViewCell cellIdentifier]];
-     [self.tableView registerNib:[UINib nibWithNibName:[ReviewsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewsTableViewCell cellIdentifier]];
+    [self.tableView registerNib:[UINib nibWithNibName:[AlternativeCastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[AlternativeCastTableViewCell cellIdentifier]];
+    [self.tableView registerNib:[UINib nibWithNibName:[ReviewsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewsTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewSeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewSeparatorTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[SeasonsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeasonsTableViewCell cellIdentifier]];
     
@@ -98,6 +102,9 @@
     _images=[[NSMutableArray alloc]init];
     _reviews=[[NSMutableArray alloc]init];
     _seasons=[[NSMutableArray alloc]init];
+    
+    self.navigationItem.title=_mainTvEvent.title;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
 }
 
@@ -120,8 +127,8 @@
     }
     else if(section==4){
         return [_reviews count]==0 ? 0 : 2*[_reviews count]-1;
-        }
-
+    }
+    
     else{
         return 0;
     }
@@ -136,6 +143,10 @@
             NSURL *imageUrl=[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:_mainTvEvent.backdropPath ]];
             
             [cell setupCellWithTitle:_mainTvEvent.originalTitle imageUrl:imageUrl releaseYear:[_mainTvEvent getReleaseYear]];
+            if(![_mainTvEvent isKindOfClass:[Movie class]]){
+                [cell.playButton setHidden:YES];
+            }
+            [cell setDelegate:self];
             return cell;
         }
         else if(indexPath.row==1){
@@ -143,7 +154,7 @@
             
             [cell setupWithReleaseDate:[_mainTvEvent getFormattedReleaseDate] duration:78 genres:[_mainTvEvent getFormattedGenresRepresentation]];
             return cell;
-
+            
         }
         else{
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
@@ -194,7 +205,7 @@
             if([_images count]>0){
                 [cell setupWithUrls:[Image getURLsFromImagesArray:_images]];
             }
-                return cell;
+            return cell;
         }
         else{
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
@@ -270,9 +281,9 @@
         }
         else if(indexPath.row==3 || indexPath.row==5 ){
             return [self separatorCellHeight];
-
+            
         }
-
+        
     }
     else if(indexPath.section==2){
         if(indexPath.row==0){
@@ -295,9 +306,9 @@
         }
         
     }
-   
-    return UITableViewAutomaticDimension;    
- 
+    
+    return UITableViewAutomaticDimension;
+    
 }
 
 -(CGFloat)trailerCellHeight{
@@ -325,11 +336,11 @@
     if(section==2){
         return IMAGE_GALLERY_SECTION_NAME;
     }
-
+    
     else if(section==3){
         return CAST_SECTION_NAME;
     }
-
+    
     else if(section==4){
         return REVIEWS_SECTION_NAME;
     }
@@ -376,7 +387,7 @@
             }
             else if([customItemsArray[i] isKindOfClass:[CastMember class]]){
                 [_cast addObject:customItemsArray[i]];
-               
+                
             }
             
         }
@@ -386,7 +397,7 @@
     if(_detailsLoaded && _creditsLoaded){
         [self.tableView reloadData];
     }
-   
+    
 }
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
 {
@@ -397,6 +408,28 @@
         [self.tableView reloadData];
         
     }];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:SEASON_DETAILS_SEGUE_IDENTIFIER]){
+        EpisodesGuideTableViewController *destinationVC=(EpisodesGuideTableViewController *)segue.destinationViewController;
+        destinationVC.seasons=(NSArray *)sender;
+        destinationVC.tvShow=(TVShow *)_mainTvEvent;
+        destinationVC.navigationItem.title=_mainTvEvent.title;
+        
+    }
+    else if([segue.identifier isEqualToString:TRAILER_SEGUE_IDENTIFIER]){
+        TrailerViewController *destinationVC=(TrailerViewController *)segue.destinationViewController;
+        destinationVC.tvEvent=_mainTvEvent;
+    }
+}
+
+-(void)showSeasons{
+    [self performSegueWithIdentifier:SEASON_DETAILS_SEGUE_IDENTIFIER sender:_seasons];
+}
+
+-(void)showTrailer{
+    [self performSegueWithIdentifier:TRAILER_SEGUE_IDENTIFIER sender:_mainTvEvent];
 }
 
 @end

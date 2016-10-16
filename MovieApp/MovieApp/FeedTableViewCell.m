@@ -1,17 +1,14 @@
 #import "FeedTableViewCell.h"
+#import "MovieAppConfiguration.h"
+
+#define LINK_FONT_SIZE 12
 
 @implementation FeedTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 + (CGFloat)cellHeight{
     return 200;
@@ -25,18 +22,20 @@
 }
 
 -(void)setupWithHeadline:(NSString *)pHeadline text:(NSString *)pText sourceUrlPath:(NSString *)pUrlPath{
-    _headlineLabel.text=pHeadline;
     _descriptionLabel.text=pText;
-
+    
     NSString *cleanUrl = [pUrlPath stringByTrimmingCharactersInSet:
                           [NSCharacterSet characterSetWithCharactersInString: @"\n "]];
-    
+    NSString *cleanHeadline = [pHeadline stringByTrimmingCharactersInSet:
+                               [NSCharacterSet characterSetWithCharactersInString: @"\n "]];
+    _headlineLabel.text=cleanHeadline;
     NSURL *url = [NSURL URLWithString:cleanUrl];
     
-    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[UIColor yellowColor], NSFontAttributeName:[UIFont systemFontOfSize:13],NSLinkAttributeName:url}];
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor], NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:LINK_FONT_SIZE],NSLinkAttributeName:url}];
     
     _linkTextView.attributedText=sourceLink;
-
+        
 }
+
 
 @end

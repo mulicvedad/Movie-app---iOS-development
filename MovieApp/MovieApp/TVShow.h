@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "TVEvent.h"
+#import "SearchResultItem.h"
 
 @interface TVShow : TVEvent
 @property(nonatomic) NSUInteger runtime;
@@ -7,4 +8,7 @@
 
 +(NSDictionary *)propertiesMapping;
 +(void)initializeGenres:(NSArray *)genresArray;
+
++(TVShow *)tvShowWithSearchResultItem:(SearchResultItem *)searchResultItem;
+
 @end

@@ -18,7 +18,7 @@ static NSArray *genres=nil;
              @"genre_ids":@"genreIDs",
              @"original_language":@"originalLanguage",
              @"backdrop_path":@"backdropPath",
-             @"origin_country":@"originCountries",};
+             @"origin_country":@"originCountries"};
 }
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId{
@@ -47,5 +47,20 @@ static NSArray *genres=nil;
     
 }
 
++(TVShow *)tvShowWithSearchResultItem:(SearchResultItem *)searchResultItem{
+    TVShow *newTvShow=[[TVShow alloc]init];
+    
+    newTvShow.id=searchResultItem.id;
+    newTvShow.title=searchResultItem.name;
+    newTvShow.originalTitle=searchResultItem.originalName;
+    newTvShow.voteAverage=searchResultItem.voteAverage;
+    newTvShow.voteCount=searchResultItem.voteCount;
+    newTvShow.overview=searchResultItem.overview;
+    newTvShow.releaseDate=searchResultItem.firstAirDate;
+    newTvShow.posterPath=searchResultItem.posterPath;
+    newTvShow.backdropPath=searchResultItem.backdropPath;
+    
+    return newTvShow;
+}
 
 @end

@@ -34,7 +34,7 @@
 }
 
 - (IBAction)showSeasonsDetaills:(UIButton *)sender {
-    
+    [_delegate showSeasons];
 }
 
 @end

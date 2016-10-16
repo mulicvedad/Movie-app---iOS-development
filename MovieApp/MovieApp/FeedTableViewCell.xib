@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,37 +16,39 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hU-8S-gZd">
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hye-w5-ogQ">
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hye-w5-ogQ">
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.60754310339999995" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="www.klix.ba" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GAi-PR-Vkx">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" scrollEnabled="NO" editable="NO" text="www.klix.ba" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GAi-PR-Vkx">
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="cv8-ZY-Pph"/>
+                                    <constraint firstAttribute="height" constant="20" id="oi3-jO-dBM"/>
                                 </constraints>
                                 <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HAb-QP-lCR">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HAb-QP-lCR">
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="GAi-PR-Vkx" firstAttribute="leading" secondItem="7hU-8S-gZd" secondAttribute="leading" constant="8" id="8Dv-dj-jfM"/>
-                            <constraint firstItem="HAb-QP-lCR" firstAttribute="top" secondItem="Hye-w5-ogQ" secondAttribute="bottom" constant="8" symbolic="YES" id="ALH-wT-T9L"/>
+                            <constraint firstItem="GAi-PR-Vkx" firstAttribute="leading" secondItem="7hU-8S-gZd" secondAttribute="leading" constant="12" id="8Dv-dj-jfM"/>
+                            <constraint firstItem="HAb-QP-lCR" firstAttribute="top" secondItem="Hye-w5-ogQ" secondAttribute="bottom" constant="15" id="ALH-wT-T9L"/>
+                            <constraint firstItem="GAi-PR-Vkx" firstAttribute="top" secondItem="HAb-QP-lCR" secondAttribute="bottom" constant="5" id="Glr-YO-kSR"/>
+                            <constraint firstAttribute="bottom" secondItem="GAi-PR-Vkx" secondAttribute="bottom" constant="15" id="LQr-A1-96D"/>
                             <constraint firstItem="Hye-w5-ogQ" firstAttribute="centerX" secondItem="7hU-8S-gZd" secondAttribute="centerX" id="WNu-QQ-zol"/>
-                            <constraint firstItem="Hye-w5-ogQ" firstAttribute="top" secondItem="7hU-8S-gZd" secondAttribute="top" constant="5" id="bnH-g1-OH0"/>
-                            <constraint firstAttribute="trailing" secondItem="GAi-PR-Vkx" secondAttribute="trailing" constant="8" id="f0M-ca-qsl"/>
-                            <constraint firstAttribute="bottom" secondItem="GAi-PR-Vkx" secondAttribute="bottom" id="n97-S4-0Le"/>
-                            <constraint firstItem="HAb-QP-lCR" firstAttribute="leading" secondItem="GAi-PR-Vkx" secondAttribute="leading" id="waN-v9-4FK"/>
-                            <constraint firstItem="Hye-w5-ogQ" firstAttribute="leading" secondItem="7hU-8S-gZd" secondAttribute="leading" constant="22" id="wf5-Lf-l4z"/>
+                            <constraint firstItem="Hye-w5-ogQ" firstAttribute="top" secondItem="7hU-8S-gZd" secondAttribute="top" constant="20" id="bnH-g1-OH0"/>
+                            <constraint firstAttribute="trailing" secondItem="GAi-PR-Vkx" secondAttribute="trailing" constant="16" id="f0M-ca-qsl"/>
+                            <constraint firstItem="HAb-QP-lCR" firstAttribute="leading" secondItem="7hU-8S-gZd" secondAttribute="leading" constant="16" id="sH3-tr-qo4"/>
+                            <constraint firstItem="Hye-w5-ogQ" firstAttribute="leading" secondItem="7hU-8S-gZd" secondAttribute="leading" constant="16" id="wf5-Lf-l4z"/>
                             <constraint firstItem="HAb-QP-lCR" firstAttribute="trailing" secondItem="GAi-PR-Vkx" secondAttribute="trailing" id="who-Br-ajx"/>
                         </constraints>
                     </view>
@@ -55,10 +56,10 @@
                 <color key="backgroundColor" red="0.19215686274509802" green="0.19215686274509802" blue="0.19215686274509802" alpha="1" colorSpace="calibratedRGB"/>
                 <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstItem="7hU-8S-gZd" firstAttribute="centerY" secondItem="83C-Tq-lrt" secondAttribute="centerY" id="FZo-9N-pIO"/>
-                    <constraint firstItem="7hU-8S-gZd" firstAttribute="top" secondItem="83C-Tq-lrt" secondAttribute="topMargin" constant="-3" id="WOk-sw-SUE"/>
-                    <constraint firstItem="7hU-8S-gZd" firstAttribute="centerX" secondItem="83C-Tq-lrt" secondAttribute="centerX" id="n5W-ef-Pd1"/>
-                    <constraint firstItem="7hU-8S-gZd" firstAttribute="leading" secondItem="83C-Tq-lrt" secondAttribute="leadingMargin" constant="-3" id="tqG-1P-ZxP"/>
+                    <constraint firstItem="7hU-8S-gZd" firstAttribute="top" secondItem="83C-Tq-lrt" secondAttribute="top" constant="10" id="0Ug-sE-dcc"/>
+                    <constraint firstAttribute="trailing" secondItem="7hU-8S-gZd" secondAttribute="trailing" constant="10" id="6xW-vL-t0i"/>
+                    <constraint firstAttribute="bottom" secondItem="7hU-8S-gZd" secondAttribute="bottom" id="89d-9W-Pt9"/>
+                    <constraint firstItem="7hU-8S-gZd" firstAttribute="leading" secondItem="83C-Tq-lrt" secondAttribute="leading" constant="10" id="ucO-e1-nqB"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="tintColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>

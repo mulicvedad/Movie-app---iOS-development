@@ -13,6 +13,11 @@
 #import "TvShowSeason.h"
 #import "Image.h"
 #import "TVEventReview.h"
+#import "Video.h"
+#import "TVShowEpisode.h"
+#import "SearchResultItem.h"
+
+
 
 #define API_KEY_PARAMETER_NAME @"api_key"
 #define APPEND_PARAMETER_NAME @"append_to_response"
@@ -44,6 +49,15 @@
 #define APPEND_IMAGES_PARAMETER_VALUE @"images,reviews"
 #define APPENDED_IMAGES_SUBPATH @"/3/:id/:id"
 
+#define VIDEOS_SUBPATH @"/videos"
+#define VIDEOS_KEYPATH @"videos"
+#define SEASON_SUBPATH @"/season"
+#define SEASON_KEYPATH @"/:id"
+#define EPISODES_KEYPATH @"episodes"
+#define QUERY_PARAMETAR_NAME @"query"
+#define SEARCH_SUBPATH @"/3/search/multi"
+
+
 @interface DataProviderService(){
     RKObjectManager *objectManager;
 }
@@ -66,7 +80,7 @@ static DataProviderService *sharedService;
     return sharedService;
 }
 -(void)configure{
-
+    
     
     AFRKHTTPClient *httpClient = [[AFRKHTTPClient alloc] initWithBaseURL:[MovieAppConfiguration getApiBaseURL]];
     
@@ -88,8 +102,12 @@ static DataProviderService *sharedService;
     RKObjectMapping *imageMapping = [RKObjectMapping mappingForClass:[Image class]];
     RKObjectMapping *reviewMapping = [RKObjectMapping mappingForClass:[TVEventReview class]];
     
-
-
+    RKObjectMapping *videoMapping = [RKObjectMapping mappingForClass:[Video class]];
+    RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[TVShowEpisode class]];
+    RKObjectMapping *searchItemMapping = [RKObjectMapping mappingForClass:[SearchResultItem class]];
+    
+    
+    
     [movieMapping addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
     [tvShowMapping addAttributeMappingsFromDictionary:[TVShow propertiesMapping]];
     [genreMapping addAttributeMappingsFromDictionary:[Genre propertiesMapping]];
@@ -100,15 +118,18 @@ static DataProviderService *sharedService;
     [tvShowSeasonMapping addAttributeMappingsFromDictionary:[TvShowSeason propertiesMapping]];
     [imageMapping addAttributeMappingsFromDictionary:[Image propertiesMapping]];
     [reviewMapping addAttributeMappingsFromArray:[TVEventReview propertiesNames]];
-
-
-
+    
+    [videoMapping addAttributeMappingsFromArray:[Video propertiesNames]];
+    [episodeMapping addAttributeMappingsFromDictionary:[TVShowEpisode propertiesMapping]];
+    [searchItemMapping addAttributeMappingsFromDictionary:[SearchResultItem propertiesMapping]];
+    
+    
     pathPattern=[subpathForMovies stringByAppendingString:@"/:id"];
     [self addResponseDescriptorWithMapping:movieMapping pathPattern:pathPattern keyPath:RESULTS_PATH];
     
     pathPattern=[subpathForTvShows stringByAppendingString:@"/:id"];
     [self addResponseDescriptorWithMapping:tvShowMapping pathPattern:pathPattern keyPath:RESULTS_PATH];
-
+    
     
     [self addResponseDescriptorWithMapping:movieMapping pathPattern:DISCOVER_SUBPATH_MOVIE keyPath:RESULTS_PATH];
     [self addResponseDescriptorWithMapping:tvShowMapping pathPattern:DISCOVER_SUBPATH_TVSHOW keyPath:RESULTS_PATH];
@@ -120,7 +141,12 @@ static DataProviderService *sharedService;
     [self addResponseDescriptorWithMapping:tvShowSeasonMapping pathPattern:[TVSHOW_SUBPATH stringByAppendingString:@"/:id"] keyPath:SEASONS_KEYPATH];
     [self addResponseDescriptorWithMapping:imageMapping pathPattern:APPENDED_IMAGES_SUBPATH keyPath:IMAGE_KEYPATH];
     [self addResponseDescriptorWithMapping:reviewMapping pathPattern:APPENDED_IMAGES_SUBPATH keyPath:REVIEW_KEYPATH];
+    [self addResponseDescriptorWithMapping:videoMapping pathPattern:[MOVIE_SUBPATH stringByAppendingString:@"/:id/videos"] keyPath:RESULTS_PATH];
+    [self addResponseDescriptorWithMapping:episodeMapping pathPattern:[TVSHOW_SUBPATH stringByAppendingString:@"/:id/season/:id"] keyPath:EPISODES_KEYPATH];
+    [self addResponseDescriptorWithMapping:videoMapping pathPattern:[TVSHOW_SUBPATH stringByAppendingString:@"/:id/season/:id/episode/:id/videos"] keyPath:RESULTS_PATH];
 
+    [self addResponseDescriptorWithMapping:searchItemMapping pathPattern:SEARCH_SUBPATH keyPath:RESULTS_PATH];
+    
 }
 
 -(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
@@ -136,19 +162,19 @@ static DataProviderService *sharedService;
     NSString *subpath=[[DataProviderService getSubpathForClass:currentClass] stringByAppendingString:criterionForSorting];
     
     NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
-        [[RKObjectManager sharedManager] getObjectsAtPath:subpath
-                                               parameters:queryParams
-                                                  success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                      NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                      
-                                                      [delegate updateReceiverWithNewData:tvEvents info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
-                                                      
-                                                  }
-                                                  failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                      //MISSING ERROR HANDLING
-                                                      NSLog(@"Error: %@", error);
-                                                  }];
-
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
+                                                  
+                                                  [delegate updateReceiverWithNewData:tvEvents info:@{CRITERION_KEY_NAME:[DataProviderService getCriteriaForSorting][criterion]}];
+                                                  
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
     
 }
 
@@ -160,14 +186,14 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   
-                                                    [delegate updateReceiverWithNewData:mappingResult.array info:@{TYPE_KEY: [class getClassName]}];
+                                                  [delegate updateReceiverWithNewData:mappingResult.array info:@{TYPE_KEY: [class getClassName]}];
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                                   //MISSING ERROR HANDLING
                                                   NSLog(@"Error: %@", error);
                                               }];
-
+    
 }
 
 -(void)getDetailsForTvEvent:(TVEvent *)tvEvent returnTo:(id)dataHandler{
@@ -187,14 +213,14 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TYPE_KEY:TYPE_DETAILS}];
-                                                
+                                                  
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                                   //MISSING ERROR HANDLING
                                                   NSLog(@"Error: %@", error);
                                               }];
-
+    
     
 }
 
@@ -223,6 +249,95 @@ static DataProviderService *sharedService;
                                               }];
     
     
+}
+
+-(void)getVideosForTvEventID:(NSUInteger)tvEventID returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    NSString *subpath;
+    
+    subpath=[[MOVIE_SUBPATH stringByAppendingString:[NSString stringWithFormat:@"/%lu",tvEventID]] stringByAppendingString:VIDEOS_SUBPATH];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
+}
+
+-(void)getSeasonDetailsForTvShow:(NSUInteger)tvShowID seasonNumber:(NSUInteger)number returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    NSString *subpath;
+    
+    subpath=[[TVSHOW_SUBPATH stringByAppendingString:[NSString stringWithFormat:@"/%lu",tvShowID]] stringByAppendingString:[NSString stringWithFormat:@"/season/%lu",number]];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
+}
+
+-(void)getVideosForTvShowID:(NSUInteger)tvShowID seasonNumber:(NSUInteger)seasonNumber episodeNumber:(NSUInteger)episodeNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    NSString *subpath;
+    
+    subpath=[TVSHOW_SUBPATH stringByAppendingString:[NSString stringWithFormat:@"/%lu/season/%lu/episode/%lu/videos",tvShowID, seasonNumber, episodeNumber]];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
+}
+
+-(void)getCastForTvShowID:(NSUInteger)tvShowID seasonNumber:(NSUInteger)seasonNumber episodeNumber:(NSUInteger)episodeNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    NSString *subpath;
+    
+    subpath=[TVSHOW_SUBPATH stringByAppendingString:[NSString stringWithFormat:@"/%lu/season/%lu/episode/%lu/credits",tvShowID, seasonNumber, episodeNumber]];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
+}
+
+-(void)performMultiSearchWithQuery:(NSString *)query returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSDictionary *queryParams = @{QUERY_PARAMETAR_NAME : query,
+                                  API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:SEARCH_SUBPATH
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
 }
 
 +(NSArray *)getCriteriaForSorting{

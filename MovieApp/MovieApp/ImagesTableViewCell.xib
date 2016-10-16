@@ -8,14 +8,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesTableViewCell" rowHeight="173" id="KGk-i7-Jjw" customClass="ImagesTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="173"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagesTableViewCell" rowHeight="185" id="KGk-i7-Jjw" customClass="ImagesTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="185"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="375" height="172"/>
+                <frame key="frameInset" width="375" height="185"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="e8n-hd-zsW">
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="e8n-hd-zsW">
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="zYx-Fg-lwX"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="qxc-mJ-RTz"/>
@@ -36,10 +36,10 @@
                     <constraint firstItem="e8n-hd-zsW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="7V2-89-hKM"/>
                     <constraint firstAttribute="trailingMargin" secondItem="9T5-5A-PCt" secondAttribute="trailing" constant="-8" id="7n6-Sa-GaB"/>
                     <constraint firstItem="9T5-5A-PCt" firstAttribute="centerY" secondItem="1hR-Z4-ghY" secondAttribute="centerY" id="F2I-fc-vJZ"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="e8n-hd-zsW" secondAttribute="trailing" constant="-21" id="FgM-Tf-J5v"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="e8n-hd-zsW" secondAttribute="trailing" constant="-28" id="FgM-Tf-J5v"/>
                     <constraint firstItem="hHF-1E-F5I" firstAttribute="leading" secondItem="1hR-Z4-ghY" secondAttribute="leading" id="P5R-So-Rff"/>
                     <constraint firstItem="e8n-hd-zsW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="QQv-Oj-NiB" userLabel="Stack View.leading = leading+ 20"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="e8n-hd-zsW" secondAttribute="bottom" id="Qpm-YV-cer"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="e8n-hd-zsW" secondAttribute="bottom" constant="10" id="Qpm-YV-cer"/>
                     <constraint firstItem="hHF-1E-F5I" firstAttribute="width" secondItem="1hR-Z4-ghY" secondAttribute="width" id="SMv-wQ-g4u"/>
                     <constraint firstItem="hHF-1E-F5I" firstAttribute="top" secondItem="1hR-Z4-ghY" secondAttribute="top" id="iln-La-l8Q"/>
                 </constraints>
@@ -51,7 +51,7 @@
                 <outletCollection property="posterImageViews" destination="p6r-j8-uO0" id="TTW-nR-YHI"/>
                 <outletCollection property="posterImageViews" destination="1hR-Z4-ghY" id="inB-gU-fzc"/>
             </connections>
-            <point key="canvasLocation" x="-3.5" y="116.5"/>
+            <point key="canvasLocation" x="-3.5" y="122.5"/>
         </tableViewCell>
     </objects>
     <resources>
