@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="375" height="92"/>
+                <frame key="frameInset" width="375" height="91"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="feO-TZ-GBT">
@@ -52,6 +52,8 @@
                     <constraint firstAttribute="trailing" secondItem="L48-ya-zw8" secondAttribute="trailing" constant="20" id="A9F-Jf-hcm"/>
                     <constraint firstItem="feO-TZ-GBT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="Exy-hG-1qB"/>
                     <constraint firstItem="L48-ya-zw8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KWO-GW-3bl"/>
+                    <constraint firstItem="L48-ya-zw8" firstAttribute="leading" secondItem="CqX-5u-Mng" secondAttribute="trailing" constant="5" id="RlT-hm-tOr"/>
+                    <constraint firstItem="L48-ya-zw8" firstAttribute="leading" secondItem="yMo-Ny-wsL" secondAttribute="trailing" constant="5" id="YUG-C2-Y9J"/>
                     <constraint firstItem="CqX-5u-Mng" firstAttribute="leading" secondItem="feO-TZ-GBT" secondAttribute="trailing" constant="7" id="d9L-6b-YUa"/>
                     <constraint firstAttribute="bottom" secondItem="VHY-rk-9VX" secondAttribute="bottom" id="k3o-Dc-jw7"/>
                     <constraint firstItem="feO-TZ-GBT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="mA6-4R-jgm"/>
