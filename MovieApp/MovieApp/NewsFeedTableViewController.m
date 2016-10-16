@@ -2,7 +2,6 @@
 #import "FeedTableViewCell.h"
 #import "NewFeedsItem.h"
 #import "FeedDownloader.h"
-#import "MovieAppConfiguration.h"
 
 #define TEXT_FIELD_PROPERTY_NAME @"_searchField"
 

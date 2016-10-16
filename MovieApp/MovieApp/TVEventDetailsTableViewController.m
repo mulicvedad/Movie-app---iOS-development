@@ -21,7 +21,6 @@
 #import "SeasonsTableViewCell.h"
 #import "Movie.h"
 #import "TVShowDetails.h"
-#import "MovieAppConfiguration.h"
 #import "EpisodesGuideTableViewController.h"
 #import "TrailerViewController.h"
 

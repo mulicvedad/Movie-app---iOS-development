@@ -3,7 +3,6 @@
 #import "SeparatorTableViewCell.h"
 #import "DataProviderService.h"
 #import "TVShowEpisode.h"
-#import "MovieAppConfiguration.h"
 #import "YearTableViewCell.h"
 #import "TvShowSeason.h"
 #import "SeasonSelectionTableViewCell.h"
@@ -164,6 +163,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==1 && indexPath.row%2==0){
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:EPISODE_DETAILS_SEGUE_NAME sender:_episodes[indexPath.row/2]];
     }
 }

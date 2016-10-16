@@ -1,6 +1,5 @@
 #import "DataProviderService.h"
 #import "Movie.h"
-#import "MovieAppConfiguration.h"
 #import "ItemsArrayReceiver.h"
 #import <RestKit.h>
 #import "TVEventsViewController.h"

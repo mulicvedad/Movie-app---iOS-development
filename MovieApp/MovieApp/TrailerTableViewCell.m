@@ -10,8 +10,8 @@
 #define YEAR_FORMAT @"yyyy"
 #define HELVETICA_FONT @"HelveticaNeue"
 #define HELVETICA_FONT_BOLD @"HelveticaNeue-Bold"
-#define FONT_SIZE_REGULAR 10
-#define FONT_SIZE_BIG 16
+#define FONT_SIZE_18 18
+#define FONT_SIZE_12 12
 
 @interface TrailerTableViewCell(){
     id<ShowTrailerDelegate> _delegate;
@@ -23,13 +23,19 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self.titleLabel setFont:[UIFont fontWithName:HELVETICA_FONT_BOLD size:FONT_SIZE_BIG]];
     [self setGradientLayer];
 }
 -(void)setupCellWithTitle:(NSString *)originalTitle imageUrl:(NSURL *)imageUrl releaseYear:(NSString *)releaseYear{
     [self.trailerImageView sd_setImageWithURL:imageUrl];
+    
+    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:originalTitle attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_18 isBold:YES], NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    NSMutableAttributedString *yearAttributedString=[[NSMutableAttributedString alloc] initWithString:
+                                                     [[@" (" stringByAppendingString:releaseYear] stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
 
-    _titleLabel.text=[[[[originalTitle stringByAppendingString:@" ("]stringByAppendingString:releaseYear]stringByAppendingString:@")"] uppercaseString];
+    [titleAttributedString appendAttributedString:yearAttributedString];
+    self.titleLabel.attributedText=titleAttributedString;
+    
 
 }
 

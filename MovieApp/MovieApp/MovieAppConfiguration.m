@@ -2,6 +2,7 @@
 #import "MovieAppConfiguration.h"
 
 #define HELVETICA_FONT @"HelveticaNeue"
+#define HELVETICA_FONT_BOLD @"HelveticaNeue-Bold"
 
 
 @implementation MovieAppConfiguration
@@ -37,6 +38,10 @@
     return [UIColor colorWithRed:248/255.0 green:202/255.0 blue:0/255.0 alpha:1.0];
 }
 
++(UIColor *)getPrefferedYellowColorWithOpacity:(CGFloat)opacity{
+    return [UIColor colorWithRed:248/255.0 green:202/255.0 blue:0/255.0 alpha:opacity];
+}
+
 +(UIColor *)getPrefferedGreyColor{
     return [UIColor colorWithRed:137/255.0 green:136/255.0 blue:133/255.0 alpha:1.0];
 }
@@ -46,8 +51,8 @@
     return [UIColor colorWithRed:41/255.0 green:41/255.0 blue:41/255.0 alpha:1.0];
 }
 
-+(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize{
-    return [UIFont fontWithName:HELVETICA_FONT size:fontSize];
++(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize isBold:(BOOL)bold{
+    return [UIFont fontWithName:bold ? HELVETICA_FONT_BOLD : HELVETICA_FONT size:fontSize];
 }
 
 @end

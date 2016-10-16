@@ -2,7 +2,6 @@
 #import "TVEventsCollectionViewCell.h"
 #import "Movie.h"
 #import "TVShow.h"
-#import "MovieAppConfiguration.h"
 #import "AppDelegate.h"
 #import "DataProviderService.h"
 #import "TVEventDetailsTableViewController.h"
@@ -28,6 +27,7 @@
     NSArray *_criteriaForSorting;
     BOOL _isDropdownActive;
     NSUInteger _selectedIndex;
+    MainSortByTableViewCell *_mainCell;
 }
 
 @end
@@ -35,7 +35,6 @@
 @implementation TVEventsViewController
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     self.isMovieViewController=(self.tabBarController.selectedIndex==1) ? YES:NO;
     [self configureView];
@@ -49,10 +48,9 @@
     
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
     
-    self.edgesForExtendedLayout=UIRectEdgeNone;
-    
-    self.searchController.edgesForExtendedLayout=UIRectEdgeNone;;
-    
+    self.edgesForExtendedLayout=UIRectEdgeTop;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+   
     self.navigationItem.titleView = _searchBar;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -75,21 +73,15 @@
 }
 
 -(void)configureSortByControl{
-   // SortByControlTableViewDelegate *tableViewDelegate=[[SortByControlTableViewDelegate alloc]init];
-    //[tableViewDelegate registerDelegate:self];
+
     [self.sortByControlTableView registerNib:[UINib nibWithNibName:[MainSortByTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[MainSortByTableViewCell cellIdentifier]];
      [self.sortByControlTableView registerNib:[UINib nibWithNibName:[SortByDropDownTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SortByDropDownTableViewCell cellIdentifier]];
+    _mainCell=[self.sortByControlTableView dequeueReusableCellWithIdentifier:[MainSortByTableViewCell cellIdentifier]];
+    _mainCell.selectionStyle=UITableViewCellSelectionStyleNone;
    _criteriaForSorting=_isMovieViewController ? [Movie getCriteriaForSorting] : [TVShow getCriteriaForSorting];
     self.sortByControlTableView.delegate=self;
     self.sortByControlTableView.dataSource=self;
-    /*CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionFromTop;//kCATransitionPush;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.fillMode = kCAFillModeForwards;
-    transition.duration = 0.6;
-    transition.subtype = kCATransitionFromTop;
-    
-    [self.sortByControlTableView.layer addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];*/
+
     [self.sortByControlTableView reloadData];
 }
 
@@ -196,10 +188,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==MAIN_SECTION){
-        MainSortByTableViewCell *mainCell=[tableView dequeueReusableCellWithIdentifier:[MainSortByTableViewCell cellIdentifier] forIndexPath:indexPath];
-        
-        [mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive];
-        return mainCell;
+        [_mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive];
+        return _mainCell;
     }
     else if(indexPath.section==1){
         SortByDropDownTableViewCell *dropDownCell=[tableView dequeueReusableCellWithIdentifier:[SortByDropDownTableViewCell cellIdentifier] forIndexPath:indexPath];
@@ -221,11 +211,16 @@
         _selectedIndex=indexPath.row;
         [self selectedIndexChangedTo:_selectedIndex];
     }
-    
     [self.sortByControlTableView reloadData];
     CGRect frame = self.sortByControlTableView.frame;
     frame.size.height = self.sortByControlTableView.contentSize.height;
     self.sortByControlTableView.frame = frame;
+    
+}
+
+//scroll view delegate methods
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     
 }
 

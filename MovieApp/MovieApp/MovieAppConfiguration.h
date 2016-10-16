@@ -11,6 +11,7 @@
 +(UIColor *)getPrefferedYellowColor;
 +(UIColor *)getPrefferedGreyColor;
 +(UIColor *)getResultsTableViewBackgroungColor;
-+(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize;
++(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize isBold:(BOOL)bold;
++(UIColor *)getPrefferedYellowColorWithOpacity:(CGFloat)opacity;
 
 @end

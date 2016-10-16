@@ -1,6 +1,5 @@
 #import "EpisodeDetailsTableViewController.h"
 #import "SeparatorTableViewCell.h"
-#import "MovieAppConfiguration.h"
 #import "EpisodeTrailerTableViewCell.h"
 #import "DataProviderService.h"
 #import "BasicEpisodeInfoTableViewCell.h"

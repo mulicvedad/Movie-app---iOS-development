@@ -123,6 +123,7 @@
 		CE0760D91DB31AC800D92135 /* SortByControlTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortByControlTableViewDelegate.h; sourceTree = "<group>"; };
 		CE0760DA1DB31AC800D92135 /* SortByControlTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortByControlTableViewDelegate.m; sourceTree = "<group>"; };
 		CE0760DC1DB3221600D92135 /* SelectedIndexChangeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedIndexChangeDelegate.h; sourceTree = "<group>"; };
+		CE0760DF1DB413A000D92135 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		CE1109571DAF26EB005F4676 /* EpisodeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeTableViewCell.h; sourceTree = "<group>"; };
 		CE1109581DAF26EB005F4676 /* EpisodeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeTableViewCell.m; sourceTree = "<group>"; };
 		CE1109591DAF26EB005F4676 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
@@ -327,6 +328,7 @@
 		CE741D261D91ED5D0081C33A = {
 			isa = PBXGroup;
 			children = (
+				CE0760DF1DB413A000D92135 /* PrefixHeader.pch */,
 				CE741D311D91ED5D0081C33A /* MovieApp */,
 				CE741D4B1D91ED5E0081C33A /* MovieAppTests */,
 				CE741D561D91ED5E0081C33A /* MovieAppUITests */,
@@ -964,6 +966,8 @@
 			baseConfigurationReference = 3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MovieApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -980,6 +984,8 @@
 			baseConfigurationReference = 040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MovieApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

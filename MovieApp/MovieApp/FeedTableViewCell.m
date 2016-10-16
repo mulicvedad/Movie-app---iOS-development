@@ -1,5 +1,4 @@
 #import "FeedTableViewCell.h"
-#import "MovieAppConfiguration.h"
 
 #define LINK_FONT_SIZE 12
 
@@ -31,7 +30,7 @@
     _headlineLabel.text=cleanHeadline;
     NSURL *url = [NSURL URLWithString:cleanUrl];
     
-    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor], NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:LINK_FONT_SIZE],NSLinkAttributeName:url}];
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor], NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:LINK_FONT_SIZE isBold:NO],NSLinkAttributeName:url}];
     
     _linkTextView.attributedText=sourceLink;
         

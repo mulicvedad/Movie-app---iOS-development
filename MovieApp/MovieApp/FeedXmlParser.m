@@ -1,6 +1,7 @@
 #import "FeedXmlParser.h"
 #import "NewFeedsItem.h"
 
+
 @interface FeedXmlParser(){
     NSMutableArray *_items;
     NSMutableData *_responseData;
