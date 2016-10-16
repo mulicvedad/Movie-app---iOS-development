@@ -6,16 +6,28 @@
 #import "AppDelegate.h"
 #import "DataProviderService.h"
 #import "TVEventDetailsTableViewController.h"
+#import "SortByControlTableViewDelegate.h"
+#import "MainSortByTableViewCell.h"
+#import "SortByDropDownTableViewCell.h"
+
 #define CRITERION_KEY @"criterion"
 #define FILLED_STAR_CODE @"\u2605"
 #define UNFILLED_STAR_CODE @"\u2606"
 #define TEXT_FIELD_PROPERTY_NAME @"_searchField"
 #define SHOW_DETAILS_SEGUE_IDENTIFIER @"ShowDetailsSegue"
 
+#define NUMBER_OF_SECTIONS 2
+#define MAIN_SECTION 0
+#define DROPDOWN_SECTION 1
+#define DEFAULT_CELL_HEIGHT 43.0f
+
 @interface TVEventsViewController (){
     UISearchBar *_searchBar;
     NSArray *_tvEvents;
     NSTimer *_timer;
+    NSArray *_criteriaForSorting;
+    BOOL _isDropdownActive;
+    NSUInteger _selectedIndex;
 }
 
 @end
@@ -28,6 +40,8 @@
     self.isMovieViewController=(self.tabBarController.selectedIndex==1) ? YES:NO;
     [self configureView];
     [self initialDataDownload];
+    [self configureSortByControl];
+    
     
 }
 
@@ -58,6 +72,25 @@
     self.searchController.obscuresBackgroundDuringPresentation=YES;
     self.definesPresentationContext=YES;
     
+}
+
+-(void)configureSortByControl{
+   // SortByControlTableViewDelegate *tableViewDelegate=[[SortByControlTableViewDelegate alloc]init];
+    //[tableViewDelegate registerDelegate:self];
+    [self.sortByControlTableView registerNib:[UINib nibWithNibName:[MainSortByTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[MainSortByTableViewCell cellIdentifier]];
+     [self.sortByControlTableView registerNib:[UINib nibWithNibName:[SortByDropDownTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SortByDropDownTableViewCell cellIdentifier]];
+   _criteriaForSorting=_isMovieViewController ? [Movie getCriteriaForSorting] : [TVShow getCriteriaForSorting];
+    self.sortByControlTableView.delegate=self;
+    self.sortByControlTableView.dataSource=self;
+    /*CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionFromTop;//kCATransitionPush;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.fillMode = kCAFillModeForwards;
+    transition.duration = 0.6;
+    transition.subtype = kCATransitionFromTop;
+    
+    [self.sortByControlTableView.layer addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];*/
+    [self.sortByControlTableView reloadData];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -137,6 +170,65 @@
     }
     
 }
+
+-(void)selectedIndexChangedTo:(NSUInteger)newIndex{
+     [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)newIndex returnToHandler:self];
+}
+
+
+//table view delegate methods
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return NUMBER_OF_SECTIONS;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if(section==MAIN_SECTION){
+        return 1;
+    }
+    else if(section==DROPDOWN_SECTION && _isDropdownActive){
+        return [_criteriaForSorting count];
+    }
+    else{
+        return 0;
+    }
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section==MAIN_SECTION){
+        MainSortByTableViewCell *mainCell=[tableView dequeueReusableCellWithIdentifier:[MainSortByTableViewCell cellIdentifier] forIndexPath:indexPath];
+        
+        [mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive];
+        return mainCell;
+    }
+    else if(indexPath.section==1){
+        SortByDropDownTableViewCell *dropDownCell=[tableView dequeueReusableCellWithIdentifier:[SortByDropDownTableViewCell cellIdentifier] forIndexPath:indexPath];
+        
+        [dropDownCell setupWithCriterion:_criteriaForSorting[indexPath.row] isSelected:(indexPath.row==_selectedIndex)];
+        return dropDownCell;
+    }
+    return nil;
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return DEFAULT_CELL_HEIGHT;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _isDropdownActive=!_isDropdownActive;
+    if(indexPath.section==DROPDOWN_SECTION){
+        _selectedIndex=indexPath.row;
+        [self selectedIndexChangedTo:_selectedIndex];
+    }
+    
+    [self.sortByControlTableView reloadData];
+    CGRect frame = self.sortByControlTableView.frame;
+    frame.size.height = self.sortByControlTableView.contentSize.height;
+    self.sortByControlTableView.frame = frame;
+    
+}
+
 
 
 @end

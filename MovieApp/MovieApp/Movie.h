@@ -9,7 +9,6 @@
 
 +(NSDictionary *)propertiesMapping;
 +(void)initializeGenres:(NSArray *)genresArray;
-
 +(Movie *)movieWithSearchResultItem:(SearchResultItem *)searchResultItem;
-
++(NSArray *)getCriteriaForSorting;
 @end

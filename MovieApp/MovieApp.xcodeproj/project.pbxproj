@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE0760D21DB30F8C00D92135 /* MainSortByTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0760D01DB30F8C00D92135 /* MainSortByTableViewCell.m */; };
+		CE0760D31DB30F8C00D92135 /* MainSortByTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0760D11DB30F8C00D92135 /* MainSortByTableViewCell.xib */; };
+		CE0760D71DB30FD800D92135 /* SortByDropDownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0760D51DB30FD800D92135 /* SortByDropDownTableViewCell.m */; };
+		CE0760D81DB30FD800D92135 /* SortByDropDownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0760D61DB30FD800D92135 /* SortByDropDownTableViewCell.xib */; };
+		CE0760DB1DB31AC800D92135 /* SortByControlTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0760DA1DB31AC800D92135 /* SortByControlTableViewDelegate.m */; };
 		CE11095A1DAF26EB005F4676 /* EpisodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1109581DAF26EB005F4676 /* EpisodeTableViewCell.m */; };
 		CE11095B1DAF26EB005F4676 /* EpisodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1109591DAF26EB005F4676 /* EpisodeTableViewCell.xib */; };
 		CE2A404A1DA14FA7005375F1 /* FeedXmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2A40491DA14FA7005375F1 /* FeedXmlParser.m */; };
@@ -109,6 +114,15 @@
 		040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.release.xcconfig"; sourceTree = "<group>"; };
 		3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.debug.xcconfig"; sourceTree = "<group>"; };
 		62BDEE23B07756E1D461645C /* libPods-MovieApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MovieApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE0760CF1DB30F8C00D92135 /* MainSortByTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSortByTableViewCell.h; sourceTree = "<group>"; };
+		CE0760D01DB30F8C00D92135 /* MainSortByTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSortByTableViewCell.m; sourceTree = "<group>"; };
+		CE0760D11DB30F8C00D92135 /* MainSortByTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSortByTableViewCell.xib; sourceTree = "<group>"; };
+		CE0760D41DB30FD800D92135 /* SortByDropDownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortByDropDownTableViewCell.h; sourceTree = "<group>"; };
+		CE0760D51DB30FD800D92135 /* SortByDropDownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortByDropDownTableViewCell.m; sourceTree = "<group>"; };
+		CE0760D61DB30FD800D92135 /* SortByDropDownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortByDropDownTableViewCell.xib; sourceTree = "<group>"; };
+		CE0760D91DB31AC800D92135 /* SortByControlTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortByControlTableViewDelegate.h; sourceTree = "<group>"; };
+		CE0760DA1DB31AC800D92135 /* SortByControlTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortByControlTableViewDelegate.m; sourceTree = "<group>"; };
+		CE0760DC1DB3221600D92135 /* SelectedIndexChangeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedIndexChangeDelegate.h; sourceTree = "<group>"; };
 		CE1109571DAF26EB005F4676 /* EpisodeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeTableViewCell.h; sourceTree = "<group>"; };
 		CE1109581DAF26EB005F4676 /* EpisodeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeTableViewCell.m; sourceTree = "<group>"; };
 		CE1109591DAF26EB005F4676 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
@@ -305,6 +319,7 @@
 				CEF93FAA1DADE40F005028F5 /* SeasonsTableViewCellDelegate.h */,
 				CE7A7CDF1DAEF60600034D76 /* ShowTrailerDelegate.h */,
 				CE5885181DB2E77600A52DBB /* ShowDetailsDelegate.h */,
+				CE0760DC1DB3221600D92135 /* SelectedIndexChangeDelegate.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -492,6 +507,12 @@
 				CE5885211DB2EDA000A52DBB /* SearchResultItemTableViewCell.h */,
 				CE5885221DB2EDA000A52DBB /* SearchResultItemTableViewCell.m */,
 				CE5885241DB2EDFD00A52DBB /* SearchResultItemTableViewCell.xib */,
+				CE0760CF1DB30F8C00D92135 /* MainSortByTableViewCell.h */,
+				CE0760D01DB30F8C00D92135 /* MainSortByTableViewCell.m */,
+				CE0760D11DB30F8C00D92135 /* MainSortByTableViewCell.xib */,
+				CE0760D41DB30FD800D92135 /* SortByDropDownTableViewCell.h */,
+				CE0760D51DB30FD800D92135 /* SortByDropDownTableViewCell.m */,
+				CE0760D61DB30FD800D92135 /* SortByDropDownTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -513,6 +534,8 @@
 				CE69C6CB1DB04D8A00FE3429 /* EpisodeDetailsTableViewController.m */,
 				CE58851B1DB2E88D00A52DBB /* SearchResultTableViewController.h */,
 				CE58851C1DB2E88D00A52DBB /* SearchResultTableViewController.m */,
+				CE0760D91DB31AC800D92135 /* SortByControlTableViewDelegate.h */,
+				CE0760DA1DB31AC800D92135 /* SortByControlTableViewDelegate.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -648,6 +671,7 @@
 				CEE832FB1DAC47600024D9B2 /* CastTableViewCell.xib in Resources */,
 				CE8329B81DA7D855000F9424 /* TrailerTableViewCell.xib in Resources */,
 				CE43F6421DA918BE00D8349B /* BasicInfoTableViewCell.xib in Resources */,
+				CE0760D81DB30FD800D92135 /* SortByDropDownTableViewCell.xib in Resources */,
 				CE741D421D91ED5D0081C33A /* LaunchScreen.storyboard in Resources */,
 				CEC965EF1DAB3D4B0017C990 /* ImagesTableViewCell.xib in Resources */,
 				CEC965EA1DAB38AA0017C990 /* OverviewTableViewCell.xib in Resources */,
@@ -657,6 +681,7 @@
 				CE69C6D61DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.xib in Resources */,
 				CE741D3F1D91ED5D0081C33A /* Assets.xcassets in Resources */,
 				CE5885251DB2EDFD00A52DBB /* SearchResultItemTableViewCell.xib in Resources */,
+				CE0760D31DB30F8C00D92135 /* MainSortByTableViewCell.xib in Resources */,
 				CE741D3D1D91ED5D0081C33A /* Main.storyboard in Resources */,
 				CEF93FA41DADA29E005028F5 /* ReviewSeparatorTableViewCell.xib in Resources */,
 				CE5885271DB2EE9800A52DBB /* FeedTableViewCell.xib in Resources */,
@@ -753,6 +778,7 @@
 				CE2A404A1DA14FA7005375F1 /* FeedXmlParser.m in Sources */,
 				CE7A7CE41DAEFD6000034D76 /* TrailerViewController.m in Sources */,
 				CEEA7D031D947D8B00D90DEF /* NewFeedsItem.m in Sources */,
+				CE0760DB1DB31AC800D92135 /* SortByControlTableViewDelegate.m in Sources */,
 				CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */,
 				CE5885201DB2EBDF00A52DBB /* SearchResultItem.m in Sources */,
 				CEFE5F091DA6ED9700D5B275 /* Genre.m in Sources */,
@@ -776,6 +802,7 @@
 				CE530D971D996043003A708F /* FeedDownloader.m in Sources */,
 				CE43F6531DA9C73E00D8349B /* Person.m in Sources */,
 				CE69C6D51DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.m in Sources */,
+				CE0760D71DB30FD800D92135 /* SortByDropDownTableViewCell.m in Sources */,
 				CE11095A1DAF26EB005F4676 /* EpisodeTableViewCell.m in Sources */,
 				CE69C6D01DB0586700FE3429 /* EpisodeTrailerTableViewCell.m in Sources */,
 				CECC8E061DAFCA6E00E132AA /* TVShowEpisode.m in Sources */,
@@ -784,6 +811,7 @@
 				CE741D341D91ED5D0081C33A /* main.m in Sources */,
 				CE8329B71DA7D855000F9424 /* TrailerTableViewCell.m in Sources */,
 				CE43F6461DA9571C00D8349B /* SeparatorTableViewCell.m in Sources */,
+				CE0760D21DB30F8C00D92135 /* MainSortByTableViewCell.m in Sources */,
 				CE43F65C1DAA9A8100D8349B /* TvShowSeason.m in Sources */,
 				CECC8E031DAFAEC100E132AA /* EpisodesGuideTableViewController.m in Sources */,
 				CE43F6501DA9C2CF00D8349B /* TVShowDetails.m in Sources */,

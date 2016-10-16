@@ -63,4 +63,9 @@ static NSArray *genres=nil;
     return newTvShow;
 }
 
++(NSArray *)getCriteriaForSorting{
+    return @[@"Most popular",@"Latest",@"Highest-rated",@"Airing today",@"On the air"];
+    
+}
+
 @end
