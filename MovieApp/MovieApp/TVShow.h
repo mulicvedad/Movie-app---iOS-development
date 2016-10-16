@@ -8,7 +8,7 @@
 
 +(NSDictionary *)propertiesMapping;
 +(void)initializeGenres:(NSArray *)genresArray;
-
 +(TVShow *)tvShowWithSearchResultItem:(SearchResultItem *)searchResultItem;
++(NSArray *)getCriteriaForSorting;
 
 @end

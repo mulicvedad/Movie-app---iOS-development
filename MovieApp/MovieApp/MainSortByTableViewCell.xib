@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainSortByTableViewCell" id="KGk-i7-Jjw" customClass="MainSortByTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="375" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorted by:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEN-Yh-247">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pQ6-Ji-mbh">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PVX-36-2im">
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="IcN-yo-fgM"/>
+                            <constraint firstAttribute="height" constant="9" id="WjO-yc-x7b"/>
+                        </constraints>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KnV-a4-aqc">
+                        <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="sYa-8H-PrL"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="PVX-36-2im" firstAttribute="leading" secondItem="pQ6-Ji-mbh" secondAttribute="trailing" constant="6" id="EVZ-m9-3HV"/>
+                    <constraint firstItem="PVX-36-2im" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OBV-VK-ucm"/>
+                    <constraint firstItem="gEN-Yh-247" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="S9M-9C-kOO"/>
+                    <constraint firstAttribute="trailing" secondItem="KnV-a4-aqc" secondAttribute="trailing" id="VeG-DC-1L4"/>
+                    <constraint firstAttribute="bottom" secondItem="KnV-a4-aqc" secondAttribute="bottom" id="WcE-Ug-j5e"/>
+                    <constraint firstItem="gEN-Yh-247" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="dQ8-i7-4bE"/>
+                    <constraint firstItem="KnV-a4-aqc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hSa-sT-lAz"/>
+                    <constraint firstItem="pQ6-Ji-mbh" firstAttribute="leading" secondItem="gEN-Yh-247" secondAttribute="trailing" constant="3" id="lkZ-nC-Fm1"/>
+                    <constraint firstItem="pQ6-Ji-mbh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="sBx-Pb-uPG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="arrowImageView" destination="PVX-36-2im" id="TrA-jB-UWc"/>
+                <outlet property="sortCriterionLabel" destination="pQ6-Ji-mbh" id="dmm-2t-Qrc"/>
+            </connections>
+            <point key="canvasLocation" x="52.5" y="52"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -63,6 +63,10 @@ static NSArray *genres=nil;
     return newMovie;
 }
 
++(NSArray *)getCriteriaForSorting{
+    return @[@"Most popular",@"Latest",@"Highest-rated"];
+
+}
 
 
 
