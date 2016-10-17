@@ -31,7 +31,8 @@
 }
 
 -(void)configure{
-    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.edgesForExtendedLayout=UIRectEdgeTop;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.backgroundColor=[MovieAppConfiguration getResultsTableViewBackgroungColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     

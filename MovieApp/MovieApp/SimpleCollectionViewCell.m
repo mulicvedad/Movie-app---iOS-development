@@ -4,7 +4,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 +(NSString *)cellIdentifier{

@@ -56,8 +56,7 @@
     
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
     
-    self.edgesForExtendedLayout=UIRectEdgeTop;
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.edgesForExtendedLayout=UIRectEdgeNone;
    
     self.navigationItem.titleView = _searchBar;
     

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CastMemberPictureTableViewCell" rowHeight="320" id="KGk-i7-Jjw" customClass="CastMemberPictureTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="375" height="320"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ec-p3-t9c"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lOG-or-KMC">
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1B-Lu-H0K">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="m1B-Lu-H0K" secondAttribute="bottom" constant="20" id="6zV-Nt-d5z"/>
+                    <constraint firstItem="lOG-or-KMC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="9ED-EP-HzS"/>
+                    <constraint firstAttribute="trailing" secondItem="lOG-or-KMC" secondAttribute="trailing" id="Lby-Cp-aR6"/>
+                    <constraint firstItem="lOG-or-KMC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Ohh-SE-jfJ"/>
+                    <constraint firstItem="9ec-p3-t9c" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="gtN-kU-9Od"/>
+                    <constraint firstAttribute="trailing" secondItem="9ec-p3-t9c" secondAttribute="trailing" id="hIR-pB-HZm"/>
+                    <constraint firstAttribute="bottom" secondItem="9ec-p3-t9c" secondAttribute="bottom" id="m5b-Dt-47z"/>
+                    <constraint firstItem="lOG-or-KMC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="mvW-ru-Qbr"/>
+                    <constraint firstAttribute="bottom" secondItem="lOG-or-KMC" secondAttribute="bottom" id="nX7-gj-eaJ"/>
+                    <constraint firstItem="m1B-Lu-H0K" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="oj8-r5-dTg"/>
+                    <constraint firstItem="9ec-p3-t9c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="rot-ME-vKi"/>
+                    <constraint firstItem="lOG-or-KMC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="z93-7D-f77"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="nameLabel" destination="m1B-Lu-H0K" id="6cZ-fQ-Rgu"/>
+                <outlet property="profileImageView" destination="9ec-p3-t9c" id="MxI-8G-Uf4"/>
+                <outlet property="viewForGradient" destination="lOG-or-KMC" id="w5o-1c-cRo"/>
+            </connections>
+            <point key="canvasLocation" x="-90.5" y="39"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -13,5 +13,7 @@
 +(UIColor *)getResultsTableViewBackgroungColor;
 +(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize isBold:(BOOL)bold;
 +(UIColor *)getPrefferedYellowColorWithOpacity:(CGFloat)opacity;
-
++(UIColor *)getGradientStartPointColor;
++(UIColor *)getGradientMiddlePointColor;
++(UIColor *)getGradientEndPointColor;
 @end
