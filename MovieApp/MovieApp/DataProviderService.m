@@ -327,9 +327,12 @@ static const NSString *pageQueryParameterName=@"page";
     
 }
 
--(void)performMultiSearchWithQuery:(NSString *)query returnTo:(id<ItemsArrayReceiver>)dataHandler{
+-(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    
     NSDictionary *queryParams = @{QUERY_PARAMETAR_NAME : query,
-                                  API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+                                  pageQueryParameterName:[NSNumber numberWithUnsignedInteger:page],
+                                  API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]
+                                  };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:SEARCH_SUBPATH
                                            parameters:queryParams

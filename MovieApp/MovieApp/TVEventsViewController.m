@@ -175,7 +175,7 @@
         [(SearchResultTableViewController *)self.searchController.searchResultsController clearSearchResults];
     }
     else{
-        [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:[[timer userInfo] objectForKey:@"query"] returnTo:self.searchController.searchResultsController];
+        [(SearchResultTableViewController *)self.searchController.searchResultsController performSearchWithQuery:[[timer userInfo] objectForKey:@"query"]];
     }
     
 }
