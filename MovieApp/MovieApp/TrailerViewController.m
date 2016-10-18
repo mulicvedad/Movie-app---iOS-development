@@ -12,15 +12,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[DataProviderService sharedDataProviderService] getVideosForTvEventID:_tvEvent.id returnTo:self];
+    //[[DataProviderService sharedDataProviderService] getVideosForTvEventID:_tvEvent.id returnTo:self];
     [self setup];
 }
 
 -(void)setup{
     self.videoNameLabel.text=[@"Trailer - " stringByAppendingString:self.tvEvent.title];
     self.descriptionLabel.text=self.tvEvent.overview;
+    [self.youtubePlayerView loadWithVideoId:self.video.key];
 }
 
+/*
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     _videos=customItemsArray;
     if([_videos count]>0){
@@ -30,10 +32,10 @@
                     [self.youtubePlayerView loadWithVideoId:video.key];
 
                 });
-                break;
+                return;
             }
         }
     }
-}
+}*/
 
 @end

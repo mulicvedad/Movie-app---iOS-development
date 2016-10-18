@@ -15,6 +15,8 @@
 #define FONT_SIZE_REGULAR 10
 #define FONT_SIZE_BIG 16
 #define DEFAULT_IMAGE_NAME @"black_image"
+#define PLACEHOLDER_IMAGE_NAME @"poster-placeholder"
+
 
 @interface TVEventsCollectionViewCell(){
     CAGradientLayer *_myGradientLayer;
@@ -93,7 +95,7 @@
     self.genreLabel.text =  genresRepresentation;
     self.ratingLabel.text=[NSString stringWithFormat:@"%.1f", tvEvent.voteAverage];
     if(tvEvent.posterPath){
-        [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:tvEvent.posterPath]]];
+        [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:tvEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PLACEHOLDER_IMAGE_NAME]];
     }
     else{
         self.posterImageView.image=[UIImage imageNamed:DEFAULT_IMAGE_NAME];

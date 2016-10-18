@@ -39,10 +39,14 @@ static NSArray *genres=nil;
 }
 
 -(NSString *)getFormattedReleaseDate{
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-    NSString *dateString;
-    [dateFormatter setDateFormat:TVSHOW_DATE_FORMAT];
-    dateString=[[[[@"Tv Series " stringByAppendingString:@"("] stringByAppendingString:[dateFormatter stringFromDate:self.releaseDate]] stringByAppendingString:@" -"] stringByAppendingString:@")"];
+    NSString *dateString=@"Tv Series ";
+    if(self.releaseDate){
+        NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+        NSString *dateString;
+        [dateFormatter setDateFormat:TVSHOW_DATE_FORMAT];
+        dateString=[[[[dateString stringByAppendingString:@"("] stringByAppendingString:[dateFormatter stringFromDate:self.releaseDate]] stringByAppendingString:@" -"] stringByAppendingString:@")"];
+    }
+    
     return dateString;
     
 }

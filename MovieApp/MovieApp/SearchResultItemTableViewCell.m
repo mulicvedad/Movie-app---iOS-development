@@ -21,6 +21,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle=UITableViewCellSelectionStyleNone;
 }
 
 -(void)registerDelegate:(id<ShowDetailsDelegate>)delegate tableViewRowNumber:(NSUInteger)rowIndex{

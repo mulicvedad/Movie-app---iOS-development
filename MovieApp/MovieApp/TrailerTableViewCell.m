@@ -1,6 +1,8 @@
 #import "TrailerTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#define WIDE_IMAGE_PLACEHOLDER @"wide-placeholder"
+
 
 #define START_POINT_X 0.5
 #define START_POINT_Y 0.5
@@ -26,7 +28,14 @@
     [self setGradientLayer];
 }
 -(void)setupCellWithTitle:(NSString *)originalTitle imageUrl:(NSURL *)imageUrl releaseYear:(NSString *)releaseYear{
-    [self.trailerImageView sd_setImageWithURL:imageUrl];
+    releaseYear=(releaseYear) ? releaseYear : @"Year not found";
+    originalTitle=(originalTitle) ? originalTitle : @"Title not found";
+    if(imageUrl){
+        [self.trailerImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:WIDE_IMAGE_PLACEHOLDER]];
+    }
+    else{
+        self.trailerImageView.image=[UIImage imageNamed:WIDE_IMAGE_PLACEHOLDER];
+    }
     
     NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:originalTitle attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_18 isBold:YES], NSForegroundColorAttributeName:[UIColor whiteColor]}];
     

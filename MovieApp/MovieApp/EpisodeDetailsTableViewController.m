@@ -169,7 +169,12 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==0){
         if(indexPath.row==0){
-            return DEFAULT_VIDEO_PLAYER_HEIGHT;
+            if(!self.trailer){
+                return 0;
+            }
+            else{
+               return DEFAULT_VIDEO_PLAYER_HEIGHT; 
+            }
         }
         else if(indexPath.row==3){
             return [self separatorCellHeight];

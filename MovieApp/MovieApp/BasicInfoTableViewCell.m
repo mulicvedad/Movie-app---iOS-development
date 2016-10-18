@@ -25,8 +25,13 @@
 }
 
 -(void)setupWithReleaseDate:(NSString *)dateString duration:(NSUInteger)duration genres:(NSString *)genresRepresentation{
-    self.durationLabel.text=[NSString stringWithFormat:@"%dh %dmin", (int)(duration/60),(int)duration%60];
-    self.genresLabel.text=genresRepresentation;    
+    if(duration==0){
+        self.durationLabel.text=@"Unknown duration";
+    }
+    else{
+        self.durationLabel.text=[NSString stringWithFormat:@"%dh %dmin", (int)(duration/60),(int)duration%60];
+    }
+    self.genresLabel.text=genresRepresentation;
     self.releaseDateLabel.text=dateString;
 }
 

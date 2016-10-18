@@ -5,6 +5,7 @@
 #import "SearchResultItem.h"
 #import "TVEventDetailsTableViewController.h"
 #import "DataProviderService.h"
+#import "TVEventsViewController.h"
 
 #define  DEFAULT_RESULT_ITEM_HEIGTH 92.0
 #define HELVETICA_FONT @"HelveticaNeue"
@@ -19,6 +20,7 @@
     BOOL _isDownloaderActive;
     BOOL _noMorePages;
     NSString *_query;
+    id _delegate;
 }
 
 @end

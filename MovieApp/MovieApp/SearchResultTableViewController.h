@@ -6,4 +6,5 @@
 
 -(void)clearSearchResults;
 -(void)performSearchWithQuery:(NSString *)query;
+
 @end
