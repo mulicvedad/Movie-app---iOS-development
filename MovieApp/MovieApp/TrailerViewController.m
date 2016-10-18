@@ -21,6 +21,10 @@
     self.descriptionLabel.text=self.tvEvent.overview;
 }
 
+-(void)setupWithVideoKey:(NSString *)videoKey{
+    [self.youtubePlayerView loadWithVideoId:videoKey];
+}
+
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     _videos=customItemsArray;
     if([_videos count]>0){
@@ -30,10 +34,11 @@
                     [self.youtubePlayerView loadWithVideoId:video.key];
 
                 });
-                break;
+                return;
             }
         }
     }
+    //self.youtubePlayerView.hidden=YES;
 }
 
 @end

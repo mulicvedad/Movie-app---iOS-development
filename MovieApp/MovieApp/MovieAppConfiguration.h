@@ -16,4 +16,6 @@
 +(UIColor *)getGradientStartPointColor;
 +(UIColor *)getGradientMiddlePointColor;
 +(UIColor *)getGradientEndPointColor;
++(UIColor *)getPreferredTextColorForSearchBar;
+
 @end

@@ -20,6 +20,7 @@
 }
 
 -(void)setupWithUrls:(NSArray *)urls{
+
     for(int i=0;i<[urls count] && i<[_posterImageViews count]; i++ ){
         [_posterImageViews[i] sd_setImageWithURL:(NSURL *)urls[i] placeholderImage:[UIImage imageNamed:PLACEHOLDER_IMAGE_NAME]];
     }

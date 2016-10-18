@@ -76,6 +76,7 @@
     
     [[DataProviderService sharedDataProviderService] getDetailsForTvEvent:_mainTvEvent returnTo:self];
     [[DataProviderService sharedDataProviderService] getCreditsForTvEvent:_mainTvEvent returnTo:self];
+    //[[DataProviderService sharedDataProviderService] getVideosForTvEventID:_mainTvEvent.id returnTo:self];
     
 }
 
@@ -219,7 +220,7 @@
             NSMutableArray *roles=[[NSMutableArray alloc]init];
             for(int i=0;i<4 && i<[_cast count];i++){
                 CastMember *currentCastMember=_cast[i];
-                if(currentCastMember.profileImageUrl && currentCastMember.name){
+                if(currentCastMember.profileImageUrl && currentCastMember.name && currentCastMember.character){
                     [imageUrls addObject:[NSURL URLWithString:[BASE_POSTERIMAGE_URL stringByAppendingString:currentCastMember.profileImageUrl]]];
                     [names addObject:currentCastMember.name];
                     [roles addObject:currentCastMember.character];
@@ -340,7 +341,7 @@
         return CAST_SECTION_NAME;
     }
     
-    else if(section==4){
+    else if(section==4 && [_reviews count]>0){
         return REVIEWS_SECTION_NAME;
     }
     else{

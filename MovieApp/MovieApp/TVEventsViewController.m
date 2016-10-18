@@ -34,6 +34,7 @@
     BOOL _noMorePages;
     BOOL _pageDownloaderActive;
     BOOL _transitionDownloaderActive;
+    BOOL _shouldScrollToTop;
 }
 
 @end
@@ -67,8 +68,11 @@
     
     self.navigationItem.titleView = self.searchController.searchBar;
     self.searchController.searchBar.placeholder=@"Search";
+    //UITextField *textField = [[self.searchController.searchBar subviews] objectAtIndex:1];
+
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
+    searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
     
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate=self;
@@ -100,10 +104,10 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-    
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     
     if((indexPath.row>(_numberOfPagesLoaded-1)*TVEVENTS_PAGE_SIZE+10) && !_pageDownloaderActive){
+        _pageDownloaderActive=YES;
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)_selectedIndex page:_numberOfPagesLoaded+1 returnToHandler:self];
     }
     return cell;
@@ -111,7 +115,14 @@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat cellWidth=collectionView.bounds.size.width/2-2;
+    CGFloat cellWidth;
+    if(UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])){
+        cellWidth=collectionView.bounds.size.width/4-8;
+
+    }
+    else{
+        cellWidth=collectionView.bounds.size.width/2-2;
+    }
     
     return CGSizeMake(cellWidth, [TVEventsCollectionViewCell cellHeight]);
 }
@@ -124,6 +135,7 @@
     return 2.0;
 }
 
+
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([customItemsArray count]<20){
         _noMorePages=YES;
@@ -132,6 +144,10 @@
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;
     [self.tvEventsCollectionView reloadData];
+    if(_shouldScrollToTop){
+        _shouldScrollToTop=NO;
+        [self.tvEventsCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    }
 }
 
 -(void)initialDataDownload{
@@ -181,6 +197,7 @@
 
 -(void)selectedIndexChangedTo:(NSUInteger)newIndex{
     _numberOfPagesLoaded=0;
+    _shouldScrollToTop=YES;
     [_tvEvents removeAllObjects];
     [[DataProviderService sharedDataProviderService] cancelAllRequests];
     _pageDownloaderActive=YES;
@@ -238,7 +255,21 @@
     
 }
 
-//scroll view delegate methods
+
+//handling orientation changes
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+   
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+        [self.tvEventsCollectionView reloadData];
+        
+    }];
+}
 
 
 

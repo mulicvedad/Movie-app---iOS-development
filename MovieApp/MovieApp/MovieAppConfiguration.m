@@ -68,5 +68,9 @@
     return [UIColor colorWithRed:15/255.0 green:16/255.0 blue:15/255.0 alpha:1.0];
 }
 
++(UIColor *)getPreferredTextColorForSearchBar{
+    return [UIColor colorWithRed:142/255.0 green:142/255.0 blue:147/255.0 alpha:1.0];
+
+}
 
 @end
