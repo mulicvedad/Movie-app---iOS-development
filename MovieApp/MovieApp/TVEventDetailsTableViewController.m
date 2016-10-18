@@ -145,7 +145,7 @@
             if(![_mainTvEvent isKindOfClass:[Movie class]]){
                 [cell.playButton setHidden:YES];
             }
-            [cell setDelegate:self];
+            [cell setDelegate:(id<ShowTrailerDelegate>)self];
             return cell;
         }
         else if(indexPath.row==1){
