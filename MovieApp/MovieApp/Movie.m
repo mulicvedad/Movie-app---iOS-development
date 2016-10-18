@@ -41,7 +41,7 @@ static NSArray *genres=nil;
 
 -(NSString *)getFormattedReleaseDate{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-    NSString *dateString;
+    NSString *dateString=@"";
     [dateFormatter setDateFormat:MOVIE_DATE_FORMAT];
     dateString=[dateFormatter stringFromDate:self.releaseDate];
     return dateString;

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4Dy-Cx-8q8">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4Dy-Cx-8q8">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -67,16 +67,14 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Wbz-xJ-Veh" secondAttribute="trailing" constant="8" id="1dD-6U-7kE"/>
                             <constraint firstItem="Wbz-xJ-Veh" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="8" id="78J-JA-Qna"/>
-                            <constraint firstItem="D9O-QQ-JdD" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" constant="10" id="Iyj-aF-Ugs"/>
+                            <constraint firstItem="D9O-QQ-JdD" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" constant="10" id="NIg-lK-NF1"/>
                             <constraint firstAttribute="trailing" secondItem="D9O-QQ-JdD" secondAttribute="trailing" id="Qgl-jg-HN5"/>
                             <constraint firstItem="Wbz-xJ-Veh" firstAttribute="top" secondItem="D9O-QQ-JdD" secondAttribute="bottom" constant="10" id="gCO-Hg-9Lm"/>
                             <constraint firstItem="D9O-QQ-JdD" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" id="oQ9-Ki-zLT"/>
                             <constraint firstItem="8K9-LN-zQI" firstAttribute="top" secondItem="Wbz-xJ-Veh" secondAttribute="bottom" id="pad-eU-LxO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Tn8-aW-6C6">
-                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="uug-kC-z5t"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Tn8-aW-6C6"/>
                     <connections>
                         <outlet property="sortByControlTableView" destination="D9O-QQ-JdD" id="DMW-Ij-SSb"/>
                         <outlet property="tvEventsCollectionView" destination="Wbz-xJ-Veh" id="Iow-Dc-Krr"/>
@@ -215,9 +213,7 @@
                             <outlet property="delegate" destination="tkD-4c-zu7" id="TY2-nj-oWH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News Feed" id="sYx-fp-H4h">
-                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="i7U-zG-fmC"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="News Feed" id="sYx-fp-H4h"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uem-vf-TZF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -289,7 +285,6 @@
     </scenes>
     <resources>
         <image name="feed-inactive" width="20" height="20"/>
-        <image name="menu-item" width="25" height="16"/>
         <image name="movies-active" width="21" height="20"/>
         <image name="movies-inactive" width="21" height="20"/>
         <image name="tv-active" width="23" height="22"/>

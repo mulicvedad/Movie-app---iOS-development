@@ -10,5 +10,4 @@
 @property (nonatomic) BOOL isMovieViewController;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) SearchResultTableViewController *resultsContoller;
-
 @end

@@ -29,6 +29,7 @@
 }
 -(void)setupCellWithTitle:(NSString *)originalTitle imageUrl:(NSURL *)imageUrl releaseYear:(NSString *)releaseYear{
     releaseYear=(releaseYear) ? releaseYear : @"Year not found";
+    originalTitle=(originalTitle) ? originalTitle : @"Title not found";
     if(imageUrl){
         [self.trailerImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:WIDE_IMAGE_PLACEHOLDER]];
     }

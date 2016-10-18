@@ -59,11 +59,7 @@
 -(void)configureView{
     [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
-    _searchBar = [[UISearchBar alloc] init];
-    _searchBar.placeholder=@"Search";
-    UITextField *searchTextField = [_searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
-    searchTextField.backgroundColor = [UIColor darkGrayColor];
-    self.navigationItem.titleView = _searchBar;
+    self.navigationItem.title=@"News Feed";
     
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=200.0;

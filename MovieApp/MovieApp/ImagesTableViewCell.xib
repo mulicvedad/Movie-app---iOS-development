@@ -17,10 +17,10 @@
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="e8n-hd-zsW">
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="zYx-Fg-lwX"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="qxc-mJ-RTz"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tv-active" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-j8-uO0"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-active" translatesAutoresizingMaskIntoConstraints="NO" id="1hR-Z4-ghY"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="zYx-Fg-lwX"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="qxc-mJ-RTz"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-j8-uO0"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="1hR-Z4-ghY"/>
                         </subviews>
                     </stackView>
                     <view opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHF-1E-F5I">
@@ -55,8 +55,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="feed-active" width="28" height="28"/>
+        <image name="poster-placeholder" width="46" height="69"/>
         <image name="see all" width="40" height="60"/>
-        <image name="tv-active" width="23" height="22"/>
     </resources>
 </document>

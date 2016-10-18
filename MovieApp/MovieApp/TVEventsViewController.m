@@ -35,6 +35,8 @@
     BOOL _pageDownloaderActive;
     BOOL _transitionDownloaderActive;
     BOOL _shouldScrollToTop;
+    
+    BOOL _refresh;
 }
 
 @end
@@ -68,7 +70,6 @@
     
     self.navigationItem.titleView = self.searchController.searchBar;
     self.searchController.searchBar.placeholder=@"Search";
-    //UITextField *textField = [[self.searchController.searchBar subviews] objectAtIndex:1];
 
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
@@ -272,6 +273,7 @@
 }
 
 
+//search controller delegate method
 
 
 
