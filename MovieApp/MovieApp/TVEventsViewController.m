@@ -19,15 +19,21 @@
 #define MAIN_SECTION 0
 #define DROPDOWN_SECTION 1
 #define DEFAULT_CELL_HEIGHT 43.0f
+#define TVEVENTS_PAGE_SIZE 20
 
 @interface TVEventsViewController (){
     UISearchBar *_searchBar;
-    NSArray *_tvEvents;
+    NSMutableArray *_tvEvents;
     NSTimer *_timer;
     NSArray *_criteriaForSorting;
     BOOL _isDropdownActive;
     NSUInteger _selectedIndex;
     MainSortByTableViewCell *_mainCell;
+    
+    NSUInteger _numberOfPagesLoaded;
+    BOOL _noMorePages;
+    BOOL _pageDownloaderActive;
+    BOOL _transitionDownloaderActive;
 }
 
 @end
@@ -36,6 +42,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _numberOfPagesLoaded=0;
+    _tvEvents=[[NSMutableArray alloc]init];
     self.isMovieViewController=(self.tabBarController.selectedIndex==1) ? YES:NO;
     [self configureView];
     [self initialDataDownload];
@@ -48,8 +56,7 @@
     
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
     
-    self.edgesForExtendedLayout=UIRectEdgeTop;
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.edgesForExtendedLayout=UIRectEdgeNone;
    
     self.navigationItem.titleView = _searchBar;
     
@@ -91,11 +98,14 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
     
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     
+    if((indexPath.row>(_numberOfPagesLoaded-1)*TVEVENTS_PAGE_SIZE+10) && !_pageDownloaderActive){
+        [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)_selectedIndex page:_numberOfPagesLoaded+1 returnToHandler:self];
+    }
     return cell;
     
 }
@@ -115,12 +125,18 @@
 }
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
-    _tvEvents=customItemsArray;
+    if([customItemsArray count]<20){
+        _noMorePages=YES;
+    }
+    [_tvEvents addObjectsFromArray:customItemsArray];
+    _numberOfPagesLoaded++;
+    _pageDownloaderActive=NO;
     [self.tvEventsCollectionView reloadData];
 }
 
 -(void)initialDataDownload{
-    [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:0 returnToHandler:self];
+    _pageDownloaderActive=YES;
+    [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:0 page:1 returnToHandler:self];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -158,13 +174,17 @@
         [(SearchResultTableViewController *)self.searchController.searchResultsController clearSearchResults];
     }
     else{
-        [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:[[timer userInfo] objectForKey:@"query"] returnTo:self.searchController.searchResultsController];
+        [(SearchResultTableViewController *)self.searchController.searchResultsController performSearchWithQuery:[[timer userInfo] objectForKey:@"query"]];
     }
     
 }
 
 -(void)selectedIndexChangedTo:(NSUInteger)newIndex{
-     [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)newIndex returnToHandler:self];
+    _numberOfPagesLoaded=0;
+    [_tvEvents removeAllObjects];
+    [[DataProviderService sharedDataProviderService] cancelAllRequests];
+    _pageDownloaderActive=YES;
+    [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)newIndex page:1 returnToHandler:self];
 }
 
 
@@ -220,9 +240,7 @@
 
 //scroll view delegate methods
 
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    
-}
+
 
 
 

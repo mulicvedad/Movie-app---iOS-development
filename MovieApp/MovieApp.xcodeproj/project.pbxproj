@@ -36,6 +36,10 @@
 		CE5885251DB2EDFD00A52DBB /* SearchResultItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5885241DB2EDFD00A52DBB /* SearchResultItemTableViewCell.xib */; };
 		CE5885271DB2EE9800A52DBB /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5885261DB2EE9800A52DBB /* FeedTableViewCell.xib */; };
 		CE5885291DB2F14800A52DBB /* TVEventsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5885281DB2F14800A52DBB /* TVEventsCollectionViewCell.xib */; };
+		CE5AC9CB1DB4A16700498846 /* CastMemberPictureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5AC9C91DB4A16700498846 /* CastMemberPictureTableViewCell.m */; };
+		CE5AC9CC1DB4A16700498846 /* CastMemberPictureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5AC9CA1DB4A16700498846 /* CastMemberPictureTableViewCell.xib */; };
+		CE5AC9D31DB4B2D400498846 /* CastMemberInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5AC9D11DB4B2D400498846 /* CastMemberInfoTableViewCell.m */; };
+		CE5AC9D41DB4B2D400498846 /* CastMemberInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5AC9D21DB4B2D400498846 /* CastMemberInfoTableViewCell.xib */; };
 		CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5F6E091D9DBE2B00142D6C /* MovieAppConfiguration.m */; };
 		CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE69C6C61DB0360100FE3429 /* SimpleCollectionViewCell.m */; };
 		CE69C6C91DB0360100FE3429 /* SimpleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE69C6C71DB0360100FE3429 /* SimpleCollectionViewCell.xib */; };
@@ -166,6 +170,13 @@
 		CE5885241DB2EDFD00A52DBB /* SearchResultItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultItemTableViewCell.xib; sourceTree = "<group>"; };
 		CE5885261DB2EE9800A52DBB /* FeedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
 		CE5885281DB2F14800A52DBB /* TVEventsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVEventsCollectionViewCell.xib; sourceTree = "<group>"; };
+		CE5AC9C81DB4A16700498846 /* CastMemberPictureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastMemberPictureTableViewCell.h; sourceTree = "<group>"; };
+		CE5AC9C91DB4A16700498846 /* CastMemberPictureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CastMemberPictureTableViewCell.m; sourceTree = "<group>"; };
+		CE5AC9CA1DB4A16700498846 /* CastMemberPictureTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CastMemberPictureTableViewCell.xib; sourceTree = "<group>"; };
+		CE5AC9CD1DB4AA8700498846 /* CustomCellIdentityProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCellIdentityProtocol.h; sourceTree = "<group>"; };
+		CE5AC9D01DB4B2D400498846 /* CastMemberInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastMemberInfoTableViewCell.h; sourceTree = "<group>"; };
+		CE5AC9D11DB4B2D400498846 /* CastMemberInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CastMemberInfoTableViewCell.m; sourceTree = "<group>"; };
+		CE5AC9D21DB4B2D400498846 /* CastMemberInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CastMemberInfoTableViewCell.xib; sourceTree = "<group>"; };
 		CE5F6E081D9DBE2B00142D6C /* MovieAppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieAppConfiguration.h; sourceTree = "<group>"; };
 		CE5F6E091D9DBE2B00142D6C /* MovieAppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieAppConfiguration.m; sourceTree = "<group>"; };
 		CE69C6C51DB0360100FE3429 /* SimpleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCollectionViewCell.h; sourceTree = "<group>"; };
@@ -321,6 +332,7 @@
 				CE7A7CDF1DAEF60600034D76 /* ShowTrailerDelegate.h */,
 				CE5885181DB2E77600A52DBB /* ShowDetailsDelegate.h */,
 				CE0760DC1DB3221600D92135 /* SelectedIndexChangeDelegate.h */,
+				CE5AC9CD1DB4AA8700498846 /* CustomCellIdentityProtocol.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -515,6 +527,12 @@
 				CE0760D41DB30FD800D92135 /* SortByDropDownTableViewCell.h */,
 				CE0760D51DB30FD800D92135 /* SortByDropDownTableViewCell.m */,
 				CE0760D61DB30FD800D92135 /* SortByDropDownTableViewCell.xib */,
+				CE5AC9C81DB4A16700498846 /* CastMemberPictureTableViewCell.h */,
+				CE5AC9C91DB4A16700498846 /* CastMemberPictureTableViewCell.m */,
+				CE5AC9CA1DB4A16700498846 /* CastMemberPictureTableViewCell.xib */,
+				CE5AC9D01DB4B2D400498846 /* CastMemberInfoTableViewCell.h */,
+				CE5AC9D11DB4B2D400498846 /* CastMemberInfoTableViewCell.m */,
+				CE5AC9D21DB4B2D400498846 /* CastMemberInfoTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -678,6 +696,7 @@
 				CEC965EF1DAB3D4B0017C990 /* ImagesTableViewCell.xib in Resources */,
 				CEC965EA1DAB38AA0017C990 /* OverviewTableViewCell.xib in Resources */,
 				CE69C6C91DB0360100FE3429 /* SimpleCollectionViewCell.xib in Resources */,
+				CE5AC9D41DB4B2D400498846 /* CastMemberInfoTableViewCell.xib in Resources */,
 				CEC965E51DAB2B9A0017C990 /* RatingTableViewCell.xib in Resources */,
 				CE11095B1DAF26EB005F4676 /* EpisodeTableViewCell.xib in Resources */,
 				CE69C6D61DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.xib in Resources */,
@@ -690,6 +709,7 @@
 				CE5885291DB2F14800A52DBB /* TVEventsCollectionViewCell.xib in Resources */,
 				CE43F6471DA9571C00D8349B /* SeparatorTableViewCell.xib in Resources */,
 				CE69C6D11DB0586700FE3429 /* EpisodeTrailerTableViewCell.xib in Resources */,
+				CE5AC9CC1DB4A16700498846 /* CastMemberPictureTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +792,7 @@
 				CE69C6CC1DB04D8A00FE3429 /* EpisodeDetailsTableViewController.m in Sources */,
 				CE43F6591DA9C76100D8349B /* CrewMember.m in Sources */,
 				CEC965F21DAB48820017C990 /* Image.m in Sources */,
+				CE5AC9CB1DB4A16700498846 /* CastMemberPictureTableViewCell.m in Sources */,
 				CEF93FA31DADA29E005028F5 /* ReviewSeparatorTableViewCell.m in Sources */,
 				CEC965E41DAB2B9A0017C990 /* RatingTableViewCell.m in Sources */,
 				CECC8E0A1DAFD28700E132AA /* YearTableViewCell.m in Sources */,
@@ -783,6 +804,7 @@
 				CE0760DB1DB31AC800D92135 /* SortByControlTableViewDelegate.m in Sources */,
 				CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */,
 				CE5885201DB2EBDF00A52DBB /* SearchResultItem.m in Sources */,
+				CE5AC9D31DB4B2D400498846 /* CastMemberInfoTableViewCell.m in Sources */,
 				CEFE5F091DA6ED9700D5B275 /* Genre.m in Sources */,
 				CE43F64D1DA9C2C000D8349B /* MovieDetails.m in Sources */,
 				CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */,

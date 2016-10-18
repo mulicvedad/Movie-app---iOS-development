@@ -55,4 +55,18 @@
     return [UIFont fontWithName:bold ? HELVETICA_FONT_BOLD : HELVETICA_FONT size:fontSize];
 }
 
+
++(UIColor *)getGradientStartPointColor{
+    return [UIColor colorWithRed:124/255.0 green:124/255.0 blue:124/255.0 alpha:0.2];
+}
+
++(UIColor *)getGradientMiddlePointColor{
+    return [UIColor colorWithRed:48/255.0 green:48/255.0 blue:48/255.0 alpha:0.68];
+}
+
++(UIColor *)getGradientEndPointColor{
+    return [UIColor colorWithRed:15/255.0 green:16/255.0 blue:15/255.0 alpha:1.0];
+}
+
+
 @end

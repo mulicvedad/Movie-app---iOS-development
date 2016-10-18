@@ -4,17 +4,21 @@
 #import "TVShow.h"
 #import "SearchResultItem.h"
 #import "TVEventDetailsTableViewController.h"
+#import "DataProviderService.h"
 
 #define  DEFAULT_RESULT_ITEM_HEIGTH 92.0
 #define HELVETICA_FONT @"HelveticaNeue"
 #define FONT_SIZE_REGULAR 12
 #define FONT_SIZE_BIG 18
-#define BASE_POSTERIMAGE_URL @"http://image.tmdb.org/t/p/w92"
 #define SHOW_DETAILS_SEGUE_IDENTIFIER @"ShowDetailsSegue"
+#define SEARCH_RESULT_PAGE_SIZE 20
 
 @interface SearchResultTableViewController (){
     NSMutableArray *_results;
-    
+    NSUInteger _numberOfPagesLoaded;
+    BOOL _isDownloaderActive;
+    BOOL _noMorePages;
+    NSString *_query;
 }
 
 @end
@@ -27,7 +31,8 @@
 }
 
 -(void)configure{
-    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.edgesForExtendedLayout=UIRectEdgeTop;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.backgroundColor=[MovieAppConfiguration getResultsTableViewBackgroungColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     
@@ -44,33 +49,13 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.row>((_numberOfPagesLoaded-1)*SEARCH_RESULT_PAGE_SIZE+10) && !_isDownloaderActive){
+        _isDownloaderActive=YES;
+        [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:_query page:_numberOfPagesLoaded+1 returnTo:self];
+    }
     SearchResultItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SearchResultItemTableViewCell cellIdentifier] forIndexPath:indexPath];
     [cell registerDelegate:self tableViewRowNumber:indexPath.row];
-    TVEvent *currentEvent=_results[indexPath.row];
-    NSString *title=(currentEvent.title==nil) ? @"Name not found" : currentEvent.title;
-    
-    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_BIG], NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    
-    NSMutableAttributedString *dateAttributedString;
-    
-    if(!currentEvent.releaseDate){
-        dateAttributedString=[[NSMutableAttributedString alloc] initWithString:@""];
-    }
-    else{
-        dateAttributedString=[[NSMutableAttributedString alloc] initWithString:
-                              [[@" (" stringByAppendingString:[currentEvent getReleaseYear] ] stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
-    }
-    
-    if(![currentEvent isKindOfClass:[Movie class]] && currentEvent.releaseDate){
-        [titleAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-    }
-    [titleAttributedString appendAttributedString:dateAttributedString];
-    NSURL *imageUrl=nil;
-    if(currentEvent.posterPath){
-        imageUrl=[NSURL URLWithString:[BASE_POSTERIMAGE_URL stringByAppendingString:currentEvent.posterPath]];
-    }
-    
-    [cell setupWithTitle:titleAttributedString rating:currentEvent.voteAverage imageUrl:imageUrl];
+    [cell setupWithTvEvent:_results[indexPath.row]];
     
     return cell;
 }
@@ -80,7 +65,7 @@
 }
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
-    [_results removeAllObjects];
+
     for(int i=0;i<[customItemsArray count];i++){
         SearchResultItem *currentItem=(SearchResultItem *)customItemsArray[i];
         if([currentItem.mediaType isEqualToString:@"movie"]){
@@ -91,6 +76,8 @@
             
         }
     }
+    _numberOfPagesLoaded++;
+    _isDownloaderActive=NO;
     [self.tableView reloadData];
 }
 
@@ -110,5 +97,13 @@
 -(void)clearSearchResults{
     [_results removeAllObjects];
     [self.tableView reloadData];
+}
+
+-(void)performSearchWithQuery:(NSString *)query{
+    [[DataProviderService sharedDataProviderService] cancelAllRequests];
+    _query=query;
+    _numberOfPagesLoaded=0;
+    [_results removeAllObjects];
+    [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:query page:1 returnTo:self];
 }
 @end

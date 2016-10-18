@@ -64,6 +64,7 @@
 
 @implementation DataProviderService
 static DataProviderService *sharedService;
+static const NSString *pageQueryParameterName=@"page";
 
 +(id)init{
     if(!sharedService){
@@ -148,8 +149,8 @@ static DataProviderService *sharedService;
     
 }
 
--(void)getTvEventsByCriterion:(Criterion)criterion returnToHandler:(id<ItemsArrayReceiver>)delegate{
-    
+-(void)getTvEventsByCriterion:(Criterion)criterion page:(NSUInteger)page returnToHandler:(id<ItemsArrayReceiver>)delegate{
+
     Class currentClass=((TVEventsViewController *)delegate).isMovieViewController ? [Movie class] : [TVShow class];
     NSString *criterionForSorting;
     if(criterion==LATEST){
@@ -159,8 +160,10 @@ static DataProviderService *sharedService;
         criterionForSorting=[DataProviderService getCriteriaForSorting][criterion];
     }
     NSString *subpath=[[DataProviderService getSubpathForClass:currentClass] stringByAppendingString:criterionForSorting];
+    NSNumber *pageNumber=[NSNumber numberWithUnsignedInteger:page];
+    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey],
+                                  pageQueryParameterName:pageNumber};
     
-    NSDictionary *queryParams = @{API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -324,9 +327,12 @@ static DataProviderService *sharedService;
     
 }
 
--(void)performMultiSearchWithQuery:(NSString *)query returnTo:(id<ItemsArrayReceiver>)dataHandler{
+-(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    
     NSDictionary *queryParams = @{QUERY_PARAMETAR_NAME : query,
-                                  API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]};
+                                  pageQueryParameterName:[NSNumber numberWithUnsignedInteger:page],
+                                  API_KEY_PARAMETER_NAME: [MovieAppConfiguration getApiKey]
+                                  };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:SEARCH_SUBPATH
                                            parameters:queryParams
@@ -356,6 +362,10 @@ static DataProviderService *sharedService;
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
     [objectManager addResponseDescriptor:responseDescriptor];
+}
+
+-(void)cancelAllRequests{
+    [[objectManager operationQueue] cancelAllOperations];
 }
 
 

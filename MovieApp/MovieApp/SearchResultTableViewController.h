@@ -5,5 +5,5 @@
 @interface SearchResultTableViewController : UITableViewController <ItemsArrayReceiver, ShowDetailsDelegate>
 
 -(void)clearSearchResults;
-
+-(void)performSearchWithQuery:(NSString *)query;
 @end
