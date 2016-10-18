@@ -35,9 +35,12 @@
 
 -(NSString *)getReleaseYear{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-    NSString *dateString;
-    [dateFormatter setDateFormat:YEAR_FORMAT];
-    dateString=[dateFormatter stringFromDate:self.releaseDate];
+    NSString *dateString=@"";
+    if(self.releaseDate){
+        [dateFormatter setDateFormat:YEAR_FORMAT];
+        dateString=[dateFormatter stringFromDate:self.releaseDate];
+    }
+    
     return dateString;
 }
 @end

@@ -18,18 +18,18 @@
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     _news=[NSMutableArray arrayWithArray: customItemsArray];
     
-    if(![_news count])
+    if(![_news count] || !_news)
     {
         if(!_news)
         {
             _news = [[NSMutableArray alloc] init];
         }
         
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"No results"
-                                                                       message:@"There arent any news."
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Request failed"
+                                                                       message:@"Check your connection."
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
         
         UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
@@ -54,6 +54,7 @@
     [self configureView];
     _downloader = [[FeedDownloader alloc]init];
     [self startDownload];
+    [self.tabBarController setSelectedIndex:1];
 }
 
 -(void)configureView{

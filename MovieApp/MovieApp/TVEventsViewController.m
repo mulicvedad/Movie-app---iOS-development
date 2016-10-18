@@ -138,6 +138,10 @@
 
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
+    if(!customItemsArray){
+        [self handleError:[info objectForKey:@"error"]];
+        return;
+    }
     if([customItemsArray count]<20){
         _noMorePages=YES;
     }
@@ -273,7 +277,28 @@
 }
 
 
-//search controller delegate method
+-(void)handleError:(NSError *)error{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Request failed"
+                                                                   message:@"Check your internet connection."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                   {
+                                       _numberOfPagesLoaded=0;
+                                       _pageDownloaderActive=YES;
+                                       [_tvEvents removeAllObjects];
+                                       [self initialDataDownload];
+                                       
+                                   }];
+    
+    [alert addAction:defaultAction];
+    [alert addAction:reloadAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 
 
