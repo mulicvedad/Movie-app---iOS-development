@@ -8,9 +8,13 @@
     NSURLSession *session=[NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask= [session dataTaskWithURL:feedUrl completionHandler:
-                                     ^(NSData *data, NSURLResponse * response, NSError *eror)
+                                     ^(NSData *data, NSURLResponse * response, NSError *error)
                                       {
-                                          //MISSING ERROR HANDLING
+                                          if(error){
+                                              [dataHandler updateReceiverWithNewData:nil info:@{@"error":error}];
+                                              return;
+                                          }
+                                          
                                           dispatch_async(dispatch_get_main_queue(), ^{
                                               [[[FeedXmlParser alloc] init] parseXmlFromData:data returnToHandler:dataHandler];
 

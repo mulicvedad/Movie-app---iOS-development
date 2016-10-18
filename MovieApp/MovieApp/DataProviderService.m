@@ -173,8 +173,7 @@ static const NSString *pageQueryParameterName=@"page";
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                  //MISSING ERROR HANDLING
-                                                  NSLog(@"Error: %@", error);
+                                                  [delegate updateReceiverWithNewData:nil info:@{@"error":error}];
                                               }];
     
     

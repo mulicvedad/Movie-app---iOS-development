@@ -17,9 +17,11 @@
 
 -(NSString *)getFormattedAirDate{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-    NSString *dateString;
-    [dateFormatter setDateFormat:DATE_FORMAT];
-    dateString=[dateFormatter stringFromDate:self.airDate];
+    NSString *dateString=@"";
+    if(self.airDate){
+        [dateFormatter setDateFormat:DATE_FORMAT];
+        dateString=[dateFormatter stringFromDate:self.airDate];
+    }
     return dateString;
 }
 @end
