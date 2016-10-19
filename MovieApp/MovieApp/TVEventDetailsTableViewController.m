@@ -46,9 +46,9 @@
 #define HELVETICA_FONT @"HelveticaNeue"
 #define FONT_SIZE_REGULAR 14
 #define SEASON_DETAILS_SEGUE_IDENTIFIER @"SeasonsDetailsSegue"
-#define IMAGE_GALLERY_SECTION_NAME @"Image gallery"
-#define CAST_SECTION_NAME @"Cast"
-#define REVIEWS_SECTION_NAME @"Reviews"
+#define IMAGE_GALLERY_SECTION_NAME @" Image gallery"
+#define CAST_SECTION_NAME @" Cast"
+#define REVIEWS_SECTION_NAME @" Reviews"
 #define TRAILER_SEGUE_IDENTIFIER @"TrailerSegue"
 
 
