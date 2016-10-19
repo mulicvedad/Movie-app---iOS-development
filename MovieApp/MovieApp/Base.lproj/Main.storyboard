@@ -291,7 +291,7 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="caU-mR-hlb"/>
+        <segue reference="b3H-So-LoW"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

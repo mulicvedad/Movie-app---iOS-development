@@ -6,5 +6,5 @@
 
 -(void)clearSearchResults;
 -(void)performSearchWithQuery:(NSString *)query;
-
+-(void)setDelegateForSegue:(id)delegate;
 @end

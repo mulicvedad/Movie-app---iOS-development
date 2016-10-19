@@ -55,6 +55,10 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+}
+
 -(void)configureView{
     
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
@@ -67,6 +71,7 @@
     
     self.resultsContoller=[[SearchResultTableViewController alloc]init];
     self.searchController=[[UISearchController alloc]initWithSearchResultsController:self.resultsContoller];
+    [self.resultsContoller setDelegateForSegue: self];
     
     self.navigationItem.titleView = self.searchController.searchBar;
     self.searchController.searchBar.placeholder=@"Search";

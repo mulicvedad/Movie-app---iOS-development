@@ -21,6 +21,7 @@
     BOOL _noMorePages;
     NSString *_query;
     id _delegate;
+    id _delegateForSegue;
 }
 
 @end
@@ -47,6 +48,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [_results count];
+}
+
+-(void)setDelegateForSegue:(id)delegate{
+    _delegateForSegue=delegate;
 }
 
 
@@ -84,17 +89,18 @@
 }
 
 -(void)showTvEventDetailsForTvEventAtRow:(NSUInteger)row{
-    UISearchController *parentController=(UISearchController *)self.parentViewController;
-    [(UIViewController *)parentController.searchResultsUpdater performSegueWithIdentifier:SHOW_DETAILS_SEGUE_IDENTIFIER sender:_results[row]];
+    //UISearchController *parentController=(UISearchController *)self.parentViewController;
+    //[(UIViewController *)parentController.searchResultsUpdater performSegueWithIdentifier:SHOW_DETAILS_SEGUE_IDENTIFIER sender:_results[row]];
+    [_delegateForSegue performSegueWithIdentifier:SHOW_DETAILS_SEGUE_IDENTIFIER sender:_results[row]];
     
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+/*-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:SHOW_DETAILS_SEGUE_IDENTIFIER]){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
         [destinationVC setMainTvEvent:sender];
     }
-}
+}*/
 
 -(void)clearSearchResults{
     [_results removeAllObjects];
@@ -107,5 +113,11 @@
     _numberOfPagesLoaded=0;
     [_results removeAllObjects];
     [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:query page:1 returnTo:self];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [_delegateForSegue performSegueWithIdentifier:SHOW_DETAILS_SEGUE_IDENTIFIER sender:_results[indexPath.row]];
+    //[_delegateForSegue performSegueWithIdentifier:@"test" sender:nil];
+
 }
 @end
