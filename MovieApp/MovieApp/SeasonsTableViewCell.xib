@@ -65,6 +65,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="seasonsLabel" destination="8qR-fD-cf6" id="396-Fx-ot2"/>
+                <outlet property="seeAllButton" destination="j3F-Iy-ROL" id="qnV-oV-HSo"/>
                 <outlet property="yearsLabel" destination="v4Y-HU-EMG" id="15r-Ne-yTU"/>
             </connections>
             <point key="canvasLocation" x="18.5" y="56"/>
