@@ -23,6 +23,14 @@
 
 -(void)setupWithNumberOfSeasons:(NSUInteger)numberOfSeasons years:(NSString *)years{
     NSMutableString *seasonsAsString=[NSMutableString stringWithString:@""];
+    
+    if(numberOfSeasons==0){
+        self.seeAllButton.hidden=YES;
+    }
+    else{
+        self.seeAllButton.hidden=NO;
+
+    }
 
     for(int i=(int)numberOfSeasons;i>0;i--){
         [seasonsAsString appendFormat:@"%d ",i ];
