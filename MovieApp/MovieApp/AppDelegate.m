@@ -2,6 +2,8 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "DataProviderService.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 #define TYPE_KEY @"type"
 
@@ -14,6 +16,7 @@
 static DataProviderService *downloader=nil;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[[Crashlytics class]]];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
     return YES;
