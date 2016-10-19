@@ -102,6 +102,9 @@
     _detailsLoaded=NO;
     _creditsLoaded=NO;
     
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+
+    
     _cast=[[NSMutableArray alloc]init];
     _crew=[[NSMutableArray alloc]init];
     _images=[[NSMutableArray alloc]init];
