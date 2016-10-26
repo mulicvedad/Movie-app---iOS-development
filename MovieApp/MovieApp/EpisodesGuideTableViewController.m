@@ -9,16 +9,8 @@
 #import "SimpleCollectionViewCell.h"
 #import "EpisodeDetailsTableViewController.h"
 
-#define SEPARATOR_CELL_WIDTH_HEIGHT_RATIO 18.75f
-#define EPISODE_CELL_WIDTH_HEIGHT_RATIO 4.0f
-#define SIMPLE_CELL_WIDTH_HEIGHT_RATIO 8.93f
-#define TABLEVIEW_CELL_INSET 24.0f
-#define SEASON_SECTION_NAME @"Season"
-#define HELVETICA_FONT @"HelveticaNeue"
-#define FONT_SIZE_REGULAR 16
-#define EPISODE_DETAILS_SEGUE_NAME @"EpisodeDetailsSegue"
-
-#define DEFAULT_COLLECTIONVIEW_CELL_WIDTH 20.0f
+#define FontSize16 16
+#define NumberOfSections 2;
 
 @interface EpisodesGuideTableViewController (){
     NSArray *_episodes;
@@ -26,6 +18,19 @@
 }
 
 @end
+
+static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
+static CGFloat const EpisodeCellWidthHeightRatio=4.0f;
+static CGFloat const SimpleCellWidthHeightRatio=8.93f;
+static CGFloat const TableViewCellInset=24.0f;
+static CGFloat const DefaultCollectionViewCellWidth=20.0f;
+static NSString * const SeasonSectionName=@"Season";
+static NSString * const EpisodeDetailsSegueIdentifier=@"EpisodeDetailsSegue";
+
+enum{
+    SeasonSelectionSection,
+    EpisodesListSection
+};
 
 @implementation EpisodesGuideTableViewController
 
@@ -52,11 +57,11 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return NumberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section==0){
+    if(section==SeasonSelectionSection){
         return 2;
     }
     else{
@@ -66,7 +71,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section==0){
+    if(indexPath.section==SeasonSelectionSection){
         if(indexPath.row==0){
             SeasonSelectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeasonSelectionTableViewCell cellIdentifier] forIndexPath:indexPath];
             [cell.collectionView registerNib:[UINib nibWithNibName:[SimpleCollectionViewCell cellIClassName] bundle:nil] forCellWithReuseIdentifier:[SimpleCollectionViewCell cellIdentifier]];
@@ -82,7 +87,7 @@
         }
         
     }
-    else if(indexPath.section==1){
+    else if(indexPath.section==EpisodesListSection){
         if(_episodes){
             if(indexPath.row%2==0){
                 TVShowEpisode *currentEpisode=_episodes[indexPath.row/2];
@@ -107,12 +112,12 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==0){
         if(indexPath.row==0){
-            NSUInteger numberOfCellsInOneRow=(tableView.bounds.size.width-2*TABLEVIEW_CELL_INSET)/DEFAULT_COLLECTIONVIEW_CELL_WIDTH;
+            NSUInteger numberOfCellsInOneRow=(tableView.bounds.size.width-2*TableViewCellInset)/DefaultCollectionViewCellWidth;
             NSUInteger numberOfRows=1;
             if([_seasons count]>=numberOfCellsInOneRow){
                 numberOfRows=[_seasons count]/numberOfCellsInOneRow+1;
             }
-            return numberOfRows*(DEFAULT_COLLECTIONVIEW_CELL_WIDTH+10);
+            return numberOfRows*(DefaultCollectionViewCellWidth+10);
         }
         return UITableViewAutomaticDimension;
     }
@@ -130,20 +135,20 @@
 }
 
 -(CGFloat)separatorCellHeight{
-    return self.tableView.bounds.size.width/SEPARATOR_CELL_WIDTH_HEIGHT_RATIO;
+    return self.tableView.bounds.size.width/SeparatorCellWidthHeightRatio;
 }
 
 -(CGFloat)episodeCellHeight{
-    return self.tableView.bounds.size.width/EPISODE_CELL_WIDTH_HEIGHT_RATIO;
+    return self.tableView.bounds.size.width/EpisodeCellWidthHeightRatio;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if(section==0){
-        return SEASON_SECTION_NAME;
+        return SeasonSectionName;
     }
     else{
-        return @"";
+        return EmptyString;
     }
 }
 
@@ -153,7 +158,7 @@
         
         UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
         tableViewHeaderFooterView.contentView.backgroundColor=[UIColor blackColor];
-        tableViewHeaderFooterView.textLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
+        tableViewHeaderFooterView.textLabel.font=[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO];
         tableViewHeaderFooterView.textLabel.textColor=[MovieAppConfiguration getPrefferedSectionHeadlineColor];
     }
     
@@ -164,7 +169,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==1 && indexPath.row%2==0){
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self performSegueWithIdentifier:EPISODE_DETAILS_SEGUE_NAME sender:_episodes[indexPath.row/2]];
+        [self performSegueWithIdentifier:EpisodeDetailsSegueIdentifier sender:_episodes[indexPath.row/2]];
     }
 }
 
@@ -178,7 +183,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     SimpleCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SimpleCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-    cell.seasonNumberLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
+    cell.seasonNumberLabel.font=[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO];
     if(indexPath.row==currentSeasonIndex){
         cell.seasonNumberLabel.textColor=[MovieAppConfiguration getPrefferedYellowColor];
     }
@@ -195,7 +200,7 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     
-    return CGSizeMake(DEFAULT_COLLECTIONVIEW_CELL_WIDTH, DEFAULT_COLLECTIONVIEW_CELL_WIDTH);
+    return CGSizeMake(DefaultCollectionViewCellWidth, DefaultCollectionViewCellWidth);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -225,7 +230,7 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:EPISODE_DETAILS_SEGUE_NAME]){
+    if([segue.identifier isEqualToString:EpisodeDetailsSegueIdentifier]){
         EpisodeDetailsTableViewController *destinationVC=segue.destinationViewController;
         destinationVC.episode=(TVShowEpisode *)sender;
         destinationVC.navigationItem.title=self.navigationItem.title;

@@ -1,9 +1,9 @@
-
 #import "MovieAppConfiguration.h"
+#import "TheMovieDBConstants.h"
 
-#define HELVETICA_FONT @"HelveticaNeue"
-#define HELVETICA_FONT_BOLD @"HelveticaNeue-Bold"
-
+NSString * const RegularHelveticaFontName=@"HelveticaNeue";
+NSString * const BoldHelveticaFontName=@"HelveticaNeue";
+NSString * const YouTubeSiteName=@"YouTube";
 
 @implementation MovieAppConfiguration
 
@@ -13,20 +13,20 @@
 }
 
 +(NSString *)getApiKey{
-    return @"0bb62fb7a597e6b58ba06172fbd214f6";
+    return [TheMovieDBConstants getTheMovieDbAPIKey];
 }
 
 +(NSURL *)getApiBaseURL{
-    return [NSURL URLWithString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"TheMovieDBBaseUrl"]];
+    return [NSURL URLWithString:[TheMovieDBConstants getTheMovieDbAPIBaseURLPath]];
 }
 
 +(NSString *)getSearchSubpathForMovies{
-    return  @"/3/discover/movie";
+    return  MovieDiscoverSubpath;
     
 }
 
 +(NSString *)getSearchSubpathForTvShows{
-    return  @"/3/discover/tv";
+    return  TVShowDiscoverSubpath;
 }
 
 +(UIColor *)getPrefferedSectionHeadlineColor{
@@ -52,7 +52,7 @@
 }
 
 +(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize isBold:(BOOL)bold{
-    return [UIFont fontWithName:bold ? HELVETICA_FONT_BOLD : HELVETICA_FONT size:fontSize];
+    return [UIFont fontWithName:bold ? BoldHelveticaFontName : RegularHelveticaFontName size:fontSize];
 }
 
 

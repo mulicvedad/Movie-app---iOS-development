@@ -56,6 +56,7 @@
 		CE741D421D91ED5D0081C33A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE741D401D91ED5D0081C33A /* LaunchScreen.storyboard */; };
 		CE741D4D1D91ED5E0081C33A /* MovieAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D4C1D91ED5E0081C33A /* MovieAppTests.m */; };
 		CE741D581D91ED5E0081C33A /* MovieAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE741D571D91ED5E0081C33A /* MovieAppUITests.m */; };
+		CE76A0FF1DBA476400725CA1 /* TheMovieDBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE76A0FE1DBA476400725CA1 /* TheMovieDBConstants.m */; };
 		CE7A7CE41DAEFD6000034D76 /* TrailerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7A7CE31DAEFD6000034D76 /* TrailerViewController.m */; };
 		CE7A7CE71DAEFF9500034D76 /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7A7CE61DAEFF9500034D76 /* Video.m */; };
 		CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8329B21DA7BE82000F9424 /* TVEventDetailsTableViewController.m */; };
@@ -206,6 +207,8 @@
 		CE741D531D91ED5E0081C33A /* MovieAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE741D571D91ED5E0081C33A /* MovieAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieAppUITests.m; sourceTree = "<group>"; };
 		CE741D591D91ED5E0081C33A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE76A0FD1DBA476400725CA1 /* TheMovieDBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TheMovieDBConstants.h; sourceTree = "<group>"; };
+		CE76A0FE1DBA476400725CA1 /* TheMovieDBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TheMovieDBConstants.m; sourceTree = "<group>"; };
 		CE7A7CDF1DAEF60600034D76 /* ShowTrailerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowTrailerDelegate.h; sourceTree = "<group>"; };
 		CE7A7CE21DAEFD6000034D76 /* TrailerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrailerViewController.h; sourceTree = "<group>"; };
 		CE7A7CE31DAEFD6000034D76 /* TrailerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrailerViewController.m; sourceTree = "<group>"; };
@@ -333,6 +336,8 @@
 				CE5885181DB2E77600A52DBB /* ShowDetailsDelegate.h */,
 				CE0760DC1DB3221600D92135 /* SelectedIndexChangeDelegate.h */,
 				CE5AC9CD1DB4AA8700498846 /* CustomCellIdentityProtocol.h */,
+				CE76A0FD1DBA476400725CA1 /* TheMovieDBConstants.h */,
+				CE76A0FE1DBA476400725CA1 /* TheMovieDBConstants.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -839,6 +844,7 @@
 				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,
 				CE43F6411DA918BE00D8349B /* BasicInfoTableViewCell.m in Sources */,
 				CEF93FA81DADD282005028F5 /* SeasonsTableViewCell.m in Sources */,
+				CE76A0FF1DBA476400725CA1 /* TheMovieDBConstants.m in Sources */,
 				CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */,
 				CE530D971D996043003A708F /* FeedDownloader.m in Sources */,
 				CE43F6531DA9C73E00D8349B /* Person.m in Sources */,

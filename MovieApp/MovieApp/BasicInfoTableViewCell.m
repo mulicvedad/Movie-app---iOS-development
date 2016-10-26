@@ -1,7 +1,8 @@
 #import "BasicInfoTableViewCell.h"
 
-#define HELVETICA_FONT @"HelveticaNeue"
-#define FONT_SIZE_REGULAR 10
+#define FontSize10 10
+
+static NSString * const UnknownDurationText=@"Unknown duration";
 
 @implementation BasicInfoTableViewCell
 
@@ -11,11 +12,11 @@
 }
 
 -(void)configureView{
-    self.genresLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
-    self.durationLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
-    self.releaseDateLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
+    UIFont *preferredFont=[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO];
+    self.genresLabel.font=preferredFont;
+    self.durationLabel.font=preferredFont;
+    self.releaseDateLabel.font=preferredFont;
 }
-
 
 +(NSString *)cellIdentifier{
     return [self cellIClassName];
@@ -26,7 +27,7 @@
 
 -(void)setupWithReleaseDate:(NSString *)dateString duration:(NSUInteger)duration genres:(NSString *)genresRepresentation{
     if(duration==0){
-        self.durationLabel.text=@"Unknown duration";
+        self.durationLabel.text=UnknownDurationText;
     }
     else{
         self.durationLabel.text=[NSString stringWithFormat:@"%dh %dmin", (int)(duration/60),(int)duration%60];

@@ -3,6 +3,7 @@
 
 @interface MovieAppConfiguration : NSObject
 
+extern NSString * const YouTubeSiteName;
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
 +(NSURL *)getApiBaseURL;

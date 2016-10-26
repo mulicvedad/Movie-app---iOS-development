@@ -3,8 +3,6 @@
 #import "NewFeedsItem.h"
 #import "FeedDownloader.h"
 
-#define TEXT_FIELD_PROPERTY_NAME @"_searchField"
-
 @interface NewsFeedTableViewController (){
     NSMutableArray *_news;
     UISearchBar *_searchBar;
@@ -13,8 +11,15 @@
 
 @end
 
-@implementation NewsFeedTableViewController
+static NSString * const NewsFeedNavigationItemTitle=@"News Feed";
+static NSString * const RequestFailedMessageTitle=@"Request failed";
+static NSString * const RequestFailedMessage=@"Check your connection.";
+static NSString * const CancelButtonTitle=@"Cancel" ;
+static NSString * const TryAgainButtonTitle=@"Try again" ;
+static NSString * const OKButtonTitle=@"OK" ;
+static NSString * const ErrorMessageTitle=@"Error" ;
 
+@implementation NewsFeedTableViewController
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     _news=[NSMutableArray arrayWithArray: customItemsArray];
     
@@ -25,14 +30,14 @@
             _news = [[NSMutableArray alloc] init];
         }
         
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Request failed"
-                                                                       message:@"Check your connection."
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:RequestFailedMessageTitle
+                                                                       message:RequestFailedMessage
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:CancelButtonTitle  style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
         
-        UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
+        UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:TryAgainButtonTitle style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action)
                                        {
                                            [self startDownload];
@@ -60,7 +65,7 @@
 -(void)configureView{
     [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];
     
-    self.navigationItem.title=@"News Feed";
+    self.navigationItem.title=NewsFeedNavigationItemTitle;
     
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=200.0;
@@ -74,11 +79,11 @@
     } @catch (NSException *exception) {
         [_news removeAllObjects];
         
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:ErrorMessageTitle
                                                                        message:[exception description]
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:OKButtonTitle style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
         
         [alert addAction:defaultAction];
@@ -102,8 +107,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *feedCell = [tableView dequeueReusableCellWithIdentifier:[FeedTableViewCell cellIdentifier] forIndexPath:indexPath];
     
-    
-    [feedCell setupWithHeadline:((NewFeedsItem *)_news[indexPath.row]).headline text:((NewFeedsItem *)_news[indexPath.row]).text sourceUrlPath:((NewFeedsItem *)_news[indexPath.row]).sourceUrlPath];
+    [feedCell setupWithNewsFeedItem:_news[indexPath.row]];
     
     
     return feedCell;
