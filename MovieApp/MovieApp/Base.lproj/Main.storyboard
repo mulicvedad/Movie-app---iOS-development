@@ -103,6 +103,7 @@
                     <connections>
                         <segue destination="SuL-6u-bQk" kind="show" identifier="TrailerSegue" id="zGT-oV-1KQ"/>
                         <segue destination="Kqi-hh-3bG" kind="show" identifier="SeasonsDetailsSegue" id="eM6-qo-Z1d"/>
+                        <segue destination="xtp-I3-Sv6" kind="show" identifier="CastMemberDetailsSegue" id="s2o-aR-6iT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8h-Oi-0aS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -199,6 +200,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pVi-7Y-VX5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2909.5999999999999" y="-119.1904047976012"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="ePA-fT-vyZ">
+            <objects>
+                <tableViewController id="xtp-I3-Sv6" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Wh-DI-hnb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="xtp-I3-Sv6" id="Idt-aX-G7W"/>
+                            <outlet property="delegate" destination="xtp-I3-Sv6" id="aJV-dv-Ki9"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EQx-Ff-MDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2910" y="636"/>
         </scene>
         <!--News Feed-->
         <scene sceneID="f88-ju-8A6">

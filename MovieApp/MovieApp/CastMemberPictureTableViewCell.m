@@ -48,6 +48,14 @@ static NSString *placeHolderImageName=@"wide-placeholder";
     }
 }
 
+-(void)setupWithCastMember:(CastMember *)castMember{
+    self.nameLabel.text=castMember.name;
+    if(castMember.profileImageUrl){
+        [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth500 stringByAppendingString:castMember.profileImageUrl]] placeholderImage:[UIImage imageNamed:placeHolderImageName]];
+
+    }
+}
+
 +(NSString *)cellClassName{
     return @"CastMemberPictureTableViewCell";
 }

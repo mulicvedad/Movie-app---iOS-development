@@ -3,6 +3,6 @@
 #import "ItemsArrayReceiver.h"
 #import "SeasonsTableViewCellDelegate.h"
 
-@interface TVEventDetailsTableViewController : UITableViewController <ItemsArrayReceiver, SeasonsTableViewCellDelegate>
+@interface TVEventDetailsTableViewController : UITableViewController <ItemsArrayReceiver, SeasonsTableViewCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 -(void)setMainTvEvent:(TVEvent *)tvEvent;
 @end
