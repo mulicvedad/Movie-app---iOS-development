@@ -41,6 +41,25 @@
     self.yearsLabel.text=years;
 }
 
+-(void)setupWithSeasons:(NSArray *)seasons{
+    
+    if([seasons count]==0){
+        self.seeAllButton.hidden=YES;
+    }
+    else{
+        self.seeAllButton.hidden=NO;
+        
+    }
+    NSMutableString *seasonsAsString=[NSMutableString stringWithString:@""];
+
+    for(int i=(int)[seasons count];i>0;i--){
+        [seasonsAsString appendFormat:@"%d ",i ];
+    }
+    
+    self.seasonsLabel.text=seasonsAsString;
+    self.yearsLabel.text=[TvShowSeason getStringOfYearsForSeasons:seasons];
+}
+
 - (IBAction)showSeasonsDetaills:(UIButton *)sender {
     [_delegate showSeasons];
 }

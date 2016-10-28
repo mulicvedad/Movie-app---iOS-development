@@ -2,8 +2,7 @@
 #import "DataProviderService.h"
 #import "Genre.h"
 
-#define MOVIE_DATE_FORMAT @"dd MMMM yyyy"
-
+static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
 
 @implementation Movie
 static NSArray *genres=nil;
@@ -42,7 +41,7 @@ static NSArray *genres=nil;
 -(NSString *)getFormattedReleaseDate{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString=@"";
-    [dateFormatter setDateFormat:MOVIE_DATE_FORMAT];
+    [dateFormatter setDateFormat:DefaultDateFormat];
     dateString=[dateFormatter stringFromDate:self.releaseDate];
     return dateString;
 }

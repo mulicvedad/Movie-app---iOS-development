@@ -1,5 +1,4 @@
 #import "Image.h"
-#define BASE_IMAGE_URL @"http://image.tmdb.org/t/p/w185"
 
 @implementation Image
 
@@ -16,7 +15,7 @@
         if(counter==4){
             break;
         }
-        [imagesMutable addObject:[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:image.filePath]]];
+        [imagesMutable addObject:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:image.filePath]]];
         counter++;
     }
     return imagesMutable;

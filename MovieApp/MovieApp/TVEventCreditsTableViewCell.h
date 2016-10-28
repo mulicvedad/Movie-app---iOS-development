@@ -1,4 +1,6 @@
 #import <UIKit/UIKit.h>
+#import "CrewMember.h"
+#import "CastMember.h"
 
 @interface TVEventCreditsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *directorLabelLeft;
@@ -10,6 +12,7 @@
 
 
 -(void)setupWithDirector:(NSString *)director writers:(NSString *)writers stars:(NSString *)stars;
+-(void)setupWithCrew:(NSArray *)crew cast:(NSArray *)cast;
 +(NSString *)cellIdentifier;
 +(NSString *)cellIClassName;
 

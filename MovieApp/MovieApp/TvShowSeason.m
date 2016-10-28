@@ -1,6 +1,6 @@
 #import "TvShowSeason.h"
 
-#define DATE_FORMAT @"yyyy"
+static NSString * const YearDateFormat=@"yyyy";
 
 @implementation TvShowSeason
 
@@ -17,7 +17,7 @@
 +(NSString *)getStringOfYearsForSeasons:(NSArray *)seasons{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;
-    [dateFormatter setDateFormat:DATE_FORMAT];
+    [dateFormatter setDateFormat:YearDateFormat];
     
     NSMutableString *yearsAsString=[NSMutableString stringWithString:@""];
     
@@ -35,7 +35,7 @@
 -(NSString *)getReleaseYear{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;
-    [dateFormatter setDateFormat:DATE_FORMAT];
+    [dateFormatter setDateFormat:YearDateFormat];
     dateString=[dateFormatter stringFromDate:self.airDate];
     return dateString;
 }

@@ -1,10 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "TVEvent.h"
 #import "YTPlayerView.h"
-#import "ItemsArrayReceiver.h"
 #import "Video.h"
 
-@interface TrailerViewController : UIViewController <ItemsArrayReceiver>
+@interface TrailerViewController : UIViewController
 
 @property (nonatomic, strong) TVEvent *tvEvent;
 @property (nonatomic, strong) Video *video;

@@ -1,7 +1,7 @@
 #import "TVShow.h"
 #import "Genre.h"
 
-#define TVSHOW_DATE_FORMAT @"yyyy"
+static NSString * const YearDateFormat=@"yyyy";
 
 @implementation TVShow
 static NSArray *genres=nil;
@@ -43,7 +43,7 @@ static NSArray *genres=nil;
     if(self.releaseDate){
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
         NSString *dateString;
-        [dateFormatter setDateFormat:TVSHOW_DATE_FORMAT];
+        [dateFormatter setDateFormat:YearDateFormat];
         dateString=[[[[dateString stringByAppendingString:@"("] stringByAppendingString:[dateFormatter stringFromDate:self.releaseDate]] stringByAppendingString:@" -"] stringByAppendingString:@")"];
     }
     

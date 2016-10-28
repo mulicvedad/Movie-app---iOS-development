@@ -1,7 +1,7 @@
 #import "CastTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#define PLACEHOLDER_IMAGE_NAME @"poster-placeholder"
+static NSString * const PosterPlaceholderImageName=@"poster-placeholder";
 
 @implementation CastTableViewCell
 
@@ -30,7 +30,7 @@
             UILabel *nameLabel=(UILabel *)currentStackView.subviews[1];
             UILabel *roleLabel=(UILabel *)currentStackView.subviews[2];
             
-            [posterImageView sd_setImageWithURL:urls[i] placeholderImage:[UIImage imageNamed:PLACEHOLDER_IMAGE_NAME]];
+            [posterImageView sd_setImageWithURL:urls[i] placeholderImage:[UIImage imageNamed:PosterPlaceholderImageName]];
             nameLabel.text=names[i];
             roleLabel.text=roles[i];
             

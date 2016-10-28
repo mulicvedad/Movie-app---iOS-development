@@ -1,19 +1,16 @@
 #import "TrailerTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#define WIDE_IMAGE_PLACEHOLDER @"wide-placeholder"
+#define FontSize18 18
+#define FontSize12 12
+static NSString * const YearDateFormat=@"yyyy";
+static NSString * const WideImagePlaceholder=@"yyyy";
+static CGFloat const DefaultHeightWidthRatio=1.689;
+static CGFloat const StartPointX=0.5;
+static CGFloat const StartPointY=0.5;
+static CGFloat const EndPointX=0.5;
+static CGFloat const EndPointY=1.0;
 
-
-#define START_POINT_X 0.5
-#define START_POINT_Y 0.5
-#define END_POINT_X 0.5
-#define END_POINT_Y 1.0
-#define HEIGHT_WIDTH_RATIO 1.689
-#define YEAR_FORMAT @"yyyy"
-#define HELVETICA_FONT @"HelveticaNeue"
-#define HELVETICA_FONT_BOLD @"HelveticaNeue-Bold"
-#define FONT_SIZE_18 18
-#define FONT_SIZE_12 12
 
 @interface TrailerTableViewCell(){
     id<ShowTrailerDelegate> _delegate;
@@ -31,16 +28,16 @@
     releaseYear=(releaseYear) ? releaseYear : @"Year not found";
     originalTitle=(originalTitle) ? originalTitle : @"Title not found";
     if(imageUrl){
-        [self.trailerImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:WIDE_IMAGE_PLACEHOLDER]];
+        [self.trailerImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:WideImagePlaceholder]];
     }
     else{
-        self.trailerImageView.image=[UIImage imageNamed:WIDE_IMAGE_PLACEHOLDER];
+        self.trailerImageView.image=[UIImage imageNamed:WideImagePlaceholder];
     }
     
-    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:originalTitle attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_18 isBold:YES], NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:originalTitle attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize18 isBold:YES], NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     NSMutableAttributedString *yearAttributedString=[[NSMutableAttributedString alloc] initWithString:
-                                                     [[@" (" stringByAppendingString:releaseYear] stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
+                                                     [[@" (" stringByAppendingString:releaseYear] stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
 
     [titleAttributedString appendAttributedString:yearAttributedString];
     self.titleLabel.attributedText=titleAttributedString;
@@ -48,13 +45,34 @@
 
 }
 
+-(void)setupWithTVEvent:(TVEvent *)tvEvent{
+    NSURL *imageUrl=nil;
+    if(tvEvent.backdropPath){
+        imageUrl=[NSURL URLWithString:[BaseImageUrlForWidth500 stringByAppendingString:tvEvent.backdropPath ]];
+    }
+    [self.trailerImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:WideImagePlaceholder]];
+    NSString *releaseYear;
+    NSString *originalTitle;
+    releaseYear=([tvEvent getReleaseYear]) ? [tvEvent getReleaseYear] : @"Year not found";
+    originalTitle=(tvEvent.originalTitle) ? tvEvent.originalTitle : @"Title not found";
+    
+    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:originalTitle attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize18 isBold:YES], NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    NSMutableAttributedString *yearAttributedString=[[NSMutableAttributedString alloc] initWithString:
+                                                     [[@" (" stringByAppendingString:releaseYear] stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
+    
+    [titleAttributedString appendAttributedString:yearAttributedString];
+    self.titleLabel.attributedText=titleAttributedString;
+
+}
+
 -(void)setGradientLayer{
     _myGradientLayer=[[CAGradientLayer alloc]init];
 
-    _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.width/HEIGHT_WIDTH_RATIO);
+    _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.width/DefaultHeightWidthRatio);
     
-    _myGradientLayer.startPoint = CGPointMake(START_POINT_X,START_POINT_Y);
-    _myGradientLayer.endPoint = CGPointMake(END_POINT_X, END_POINT_Y);
+    _myGradientLayer.startPoint = CGPointMake(StartPointX,StartPointY);
+    _myGradientLayer.endPoint = CGPointMake(EndPointX, EndPointY);
     _myGradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor],
                                (id)[[UIColor blackColor] CGColor],
                                (id)[[UIColor blackColor] CGColor],
@@ -66,7 +84,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.width/HEIGHT_WIDTH_RATIO);
+    _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.width/DefaultHeightWidthRatio);
 }
 
 +(NSString *)cellIdentifier{
