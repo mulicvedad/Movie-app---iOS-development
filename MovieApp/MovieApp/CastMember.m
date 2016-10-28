@@ -1,4 +1,5 @@
 #import "CastMember.h"
+static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
 
 @implementation CastMember
 
@@ -31,6 +32,10 @@
     }
     
     return castRepresentation;
+}
+
+-(NSString *)getFormattedBirthInfo{
+   return @"";
 }
 
 @end

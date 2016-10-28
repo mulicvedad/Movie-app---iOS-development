@@ -9,4 +9,5 @@
 
 +(NSDictionary *)propertiesMapping;
 +(NSString *)getCastStringRepresentationFromArray:(NSArray *)cast;
+-(NSString *)getFormattedBirthInfo;
 @end
