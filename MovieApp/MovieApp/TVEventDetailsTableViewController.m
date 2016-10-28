@@ -24,6 +24,8 @@
 #import "EpisodesGuideTableViewController.h"
 #import "TrailerViewController.h"
 #import "Video.h"
+#import "CarouselTableViewCell.h"
+#import "CarouselCollectionViewCell.h"
 
 
 #define NumberOfSections 6
@@ -41,6 +43,7 @@
     BOOL _detailsLoaded;
     BOOL _creditsLoaded;
     BOOL _videoLoaded;
+    BOOL _isCarouselCollectionViewSetup;
 }
 
 @end
@@ -51,11 +54,9 @@ static NSString * const ImageGallerySectionName=@" Image gallery";
 static NSString * const CastSectionName=@" Cast";
 static NSString * const ReviewsSectionName=@" Reviews";
 static CGFloat const TrailerCellWidthHeightRatio=1.72f;
-static CGFloat const BasicInfoCellWidthHeightRatio=7.f;
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
-static CGFloat const CreditsCellWidthHeightRatio=5.f;
 static CGFloat const ImagesCellWidthHeightRatio=2.77f;
-static CGFloat const CastCellWidthHeightRatio=1.875f;
+static CGFloat const defaultCarouselHeight=180.0f;
 
 @implementation TVEventDetailsTableViewController
 
@@ -86,6 +87,7 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewsTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewSeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewSeparatorTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[SeasonsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeasonsTableViewCell cellIdentifier]];
+    [self.tableView registerNib:[UINib nibWithNibName:[CarouselTableViewCell cellClassName] bundle:nil] forCellReuseIdentifier:[CarouselTableViewCell cellIdentifier]];
     
     _detailsLoaded=NO;
     _creditsLoaded=NO;
@@ -101,6 +103,16 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
     
     self.navigationItem.title=_mainTvEvent.title;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+}
+
+-(void)setupCarouselCollectionView:(UICollectionView *)collectionView{
+    [collectionView setDelegate:self];
+    [collectionView setDataSource:self];
+    [collectionView registerNib:[UINib nibWithNibName:[CarouselCollectionViewCell cellClassName] bundle:nil] forCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier]];
+    UICollectionViewFlowLayout *carouselFlowLayout=[[UICollectionViewFlowLayout alloc]init];
+    carouselFlowLayout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    [collectionView setCollectionViewLayout:carouselFlowLayout];
     
 }
 
@@ -202,21 +214,14 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
             return cell;
         }
     }
-    else if(indexPath.section==3){//replace by carousel
+    else if(indexPath.section==3){
         if(indexPath.row==0){
-            CastTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
-            NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
-            NSMutableArray *names=[[NSMutableArray alloc]init];
-            NSMutableArray *roles=[[NSMutableArray alloc]init];
-            for(int i=0;i<[_cast count];i++){
-                CastMember *currentCastMember=_cast[i];
-                if(currentCastMember.profileImageUrl && currentCastMember.name && currentCastMember.character){
-                    [imageUrls addObject:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:currentCastMember.profileImageUrl]]];
-                    [names addObject:currentCastMember.name];
-                    [roles addObject:currentCastMember.character];
-                }
+            CarouselTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CarouselTableViewCell cellIdentifier] forIndexPath:indexPath];
+            if(!_isCarouselCollectionViewSetup){
+                [self setupCarouselCollectionView:cell.carouselCollectionView];
+                _isCarouselCollectionViewSetup=YES;
             }
-            [cell setupWithImageUrls:imageUrls correspondingNames:names roles:roles];
+            [cell.carouselCollectionView reloadData];
             return cell;
         }
         else{
@@ -303,7 +308,10 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
         else if(indexPath.row==1){
             return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
         }
-        
+        else{
+            return defaultCarouselHeight;
+        }
+       
     }
     else if(indexPath.section==4){
         if([_reviews count]==0){
@@ -440,5 +448,36 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
 -(void)showTrailer{
     [self performSegueWithIdentifier:TrailerSegueIdentifier sender:nil];
 }
+
+//carousel collectionview delegate methods
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return [_cast count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CarouselCollectionViewCell *carouselCell=[collectionView dequeueReusableCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+    [carouselCell setupWithCastMember:_cast[indexPath.row]];
+    return carouselCell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(82, 180);
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout{
+    
+    return  UIEdgeInsetsMake(2, 2, 2, 2);
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
+
 
 @end

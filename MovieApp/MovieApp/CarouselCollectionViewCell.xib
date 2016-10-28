@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CarouselCollectionViewCell" id="gTV-IL-0wX" customClass="CarouselCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="82" height="168"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="82" height="168"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="dCe-M6-mhZ">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="120" id="TLr-tQ-1oq"/>
+                            <constraint firstAttribute="width" constant="82" id="eRf-uY-Pbw"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="top" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEV-Ef-RhL">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bottom" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQp-sN-9kH">
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="dCe-M6-mhZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3sA-w5-9N9"/>
+                <constraint firstItem="rEV-Ef-RhL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="KGl-fa-PWB"/>
+                <constraint firstItem="gQp-sN-9kH" firstAttribute="top" secondItem="rEV-Ef-RhL" secondAttribute="bottom" constant="4" id="LCz-4S-Lfg"/>
+                <constraint firstAttribute="trailing" secondItem="rEV-Ef-RhL" secondAttribute="trailing" id="Rwk-OY-HPH"/>
+                <constraint firstItem="dCe-M6-mhZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="WBt-iU-FnQ"/>
+                <constraint firstItem="gQp-sN-9kH" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mtO-ax-9JW"/>
+                <constraint firstAttribute="trailing" secondItem="dCe-M6-mhZ" secondAttribute="trailing" id="nEA-r7-2eZ"/>
+                <constraint firstItem="rEV-Ef-RhL" firstAttribute="top" secondItem="dCe-M6-mhZ" secondAttribute="bottom" constant="4" id="ucY-VR-KKp"/>
+                <constraint firstAttribute="trailing" secondItem="gQp-sN-9kH" secondAttribute="trailing" id="ycx-r7-O4g"/>
+            </constraints>
+            <size key="customSize" width="82" height="168"/>
+            <connections>
+                <outlet property="nameLabel" destination="rEV-Ef-RhL" id="Sut-dr-oUO"/>
+                <outlet property="posterImageView" destination="dCe-M6-mhZ" id="KqU-82-kZw"/>
+                <outlet property="rolesLabel" destination="gQp-sN-9kH" id="ixO-AL-tIv"/>
+            </connections>
+            <point key="canvasLocation" x="1" y="132"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="poster-placeholder" width="46" height="69"/>
+    </resources>
+</document>
