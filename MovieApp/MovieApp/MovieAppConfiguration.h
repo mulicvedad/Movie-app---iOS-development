@@ -1,7 +1,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "TheMovieDBConstants.h"
 
 @interface MovieAppConfiguration : NSObject
+
+extern NSString * const YouTubeSiteName;
+extern NSString * const FilledStarCode;
 
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;

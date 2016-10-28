@@ -8,20 +8,19 @@
 #import "CastTableViewCell.h"
 #import "CastMember.h"
 
-#define HELVETICA_FONT @"HelveticaNeue"
-#define FONT_SIZE_REGULAR 14
-#define CAST_SECTION_NAME @"Cast"
-#define YOUTUBE @"YouTube"
-#define NUMBER_OF_SECTIONS 3
-#define SEPARATOR_CELL_WIDTH_HEIGHT_RATIO 18.75
-#define BASE_POSTERIMAGE_URL @"http://image.tmdb.org/t/p/w92"
-#define DEFAULT_VIDEO_PLAYER_HEIGHT 220
+#define FontSize14 14
+#define NumberOfSections 3
 
 @interface EpisodeDetailsTableViewController (){
     NSMutableArray *_cast;
 }
 
 @end
+
+static NSString * const CastSectionName=@"Cast";
+static NSString * const HeaderTitleStringFormat=@"Season %lu Episode %lu";
+static CGFloat SeparatorCellWidthHeightRatio=18.75f;
+static CGFloat DefaultvideoPlayerHeight=220.0f;
 
 @implementation EpisodeDetailsTableViewController
 
@@ -56,7 +55,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return NUMBER_OF_SECTIONS;
+    return NumberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -113,7 +112,7 @@
         
     }
     else if(indexPath.section==2){
-        if(indexPath.row==0){
+        if(indexPath.row==0){  //replace totally with carousel
             CastTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
             NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
             NSMutableArray *names=[[NSMutableArray alloc]init];
@@ -121,7 +120,7 @@
             for(int i=0;i<4 && i<[_cast count];i++){
                 CastMember *currentCastMember=_cast[i];
                 if(currentCastMember.profileImageUrl && currentCastMember.name){
-                    [imageUrls addObject:[NSURL URLWithString:[BASE_POSTERIMAGE_URL stringByAppendingString:currentCastMember.profileImageUrl]]];
+                    [imageUrls addObject:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:currentCastMember.profileImageUrl]]];
                     [names addObject:currentCastMember.name];
                     [roles addObject:currentCastMember.character];
                 }
@@ -139,15 +138,15 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if(section==0){
-        return [NSString stringWithFormat:@"Season %lu Episode %lu", self.episode.seasonNumber, self.episode.episodeNumber];
+        return [NSString stringWithFormat:HeaderTitleStringFormat, self.episode.seasonNumber, self.episode.episodeNumber];
     }
     
     else if(section==2){
-        return CAST_SECTION_NAME;
+        return CastSectionName;
     }
     
     else {
-        return @"";
+        return EmptyString;
     }
    
 }
@@ -158,7 +157,7 @@
         
         UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
         tableViewHeaderFooterView.contentView.backgroundColor=[UIColor blackColor];
-        tableViewHeaderFooterView.textLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
+        tableViewHeaderFooterView.textLabel.font=[MovieAppConfiguration getPreferredFontWithSize:FontSize14 isBold:NO];
         tableViewHeaderFooterView.textLabel.textColor=[MovieAppConfiguration getPrefferedSectionHeadlineColor];
     }
     
@@ -173,7 +172,7 @@
                 return 0;
             }
             else{
-               return DEFAULT_VIDEO_PLAYER_HEIGHT; 
+               return DefaultvideoPlayerHeight;
             }
         }
         else if(indexPath.row==3){
@@ -194,7 +193,7 @@
     for(int i=0;i<[customItemsArray count];i++){
         if([customItemsArray[i] isKindOfClass:[Video class]]){
             Video *currentVideo=(Video *)customItemsArray[i];
-            if([currentVideo.site isEqualToString:YOUTUBE]){
+            if([currentVideo.site isEqualToString:YouTubeSiteName]){
                 self.trailer=customItemsArray[i];
                 break;
             }
@@ -207,7 +206,7 @@
 }
 
 -(CGFloat)separatorCellHeight{
-    return self.tableView.bounds.size.width/SEPARATOR_CELL_WIDTH_HEIGHT_RATIO;
+    return self.tableView.bounds.size.width/SeparatorCellWidthHeightRatio;
 }
 
 @end

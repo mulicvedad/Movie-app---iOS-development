@@ -1,7 +1,5 @@
 #import "TVShowDetails.h"
 
-#define DATE_KEY @"air_date"
-
 @implementation TVShowDetails
 
 +(NSDictionary *)propertiesMapping{

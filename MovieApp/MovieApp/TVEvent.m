@@ -1,6 +1,6 @@
 #import "TVEvent.h"
 
-#define YEAR_FORMAT @"yyyy"
+static NSString * const YearDateFormat=@"yyyy";
 
 @implementation TVEvent
 
@@ -37,7 +37,7 @@
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString=@"";
     if(self.releaseDate){
-        [dateFormatter setDateFormat:YEAR_FORMAT];
+        [dateFormatter setDateFormat:YearDateFormat];
         dateString=[dateFormatter stringFromDate:self.releaseDate];
     }
     

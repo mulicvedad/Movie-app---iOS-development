@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "TVEvent.h"
 
 @interface BasicInfoTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
@@ -8,5 +9,4 @@
 +(NSString *)cellIdentifier;
 +(NSString *)cellIClassName;
 -(void)setupWithReleaseDate:(NSString *)dateString duration:(NSUInteger)duration genres:(NSString *)genresRepresentation;
-
 @end

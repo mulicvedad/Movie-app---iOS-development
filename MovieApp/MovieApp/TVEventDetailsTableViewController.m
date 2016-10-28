@@ -25,33 +25,9 @@
 #import "TrailerViewController.h"
 #import "Video.h"
 
-//these ratios are calculated based on sketch file
-//better solution is using UITableViewAutomaticDimension but in some cases it didnt help me
-#define TRAILER_CELL_WIDTH_HEIGHT_RATIO 1.72
-#define BASIC_INFO_CELL_WIDTH_HEIGHT_RATIO 7
-#define SEPARATOR_CELL_WIDTH_HEIGHT_RATIO 18.75
-#define CREDITS_CELL_WIDTH_HEIGHT_RATIO 5
-#define IMAGES_CELL_WIDTH_HEIGHT_RATIO 2.77
-#define CAST_CELL_WIDTH_HEIGHT_RATIO 1.875
-#define START_POINT_X 0.5
-#define START_POINT_Y 0.3
-#define END_POINT_X 0.5
-#define END_POINT_Y 1.0
-#define BASE_IMAGE_URL @"http://image.tmdb.org/t/p/w500"
-#define TYPE_DETAILS @"details"
-#define TYPE_CREDITS @"credits"
-#define TYPE_KEY @"type"
-#define NUMBER_SECTIONS 6
-#define BASE_POSTERIMAGE_URL @"http://image.tmdb.org/t/p/w92"
-#define HELVETICA_FONT @"HelveticaNeue"
-#define FONT_SIZE_REGULAR 14
-#define SEASON_DETAILS_SEGUE_IDENTIFIER @"SeasonsDetailsSegue"
-#define IMAGE_GALLERY_SECTION_NAME @" Image gallery"
-#define CAST_SECTION_NAME @" Cast"
-#define REVIEWS_SECTION_NAME @" Reviews"
-#define TRAILER_SEGUE_IDENTIFIER @"TrailerSegue"
 
-
+#define NumberOfSections 6
+#define FontSize14 14
 
 @interface TVEventDetailsTableViewController (){
     TVEvent *_mainTvEvent;
@@ -68,6 +44,18 @@
 }
 
 @end
+
+static NSString * const SeasonDetailsSegueIdentifier=@"SeasonsDetailsSegue";
+static NSString * const TrailerSegueIdentifier=@"TrailerSegue";
+static NSString * const ImageGallerySectionName=@" Image gallery";
+static NSString * const CastSectionName=@" Cast";
+static NSString * const ReviewsSectionName=@" Reviews";
+static CGFloat const TrailerCellWidthHeightRatio=1.72f;
+static CGFloat const BasicInfoCellWidthHeightRatio=7.f;
+static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
+static CGFloat const CreditsCellWidthHeightRatio=5.f;
+static CGFloat const ImagesCellWidthHeightRatio=2.77f;
+static CGFloat const CastCellWidthHeightRatio=1.875f;
 
 @implementation TVEventDetailsTableViewController
 
@@ -117,7 +105,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return NUMBER_SECTIONS;
+    return NumberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -146,18 +134,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section==0){
-        if(indexPath.row==0){
+        if(indexPath.row==0){ //setup with maintvevent
             TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];
-            NSURL *imageUrl=nil;
-            if(_mainTvEvent.backdropPath){
-                imageUrl=[NSURL URLWithString:[BASE_IMAGE_URL stringByAppendingString:_mainTvEvent.backdropPath ]];
-            }
-            
-            
-            [cell setupCellWithTitle:_mainTvEvent.originalTitle imageUrl:imageUrl releaseYear:[_mainTvEvent getReleaseYear]];
-            if(![_mainTvEvent isKindOfClass:[Movie class]]){
-                [cell.playButton setHidden:YES];
-            }
+            [cell setupWithTVEvent:_mainTvEvent];
             [cell setDelegate:(id<ShowTrailerDelegate>)self];
             return cell;
         }
@@ -177,7 +156,7 @@
     else if(indexPath.section==1){
         if(indexPath.row==0){
             TVEventCreditsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[TVEventCreditsTableViewCell cellIdentifier] forIndexPath:indexPath];
-            [cell setupWithDirector:[CrewMember getDirectorsNameFromArray:_crew] writers:[CrewMember getWritersFromArray:_crew] stars:[CastMember getCastStringRepresentationFromArray:_cast]];
+            [cell setupWithCrew:_crew cast:_cast];
             return cell;
         }
         else if(indexPath.row==1){
@@ -201,8 +180,7 @@
                 return cell;
             }
             [cell registerDelegate:self];
-            
-            [cell setupWithNumberOfSeasons:((TVShowDetails *)_mainTvEventDetails).numberOfSeasons years:[TvShowSeason getStringOfYearsForSeasons:_seasons]];
+            [cell setupWithSeasons:_seasons];
             return cell;
             
         }
@@ -211,7 +189,7 @@
             return cell;
         }
     }
-    else if(indexPath.section==2){
+    else if(indexPath.section==2){//replace by carousel
         if(indexPath.row==0){
             ImagesTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[ImagesTableViewCell cellIdentifier] forIndexPath:indexPath];
             if([_images count]>0){
@@ -224,7 +202,7 @@
             return cell;
         }
     }
-    else if(indexPath.section==3){
+    else if(indexPath.section==3){//replace by carousel
         if(indexPath.row==0){
             CastTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
             NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
@@ -233,7 +211,7 @@
             for(int i=0;i<[_cast count];i++){
                 CastMember *currentCastMember=_cast[i];
                 if(currentCastMember.profileImageUrl && currentCastMember.name && currentCastMember.character){
-                    [imageUrls addObject:[NSURL URLWithString:[BASE_POSTERIMAGE_URL stringByAppendingString:currentCastMember.profileImageUrl]]];
+                    [imageUrls addObject:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:currentCastMember.profileImageUrl]]];
                     [names addObject:currentCastMember.name];
                     [roles addObject:currentCastMember.character];
                 }
@@ -251,7 +229,7 @@
             if(indexPath.row%2==0){
                 ReviewsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[ReviewsTableViewCell cellIdentifier] forIndexPath:indexPath];
                 TVEventReview *currentReview=(TVEventReview *)_reviews[indexPath.row/2];
-                [cell setupWithAuthorName:currentReview.author reviewText:currentReview.content readMoreURL:[NSURL URLWithString:currentReview.url]];
+                [cell setupWithReview:currentReview];
                 return cell;
             }
             else{
@@ -279,7 +257,7 @@
     if(indexPath.section==0){
         if(indexPath.row==0){
             if(_mainTvEvent.backdropPath){
-                return [self trailerCellHeight];
+                return [self getHeightForCellWithDivisor:TrailerCellWidthHeightRatio];
 
             }
             else{
@@ -287,7 +265,7 @@
             }
         }
         else if(indexPath.row==2){
-            return [self separatorCellHeight];
+            return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
         }
     }
     else if(indexPath.section==1){
@@ -298,7 +276,7 @@
             return UITableViewAutomaticDimension;
         }
         else if((indexPath.row==3 || indexPath.row==5) && [_images count]>0 ){
-            return [self separatorCellHeight];
+            return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
             
         }
         else if(indexPath.row==4 && [_seasons count]==0){
@@ -311,10 +289,10 @@
             return 0;
         }
         else if(indexPath.row==0){
-            return [self imageCellHeight];
+            return [self getHeightForCellWithDivisor:ImagesCellWidthHeightRatio];
         }
         else if(indexPath.row==1){
-            return [self separatorCellHeight];
+            return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
         }
         
     }
@@ -323,7 +301,7 @@
             return 0;
         }
         else if(indexPath.row==1){
-            return [self separatorCellHeight];
+            return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
         }
         
     }
@@ -332,7 +310,7 @@
             return 0;
         }
         if(indexPath.row%2==1){
-            return [self separatorCellHeight];
+            return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
         }
         
     }
@@ -341,41 +319,26 @@
     
 }
 
--(CGFloat)trailerCellHeight{
-    return self.tableView.bounds.size.width/TRAILER_CELL_WIDTH_HEIGHT_RATIO;
+-(CGFloat)getHeightForCellWithDivisor:(CGFloat)divisor{
+    return self.tableView.bounds.size.width/divisor;
 }
 
--(CGFloat)basicInfoCellHeight{
-    return self.tableView.bounds.size.width/BASIC_INFO_CELL_WIDTH_HEIGHT_RATIO;
-}
-
--(CGFloat)separatorCellHeight{
-    return self.tableView.bounds.size.width/SEPARATOR_CELL_WIDTH_HEIGHT_RATIO;
-}
-
--(CGFloat)imageCellHeight{
-    return self.tableView.bounds.size.width/IMAGES_CELL_WIDTH_HEIGHT_RATIO;
-}
-
--(CGFloat)castCellHeight{
-    return self.tableView.bounds.size.width/CAST_CELL_WIDTH_HEIGHT_RATIO;
-}
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if(section==2 && [_images count]>0){
-        return IMAGE_GALLERY_SECTION_NAME;
+        return ImageGallerySectionName;
     }
     
     else if(section==3 && [_cast count]>0){
-        return CAST_SECTION_NAME;
+        return CastSectionName;
     }
     
     else if(section==4 && [_reviews count]>0){
-        return REVIEWS_SECTION_NAME;
+        return ReviewsSectionName;
     }
     else{
-        return @"";
+        return EmptyString;
     }
 }
 
@@ -385,7 +348,7 @@
         
         UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
         tableViewHeaderFooterView.contentView.backgroundColor=[UIColor blackColor];
-        tableViewHeaderFooterView.textLabel.font=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
+        tableViewHeaderFooterView.textLabel.font=[MovieAppConfiguration getPreferredFontWithSize:FontSize14 isBold:NO];
         tableViewHeaderFooterView.textLabel.textColor=[MovieAppConfiguration getPrefferedSectionHeadlineColor];
     }
     
@@ -395,7 +358,7 @@
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([customItemsArray count]>0){
-        if([info[TYPE_KEY] isEqualToString:TYPE_DETAILS]){
+        if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
             _mainTvEventDetails=customItemsArray[0];
             for(int i=1;i<[customItemsArray count];i++){
                 if([customItemsArray[i] isKindOfClass:[Image class]]){
@@ -441,10 +404,7 @@
         }
     }
     
-    
-   // if(_detailsLoaded && _creditsLoaded){
-        [self.tableView reloadData];
-   // }
+    [self.tableView reloadData];
     
 }
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
@@ -459,28 +419,26 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:SEASON_DETAILS_SEGUE_IDENTIFIER]){
+    if([segue.identifier isEqualToString:SeasonDetailsSegueIdentifier]){
         EpisodesGuideTableViewController *destinationVC=(EpisodesGuideTableViewController *)segue.destinationViewController;
         destinationVC.seasons=(NSArray *)sender;
         destinationVC.tvShow=(TVShow *)_mainTvEvent;
         destinationVC.navigationItem.title=_mainTvEvent.title;
         
     }
-    else if([segue.identifier isEqualToString:TRAILER_SEGUE_IDENTIFIER]){
+    else if([segue.identifier isEqualToString:TrailerSegueIdentifier]){
         TrailerViewController *destinationVC=(TrailerViewController *)segue.destinationViewController;
-        NSDictionary *params=(NSDictionary *)sender;
-        destinationVC.tvEvent=[params objectForKey:@"movie"];
-        destinationVC.video=[params objectForKey:@"video"];
+        destinationVC.tvEvent=_mainTvEvent;
+        destinationVC.video=_trailer;
     }
 }
 
 -(void)showSeasons{
-    [self performSegueWithIdentifier:SEASON_DETAILS_SEGUE_IDENTIFIER sender:_seasons];
+    [self performSegueWithIdentifier:SeasonDetailsSegueIdentifier sender:_seasons];
 }
 
 -(void)showTrailer{
-    [self performSegueWithIdentifier:TRAILER_SEGUE_IDENTIFIER sender:@{@"movie":_mainTvEvent,
-    @"video":_trailer}];
+    [self performSegueWithIdentifier:TrailerSegueIdentifier sender:nil];
 }
 
 @end

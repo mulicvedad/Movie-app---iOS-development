@@ -1,6 +1,6 @@
 #import "FeedTableViewCell.h"
 
-#define LINK_FONT_SIZE 12
+#define FontSIze12 12
 
 @implementation FeedTableViewCell
 
@@ -30,11 +30,27 @@
     _headlineLabel.text=cleanHeadline;
     NSURL *url = [NSURL URLWithString:cleanUrl];
     
-    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor], NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:LINK_FONT_SIZE isBold:NO],NSLinkAttributeName:url}];
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor], NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSIze12 isBold:NO],NSLinkAttributeName:url}];
     
     _linkTextView.attributedText=sourceLink;
         
 }
+
+-(void)setupWithNewsFeedItem:(NewFeedsItem *)newsFeedItem{
+    _descriptionLabel.text=newsFeedItem.text;
+    
+    NSString *cleanUrl = [newsFeedItem.sourceUrlPath stringByTrimmingCharactersInSet:
+                          [NSCharacterSet characterSetWithCharactersInString: @"\n "]];
+    NSString *cleanHeadline = [newsFeedItem.headline stringByTrimmingCharactersInSet:
+                               [NSCharacterSet characterSetWithCharactersInString: @"\n "]];
+    _headlineLabel.text=cleanHeadline;
+    NSURL *url = [NSURL URLWithString:cleanUrl];
+    
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:@"See more details" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor], NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSIze12 isBold:NO],NSLinkAttributeName:url}];
+    
+    _linkTextView.attributedText=sourceLink;
+}
+
 
 
 @end

@@ -1,9 +1,6 @@
 #import "ReviewsTableViewCell.h"
 
-#define HELVETICA_FONT @"HelveticaNeue"
-#define FONT_SIZE_REGULAR 12
-#define READ_MORE @"Read more"
-
+static NSString * const ReadMoreLinkText=@"Read more";
 @implementation ReviewsTableViewCell
 
 - (void)awakeFromNib {
@@ -15,10 +12,21 @@
     _authorLabel.text=name;
     _reviewLabel.text=review;;
     
-    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:READ_MORE attributes:@{
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:ReadMoreLinkText attributes:@{
         NSLinkAttributeName:url}];
     _readMoreTextView.linkTextAttributes = @{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f]};
 
+    _readMoreTextView.attributedText=sourceLink;
+}
+
+-(void)setupWithReview:(TVEventReview *)review{
+    _authorLabel.text=review.author;
+    _reviewLabel.text=review.content;
+    
+    NSAttributedString *sourceLink = [[NSAttributedString alloc] initWithString:ReadMoreLinkText attributes:@{
+                                                                                                                NSLinkAttributeName:[NSURL URLWithString:review.url]}];
+    _readMoreTextView.linkTextAttributes = @{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f]};
+    
     _readMoreTextView.attributedText=sourceLink;
 }
 

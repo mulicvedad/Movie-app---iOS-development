@@ -2,10 +2,7 @@
 #import "MainSortByTableViewCell.h"
 #import "SortByDropDownTableViewCell.h"
 
-#define NUMBER_OF_SECTIONS 2
-#define MAIN_SECTION 0
-#define DROPDOWN_SECTION 1
-#define DEFAULT_CELL_HEIGHT 43.0f
+#define NumberOfSections 2
 
 @interface SortByControlTableViewDelegate (){
     NSUInteger _selectedIndex;
@@ -15,6 +12,13 @@
 
 @end
 
+static CGFloat const DefaultCellHeight=43.0f;
+
+enum{
+    MainSection,
+    DropdownSection
+};
+
 @implementation SortByControlTableViewDelegate
 
 -(void)registerDelegate:(id<SelectedIndexChangeDelegate>)delegate{
@@ -23,14 +27,14 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return NUMBER_OF_SECTIONS;
+    return NumberOfSections;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(section==MAIN_SECTION){
+    if(section==MainSection){
         return 1;
     }
-    else if(section==DROPDOWN_SECTION && _isDropDownActive){
+    else if(section==DropdownSection && _isDropDownActive){
         return [self.criterions count];
     }
     else{
@@ -39,7 +43,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.section==MAIN_SECTION){
+    if(indexPath.section==MainSection){
         MainSortByTableViewCell *mainCell=[tableView dequeueReusableCellWithIdentifier:[MainSortByTableViewCell cellIdentifier] forIndexPath:indexPath];
         
         [mainCell setupWithCriterion:self.criterions[_selectedIndex] isDropDownActive:_isDropDownActive];
@@ -56,12 +60,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return DEFAULT_CELL_HEIGHT;
+    return DefaultCellHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _isDropDownActive=!_isDropDownActive;
-    if(indexPath.section==DROPDOWN_SECTION){
+    if(indexPath.section==DropdownSection){
         _selectedIndex=indexPath.row;
         [_delegate selectedIndexChangedTo:_selectedIndex];
     }
@@ -70,6 +74,7 @@
 
 -(NSUInteger)getSelectedIndex{
     return _selectedIndex;
+    
 }
 
 @end

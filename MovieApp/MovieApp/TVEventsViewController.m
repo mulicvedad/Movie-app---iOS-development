@@ -9,17 +9,8 @@
 #import "MainSortByTableViewCell.h"
 #import "SortByDropDownTableViewCell.h"
 
-#define CRITERION_KEY @"criterion"
-#define FILLED_STAR_CODE @"\u2605"
-#define UNFILLED_STAR_CODE @"\u2606"
-#define TEXT_FIELD_PROPERTY_NAME @"_searchField"
-#define SHOW_DETAILS_SEGUE_IDENTIFIER @"ShowDetailsSegue"
-
-#define NUMBER_OF_SECTIONS 2
-#define MAIN_SECTION 0
-#define DROPDOWN_SECTION 1
-#define DEFAULT_CELL_HEIGHT 43.0f
-#define TVEVENTS_PAGE_SIZE 20
+#define NumberOfSectionsInTable 2
+#define TvEventsPageSize 20
 
 @interface TVEventsViewController (){
     UISearchBar *_searchBar;
@@ -40,6 +31,22 @@
 }
 
 @end
+enum{
+    SortByTableMainSection,
+    SortByTableDropdownSection
+};
+
+static NSString * const TextFieldPropertyName=@"_searchField";
+static NSString * const EventDetailsSegueIdentifier=@"ShowDetailsSegue";
+static NSString * const QueryDictionaryKey=@"query";
+static NSString * const BackButtonTitle=@"Back";
+static NSString * const SearchBarPlaceholder=@"Search";
+static NSString * const RequestFailedMessageTitle=@"Request failed";
+static NSString * const RequestFailedMessage=@"Check your connection.";
+static NSString * const CancelButtonTitle=@"Cancel" ;
+static NSString * const TryAgainButtonTitle=@"Try again" ;
+static CGFloat const TimerInterval=0.5f;
+static CGFloat const SortByTableDefaultCellHeight=43.0f;
 
 @implementation TVEventsViewController
 
@@ -51,8 +58,6 @@
     [self configureView];
     [self initialDataDownload];
     [self configureSortByControl];
-    
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -67,16 +72,16 @@
    
     self.navigationItem.titleView = _searchBar;
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:BackButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
     
     self.resultsContoller=[[SearchResultTableViewController alloc]init];
     self.searchController=[[UISearchController alloc]initWithSearchResultsController:self.resultsContoller];
     [self.resultsContoller setDelegateForSegue: self];
     
     self.navigationItem.titleView = self.searchController.searchBar;
-    self.searchController.searchBar.placeholder=@"Search";
+    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
 
-    UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TEXT_FIELD_PROPERTY_NAME];
+    UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
     
@@ -112,7 +117,7 @@
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     
-    if((indexPath.row>(_numberOfPagesLoaded-1)*TVEVENTS_PAGE_SIZE+10) && !_pageDownloaderActive){
+    if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive){
         _pageDownloaderActive=YES;
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)_selectedIndex page:_numberOfPagesLoaded+1 returnToHandler:self];
     }
@@ -144,7 +149,7 @@
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if(!customItemsArray){
-        [self handleError:[info objectForKey:@"error"]];
+        [self handleError:[info objectForKey:ErrorDictionaryKey]];
         return;
     }
     if([customItemsArray count]<20){
@@ -166,11 +171,11 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:SHOW_DETAILS_SEGUE_IDENTIFIER sender:_tvEvents[indexPath.row]];
+    [self performSegueWithIdentifier:EventDetailsSegueIdentifier sender:_tvEvents[indexPath.row]];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:SHOW_DETAILS_SEGUE_IDENTIFIER] ){
+    if([segue.identifier isEqualToString:EventDetailsSegueIdentifier] ){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
         [destinationVC setMainTvEvent:sender];
     }
@@ -187,16 +192,16 @@
     }
     NSString *searchText=searchController.searchBar.text;
     
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+    _timer = [NSTimer scheduledTimerWithTimeInterval:TimerInterval
                                               target:self
                                             selector:@selector(performSearch:)
-                                            userInfo:@{@"query":searchText} repeats:NO];
+                                            userInfo:@{QueryDictionaryKey:searchText} repeats:NO];
     
     
 }
 
 -(void)performSearch:(NSTimer *)timer{
-    if([[[timer userInfo] objectForKey:@"query"] length] == 0){
+    if([[[timer userInfo] objectForKey:QueryDictionaryKey] length] == 0){
         [(SearchResultTableViewController *)self.searchController.searchResultsController clearSearchResults];
     }
     else{
@@ -218,14 +223,14 @@
 //table view delegate methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return NUMBER_OF_SECTIONS;
+    return NumberOfSectionsInTable;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(section==MAIN_SECTION){
+    if(section==SortByTableMainSection){
         return 1;
     }
-    else if(section==DROPDOWN_SECTION && _isDropdownActive){
+    else if(section==SortByTableDropdownSection && _isDropdownActive){
         return [_criteriaForSorting count];
     }
     else{
@@ -234,13 +239,13 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.section==MAIN_SECTION){
+    if(indexPath.section==SortByTableMainSection){
         [_mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive];
         return _mainCell;
     }
     else if(indexPath.section==1){
         SortByDropDownTableViewCell *dropDownCell=[tableView dequeueReusableCellWithIdentifier:[SortByDropDownTableViewCell cellIdentifier] forIndexPath:indexPath];
-        
+    
         [dropDownCell setupWithCriterion:_criteriaForSorting[indexPath.row] isSelected:(indexPath.row==_selectedIndex)];
         return dropDownCell;
     }
@@ -249,12 +254,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return DEFAULT_CELL_HEIGHT;
+    return SortByTableDefaultCellHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _isDropdownActive=!_isDropdownActive;
-    if(indexPath.section==DROPDOWN_SECTION){
+    if(indexPath.section==SortByTableDropdownSection){
         _selectedIndex=indexPath.row;
         [self selectedIndexChangedTo:_selectedIndex];
     }
@@ -283,14 +288,14 @@
 
 
 -(void)handleError:(NSError *)error{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Request failed"
-                                                                   message:@"Check your internet connection."
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:RequestFailedMessageTitle
+                                                                   message:RequestFailedMessage
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:CancelButtonTitle style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {}];
     
-    UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
+    UIAlertAction* reloadAction = [UIAlertAction actionWithTitle:TryAgainButtonTitle style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action)
                                    {
                                        _numberOfPagesLoaded=0;

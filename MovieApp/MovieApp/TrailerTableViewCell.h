@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <YTPlayerView.h>
 #import "ShowTrailerDelegate.h"
+#import "TVEvent.h"
 
 @interface TrailerTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIView *viewForGradient;
@@ -14,6 +15,7 @@
 +(NSString *)cellIClassName;
 -(void)setGradientLayer;
 -(void)setupCellWithTitle:(NSString *)originalTitle imageUrl:(NSURL *)imageUrl releaseYear:(NSString *)releaseYear;
+-(void)setupWithTVEvent:(TVEvent *)tvEvent;
 -(void)setDelegate:(id<ShowTrailerDelegate>)delegate;
 
 @end

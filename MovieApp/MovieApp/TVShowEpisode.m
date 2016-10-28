@@ -1,6 +1,6 @@
 #import "TVShowEpisode.h"
 
-#define DATE_FORMAT @"dd MMMM yyyy"
+static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
 
 @implementation TVShowEpisode
 
@@ -19,7 +19,7 @@
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString=@"";
     if(self.airDate){
-        [dateFormatter setDateFormat:DATE_FORMAT];
+        [dateFormatter setDateFormat:DefaultDateFormat];
         dateString=[dateFormatter stringFromDate:self.airDate];
     }
     return dateString;

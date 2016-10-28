@@ -19,6 +19,12 @@
 @end
 
 @implementation FeedXmlParser
+
+static NSString * const ItemXmlElementName=@"item";
+static NSString * const TitleXmlElementName=@"title";
+static NSString * const LinkXmlElementName=@"link";
+static NSString * const DescriptionXmlElementName=@"description";
+
 -(void)parseXmlFromData:(NSData *)data returnToHandler:(id<ItemsArrayReceiver>)dataHandler{
     
     _dataReceiver=dataHandler;
@@ -33,7 +39,7 @@
     
     _xmlElement = elementName;
     
-    if ([elementName isEqualToString:@"item"]) {
+    if ([elementName isEqualToString:ItemXmlElementName]) {
         
         _newItem = [[NewFeedsItem alloc] init];
         _title   = [[NSMutableString alloc] init];
@@ -45,12 +51,12 @@
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
     
-    if ([_xmlElement isEqualToString:@"title"]) {
+    if ([_xmlElement isEqualToString:TitleXmlElementName]) {
         [_title appendString:string];
-    } else if ([_xmlElement isEqualToString:@"link"]) {
+    } else if ([_xmlElement isEqualToString:LinkXmlElementName]) {
         [_link appendString:string];
     }
-    else if ([_xmlElement isEqualToString:@"description"]) {
+    else if ([_xmlElement isEqualToString:DescriptionXmlElementName]) {
         [_descripition appendString:string];
     }
     
@@ -59,7 +65,7 @@
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     
-    if ([elementName isEqualToString:@"item"]) {
+    if ([elementName isEqualToString:ItemXmlElementName]) {
         
         _newItem.headline=_title;
         _newItem.text=[_descripition stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \n"]];

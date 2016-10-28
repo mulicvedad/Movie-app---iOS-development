@@ -1,6 +1,6 @@
 #import "SortByDropDownTableViewCell.h"
 
-#define CHECKED_IMAGE_NAME @"checked"
+static NSString * const CheckedImageName=@"checked";
 
 @implementation SortByDropDownTableViewCell
 
@@ -20,7 +20,7 @@
     self.sortCriterionLabel.text=criterion;
     
     if(selected){
-        self.arrowImageView.image=[UIImage imageNamed:CHECKED_IMAGE_NAME];
+        self.arrowImageView.image=[UIImage imageNamed:CheckedImageName];
     }
     else{
         self.arrowImageView.image=nil;
