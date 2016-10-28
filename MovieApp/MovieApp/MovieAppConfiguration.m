@@ -1,10 +1,9 @@
 #import "MovieAppConfiguration.h"
-#import "TheMovieDBConstants.h"
 
 NSString * const RegularHelveticaFontName=@"HelveticaNeue";
 NSString * const BoldHelveticaFontName=@"HelveticaNeue";
 NSString * const YouTubeSiteName=@"YouTube";
-
+NSString * const FilledStarCode= @"\u2605 ";
 @implementation MovieAppConfiguration
 
 +(NSURL *)getFeedsSourceUrlPath{

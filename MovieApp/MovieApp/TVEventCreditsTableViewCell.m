@@ -33,5 +33,17 @@
     self.writersLabelRight.text=[writers length]==0 ? @"Not Found" : writers;
     self.starsLabelRight.text=[stars length]==0 ? @"Not Found" : stars;
 }
+-(void)setupWithCrew:(NSArray *)crew cast:(NSArray *)cast{
+    
+    NSString *directorsName=[CrewMember getDirectorsNameFromArray:crew];
+    NSString *writersAsString=[CrewMember getWritersFromArray:crew];
+    NSString *starsAsString=[CastMember getCastStringRepresentationFromArray:cast];
+    self.directrorLabelRight.text=[directorsName length]==0 ? @"Not Found" : directorsName;
+    self.writersLabelRight.text=[writersAsString length]==0 ? @"Not Found" : writersAsString;
+    self.starsLabelRight.text=[starsAsString length]==0 ? @"Not Found" : starsAsString;
+}
+/*
+ [cell setupWithDirector:[CrewMember getDirectorsNameFromArray:_crew] writers:[CrewMember getWritersFromArray:_crew] stars:[CastMember getCastStringRepresentationFromArray:_cast]];
+ */
 
 @end

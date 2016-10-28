@@ -40,7 +40,7 @@ static CGFloat const EndPointY=0.75f;
     [self.viewForGradient.layer insertSublayer:_myGradientLayer atIndex:0];
     [self.titleLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:YES]];
     [self.ratingLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
-    [self.releaseDateLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO]];
+    [self.releaseDateLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.genreLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
 }
 

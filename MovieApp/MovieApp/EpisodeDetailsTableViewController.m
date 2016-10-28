@@ -112,7 +112,7 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
         
     }
     else if(indexPath.section==2){
-        if(indexPath.row==0){
+        if(indexPath.row==0){  //replace totally with carousel
             CastTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
             NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
             NSMutableArray *names=[[NSMutableArray alloc]init];

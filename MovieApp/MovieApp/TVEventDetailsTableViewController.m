@@ -134,18 +134,9 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section==0){
-        if(indexPath.row==0){
+        if(indexPath.row==0){ //setup with maintvevent
             TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];
-            NSURL *imageUrl=nil;
-            if(_mainTvEvent.backdropPath){
-                imageUrl=[NSURL URLWithString:[BaseImageUrlForWidth500 stringByAppendingString:_mainTvEvent.backdropPath ]];
-            }
-            
-            
-            [cell setupCellWithTitle:_mainTvEvent.originalTitle imageUrl:imageUrl releaseYear:[_mainTvEvent getReleaseYear]];
-            if(![_mainTvEvent isKindOfClass:[Movie class]]){
-                [cell.playButton setHidden:YES];
-            }
+            [cell setupWithTVEvent:_mainTvEvent];
             [cell setDelegate:(id<ShowTrailerDelegate>)self];
             return cell;
         }
@@ -165,7 +156,7 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
     else if(indexPath.section==1){
         if(indexPath.row==0){
             TVEventCreditsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[TVEventCreditsTableViewCell cellIdentifier] forIndexPath:indexPath];
-            [cell setupWithDirector:[CrewMember getDirectorsNameFromArray:_crew] writers:[CrewMember getWritersFromArray:_crew] stars:[CastMember getCastStringRepresentationFromArray:_cast]];
+            [cell setupWithCrew:_crew cast:_cast];
             return cell;
         }
         else if(indexPath.row==1){
@@ -189,8 +180,7 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
                 return cell;
             }
             [cell registerDelegate:self];
-            
-            [cell setupWithNumberOfSeasons:((TVShowDetails *)_mainTvEventDetails).numberOfSeasons years:[TvShowSeason getStringOfYearsForSeasons:_seasons]];
+            [cell setupWithSeasons:_seasons];
             return cell;
             
         }
@@ -199,7 +189,7 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
             return cell;
         }
     }
-    else if(indexPath.section==2){
+    else if(indexPath.section==2){//replace by carousel
         if(indexPath.row==0){
             ImagesTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[ImagesTableViewCell cellIdentifier] forIndexPath:indexPath];
             if([_images count]>0){
@@ -212,7 +202,7 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
             return cell;
         }
     }
-    else if(indexPath.section==3){
+    else if(indexPath.section==3){//replace by carousel
         if(indexPath.row==0){
             CastTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
             NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
@@ -239,7 +229,7 @@ static CGFloat const CastCellWidthHeightRatio=1.875f;
             if(indexPath.row%2==0){
                 ReviewsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[ReviewsTableViewCell cellIdentifier] forIndexPath:indexPath];
                 TVEventReview *currentReview=(TVEventReview *)_reviews[indexPath.row/2];
-                [cell setupWithAuthorName:currentReview.author reviewText:currentReview.content readMoreURL:[NSURL URLWithString:currentReview.url]];
+                [cell setupWithReview:currentReview];
                 return cell;
             }
             else{

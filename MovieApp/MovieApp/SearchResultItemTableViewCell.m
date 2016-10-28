@@ -4,11 +4,11 @@
 #import "Movie.h"
 #import "TVShow.h"
 
-#define PLACEHOLDER_IMAGE_NAME @"poster-placeholder"
-#define FONT_SIZE_12 12
-#define FONT_SIZE_18 18
-#define FILLED_STAR_CODE @"\u2605 "
-#define BASE_POSTERIMAGE_URL @"http://image.tmdb.org/t/p/w92"
+#define FontSize12 12
+#define FontSize18 18
+static NSString * const PosterPlaceholderImageName=@"poster-placeholder";
+static NSString * const NameNotFoundText=@"Name not found";
+
 
 @interface SearchResultItemTableViewCell(){
     id<ShowDetailsDelegate> _delegate;
@@ -39,13 +39,13 @@
 
 -(void)setupWithTitle:(NSAttributedString *)title rating:(float)voteAverage imageUrl:(NSURL *)imagePosterUrl{
     if(imagePosterUrl){
-        [self.posterImageView sd_setImageWithURL:imagePosterUrl placeholderImage:[UIImage imageNamed:PLACEHOLDER_IMAGE_NAME]];
+        [self.posterImageView sd_setImageWithURL:imagePosterUrl placeholderImage:[UIImage imageNamed:PosterPlaceholderImageName]];
     }
     self.titleLabel.attributedText=title;
     
-    NSMutableAttributedString *starString=[[NSMutableAttributedString alloc]initWithString:FILLED_STAR_CODE attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO]}];
+    NSMutableAttributedString *starString=[[NSMutableAttributedString alloc]initWithString:FilledStarCode attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO]}];
     
-    NSAttributedString *ratingString=[[NSMutableAttributedString alloc]initWithString:[NSString  stringWithFormat:@"%.1f", voteAverage] attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO]}];
+    NSAttributedString *ratingString=[[NSMutableAttributedString alloc]initWithString:[NSString  stringWithFormat:@"%.1f", voteAverage] attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO]}];
     [starString appendAttributedString:ratingString];
     
     self.ratingLabel.attributedText=starString;
@@ -54,16 +54,16 @@
 -(void)setupWithTvEvent:(TVEvent *)tvEvent{
     NSURL *imageUrl;
     if(tvEvent.posterPath){
-        imageUrl=[NSURL URLWithString:[BASE_POSTERIMAGE_URL stringByAppendingString:tvEvent.posterPath]];
-        [self.posterImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:PLACEHOLDER_IMAGE_NAME]];
+        imageUrl=[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:tvEvent.posterPath]];
+        [self.posterImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:PosterPlaceholderImageName]];
 
     }
     else{
-        self.posterImageView.image=[UIImage imageNamed:PLACEHOLDER_IMAGE_NAME];
+        self.posterImageView.image=[UIImage imageNamed:PosterPlaceholderImageName];
     }
-    NSString *title=(tvEvent.title==nil) ? @"Name not found" : tvEvent.title;
+    NSString *title=(tvEvent.title==nil) ? NameNotFoundText : tvEvent.title;
     
-    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_18 isBold:NO], NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize18 isBold:NO], NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     NSMutableAttributedString *dateAttributedString;
     
@@ -73,7 +73,7 @@
     else{
         dateAttributedString=[[NSMutableAttributedString alloc] initWithString:
                               [[@" (" stringByAppendingString:[tvEvent isKindOfClass:[Movie class]] ? [tvEvent getReleaseYear] : [(TVShow *)tvEvent getFormattedReleaseDate]]
-                               stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
+                               stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
     }
     
     if(![tvEvent isKindOfClass:[Movie class]] && tvEvent.releaseDate){
@@ -83,9 +83,9 @@
     
     self.titleLabel.attributedText=titleAttributedString;
     
-    NSMutableAttributedString *starString=[[NSMutableAttributedString alloc]initWithString:FILLED_STAR_CODE attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO]}];
+    NSMutableAttributedString *starString=[[NSMutableAttributedString alloc]initWithString:FilledStarCode attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedYellowColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO]}];
     
-    NSAttributedString *ratingString=[[NSMutableAttributedString alloc]initWithString:[NSString  stringWithFormat:@"%.1f", tvEvent.voteAverage] attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FONT_SIZE_12 isBold:NO]}];
+    NSAttributedString *ratingString=[[NSMutableAttributedString alloc]initWithString:[NSString  stringWithFormat:@"%.1f", tvEvent.voteAverage] attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor],NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO]}];
     [starString appendAttributedString:ratingString];
     
     self.ratingLabel.attributedText=starString;

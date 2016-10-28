@@ -1,7 +1,6 @@
 #import "OverviewTableViewCell.h"
 
-#define HELVETICA_FONT @"HelveticaNeue"
-#define FONT_SIZE_REGULAR 12
+#define FontSize12 12
 
 @implementation OverviewTableViewCell
 
@@ -11,7 +10,7 @@
 }
 
 -(void)configureView{
-    UIFont *prefferedFont=[UIFont fontWithName:HELVETICA_FONT size:FONT_SIZE_REGULAR];
+    UIFont *prefferedFont=[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO];
     self.overviewLabel.font=prefferedFont;
 }
 
