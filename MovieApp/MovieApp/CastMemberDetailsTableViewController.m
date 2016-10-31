@@ -18,6 +18,10 @@
 @end
 static NSString * const MediaTypeMovie=@"movie";
 static CGFloat CastMemberPictureTableViewCellDefaultHeight=220.0f;
+static CGFloat CastMemberInfoTableViewCellDefaultHeight=280.0f;
+static CGFloat CastMemberFilmographyTableViewCellDefaultHeight=160.0f;
+static CGFloat SeparatorCellDefaultHeight=30.0f;
+
 @implementation CastMemberDetailsTableViewController
 
 - (void)viewDidLoad {
@@ -79,7 +83,7 @@ static CGFloat CastMemberPictureTableViewCellDefaultHeight=220.0f;
             return (self.castMember.profileImageUrl) ? CastMemberPictureTableViewCellDefaultHeight : 60;
         }
         else if(indexPath.row==2){
-            return 30;
+            return SeparatorCellDefaultHeight;
         }
     }
     return UITableViewAutomaticDimension;
@@ -91,11 +95,11 @@ static CGFloat CastMemberPictureTableViewCellDefaultHeight=220.0f;
             return (self.castMember.profileImageUrl) ? CastMemberPictureTableViewCellDefaultHeight : 60;
         }
         else{
-            return 280.0f;
+            return CastMemberInfoTableViewCellDefaultHeight;
         }
     }
     else{
-        return 160.0f;
+        return CastMemberFilmographyTableViewCellDefaultHeight;
     }
 }
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{

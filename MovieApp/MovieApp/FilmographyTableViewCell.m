@@ -20,6 +20,7 @@ id<ShowDetailsDelegate> _delegateForSegue;
         UIImageView *posterImageView=(UIImageView *)currentStackView.subviews[0];
         UITapGestureRecognizer *singleTapRecogniser=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped:)];
         singleTapRecogniser.numberOfTapsRequired=1;
+        //tag will be used to identify exact credit
         [posterImageView setTag:i];
         [posterImageView setUserInteractionEnabled:YES];
         [posterImageView addGestureRecognizer:singleTapRecogniser];
