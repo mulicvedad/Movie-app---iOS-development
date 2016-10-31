@@ -30,6 +30,7 @@ extern NSString * const VideosForEpisodeSubpath;
 extern NSString * const VideosForMovieSubpath;
 extern NSString * const EpisodeDetailsSubpath;
 extern NSString * const VariableSubpath;
+extern NSString * const PersonDetailsSubpath;
 
 extern NSString * const ResultsPath;
 
@@ -43,6 +44,7 @@ extern NSString * const ReviewKeypath;
 extern NSString * const VideosKeypath;
 extern NSString * const SeasonKeypath;
 extern NSString * const EpisodesKeypath;
+extern NSString * const CastCreditsKeypath;
 
 extern NSString * const DetailsDictionaryValue;
 extern NSString * const CreditsDictionaryValue;
@@ -50,6 +52,9 @@ extern NSString * const CriterionPopularityValue;
 extern NSString * const CriterionReleaseDateValue;
 extern NSString * const AppendImagesParameterValue;
 extern NSString * const AppendCreditsParameterValue;
+extern NSString * const AppendMovieCreditsParameterValue;
+extern NSString * const AppendCombinedCreditsParameterValue;
+
 
 extern NSString * const EmptyString;
 

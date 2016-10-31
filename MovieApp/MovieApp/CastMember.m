@@ -34,8 +34,6 @@ static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
     return castRepresentation;
 }
 
--(NSString *)getFormattedBirthInfo{
-   return @"";
-}
+
 
 @end

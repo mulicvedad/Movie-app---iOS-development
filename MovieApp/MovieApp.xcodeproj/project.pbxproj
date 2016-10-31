@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE05F53D1DC614C100F74971 /* FilmographyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE05F53B1DC614C100F74971 /* FilmographyTableViewCell.m */; };
+		CE05F53E1DC614C100F74971 /* FilmographyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE05F53C1DC614C100F74971 /* FilmographyTableViewCell.xib */; };
 		CE0760D21DB30F8C00D92135 /* MainSortByTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0760D01DB30F8C00D92135 /* MainSortByTableViewCell.m */; };
 		CE0760D31DB30F8C00D92135 /* MainSortByTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0760D11DB30F8C00D92135 /* MainSortByTableViewCell.xib */; };
 		CE0760D71DB30FD800D92135 /* SortByDropDownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0760D51DB30FD800D92135 /* SortByDropDownTableViewCell.m */; };
@@ -32,6 +34,8 @@
 		CE5025DB1DC34952007FC9AF /* CarouselTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5025D91DC34952007FC9AF /* CarouselTableViewCell.xib */; };
 		CE5025DF1DC34C75007FC9AF /* CarouselCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5025DD1DC34C75007FC9AF /* CarouselCollectionViewCell.m */; };
 		CE5025E01DC34C75007FC9AF /* CarouselCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5025DE1DC34C75007FC9AF /* CarouselCollectionViewCell.xib */; };
+		CE5025E61DC383FF007FC9AF /* CastMemberDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5025E51DC383FF007FC9AF /* CastMemberDetailsTableViewController.m */; };
+		CE5025E91DC38D63007FC9AF /* PersonDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5025E81DC38D63007FC9AF /* PersonDetails.m */; };
 		CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE530D921D993061003A708F /* CustomTableViewCell.m */; };
 		CE530D971D996043003A708F /* FeedDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CE530D961D996043003A708F /* FeedDownloader.m */; };
 		CE58851D1DB2E88D00A52DBB /* SearchResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE58851C1DB2E88D00A52DBB /* SearchResultTableViewController.m */; };
@@ -44,6 +48,9 @@
 		CE5AC9CC1DB4A16700498846 /* CastMemberPictureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5AC9CA1DB4A16700498846 /* CastMemberPictureTableViewCell.xib */; };
 		CE5AC9D31DB4B2D400498846 /* CastMemberInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5AC9D11DB4B2D400498846 /* CastMemberInfoTableViewCell.m */; };
 		CE5AC9D41DB4B2D400498846 /* CastMemberInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5AC9D21DB4B2D400498846 /* CastMemberInfoTableViewCell.xib */; };
+		CE5AEF011DC4F91C0036D8CD /* TVEventCredit.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5AEF001DC4F91C0036D8CD /* TVEventCredit.m */; };
+		CE5AEF041DC4F9420036D8CD /* MovieCredit.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5AEF031DC4F9420036D8CD /* MovieCredit.m */; };
+		CE5AEF071DC4F9550036D8CD /* TVShowCredit.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5AEF061DC4F9550036D8CD /* TVShowCredit.m */; };
 		CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5F6E091D9DBE2B00142D6C /* MovieAppConfiguration.m */; };
 		CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE69C6C61DB0360100FE3429 /* SimpleCollectionViewCell.m */; };
 		CE69C6C91DB0360100FE3429 /* SimpleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE69C6C71DB0360100FE3429 /* SimpleCollectionViewCell.xib */; };
@@ -80,10 +87,6 @@
 		CECC8E0F1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CECC8E0D1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m */; };
 		CECC8E101DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CECC8E0E1DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib */; };
 		CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */; };
-		CEE832FA1DAC47600024D9B2 /* CastTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832F81DAC47600024D9B2 /* CastTableViewCell.m */; };
-		CEE832FB1DAC47600024D9B2 /* CastTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE832F91DAC47600024D9B2 /* CastTableViewCell.xib */; };
-		CEE833041DAC74EF0024D9B2 /* AlternativeCastTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE833021DAC74EF0024D9B2 /* AlternativeCastTableViewCell.m */; };
-		CEE833051DAC74EF0024D9B2 /* AlternativeCastTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE833031DAC74EF0024D9B2 /* AlternativeCastTableViewCell.xib */; };
 		CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE833071DAC8B260024D9B2 /* ReviewsTableViewCell.m */; };
 		CEE8330A1DAC8B260024D9B2 /* ReviewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE833081DAC8B260024D9B2 /* ReviewsTableViewCell.xib */; };
 		CEE8330D1DAD17A10024D9B2 /* TVEventReview.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE8330C1DAD17A10024D9B2 /* TVEventReview.m */; };
@@ -123,6 +126,9 @@
 		040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.release.xcconfig"; sourceTree = "<group>"; };
 		3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.debug.xcconfig"; sourceTree = "<group>"; };
 		62BDEE23B07756E1D461645C /* libPods-MovieApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MovieApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE05F53A1DC614C100F74971 /* FilmographyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilmographyTableViewCell.h; sourceTree = "<group>"; };
+		CE05F53B1DC614C100F74971 /* FilmographyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilmographyTableViewCell.m; sourceTree = "<group>"; };
+		CE05F53C1DC614C100F74971 /* FilmographyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilmographyTableViewCell.xib; sourceTree = "<group>"; };
 		CE0760CF1DB30F8C00D92135 /* MainSortByTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSortByTableViewCell.h; sourceTree = "<group>"; };
 		CE0760D01DB30F8C00D92135 /* MainSortByTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSortByTableViewCell.m; sourceTree = "<group>"; };
 		CE0760D11DB30F8C00D92135 /* MainSortByTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSortByTableViewCell.xib; sourceTree = "<group>"; };
@@ -167,6 +173,10 @@
 		CE5025DC1DC34C75007FC9AF /* CarouselCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarouselCollectionViewCell.h; sourceTree = "<group>"; };
 		CE5025DD1DC34C75007FC9AF /* CarouselCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarouselCollectionViewCell.m; sourceTree = "<group>"; };
 		CE5025DE1DC34C75007FC9AF /* CarouselCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarouselCollectionViewCell.xib; sourceTree = "<group>"; };
+		CE5025E41DC383FF007FC9AF /* CastMemberDetailsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastMemberDetailsTableViewController.h; sourceTree = "<group>"; };
+		CE5025E51DC383FF007FC9AF /* CastMemberDetailsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CastMemberDetailsTableViewController.m; sourceTree = "<group>"; };
+		CE5025E71DC38D63007FC9AF /* PersonDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonDetails.h; sourceTree = "<group>"; };
+		CE5025E81DC38D63007FC9AF /* PersonDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonDetails.m; sourceTree = "<group>"; };
 		CE530D911D993061003A708F /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
 		CE530D921D993061003A708F /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 		CE530D951D996043003A708F /* FeedDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDownloader.h; sourceTree = "<group>"; };
@@ -188,6 +198,12 @@
 		CE5AC9D01DB4B2D400498846 /* CastMemberInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastMemberInfoTableViewCell.h; sourceTree = "<group>"; };
 		CE5AC9D11DB4B2D400498846 /* CastMemberInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CastMemberInfoTableViewCell.m; sourceTree = "<group>"; };
 		CE5AC9D21DB4B2D400498846 /* CastMemberInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CastMemberInfoTableViewCell.xib; sourceTree = "<group>"; };
+		CE5AEEFF1DC4F91C0036D8CD /* TVEventCredit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVEventCredit.h; sourceTree = "<group>"; };
+		CE5AEF001DC4F91C0036D8CD /* TVEventCredit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVEventCredit.m; sourceTree = "<group>"; };
+		CE5AEF021DC4F9420036D8CD /* MovieCredit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieCredit.h; sourceTree = "<group>"; };
+		CE5AEF031DC4F9420036D8CD /* MovieCredit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieCredit.m; sourceTree = "<group>"; };
+		CE5AEF051DC4F9550036D8CD /* TVShowCredit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVShowCredit.h; sourceTree = "<group>"; };
+		CE5AEF061DC4F9550036D8CD /* TVShowCredit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVShowCredit.m; sourceTree = "<group>"; };
 		CE5F6E081D9DBE2B00142D6C /* MovieAppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieAppConfiguration.h; sourceTree = "<group>"; };
 		CE5F6E091D9DBE2B00142D6C /* MovieAppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieAppConfiguration.m; sourceTree = "<group>"; };
 		CE69C6C51DB0360100FE3429 /* SimpleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCollectionViewCell.h; sourceTree = "<group>"; };
@@ -257,12 +273,6 @@
 		CECC8E0E1DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeasonSelectionTableViewCell.xib; sourceTree = "<group>"; };
 		CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
-		CEE832F71DAC47600024D9B2 /* CastTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastTableViewCell.h; sourceTree = "<group>"; };
-		CEE832F81DAC47600024D9B2 /* CastTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CastTableViewCell.m; sourceTree = "<group>"; };
-		CEE832F91DAC47600024D9B2 /* CastTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CastTableViewCell.xib; sourceTree = "<group>"; };
-		CEE833011DAC74EF0024D9B2 /* AlternativeCastTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlternativeCastTableViewCell.h; sourceTree = "<group>"; };
-		CEE833021DAC74EF0024D9B2 /* AlternativeCastTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlternativeCastTableViewCell.m; sourceTree = "<group>"; };
-		CEE833031DAC74EF0024D9B2 /* AlternativeCastTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlternativeCastTableViewCell.xib; sourceTree = "<group>"; };
 		CEE833061DAC8B260024D9B2 /* ReviewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsTableViewCell.h; sourceTree = "<group>"; };
 		CEE833071DAC8B260024D9B2 /* ReviewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewsTableViewCell.m; sourceTree = "<group>"; };
 		CEE833081DAC8B260024D9B2 /* ReviewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewsTableViewCell.xib; sourceTree = "<group>"; };
@@ -464,6 +474,14 @@
 				CECC8E051DAFCA6E00E132AA /* TVShowEpisode.m */,
 				CE58851E1DB2EBDF00A52DBB /* SearchResultItem.h */,
 				CE58851F1DB2EBDF00A52DBB /* SearchResultItem.m */,
+				CE5025E71DC38D63007FC9AF /* PersonDetails.h */,
+				CE5025E81DC38D63007FC9AF /* PersonDetails.m */,
+				CE5AEEFF1DC4F91C0036D8CD /* TVEventCredit.h */,
+				CE5AEF001DC4F91C0036D8CD /* TVEventCredit.m */,
+				CE5AEF021DC4F9420036D8CD /* MovieCredit.h */,
+				CE5AEF031DC4F9420036D8CD /* MovieCredit.m */,
+				CE5AEF051DC4F9550036D8CD /* TVShowCredit.h */,
+				CE5AEF061DC4F9550036D8CD /* TVShowCredit.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -500,12 +518,6 @@
 				CEC965EB1DAB3D4B0017C990 /* ImagesTableViewCell.h */,
 				CEC965EC1DAB3D4B0017C990 /* ImagesTableViewCell.m */,
 				CEC965ED1DAB3D4B0017C990 /* ImagesTableViewCell.xib */,
-				CEE832F71DAC47600024D9B2 /* CastTableViewCell.h */,
-				CEE832F81DAC47600024D9B2 /* CastTableViewCell.m */,
-				CEE832F91DAC47600024D9B2 /* CastTableViewCell.xib */,
-				CEE833011DAC74EF0024D9B2 /* AlternativeCastTableViewCell.h */,
-				CEE833021DAC74EF0024D9B2 /* AlternativeCastTableViewCell.m */,
-				CEE833031DAC74EF0024D9B2 /* AlternativeCastTableViewCell.xib */,
 				CEE833061DAC8B260024D9B2 /* ReviewsTableViewCell.h */,
 				CEE833071DAC8B260024D9B2 /* ReviewsTableViewCell.m */,
 				CEE833081DAC8B260024D9B2 /* ReviewsTableViewCell.xib */,
@@ -554,6 +566,9 @@
 				CE5025DC1DC34C75007FC9AF /* CarouselCollectionViewCell.h */,
 				CE5025DD1DC34C75007FC9AF /* CarouselCollectionViewCell.m */,
 				CE5025DE1DC34C75007FC9AF /* CarouselCollectionViewCell.xib */,
+				CE05F53A1DC614C100F74971 /* FilmographyTableViewCell.h */,
+				CE05F53B1DC614C100F74971 /* FilmographyTableViewCell.m */,
+				CE05F53C1DC614C100F74971 /* FilmographyTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -577,6 +592,8 @@
 				CE58851C1DB2E88D00A52DBB /* SearchResultTableViewController.m */,
 				CE0760D91DB31AC800D92135 /* SortByControlTableViewDelegate.h */,
 				CE0760DA1DB31AC800D92135 /* SortByControlTableViewDelegate.m */,
+				CE5025E41DC383FF007FC9AF /* CastMemberDetailsTableViewController.h */,
+				CE5025E51DC383FF007FC9AF /* CastMemberDetailsTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -707,7 +724,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEE833051DAC74EF0024D9B2 /* AlternativeCastTableViewCell.xib in Resources */,
 				CEE8330A1DAC8B260024D9B2 /* ReviewsTableViewCell.xib in Resources */,
 				CE5025E01DC34C75007FC9AF /* CarouselCollectionViewCell.xib in Resources */,
 				CECC8E101DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib in Resources */,
@@ -715,7 +731,6 @@
 				CE5025DB1DC34952007FC9AF /* CarouselTableViewCell.xib in Resources */,
 				CECC8E0B1DAFD28700E132AA /* YearTableViewCell.xib in Resources */,
 				CEF93FA91DADD282005028F5 /* SeasonsTableViewCell.xib in Resources */,
-				CEE832FB1DAC47600024D9B2 /* CastTableViewCell.xib in Resources */,
 				CE8329B81DA7D855000F9424 /* TrailerTableViewCell.xib in Resources */,
 				CE43F6421DA918BE00D8349B /* BasicInfoTableViewCell.xib in Resources */,
 				CE0760D81DB30FD800D92135 /* SortByDropDownTableViewCell.xib in Resources */,
@@ -736,6 +751,7 @@
 				CE5885291DB2F14800A52DBB /* TVEventsCollectionViewCell.xib in Resources */,
 				CE43F6471DA9571C00D8349B /* SeparatorTableViewCell.xib in Resources */,
 				CE69C6D11DB0586700FE3429 /* EpisodeTrailerTableViewCell.xib in Resources */,
+				CE05F53E1DC614C100F74971 /* FilmographyTableViewCell.xib in Resources */,
 				CE5AC9CC1DB4A16700498846 /* CastMemberPictureTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,6 +841,7 @@
 				CE5025DF1DC34C75007FC9AF /* CarouselCollectionViewCell.m in Sources */,
 				CE7A7CE71DAEFF9500034D76 /* Video.m in Sources */,
 				CE43F64A1DA9B9E100D8349B /* TVEventDetails.m in Sources */,
+				CE5AEF041DC4F9420036D8CD /* MovieCredit.m in Sources */,
 				CE43F6601DAAED3D00D8349B /* TVEventCreditsTableViewCell.m in Sources */,
 				CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */,
 				CE58851D1DB2E88D00A52DBB /* SearchResultTableViewController.m in Sources */,
@@ -845,21 +862,23 @@
 				CEEA7D031D947D8B00D90DEF /* NewFeedsItem.m in Sources */,
 				CE0760DB1DB31AC800D92135 /* SortByControlTableViewDelegate.m in Sources */,
 				CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */,
+				CE5AEF011DC4F91C0036D8CD /* TVEventCredit.m in Sources */,
 				CE5885201DB2EBDF00A52DBB /* SearchResultItem.m in Sources */,
+				CE5AEF071DC4F9550036D8CD /* TVShowCredit.m in Sources */,
 				CE5AC9D31DB4B2D400498846 /* CastMemberInfoTableViewCell.m in Sources */,
 				CEFE5F091DA6ED9700D5B275 /* Genre.m in Sources */,
 				CE43F64D1DA9C2C000D8349B /* MovieDetails.m in Sources */,
 				CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */,
 				CEF6C5A51DA459EB0008160F /* TVShow.m in Sources */,
-				CEE832FA1DAC47600024D9B2 /* CastTableViewCell.m in Sources */,
 				CEC965EE1DAB3D4B0017C990 /* ImagesTableViewCell.m in Sources */,
 				CEEA7D081D9487CF00D90DEF /* NewsFeedTableViewController.m in Sources */,
 				CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */,
 				CE72729F1D9B38D80073AD6A /* TVEventsCollectionViewCell.m in Sources */,
 				CEEA7CF71D947C9700D90DEF /* TVEventsViewController.m in Sources */,
-				CEE833041DAC74EF0024D9B2 /* AlternativeCastTableViewCell.m in Sources */,
+				CE5025E61DC383FF007FC9AF /* CastMemberDetailsTableViewController.m in Sources */,
 				CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */,
 				CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */,
+				CE5025E91DC38D63007FC9AF /* PersonDetails.m in Sources */,
 				CECC8E0F1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m in Sources */,
 				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,
 				CE43F6411DA918BE00D8349B /* BasicInfoTableViewCell.m in Sources */,
@@ -877,6 +896,7 @@
 				CE5885231DB2EDA000A52DBB /* SearchResultItemTableViewCell.m in Sources */,
 				CE741D341D91ED5D0081C33A /* main.m in Sources */,
 				CE8329B71DA7D855000F9424 /* TrailerTableViewCell.m in Sources */,
+				CE05F53D1DC614C100F74971 /* FilmographyTableViewCell.m in Sources */,
 				CE43F6461DA9571C00D8349B /* SeparatorTableViewCell.m in Sources */,
 				CE0760D21DB30F8C00D92135 /* MainSortByTableViewCell.m in Sources */,
 				CE43F65C1DAA9A8100D8349B /* TvShowSeason.m in Sources */,

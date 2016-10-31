@@ -45,6 +45,10 @@ NSString * const FilledStarCode= @"\u2605 ";
     return [UIColor colorWithRed:137/255.0 green:136/255.0 blue:133/255.0 alpha:1.0];
 }
 
++(UIColor *)getPrefferedLightGreyColor{
+    return [UIColor colorWithRed:206/255.0 green:206/255.0 blue:206/255.0 alpha:1.0];
+}
+
 
 +(UIColor *)getResultsTableViewBackgroungColor{
     return [UIColor colorWithRed:41/255.0 green:41/255.0 blue:41/255.0 alpha:1.0];

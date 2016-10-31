@@ -9,11 +9,12 @@ static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
     
 }
 
--(void)setup{
-    self.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.width/SeparatorCellWidthHeightRatio);
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20, self.frame.size.height/2, self.frame.size.width-20, 1)];
-    lineView.backgroundColor = [MovieAppConfiguration getPrefferedGreyColor];
-    [self addSubview:lineView];
+-(void)setupForCastMemberDetails{
+    self.lineView.hidden=YES;
+    self.frame=CGRectMake(0, 0, self.frame.size.width, 30);
+    UIView *newLineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height/2, self.frame.size.width-16, 1)];
+    newLineView.backgroundColor = [MovieAppConfiguration getPrefferedGreyColor];
+    [self addSubview:newLineView];
 }
 +(NSString *)cellIdentifier{
     return [self cellIClassName];

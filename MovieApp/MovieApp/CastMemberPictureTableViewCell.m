@@ -10,8 +10,8 @@
 @implementation CastMemberPictureTableViewCell
 static const CGFloat startPointX=0.5;
 static const CGFloat startPointY=0.33;
-static const CGFloat endPointX=1.0;
-static const CGFloat endPointY=0.5;
+static const CGFloat endPointX=0.5;
+static const CGFloat endPointY=1.0;
 static const CGFloat defaultCellHeight=224.0;
 static NSString *placeHolderImageName=@"wide-placeholder";
 

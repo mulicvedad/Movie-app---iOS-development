@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 #import "TVEvent.h"
 #import "SearchResultItem.h"
-
+#import "TVEventCredit.h"
 @interface Movie : TVEvent
 
 @property (nonatomic) BOOL hasVideo;

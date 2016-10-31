@@ -15,6 +15,8 @@
 #import "Video.h"
 #import "TVShowEpisode.h"
 #import "SearchResultItem.h"
+#import "PersonDetails.h"
+#import "TVEventCredit.h"
 
 @interface DataProviderService(){
     RKObjectManager *objectManager;
@@ -62,6 +64,10 @@ static DataProviderService *sharedService;
     RKObjectMapping *videoMapping = [RKObjectMapping mappingForClass:[Video class]];
     RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[TVShowEpisode class]];
     RKObjectMapping *searchItemMapping = [RKObjectMapping mappingForClass:[SearchResultItem class]];
+    RKObjectMapping *personDetailsMapping = [RKObjectMapping mappingForClass:[PersonDetails class]];
+    RKObjectMapping *tvEventCreditMapping = [RKObjectMapping mappingForClass:[TVEventCredit class]];
+
+
     
     
     [movieMapping addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
@@ -77,7 +83,9 @@ static DataProviderService *sharedService;
     [videoMapping addAttributeMappingsFromArray:[Video propertiesNames]];
     [episodeMapping addAttributeMappingsFromDictionary:[TVShowEpisode propertiesMapping]];
     [searchItemMapping addAttributeMappingsFromDictionary:[SearchResultItem propertiesMapping]];
-    
+    [personDetailsMapping addAttributeMappingsFromDictionary:[PersonDetails propertiesMapping]];
+    [tvEventCreditMapping addAttributeMappingsFromDictionary:[TVEventCredit propertiesMapping]];
+
     
     pathPattern=[subpathForMovies stringByAppendingString:VariableSubpath];
     [self addResponseDescriptorWithMapping:movieMapping pathPattern:pathPattern keyPath:ResultsPath];
@@ -100,7 +108,9 @@ static DataProviderService *sharedService;
     [self addResponseDescriptorWithMapping:videoMapping pathPattern:[TVShowDetailsSubpath stringByAppendingString:VideosForEpisodeSubpath] keyPath:ResultsPath];
 
     [self addResponseDescriptorWithMapping:searchItemMapping pathPattern:SearchMultiSubpath keyPath:ResultsPath];
-    
+    [self addResponseDescriptorWithMapping:personDetailsMapping pathPattern:[PersonDetailsSubpath stringByAppendingString:VariableSubpath]  keyPath:EmptyString];
+ 
+    [self addResponseDescriptorWithMapping:tvEventCreditMapping pathPattern:[PersonDetailsSubpath stringByAppendingString:VariableSubpath] keyPath:CastCreditsKeypath];
 }
 
 -(void)getTvEventsByCriterion:(Criterion)criterion page:(NSUInteger)page returnToHandler:(id<ItemsArrayReceiver>)delegate{
@@ -296,6 +306,27 @@ static DataProviderService *sharedService;
                                                   //MISSING ERROR HANDLING
                                                   NSLog(@"Error: %@", error);
                                               }];
+}
+
+-(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
+                                  AppendToResponseParameterName : AppendCombinedCreditsParameterValue};
+    NSString *subpath;
+    
+    subpath=[PersonDetailsSubpath stringByAppendingString:[NSString stringWithFormat:@"/%d",(int)personID]];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  
+                                                  
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
 }
 
 +(NSArray *)getCriteriaForSorting{

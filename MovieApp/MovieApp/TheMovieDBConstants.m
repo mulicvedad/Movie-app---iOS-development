@@ -30,6 +30,7 @@ NSString * const VideosForEpisodeSubpath=@"/:id/season/:id/episode/:id/videos";
 NSString * const VideosForMovieSubpath=@"/:id/videos";
 NSString * const EpisodeDetailsSubpath=@"/:id/season/:id";
 NSString * const VariableSubpath=@"/:id";
+NSString * const PersonDetailsSubpath=@"/3/person";
 
 NSString * const ResultsPath=@"results";
 
@@ -43,6 +44,7 @@ NSString * const ReviewKeypath=@"reviews.results";
 NSString * const VideosKeypath=@"videos";
 NSString * const SeasonKeypath=@"/:id";
 NSString * const EpisodesKeypath=@"episodes";
+NSString * const CastCreditsKeypath=@"combined_credits.cast";
 
 NSString * const DetailsDictionaryValue=@"details";
 NSString * const CreditsDictionaryValue=@"credits";
@@ -50,6 +52,8 @@ NSString * const CriterionPopularityValue=@"popularity.desc";
 NSString * const CriterionReleaseDateValue=@"release_date.desc";
 NSString * const AppendImagesParameterValue=@"images,reviews";
 NSString * const AppendCreditsParameterValue=@"credits";
+NSString * const AppendMovieCreditsParameterValue=@"movie_credits";
+NSString * const AppendCombinedCreditsParameterValue=@"combined_credits";
 
 NSString * const EmptyString=@"";
 

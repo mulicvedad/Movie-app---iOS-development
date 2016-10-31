@@ -13,8 +13,6 @@
 #import "OverviewTableViewCell.h"
 #import "ImagesTableViewCell.h"
 #import "Image.h"
-#import "CastTableViewCell.h"
-#import "AlternativeCastTableViewCell.h"
 #import "ReviewsTableViewCell.h"
 #import "TVEventReview.h"
 #import "ReviewSeparatorTableViewCell.h"
@@ -26,10 +24,12 @@
 #import "Video.h"
 #import "CarouselTableViewCell.h"
 #import "CarouselCollectionViewCell.h"
+#import "CastMemberDetailsTableViewController.h"
 
 
 #define NumberOfSections 6
 #define FontSize14 14
+
 
 @interface TVEventDetailsTableViewController (){
     TVEvent *_mainTvEvent;
@@ -57,6 +57,7 @@ static CGFloat const TrailerCellWidthHeightRatio=1.72f;
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat const ImagesCellWidthHeightRatio=2.77f;
 static CGFloat const defaultCarouselHeight=180.0f;
+static NSString * const CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
 
 @implementation TVEventDetailsTableViewController
 
@@ -82,8 +83,6 @@ static CGFloat const defaultCarouselHeight=180.0f;
     [self.tableView registerNib:[UINib nibWithNibName:[RatingTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[RatingTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[OverviewTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[OverviewTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ImagesTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ImagesTableViewCell cellIdentifier]];
-    [self.tableView registerNib:[UINib nibWithNibName:[CastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[CastTableViewCell cellIdentifier]];
-    [self.tableView registerNib:[UINib nibWithNibName:[AlternativeCastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[AlternativeCastTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewsTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewSeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewSeparatorTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[SeasonsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeasonsTableViewCell cellIdentifier]];
@@ -439,6 +438,11 @@ static CGFloat const defaultCarouselHeight=180.0f;
         destinationVC.tvEvent=_mainTvEvent;
         destinationVC.video=_trailer;
     }
+    else if([segue.identifier isEqualToString:CastMemberDetailsSegueIdentifier]){
+        
+        CastMemberDetailsTableViewController *destinationVC=(CastMemberDetailsTableViewController *)segue.destinationViewController;
+        destinationVC.castMember=(CastMember *)sender;
+    }
 }
 
 -(void)showSeasons{
@@ -475,7 +479,7 @@ static CGFloat const defaultCarouselHeight=180.0f;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+    [self performSegueWithIdentifier:CastMemberDetailsSegueIdentifier sender:_cast[indexPath.row]];
 }
 
 

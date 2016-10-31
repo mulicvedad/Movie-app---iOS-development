@@ -14,6 +14,7 @@ extern NSString * const FilledStarCode;
 
 +(UIColor *)getPrefferedYellowColor;
 +(UIColor *)getPrefferedGreyColor;
++(UIColor *)getPrefferedLightGreyColor;
 +(UIColor *)getResultsTableViewBackgroungColor;
 +(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize isBold:(BOOL)bold;
 +(UIColor *)getPrefferedYellowColorWithOpacity:(CGFloat)opacity;
