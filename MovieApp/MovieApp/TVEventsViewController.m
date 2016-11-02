@@ -8,6 +8,8 @@
 #import "SortByControlTableViewDelegate.h"
 #import "MainSortByTableViewCell.h"
 #import "SortByDropDownTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
+#import "SideMenuTableViewController.h"
 
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
@@ -26,8 +28,10 @@
     BOOL _pageDownloaderActive;
     BOOL _transitionDownloaderActive;
     BOOL _shouldScrollToTop;
-    
     BOOL _refresh;
+    
+    UIViewController *_sideMenuViewController;
+    UIView *_shadowView;
 }
 
 @end
@@ -310,6 +314,73 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (IBAction)menuButtonPressed:(id)sender {
+    if(!_sideMenuViewController){
+        SideMenuTableViewController *newVC=[[SideMenuTableViewController alloc]init];
+        [newVC setDelegate:self];
+        [newVC setCurrentOption:SideMenuOptionFavorites];
+        [self presentSideMenuViewController:newVC];
+    }
+    else{
+        [self removeSideMenuViewController:nil];
+    }
+    
+}
 
+-(void)presentSideMenuViewController:(UIViewController *)sideMenuViewController{
+    _sideMenuViewController=sideMenuViewController;
+    [self addChildViewController:sideMenuViewController];
+    [self.view addSubview:sideMenuViewController.view];
+    sideMenuViewController.view.backgroundColor=[UIColor blackColor];
+    sideMenuViewController.view.frame=CGRectMake(0, 0, 0, self.view.frame.size.height);
+    [sideMenuViewController didMoveToParentViewController:self];
+    [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         sideMenuViewController.view.frame=CGRectMake(0, 0, self.view.frame.size.width/2, self.view.frame.size.height);
+                         
+                     }
+                     completion:^(BOOL finished) {
+                         if (finished) {
+                             [self addShadow];
 
+                             
+                         }
+                     }];
+
+}
+
+-(void)removeSideMenuViewController:(UIViewController *)sideMenuViewControllerOrNil{
+    [self removeShadow];
+    [UIView animateWithDuration:1.0 delay:0 options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _sideMenuViewController.view.frame=CGRectMake(-_sideMenuViewController.view.frame.size.width, 0, _sideMenuViewController.view.frame.size.width, _sideMenuViewController.view.frame.size.height);
+                         [_sideMenuViewController removeFromParentViewController];
+
+                     }
+                     completion:^(BOOL finished) {
+                         if (finished) {
+                             [_sideMenuViewController.view removeFromSuperview];
+                             _sideMenuViewController=nil;
+                             
+                         }
+                     }];
+    
+}
+
+-(void)addShadow{
+    if(!_shadowView){
+        _shadowView=[[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _shadowView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    }
+    
+    [self.view addSubview:_shadowView];
+}
+
+-(void)removeShadow{
+    [_shadowView removeFromSuperview];
+}
+
+-(void)doActionForOption:(SideMenuOption)option{
+    [self.navigationController pushViewController:[[UIViewController alloc]init] animated:YES];
+}
 @end

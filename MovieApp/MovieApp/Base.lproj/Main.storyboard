@@ -74,7 +74,13 @@
                             <constraint firstItem="8K9-LN-zQI" firstAttribute="top" secondItem="Wbz-xJ-Veh" secondAttribute="bottom" id="pad-eU-LxO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Tn8-aW-6C6"/>
+                    <navigationItem key="navigationItem" id="Tn8-aW-6C6">
+                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="2sY-WE-5l2">
+                            <connections>
+                                <action selector="menuButtonPressed:" destination="2Fh-7f-BmS" id="9FI-l6-uY5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="sortByControlTableView" destination="D9O-QQ-JdD" id="DMW-Ij-SSb"/>
                         <outlet property="tvEventsCollectionView" destination="Wbz-xJ-Veh" id="Iow-Dc-Krr"/>
@@ -201,6 +207,27 @@
             </objects>
             <point key="canvasLocation" x="2909.5999999999999" y="-119.1904047976012"/>
         </scene>
+        <!--Side Menu Table View Controller-->
+        <scene sceneID="T81-Dc-FZu">
+            <objects>
+                <tableViewController id="Eg2-tx-MDN" customClass="SideMenuTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qh2-Od-7Jt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="Eg2-tx-MDN" id="gA4-Gr-dUZ"/>
+                            <outlet property="delegate" destination="Eg2-tx-MDN" id="6o1-zy-w14"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eKB-Bf-opj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4068" y="-11.244377811094454"/>
+        </scene>
         <!--Cast Member Details Table View Controller-->
         <scene sceneID="ePA-fT-vyZ">
             <objects>
@@ -307,6 +334,7 @@
     </scenes>
     <resources>
         <image name="feed-inactive" width="20" height="20"/>
+        <image name="menu-item" width="25" height="16"/>
         <image name="movies-active" width="21" height="20"/>
         <image name="movies-inactive" width="21" height="20"/>
         <image name="tv-active" width="23" height="22"/>

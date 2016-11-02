@@ -1,6 +1,5 @@
 #import "ReviewSeparatorTableViewCell.h"
 
-static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
 @implementation ReviewSeparatorTableViewCell
 
 - (void)awakeFromNib {

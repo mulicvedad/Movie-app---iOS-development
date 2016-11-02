@@ -2,6 +2,13 @@
 #import <UIKit/UIKit.h>
 #import "TheMovieDBConstants.h"
 
+typedef enum{
+    SideMenuOptionFavorites,
+    SideMenuOptionWatchlist,
+    SideMenuOptionRatings,
+    SideMenuOptionSettings,
+    SideMenuOptionNone
+} SideMenuOption;
 @interface MovieAppConfiguration : NSObject
 
 extern NSString * const YouTubeSiteName;
