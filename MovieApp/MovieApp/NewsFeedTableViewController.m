@@ -2,6 +2,7 @@
 #import "FeedTableViewCell.h"
 #import "NewFeedsItem.h"
 #import "FeedDownloader.h"
+#import "DataProviderService.h"
 
 @interface NewsFeedTableViewController (){
     NSMutableArray *_news;
@@ -20,6 +21,13 @@ static NSString * const OKButtonTitle=@"OK" ;
 static NSString * const ErrorMessageTitle=@"Error" ;
 
 @implementation NewsFeedTableViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self configureView];
+    _downloader = [[FeedDownloader alloc]init];
+    [self startDownload];
+    [self.tabBarController setSelectedIndex:1];
+}
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     _news=[NSMutableArray arrayWithArray: customItemsArray];
     
@@ -54,13 +62,7 @@ static NSString * const ErrorMessageTitle=@"Error" ;
     
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self configureView];
-    _downloader = [[FeedDownloader alloc]init];
-    [self startDownload];
-    [self.tabBarController setSelectedIndex:1];
-}
+
 
 -(void)configureView{
     [self.tableView registerNib:[UINib nibWithNibName:[FeedTableViewCell cellViewClassName] bundle:nil] forCellReuseIdentifier:[FeedTableViewCell cellIdentifier]];

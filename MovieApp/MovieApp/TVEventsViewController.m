@@ -11,6 +11,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SideMenuTableViewController.h"
 
+#import "LoginRequest.h"
+
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
 
@@ -62,6 +64,10 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [self configureView];
     [self initialDataDownload];
     [self configureSortByControl];
+    LoginRequest *r=[[LoginRequest alloc]init];
+    r.username=@"creda";
+    r.password=@"Drina1987";
+    [[DataProviderService sharedDataProviderService] loginWithLoginRequest:r delegate:self];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -382,5 +388,32 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 
 -(void)doActionForOption:(SideMenuOption)option{
     [self.navigationController pushViewController:[[UIViewController alloc]init] animated:YES];
+}
+
+-(void)loginSucceededWithSessionID:(NSString *)sessionID{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"SUCCESS"
+                                                                   message:sessionID
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Nice" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+
+}
+-(void)loginFailedWithError:(NSError *)error{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"FAIL"
+                                                                   message:error.description
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Fml/smh but k" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+
 }
 @end

@@ -18,8 +18,11 @@
 #import "PersonDetails.h"
 #import "TVEventCredit.h"
 
+
 @interface DataProviderService(){
     RKObjectManager *objectManager;
+    id<LoginManagerDelegate> _loginHandler;
+    NSString *_sessionID;
 }
 @end
 
@@ -352,5 +355,21 @@ static DataProviderService *sharedService;
     [[objectManager operationQueue] cancelAllOperations];
 }
 
+
+//login
+-(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate{
+    _loginHandler=delegate;
+    [[LoginManager alloc] loginWithLoginRequest:loginData delegate:delegate];
+    
+}
+//login manager delegate methods
+
+-(void)loginSucceededWithSessionID:(NSString *)sessionID{
+    _sessionID=sessionID;
+    [_loginHandler loginSucceededWithSessionID:sessionID];
+}
+-(void)loginFailedWithError:(NSError *)error{
+    [_loginHandler loginFailedWithError:error];
+}
 
 @end

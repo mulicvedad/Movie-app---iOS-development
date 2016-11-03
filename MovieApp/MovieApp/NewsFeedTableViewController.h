@@ -2,7 +2,6 @@
 #import "FeedDownloader.h"
 #import "ItemsArrayReceiver.h"
 
-
 @interface NewsFeedTableViewController : UITableViewController <ItemsArrayReceiver>
 -(void)startDownload;
 -(void)configureView;

@@ -12,6 +12,9 @@ extern NSString * const PageQueryParameterName;
 extern NSString * const CriterionDictionaryKey;
 extern NSString * const TypeDictionaryKey;
 extern NSString * const ErrorDictionaryKey;
+extern NSString *UsernameParameterName;
+extern NSString *PasswordParameterName;
+extern NSString *RequestTokenParameterName;
 
 
 extern NSString * const MovieDetailsSubpath;
@@ -31,6 +34,10 @@ extern NSString * const VideosForMovieSubpath;
 extern NSString * const EpisodeDetailsSubpath;
 extern NSString * const VariableSubpath;
 extern NSString * const PersonDetailsSubpath;
+extern NSString *CreateNewTokenSubpath;
+extern NSString *ValidateTokenSubpath;
+extern NSString *CreateNewSessionSubpath;
+
 
 extern NSString * const ResultsPath;
 

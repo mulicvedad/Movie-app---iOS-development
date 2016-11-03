@@ -13,6 +13,10 @@ NSString * const PageQueryParameterName=@"page";
 NSString * const CriterionDictionaryKey=@"criterion";
 NSString * const TypeDictionaryKey=@"type";
 NSString * const ErrorDictionaryKey=@"error";
+NSString *UsernameParameterName=@"username";
+NSString *PasswordParameterName=@"password";
+NSString *RequestTokenParameterName=@"request_token";
+
 
 NSString * const MovieDetailsSubpath=@"/3/movie";
 NSString * const TVShowDetailsSubpath=@"/3/tv";
@@ -31,6 +35,9 @@ NSString * const VideosForMovieSubpath=@"/:id/videos";
 NSString * const EpisodeDetailsSubpath=@"/:id/season/:id";
 NSString * const VariableSubpath=@"/:id";
 NSString * const PersonDetailsSubpath=@"/3/person";
+NSString *CreateNewTokenSubpath=@"/3/authentication/token/new";
+NSString *ValidateTokenSubpath=@"/3/authentication/token/validate_with_login";
+NSString *CreateNewSessionSubpath=@"/3/authentication/session/new";
 
 NSString * const ResultsPath=@"results";
 

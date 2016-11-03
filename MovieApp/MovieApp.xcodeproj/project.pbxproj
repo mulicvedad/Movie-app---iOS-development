@@ -19,6 +19,11 @@
 		CE1FFA051DC8E6B5006FBF7B /* SideMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA041DC8E6B5006FBF7B /* SideMenuTableViewController.m */; };
 		CE1FFA091DC960C1006FBF7B /* SideMenuItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA071DC960C1006FBF7B /* SideMenuItemTableViewCell.m */; };
 		CE1FFA0A1DC960C1006FBF7B /* SideMenuItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1FFA081DC960C1006FBF7B /* SideMenuItemTableViewCell.xib */; };
+		CE1FFA111DCA9CF1006FBF7B /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA101DCA9CF1006FBF7B /* LoginManager.m */; };
+		CE1FFA171DCA9F4E006FBF7B /* LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA161DCA9F4E006FBF7B /* LoginRequest.m */; };
+		CE1FFA1A1DCAA82A006FBF7B /* RequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA191DCAA82A006FBF7B /* RequestToken.m */; };
+		CE1FFA1D1DCAA9BC006FBF7B /* LoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA1C1DCAA9BC006FBF7B /* LoginResponse.m */; };
+		CE1FFA201DCAAAF6006FBF7B /* SessionIDResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA1F1DCAAAF6006FBF7B /* SessionIDResponse.m */; };
 		CE2A404A1DA14FA7005375F1 /* FeedXmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2A40491DA14FA7005375F1 /* FeedXmlParser.m */; };
 		CE43F6411DA918BE00D8349B /* BasicInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE43F63F1DA918BE00D8349B /* BasicInfoTableViewCell.m */; };
 		CE43F6421DA918BE00D8349B /* BasicInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE43F6401DA918BE00D8349B /* BasicInfoTableViewCell.xib */; };
@@ -149,6 +154,17 @@
 		CE1FFA071DC960C1006FBF7B /* SideMenuItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuItemTableViewCell.m; sourceTree = "<group>"; };
 		CE1FFA081DC960C1006FBF7B /* SideMenuItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuItemTableViewCell.xib; sourceTree = "<group>"; };
 		CE1FFA0C1DC9900D006FBF7B /* SideMenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuDelegate.h; sourceTree = "<group>"; };
+		CE1FFA0F1DCA9CF1006FBF7B /* LoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManager.h; sourceTree = "<group>"; };
+		CE1FFA101DCA9CF1006FBF7B /* LoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginManager.m; sourceTree = "<group>"; };
+		CE1FFA151DCA9F4E006FBF7B /* LoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginRequest.h; sourceTree = "<group>"; };
+		CE1FFA161DCA9F4E006FBF7B /* LoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginRequest.m; sourceTree = "<group>"; };
+		CE1FFA181DCAA82A006FBF7B /* RequestToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestToken.h; sourceTree = "<group>"; };
+		CE1FFA191DCAA82A006FBF7B /* RequestToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestToken.m; sourceTree = "<group>"; };
+		CE1FFA1B1DCAA9BC006FBF7B /* LoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResponse.h; sourceTree = "<group>"; };
+		CE1FFA1C1DCAA9BC006FBF7B /* LoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResponse.m; sourceTree = "<group>"; };
+		CE1FFA1E1DCAAAF6006FBF7B /* SessionIDResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIDResponse.h; sourceTree = "<group>"; };
+		CE1FFA1F1DCAAAF6006FBF7B /* SessionIDResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionIDResponse.m; sourceTree = "<group>"; };
+		CE1FFA211DCAAD2B006FBF7B /* LoginManagerDelagate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManagerDelagate.h; sourceTree = "<group>"; };
 		CE2A40481DA14FA7005375F1 /* FeedXmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedXmlParser.h; sourceTree = "<group>"; };
 		CE2A40491DA14FA7005375F1 /* FeedXmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedXmlParser.m; sourceTree = "<group>"; };
 		CE43F63E1DA918BE00D8349B /* BasicInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicInfoTableViewCell.h; sourceTree = "<group>"; };
@@ -352,6 +368,7 @@
 				CE0760DC1DB3221600D92135 /* SelectedIndexChangeDelegate.h */,
 				CE5AC9CD1DB4AA8700498846 /* CustomCellIdentityProtocol.h */,
 				CE1FFA0C1DC9900D006FBF7B /* SideMenuDelegate.h */,
+				CE1FFA211DCAAD2B006FBF7B /* LoginManagerDelagate.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -369,6 +386,8 @@
 				CE2A40491DA14FA7005375F1 /* FeedXmlParser.m */,
 				CE76A0FD1DBA476400725CA1 /* TheMovieDBConstants.h */,
 				CE76A0FE1DBA476400725CA1 /* TheMovieDBConstants.m */,
+				CE1FFA0F1DCA9CF1006FBF7B /* LoginManager.h */,
+				CE1FFA101DCA9CF1006FBF7B /* LoginManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -490,6 +509,14 @@
 				CE5025E81DC38D63007FC9AF /* PersonDetails.m */,
 				CE5AEEFF1DC4F91C0036D8CD /* TVEventCredit.h */,
 				CE5AEF001DC4F91C0036D8CD /* TVEventCredit.m */,
+				CE1FFA151DCA9F4E006FBF7B /* LoginRequest.h */,
+				CE1FFA161DCA9F4E006FBF7B /* LoginRequest.m */,
+				CE1FFA181DCAA82A006FBF7B /* RequestToken.h */,
+				CE1FFA191DCAA82A006FBF7B /* RequestToken.m */,
+				CE1FFA1B1DCAA9BC006FBF7B /* LoginResponse.h */,
+				CE1FFA1C1DCAA9BC006FBF7B /* LoginResponse.m */,
+				CE1FFA1E1DCAAAF6006FBF7B /* SessionIDResponse.h */,
+				CE1FFA1F1DCAAAF6006FBF7B /* SessionIDResponse.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -857,7 +884,9 @@
 				CE43F64A1DA9B9E100D8349B /* TVEventDetails.m in Sources */,
 				CE43F6601DAAED3D00D8349B /* TVEventCreditsTableViewCell.m in Sources */,
 				CE1FFA091DC960C1006FBF7B /* SideMenuItemTableViewCell.m in Sources */,
+				CE1FFA201DCAAAF6006FBF7B /* SessionIDResponse.m in Sources */,
 				CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */,
+				CE1FFA111DCA9CF1006FBF7B /* LoginManager.m in Sources */,
 				CE58851D1DB2E88D00A52DBB /* SearchResultTableViewController.m in Sources */,
 				CEC965E91DAB38AA0017C990 /* OverviewTableViewCell.m in Sources */,
 				CE43F6561DA9C74E00D8349B /* CastMember.m in Sources */,
@@ -873,6 +902,7 @@
 				CEF6C5A21DA459D80008160F /* TVEvent.m in Sources */,
 				CE2A404A1DA14FA7005375F1 /* FeedXmlParser.m in Sources */,
 				CE7A7CE41DAEFD6000034D76 /* TrailerViewController.m in Sources */,
+				CE1FFA1D1DCAA9BC006FBF7B /* LoginResponse.m in Sources */,
 				CEEA7D031D947D8B00D90DEF /* NewFeedsItem.m in Sources */,
 				CE0760DB1DB31AC800D92135 /* SortByControlTableViewDelegate.m in Sources */,
 				CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */,
@@ -886,6 +916,7 @@
 				CEC965EE1DAB3D4B0017C990 /* ImagesTableViewCell.m in Sources */,
 				CEEA7D081D9487CF00D90DEF /* NewsFeedTableViewController.m in Sources */,
 				CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */,
+				CE1FFA1A1DCAA82A006FBF7B /* RequestToken.m in Sources */,
 				CE72729F1D9B38D80073AD6A /* TVEventsCollectionViewCell.m in Sources */,
 				CEEA7CF71D947C9700D90DEF /* TVEventsViewController.m in Sources */,
 				CE5025E61DC383FF007FC9AF /* CastMemberDetailsTableViewController.m in Sources */,
@@ -909,6 +940,7 @@
 				CEF544191D9F3BD300124204 /* DataProviderService.m in Sources */,
 				CE5885231DB2EDA000A52DBB /* SearchResultItemTableViewCell.m in Sources */,
 				CE741D341D91ED5D0081C33A /* main.m in Sources */,
+				CE1FFA171DCA9F4E006FBF7B /* LoginRequest.m in Sources */,
 				CE8329B71DA7D855000F9424 /* TrailerTableViewCell.m in Sources */,
 				CE05F53D1DC614C100F74971 /* FilmographyTableViewCell.m in Sources */,
 				CE43F6461DA9571C00D8349B /* SeparatorTableViewCell.m in Sources */,
@@ -1067,6 +1099,7 @@
 			baseConfigurationReference = 3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = DH5LGL8R5Y;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
@@ -1086,6 +1119,7 @@
 			baseConfigurationReference = 040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = DH5LGL8R5Y;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";

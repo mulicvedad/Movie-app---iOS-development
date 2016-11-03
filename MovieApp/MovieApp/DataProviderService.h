@@ -2,9 +2,12 @@
 #import "ItemsArrayReceiver.h"
 #import "TVEvent.h"
 #import "TheMovieDBConstants.h"
+#import "LoginManagerDelagate.h"
+#import "LoginRequest.h"
+#import "LoginManager.h"
 
 //singleton
-@interface DataProviderService : NSObject
+@interface DataProviderService : NSObject<LoginManagerDelegate>
 
 +(DataProviderService *)sharedDataProviderService;
 +(NSArray *)getCriteriaForSorting;
@@ -20,4 +23,6 @@
 -(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)cancelAllRequests;
 -(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler;
+
+-(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate;
 @end

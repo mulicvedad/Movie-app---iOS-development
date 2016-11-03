@@ -19,6 +19,7 @@ static DataProviderService *downloader=nil;
     [Fabric with:@[[Crashlytics class]]];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
+    
     return YES;
     
 }
