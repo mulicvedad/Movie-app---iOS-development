@@ -2,7 +2,25 @@
 
 
 @interface TheMovieDBConstants : NSObject
+typedef enum Criteria
+{
+    MOST_POPULAR=0,
+    LATEST=1,
+    TOP_RATED=2,
+    AIRING_TODAY=3,
+    ON_THE_AIR=4
+    
+}Criterion;
 
+typedef enum{
+    MovieType,
+    TVShowType
+}MediaType;
+
+typedef enum {
+    GET,
+    POST
+}HTTPMethod;
 
 extern NSString * const APIKeyParameterName;
 extern NSString * const SortByParameterName;
@@ -15,6 +33,8 @@ extern NSString * const ErrorDictionaryKey;
 extern NSString *UsernameParameterName;
 extern NSString *PasswordParameterName;
 extern NSString *RequestTokenParameterName;
+extern NSString *ValueParameterName;
+extern NSString *SessionIDParameterName;
 
 
 extern NSString * const MovieDetailsSubpath;
@@ -37,7 +57,12 @@ extern NSString * const PersonDetailsSubpath;
 extern NSString *CreateNewTokenSubpath;
 extern NSString *ValidateTokenSubpath;
 extern NSString *CreateNewSessionSubpath;
-
+extern NSString *AccountDetailsSubpath;
+extern NSString *FavoriteSubpath;
+extern NSString *WatchlistSubpath;
+extern NSString *FavoriteMovieFullSubpath;
+extern NSString *FavoriteTVShowFullSubpath;
+extern NSString *WatchlistFullSubpath;
 
 extern NSString * const ResultsPath;
 
@@ -69,16 +94,8 @@ extern NSString * const BaseImageUrlForWidth500;
 extern NSString * const BaseImageUrlForWidth185;
 extern NSString * const BaseImageUrlForWidth92;
 
-
-typedef enum Criteria
-{
-    MOST_POPULAR=0,
-    LATEST=1,
-    TOP_RATED=2,
-    AIRING_TODAY=3,
-    ON_THE_AIR=4
-    
-}Criterion;
+extern NSString *MovieMediaType;
+extern NSString *TVMediaType;
 
 +(NSString *)getTheMovieDbAPIKey;
 +(NSString *)getTheMovieDbAPIBaseURLPath;

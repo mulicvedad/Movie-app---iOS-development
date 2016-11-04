@@ -12,6 +12,7 @@
 +(DataProviderService *)sharedDataProviderService;
 +(NSArray *)getCriteriaForSorting;
 -(void)configure;
+//GET methods
 -(void)getTvEventsByCriterion:(Criterion)criterion page:(NSUInteger)page returnToHandler:(id<ItemsArrayReceiver>)delegate;
 -(void)getGenresForTvEvent:(Class)class ReturnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)getDetailsForTvEvent:(TVEvent *)tvEvent returnTo:(id<ItemsArrayReceiver>)dataHandler;
@@ -23,6 +24,13 @@
 -(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)cancelAllRequests;
 -(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler;
-
 -(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate;
+-(void)getFavoriteTVEventsOfType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getWatchlistOfType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
+
+//POST methods
+-(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType;
+-(void)favoriteTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shoulRemove;
+-(void)addToWatchlistTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove;
+
 @end

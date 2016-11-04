@@ -391,6 +391,13 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 }
 
 -(void)loginSucceededWithSessionID:(NSString *)sessionID{
+    [[DataProviderService sharedDataProviderService] loginSucceededWithSessionID:sessionID];
+    //[[DataProviderService sharedDataProviderService] rateTVEventWithID:11 rating:5.5 mediaType:MovieType];
+    //[[DataProviderService sharedDataProviderService] favoriteTVEventWithID:11 mediaType:MovieType remove:YES];
+    //[[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:11 mediaType:MovieType remove:YES];
+    [[DataProviderService sharedDataProviderService] getFavoriteTVEventsOfType:TVShowType returnTo:nil];
+    [[DataProviderService sharedDataProviderService] getFavoriteTVEventsOfType:MovieType returnTo:nil];
+
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"SUCCESS"
                                                                    message:sessionID
                                                             preferredStyle:UIAlertControllerStyleAlert];

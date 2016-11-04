@@ -16,6 +16,8 @@ NSString * const ErrorDictionaryKey=@"error";
 NSString *UsernameParameterName=@"username";
 NSString *PasswordParameterName=@"password";
 NSString *RequestTokenParameterName=@"request_token";
+NSString *ValueParameterName=@"value";
+NSString *SessionIDParameterName=@"session_id";
 
 
 NSString * const MovieDetailsSubpath=@"/3/movie";
@@ -38,6 +40,12 @@ NSString * const PersonDetailsSubpath=@"/3/person";
 NSString *CreateNewTokenSubpath=@"/3/authentication/token/new";
 NSString *ValidateTokenSubpath=@"/3/authentication/token/validate_with_login";
 NSString *CreateNewSessionSubpath=@"/3/authentication/session/new";
+NSString *AccountDetailsSubpath=@"/3/account/:id";
+NSString *FavoriteSubpath=@"/favorite";
+NSString *WatchlistSubpath=@"/watchlist";
+NSString *FavoriteMovieFullSubpath=@"/3/account/:id/favorite/movies";
+NSString *FavoriteTVShowFullSubpath=@"/3/account/:id/favorite/tv";
+NSString *WatchlistFullSubpath=@"/3/account/:id/watchlist/:id";
 
 NSString * const ResultsPath=@"results";
 
@@ -68,6 +76,8 @@ NSString * const BaseImageUrlForWidth500=@"http://image.tmdb.org/t/p/w500";
 NSString * const BaseImageUrlForWidth185=@"http://image.tmdb.org/t/p/w185";
 NSString * const BaseImageUrlForWidth92=@"http://image.tmdb.org/t/p/w92";
 
+NSString *MovieMediaType=@"movie";
+NSString *TVMediaType=@"tv";
 
 +(NSString *)getTheMovieDbAPIKey{
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:TheMovieDbAPIDictionaryKey];

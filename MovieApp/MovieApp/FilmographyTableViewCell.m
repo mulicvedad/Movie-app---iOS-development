@@ -4,7 +4,6 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 static NSString * const PosterPlaceholderImageName=@"poster-placeholder60x90";
-static NSString * const MovieMediaType=@"movie";
 
 @implementation FilmographyTableViewCell
 id<ShowDetailsDelegate> _delegateForSegue;

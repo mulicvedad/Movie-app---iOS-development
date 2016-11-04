@@ -24,6 +24,9 @@
 		CE1FFA1A1DCAA82A006FBF7B /* RequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA191DCAA82A006FBF7B /* RequestToken.m */; };
 		CE1FFA1D1DCAA9BC006FBF7B /* LoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA1C1DCAA9BC006FBF7B /* LoginResponse.m */; };
 		CE1FFA201DCAAAF6006FBF7B /* SessionIDResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA1F1DCAAAF6006FBF7B /* SessionIDResponse.m */; };
+		CE1FFA261DCBE334006FBF7B /* PostResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA251DCBE334006FBF7B /* PostResponse.m */; };
+		CE1FFA2C1DCC1C6D006FBF7B /* FavoritePostObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA2B1DCC1C6D006FBF7B /* FavoritePostObject.m */; };
+		CE1FFA2F1DCC2B1A006FBF7B /* WatchlistPostObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1FFA2E1DCC2B1A006FBF7B /* WatchlistPostObject.m */; };
 		CE2A404A1DA14FA7005375F1 /* FeedXmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2A40491DA14FA7005375F1 /* FeedXmlParser.m */; };
 		CE43F6411DA918BE00D8349B /* BasicInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE43F63F1DA918BE00D8349B /* BasicInfoTableViewCell.m */; };
 		CE43F6421DA918BE00D8349B /* BasicInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE43F6401DA918BE00D8349B /* BasicInfoTableViewCell.xib */; };
@@ -165,6 +168,12 @@
 		CE1FFA1E1DCAAAF6006FBF7B /* SessionIDResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIDResponse.h; sourceTree = "<group>"; };
 		CE1FFA1F1DCAAAF6006FBF7B /* SessionIDResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionIDResponse.m; sourceTree = "<group>"; };
 		CE1FFA211DCAAD2B006FBF7B /* LoginManagerDelagate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManagerDelagate.h; sourceTree = "<group>"; };
+		CE1FFA241DCBE334006FBF7B /* PostResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostResponse.h; sourceTree = "<group>"; };
+		CE1FFA251DCBE334006FBF7B /* PostResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostResponse.m; sourceTree = "<group>"; };
+		CE1FFA2A1DCC1C6D006FBF7B /* FavoritePostObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritePostObject.h; sourceTree = "<group>"; };
+		CE1FFA2B1DCC1C6D006FBF7B /* FavoritePostObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritePostObject.m; sourceTree = "<group>"; };
+		CE1FFA2D1DCC2B1A006FBF7B /* WatchlistPostObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchlistPostObject.h; sourceTree = "<group>"; };
+		CE1FFA2E1DCC2B1A006FBF7B /* WatchlistPostObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchlistPostObject.m; sourceTree = "<group>"; };
 		CE2A40481DA14FA7005375F1 /* FeedXmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedXmlParser.h; sourceTree = "<group>"; };
 		CE2A40491DA14FA7005375F1 /* FeedXmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedXmlParser.m; sourceTree = "<group>"; };
 		CE43F63E1DA918BE00D8349B /* BasicInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicInfoTableViewCell.h; sourceTree = "<group>"; };
@@ -517,6 +526,12 @@
 				CE1FFA1C1DCAA9BC006FBF7B /* LoginResponse.m */,
 				CE1FFA1E1DCAAAF6006FBF7B /* SessionIDResponse.h */,
 				CE1FFA1F1DCAAAF6006FBF7B /* SessionIDResponse.m */,
+				CE1FFA241DCBE334006FBF7B /* PostResponse.h */,
+				CE1FFA251DCBE334006FBF7B /* PostResponse.m */,
+				CE1FFA2A1DCC1C6D006FBF7B /* FavoritePostObject.h */,
+				CE1FFA2B1DCC1C6D006FBF7B /* FavoritePostObject.m */,
+				CE1FFA2D1DCC2B1A006FBF7B /* WatchlistPostObject.h */,
+				CE1FFA2E1DCC2B1A006FBF7B /* WatchlistPostObject.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -895,6 +910,7 @@
 				CE43F6591DA9C76100D8349B /* CrewMember.m in Sources */,
 				CEC965F21DAB48820017C990 /* Image.m in Sources */,
 				CE5AC9CB1DB4A16700498846 /* CastMemberPictureTableViewCell.m in Sources */,
+				CE1FFA2F1DCC2B1A006FBF7B /* WatchlistPostObject.m in Sources */,
 				CEF93FA31DADA29E005028F5 /* ReviewSeparatorTableViewCell.m in Sources */,
 				CEC965E41DAB2B9A0017C990 /* RatingTableViewCell.m in Sources */,
 				CECC8E0A1DAFD28700E132AA /* YearTableViewCell.m in Sources */,
@@ -932,9 +948,11 @@
 				CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */,
 				CE530D971D996043003A708F /* FeedDownloader.m in Sources */,
 				CE43F6531DA9C73E00D8349B /* Person.m in Sources */,
+				CE1FFA2C1DCC1C6D006FBF7B /* FavoritePostObject.m in Sources */,
 				CE69C6D51DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.m in Sources */,
 				CE0760D71DB30FD800D92135 /* SortByDropDownTableViewCell.m in Sources */,
 				CE11095A1DAF26EB005F4676 /* EpisodeTableViewCell.m in Sources */,
+				CE1FFA261DCBE334006FBF7B /* PostResponse.m in Sources */,
 				CE69C6D01DB0586700FE3429 /* EpisodeTrailerTableViewCell.m in Sources */,
 				CECC8E061DAFCA6E00E132AA /* TVShowEpisode.m in Sources */,
 				CEF544191D9F3BD300124204 /* DataProviderService.m in Sources */,
