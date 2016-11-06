@@ -38,7 +38,7 @@ static CGFloat const EndPointY=0.75f;
                                (id)[[UIColor blackColor] CGColor],
                                nil];
     [self.viewForGradient.layer insertSublayer:_myGradientLayer atIndex:0];
-    [self.titleLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:YES]];
+    //[self.titleLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:YES]];
     [self.ratingLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.releaseDateLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.genreLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
@@ -65,6 +65,7 @@ static CGFloat const EndPointY=0.75f;
     BOOL isMovie=([tvEvent isKindOfClass:[Movie class]]) ? YES : NO;
     
     self.titleLabel.text=[tvEvent.title uppercaseString];
+    self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;

@@ -43,9 +43,13 @@ NSString *CreateNewSessionSubpath=@"/3/authentication/session/new";
 NSString *AccountDetailsSubpath=@"/3/account/:id";
 NSString *FavoriteSubpath=@"/favorite";
 NSString *WatchlistSubpath=@"/watchlist";
+NSString *RatedSubpath=@"/rated";
 NSString *FavoriteMovieFullSubpath=@"/3/account/:id/favorite/movies";
 NSString *FavoriteTVShowFullSubpath=@"/3/account/:id/favorite/tv";
-NSString *WatchlistFullSubpath=@"/3/account/:id/watchlist/:id";
+NSString *WatchlistMovieFullSubpath=@"/3/account/:id/watchlist/movies";
+NSString *WatchlistTVShowFullSubpath=@"/3/account/:id/watchlist/tv";
+NSString *RatedMoviesFullSubpath=@"/3/account/:id/rated/movies";
+NSString *RatedTVShowsFullSubpath=@"/3/account/:id/rated/tv";
 
 NSString * const ResultsPath=@"results";
 

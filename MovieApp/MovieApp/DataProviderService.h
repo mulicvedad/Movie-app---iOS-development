@@ -25,8 +25,10 @@
 -(void)cancelAllRequests;
 -(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate;
--(void)getFavoriteTVEventsOfType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
--(void)getWatchlistOfType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
+
+-(void)getFavoriteTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getWatchlistOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getRatedTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
 
 //POST methods
 -(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType;

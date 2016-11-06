@@ -7,12 +7,20 @@ typedef enum{
     SideMenuOptionWatchlist,
     SideMenuOptionRatings,
     SideMenuOptionSettings,
+    SideMenuOptionLogin,
+    SideMenuOptionLogout,
     SideMenuOptionNone
 } SideMenuOption;
 @interface MovieAppConfiguration : NSObject
 
 extern NSString * const YouTubeSiteName;
 extern NSString * const FilledStarCode;
+extern NSString *IsUserLoggedInNSUserDefaultsKey;
+extern NSString *KeyChainItemWrapperIdentifier;
+extern NSString *SessionIDKeyChainKey;
+extern NSString *UsernameNSUserDefaultsKey;
+
+
 
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
@@ -21,6 +29,7 @@ extern NSString * const FilledStarCode;
 
 +(UIColor *)getPrefferedYellowColor;
 +(UIColor *)getPrefferedGreyColor;
++(UIColor *)getPreferredDarkGreyColor;
 +(UIColor *)getPrefferedLightGreyColor;
 +(UIColor *)getResultsTableViewBackgroungColor;
 +(UIFont *)getPreferredFontWithSize:(CGFloat)fontSize isBold:(BOOL)bold;
@@ -29,5 +38,6 @@ extern NSString * const FilledStarCode;
 +(UIColor *)getGradientMiddlePointColor;
 +(UIColor *)getGradientEndPointColor;
 +(UIColor *)getPreferredTextColorForSearchBar;
-
++(NSArray *)getCriteriaForLikedTVEventsSorting;
++(NSString *)getStringRepresentationOfSideMenuOption:(SideMenuOption) option;
 @end

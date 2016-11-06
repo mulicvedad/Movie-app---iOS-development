@@ -82,6 +82,9 @@
 		CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8329B21DA7BE82000F9424 /* TVEventDetailsTableViewController.m */; };
 		CE8329B71DA7D855000F9424 /* TrailerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8329B51DA7D855000F9424 /* TrailerTableViewCell.m */; };
 		CE8329B81DA7D855000F9424 /* TrailerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE8329B61DA7D855000F9424 /* TrailerTableViewCell.xib */; };
+		CE948E891DCCBB2500EF6262 /* LikedTVEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E881DCCBB2500EF6262 /* LikedTVEventsViewController.m */; };
+		CE948E8C1DCCC5CA00EF6262 /* SortByTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E8B1DCCC5CA00EF6262 /* SortByTableViewDelegate.m */; };
+		CE948E961DCEAD2600EF6262 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E951DCEAD2600EF6262 /* LoginViewController.m */; };
 		CEC965E41DAB2B9A0017C990 /* RatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC965E21DAB2B9A0017C990 /* RatingTableViewCell.m */; };
 		CEC965E51DAB2B9A0017C990 /* RatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEC965E31DAB2B9A0017C990 /* RatingTableViewCell.xib */; };
 		CEC965E91DAB38AA0017C990 /* OverviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC965E71DAB38AA0017C990 /* OverviewTableViewCell.m */; };
@@ -278,6 +281,13 @@
 		CE83C6771D9D5BC4008ECA96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		CE83C6791D9D5BD0008ECA96 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CE83C67B1D9D5BDB008ECA96 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CE948E871DCCBB2500EF6262 /* LikedTVEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikedTVEventsViewController.h; sourceTree = "<group>"; };
+		CE948E881DCCBB2500EF6262 /* LikedTVEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikedTVEventsViewController.m; sourceTree = "<group>"; };
+		CE948E8A1DCCC5CA00EF6262 /* SortByTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortByTableViewDelegate.h; sourceTree = "<group>"; };
+		CE948E8B1DCCC5CA00EF6262 /* SortByTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortByTableViewDelegate.m; sourceTree = "<group>"; };
+		CE948E901DCE966800EF6262 /* MovieApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MovieApp.entitlements; sourceTree = "<group>"; };
+		CE948E941DCEAD2600EF6262 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		CE948E951DCEAD2600EF6262 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		CEC965E11DAB2B9A0017C990 /* RatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingTableViewCell.h; sourceTree = "<group>"; };
 		CEC965E21DAB2B9A0017C990 /* RatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingTableViewCell.m; sourceTree = "<group>"; };
 		CEC965E31DAB2B9A0017C990 /* RatingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingTableViewCell.xib; sourceTree = "<group>"; };
@@ -427,6 +437,7 @@
 		CE741D311D91ED5D0081C33A /* MovieApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE948E901DCE966800EF6262 /* MovieApp.entitlements */,
 				CE741D651D91ED900081C33A /* Classes */,
 				CE741D351D91ED5D0081C33A /* AppDelegate.h */,
 				CE741D361D91ED5D0081C33A /* AppDelegate.m */,
@@ -649,6 +660,12 @@
 				CE5025E51DC383FF007FC9AF /* CastMemberDetailsTableViewController.m */,
 				CE1FFA031DC8E6B5006FBF7B /* SideMenuTableViewController.h */,
 				CE1FFA041DC8E6B5006FBF7B /* SideMenuTableViewController.m */,
+				CE948E871DCCBB2500EF6262 /* LikedTVEventsViewController.h */,
+				CE948E881DCCBB2500EF6262 /* LikedTVEventsViewController.m */,
+				CE948E8A1DCCC5CA00EF6262 /* SortByTableViewDelegate.h */,
+				CE948E8B1DCCC5CA00EF6262 /* SortByTableViewDelegate.m */,
+				CE948E941DCEAD2600EF6262 /* LoginViewController.h */,
+				CE948E951DCEAD2600EF6262 /* LoginViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -739,6 +756,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = DH5LGL8R5Y;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					CE741D471D91ED5E0081C33A = {
 						CreatedOnToolsVersion = 8.0;
@@ -923,8 +945,10 @@
 				CE0760DB1DB31AC800D92135 /* SortByControlTableViewDelegate.m in Sources */,
 				CE69C6C81DB0360100FE3429 /* SimpleCollectionViewCell.m in Sources */,
 				CE5AEF011DC4F91C0036D8CD /* TVEventCredit.m in Sources */,
+				CE948E961DCEAD2600EF6262 /* LoginViewController.m in Sources */,
 				CE5885201DB2EBDF00A52DBB /* SearchResultItem.m in Sources */,
 				CE5AC9D31DB4B2D400498846 /* CastMemberInfoTableViewCell.m in Sources */,
+				CE948E891DCCBB2500EF6262 /* LikedTVEventsViewController.m in Sources */,
 				CEFE5F091DA6ED9700D5B275 /* Genre.m in Sources */,
 				CE43F64D1DA9C2C000D8349B /* MovieDetails.m in Sources */,
 				CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */,
@@ -940,6 +964,7 @@
 				CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */,
 				CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */,
 				CE5025E91DC38D63007FC9AF /* PersonDetails.m in Sources */,
+				CE948E8C1DCCC5CA00EF6262 /* SortByTableViewDelegate.m in Sources */,
 				CECC8E0F1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m in Sources */,
 				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,
 				CE43F6411DA918BE00D8349B /* BasicInfoTableViewCell.m in Sources */,
@@ -1118,6 +1143,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = MovieApp/MovieApp.entitlements;
 				DEVELOPMENT_TEAM = DH5LGL8R5Y;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
@@ -1138,6 +1164,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = MovieApp/MovieApp.entitlements;
 				DEVELOPMENT_TEAM = DH5LGL8R5Y;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";

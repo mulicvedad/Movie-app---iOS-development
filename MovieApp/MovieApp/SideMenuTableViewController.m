@@ -43,15 +43,26 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
     [self configureTableViewHeader];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SideMenuItemTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SideMenuItemTableViewCell class])];
     self.tableView.backgroundColor=[UIColor blackColor];
-   // _currentOption=SideMenuOptionNone;
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.separatorInset=UIEdgeInsetsZero;
+    self.tableView.separatorColor=[MovieAppConfiguration getPreferredDarkGreyColor];
+    
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+            self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+    }
+
 }
 
 -(void)configureTableViewHeader{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+        return;
+    }
     UIView *newTableHeaderView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, HeaderDefaultHeight )];
     newTableHeaderView.backgroundColor=[UIColor blackColor];
     UILabel *currentUserLabel=[[UILabel alloc]initWithFrame:CGRectMake(HeaderLabelXPosition, HeaderLabelYPosition, self.tableView.bounds.size.width, HeaderLabelHeight)];
-    currentUserLabel.text=@"Current User";
-    currentUserLabel.font=[MovieAppConfiguration getPreferredFontWithSize:14 isBold:NO];
+    currentUserLabel.text=[[NSUserDefaults standardUserDefaults] stringForKey:UsernameNSUserDefaultsKey];
+    currentUserLabel.font=[MovieAppConfiguration getPreferredFontWithSize:16 isBold:YES];
     currentUserLabel.textColor=[MovieAppConfiguration getPrefferedGreyColor];
     [newTableHeaderView addSubview:currentUserLabel];
     self.tableView.tableHeaderView=newTableHeaderView;
@@ -60,11 +71,14 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey] ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return (section==0) ? 3 : 1;
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+        return 1;
+    }
+    return (section==0) ? 3 : 2;
 }
 
 
@@ -76,7 +90,7 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
         isSelected=YES;
     }
     [cell setupWithOption:[self optionForIndexPath:indexPath] selected:isSelected];
-    
+
     return cell;
 }
 
@@ -88,6 +102,10 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
     return SectionHeaderDefaultHeight;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+        UIView *emptyView=[[UIView alloc] initWithFrame:CGRectZero];
+        return emptyView;
+    }
     UIView *newHeaderView=[[UIView alloc]initWithFrame:CGRectMake(0,0, tableView.bounds.size.width, SectionHeaderDefaultHeight)];
     newHeaderView.backgroundColor=[UIColor colorWithRed:33/255.0 green:33/255.0 blue:33/255.0 alpha:1.0];
     UILabel *sectionHeaderLabel=[[UILabel alloc] initWithFrame:CGRectMake(SectionHeaderLabelXPosition, SectionHeaderLabelYPosition, tableView.bounds.size.width-SectionHeaderLabelXPosition, SectionHeaderLabelHeight)];
@@ -108,15 +126,20 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    SideMenuItemTableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    [cell setupWithOption:[self optionForIndexPath:indexPath] selected:YES];
     [_delegate doActionForOption:[self optionForIndexPath:indexPath]];
 }
 
 -(SideMenuOption)optionForIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.section==0){
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+        return SideMenuOptionLogin;
+    }
+    else if(indexPath.section==0){
         return (SideMenuOption)indexPath.row;
     }
     else{
-        return SideMenuOptionSettings;
+        return indexPath.row==0 ? SideMenuOptionSettings : SideMenuOptionLogout;
     }
 }
 @end

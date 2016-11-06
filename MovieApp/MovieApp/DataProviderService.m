@@ -20,6 +20,7 @@
 #import "PostResponse.h"
 #import "FavoritePostObject.h"
 #import "WatchlistPostObject.h"
+#import <KeychainItemWrapper.h>
 
 @interface DataProviderService(){
     RKObjectManager *objectManager;
@@ -100,8 +101,13 @@ static DataProviderService *sharedService;
     
     [self addResponseDescriptorWithMapping:movieMapping pathPattern:MovieDiscoverSubpath keyPath:ResultsPath forHttpMethod:GET];
     [self addResponseDescriptorWithMapping:movieMapping pathPattern:FavoriteMovieFullSubpath keyPath:ResultsPath forHttpMethod:GET];
+    [self addResponseDescriptorWithMapping:movieMapping pathPattern:WatchlistMovieFullSubpath keyPath:ResultsPath forHttpMethod:GET];
+    [self addResponseDescriptorWithMapping:movieMapping pathPattern:RatedMoviesFullSubpath keyPath:ResultsPath forHttpMethod:GET];
+
     [self addResponseDescriptorWithMapping:tvShowMapping pathPattern:TVShowDiscoverSubpath keyPath:ResultsPath forHttpMethod:GET];
     [self addResponseDescriptorWithMapping:tvShowMapping pathPattern:FavoriteTVShowFullSubpath keyPath:ResultsPath forHttpMethod:GET];
+    [self addResponseDescriptorWithMapping:tvShowMapping pathPattern:WatchlistTVShowFullSubpath keyPath:ResultsPath forHttpMethod:GET];
+    [self addResponseDescriptorWithMapping:tvShowMapping pathPattern:RatedTVShowsFullSubpath keyPath:ResultsPath forHttpMethod:GET];
 
     [self addResponseDescriptorWithMapping:genreMapping pathPattern:nil keyPath:GenresKeypath forHttpMethod:GET];
     [self addResponseDescriptorWithMapping:movieDetailsMapping pathPattern:[MovieDetailsSubpath stringByAppendingString:VariableSubpath] keyPath:EmptyString forHttpMethod:GET];
@@ -341,15 +347,20 @@ static DataProviderService *sharedService;
     
 }
 
--(void)getFavoriteTVEventsOfType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getFavoriteTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
 {
+    BOOL loggedIn=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoggedIn"];
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:@"sessionID" accessGroup:nil];
+    _sessionID=[myKeyChain objectForKey:kSecValueData];
+    
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
-                                  SessionIDParameterName: _sessionID};
+                                  SessionIDParameterName: _sessionID,
+                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:FavoriteSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  //[dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
                                                   
                                                   
                                               }
@@ -360,15 +371,33 @@ static DataProviderService *sharedService;
 
     
 }
--(void)getWatchlistOfType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getWatchlistOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
 {
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
-                                  SessionIDParameterName: _sessionID};
+                                  SessionIDParameterName: _sessionID,
+                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:WatchlistSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  //[dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+}
+
+-(void)getRatedTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    
+    NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
+                                  SessionIDParameterName: _sessionID,
+                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
+    NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:RatedSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
                                                   
                                                   
                                               }

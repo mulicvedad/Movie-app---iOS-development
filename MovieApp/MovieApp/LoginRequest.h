@@ -5,5 +5,5 @@
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *password;
 
--(void)initWithUsername:(NSString *)usrname password:(NSString *)passwrd;
+-(id)initWithUsername:(NSString *)usrname password:(NSString *)passwrd;
 @end
