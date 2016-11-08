@@ -36,7 +36,12 @@ static NSString * const NameNotFoundText=@"Name not found";
 +(NSString *)cellIClassName{
     return @"SearchResultItemTableViewCell";
 }
+-(void)configureForLikedTVEvents{
+    self.contentView.backgroundColor=[UIColor blackColor];
+    self.lineView.backgroundColor=[UIColor colorWithRed:42/255.0 green:45/255.0 blue:44/255.0 alpha:1.0];
+    self.arrowButtob.hidden=YES;
 
+}
 -(void)setupWithTitle:(NSAttributedString *)title rating:(float)voteAverage imageUrl:(NSURL *)imagePosterUrl{
     if(imagePosterUrl){
         [self.posterImageView sd_setImageWithURL:imagePosterUrl placeholderImage:[UIImage imageNamed:PosterPlaceholderImageName]];
@@ -73,10 +78,10 @@ static NSString * const NameNotFoundText=@"Name not found";
     else{
         dateAttributedString=[[NSMutableAttributedString alloc] initWithString:
                               [[@" (" stringByAppendingString:[tvEvent isKindOfClass:[Movie class]] ? [tvEvent getReleaseYear] : [(TVShow *)tvEvent getFormattedReleaseDate]]
-                               stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize12 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
+                               stringByAppendingString:@")" ] attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:14 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
     }
     
-    if(![tvEvent isKindOfClass:[Movie class]] && tvEvent.releaseDate){
+    if(tvEvent.releaseDate){
         [titleAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
     }
     [titleAttributedString appendAttributedString:dateAttributedString];

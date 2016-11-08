@@ -88,6 +88,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SearchResultItemTableViewCell *cell=[self.tvEventsTableView dequeueReusableCellWithIdentifier:NSStringFromClass([SearchResultItemTableViewCell class])];
+    [cell configureForLikedTVEvents];
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
