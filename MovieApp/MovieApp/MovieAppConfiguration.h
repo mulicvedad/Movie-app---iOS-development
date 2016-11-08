@@ -15,10 +15,9 @@ typedef enum{
 
 extern NSString * const YouTubeSiteName;
 extern NSString * const FilledStarCode;
-extern NSString *IsUserLoggedInNSUserDefaultsKey;
 extern NSString *KeyChainItemWrapperIdentifier;
 extern NSString *SessionIDKeyChainKey;
-extern NSString *UsernameNSUserDefaultsKey;
+extern NSString *UsernameKeyChainKey;
 
 
 

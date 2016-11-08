@@ -4,10 +4,10 @@
 #import "TheMovieDBConstants.h"
 #import "LoginManagerDelagate.h"
 #import "LoginRequest.h"
-#import "LoginManager.h"
+#import "TVEventsCollectionsStateChangeHandler.h"
 
 //singleton
-@interface DataProviderService : NSObject<LoginManagerDelegate>
+@interface DataProviderService : NSObject
 
 +(DataProviderService *)sharedDataProviderService;
 +(NSArray *)getCriteriaForSorting;
@@ -31,8 +31,8 @@
 -(void)getRatedTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
 
 //POST methods
--(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType;
--(void)favoriteTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shoulRemove;
--(void)addToWatchlistTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove;
+-(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler;
+-(void)favoriteTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shoulRemove responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler;
+-(void)addToWatchlistTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler;
 
 @end

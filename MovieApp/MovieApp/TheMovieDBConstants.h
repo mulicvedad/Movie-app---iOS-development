@@ -22,6 +22,11 @@ typedef enum {
     POST
 }HTTPMethod;
 
+typedef enum {
+    AddedSucessfullyPostResponseStatusCode=1,
+    RemovedSucessfullyPostResponseStatusCode=13
+}PostResponseStatusCode;
+
 extern NSString * const APIKeyParameterName;
 extern NSString * const SortByParameterName;
 extern NSString * const QueryParameterName;
@@ -30,6 +35,7 @@ extern NSString * const PageQueryParameterName;
 extern NSString * const CriterionDictionaryKey;
 extern NSString * const TypeDictionaryKey;
 extern NSString * const ErrorDictionaryKey;
+extern NSString *SideMenuOptionDictionaryKey;
 extern NSString *UsernameParameterName;
 extern NSString *PasswordParameterName;
 extern NSString *RequestTokenParameterName;
@@ -100,6 +106,8 @@ extern NSString * const BaseImageUrlForWidth92;
 
 extern NSString *MovieMediaType;
 extern NSString *TVMediaType;
+
+extern NSString *DataStorageReadyNotificationName;
 
 +(NSString *)getTheMovieDbAPIKey;
 +(NSString *)getTheMovieDbAPIBaseURLPath;

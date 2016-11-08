@@ -4,10 +4,11 @@ NSString * const RegularHelveticaFontName=@"HelveticaNeue";
 NSString * const BoldHelveticaFontName=@"HelveticaNeue";
 NSString * const YouTubeSiteName=@"YouTube";
 NSString * const FilledStarCode= @"\u2605 ";
-NSString *IsUserLoggedInNSUserDefaultsKey=@"isLoggedIn";
-NSString *UsernameNSUserDefaultsKey=@"username";
 NSString *KeyChainItemWrapperIdentifier=@"myKeyChainWrapper";
 NSString *SessionIDKeyChainKey=@"sessionID";
+NSString *UsernameKeyChainKey=@"username";
+
+
 
 @implementation MovieAppConfiguration
 

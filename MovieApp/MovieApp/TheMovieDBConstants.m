@@ -13,6 +13,8 @@ NSString * const PageQueryParameterName=@"page";
 NSString * const CriterionDictionaryKey=@"criterion";
 NSString * const TypeDictionaryKey=@"type";
 NSString * const ErrorDictionaryKey=@"error";
+NSString *SideMenuOptionDictionaryKey=@"sideMenuOption";
+
 NSString *UsernameParameterName=@"username";
 NSString *PasswordParameterName=@"password";
 NSString *RequestTokenParameterName=@"request_token";
@@ -82,6 +84,9 @@ NSString * const BaseImageUrlForWidth92=@"http://image.tmdb.org/t/p/w92";
 
 NSString *MovieMediaType=@"movie";
 NSString *TVMediaType=@"tv";
+
+NSString *DataStorageReadyNotificationName=@"DataArrivedNotification";
+
 
 +(NSString *)getTheMovieDbAPIKey{
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:TheMovieDbAPIDictionaryKey];

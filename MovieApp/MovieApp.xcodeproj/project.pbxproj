@@ -85,6 +85,7 @@
 		CE948E891DCCBB2500EF6262 /* LikedTVEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E881DCCBB2500EF6262 /* LikedTVEventsViewController.m */; };
 		CE948E8C1DCCC5CA00EF6262 /* SortByTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E8B1DCCC5CA00EF6262 /* SortByTableViewDelegate.m */; };
 		CE948E961DCEAD2600EF6262 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E951DCEAD2600EF6262 /* LoginViewController.m */; };
+		CE948E9C1DD0014C00EF6262 /* VirtualDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */; };
 		CEC965E41DAB2B9A0017C990 /* RatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC965E21DAB2B9A0017C990 /* RatingTableViewCell.m */; };
 		CEC965E51DAB2B9A0017C990 /* RatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEC965E31DAB2B9A0017C990 /* RatingTableViewCell.xib */; };
 		CEC965E91DAB38AA0017C990 /* OverviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC965E71DAB38AA0017C990 /* OverviewTableViewCell.m */; };
@@ -288,6 +289,11 @@
 		CE948E901DCE966800EF6262 /* MovieApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MovieApp.entitlements; sourceTree = "<group>"; };
 		CE948E941DCEAD2600EF6262 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		CE948E951DCEAD2600EF6262 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		CE948E971DCFFFEC00EF6262 /* DataStorageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStorageProtocol.h; sourceTree = "<group>"; };
+		CE948E9A1DD0014C00EF6262 /* VirtualDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualDataStorage.h; sourceTree = "<group>"; };
+		CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualDataStorage.m; sourceTree = "<group>"; };
+		CE948E9D1DD0147600EF6262 /* AddTVEventToCollectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTVEventToCollectionDelegate.h; sourceTree = "<group>"; };
+		CE948EA01DD01B0300EF6262 /* TVEventsCollectionsStateChangeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVEventsCollectionsStateChangeHandler.h; sourceTree = "<group>"; };
 		CEC965E11DAB2B9A0017C990 /* RatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingTableViewCell.h; sourceTree = "<group>"; };
 		CEC965E21DAB2B9A0017C990 /* RatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingTableViewCell.m; sourceTree = "<group>"; };
 		CEC965E31DAB2B9A0017C990 /* RatingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingTableViewCell.xib; sourceTree = "<group>"; };
@@ -388,6 +394,9 @@
 				CE5AC9CD1DB4AA8700498846 /* CustomCellIdentityProtocol.h */,
 				CE1FFA0C1DC9900D006FBF7B /* SideMenuDelegate.h */,
 				CE1FFA211DCAAD2B006FBF7B /* LoginManagerDelagate.h */,
+				CE948E971DCFFFEC00EF6262 /* DataStorageProtocol.h */,
+				CE948E9D1DD0147600EF6262 /* AddTVEventToCollectionDelegate.h */,
+				CE948EA01DD01B0300EF6262 /* TVEventsCollectionsStateChangeHandler.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -543,6 +552,8 @@
 				CE1FFA2B1DCC1C6D006FBF7B /* FavoritePostObject.m */,
 				CE1FFA2D1DCC2B1A006FBF7B /* WatchlistPostObject.h */,
 				CE1FFA2E1DCC2B1A006FBF7B /* WatchlistPostObject.m */,
+				CE948E9A1DD0014C00EF6262 /* VirtualDataStorage.h */,
+				CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -989,6 +1000,7 @@
 				CE43F6461DA9571C00D8349B /* SeparatorTableViewCell.m in Sources */,
 				CE0760D21DB30F8C00D92135 /* MainSortByTableViewCell.m in Sources */,
 				CE43F65C1DAA9A8100D8349B /* TvShowSeason.m in Sources */,
+				CE948E9C1DD0014C00EF6262 /* VirtualDataStorage.m in Sources */,
 				CECC8E031DAFAEC100E132AA /* EpisodesGuideTableViewController.m in Sources */,
 				CE43F6501DA9C2CF00D8349B /* TVShowDetails.m in Sources */,
 			);

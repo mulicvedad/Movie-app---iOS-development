@@ -3,6 +3,7 @@
 #import "LoginManager.h"
 #import "LoginRequest.h"
 #import <KeychainItemWrapper.h>
+#import "VirtualDataStorage.h"
 
 static NSString *UsernamePlaceholder=@"  Your username";
 static NSString *PasswordPlaceholder=@"  Password";
@@ -66,12 +67,10 @@ static NSString *PasswordPlaceholder=@"  Password";
 }
 
 -(void)loginSucceededWithSessionID:(NSString *)sessionID{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:IsUserLoggedInNSUserDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] setObject:self.usernameTextField.text forKey:UsernameNSUserDefaultsKey];
-
     KeychainItemWrapper *myWrapper=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-    [myWrapper setObject:sessionID forKey:kSecValueData];
-
+    [myWrapper setObject:self.usernameTextField.text forKey:(id)kSecAttrAccount];
+    [myWrapper setObject:sessionID forKey:(id)kSecValueData];
+    [[VirtualDataStorage sharedVirtualDataStorage] updateData];
     [self notifyUserOfValidationStatus:LoginValidationStatusCompletedSuccessfully];
 }
 

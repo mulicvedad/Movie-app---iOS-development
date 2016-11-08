@@ -25,19 +25,12 @@
 @interface DataProviderService(){
     RKObjectManager *objectManager;
     id<LoginManagerDelegate> _loginHandler;
-    NSString *_sessionID;
 }
 @end
 
 @implementation DataProviderService
 static DataProviderService *sharedService;
 
-+(id)init{
-    if(!sharedService){
-        sharedService=[super init];
-    }
-    return sharedService;
-}
 +(DataProviderService *)sharedDataProviderService{
     if(!sharedService){
         sharedService=[[DataProviderService alloc]init];
@@ -347,63 +340,77 @@ static DataProviderService *sharedService;
     
 }
 
--(void)getFavoriteTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
-{
-    BOOL loggedIn=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoggedIn"];
-    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:@"sessionID" accessGroup:nil];
-    _sessionID=[myKeyChain objectForKey:kSecValueData];
+-(void)getFavoriteTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
     
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
-                                  SessionIDParameterName: _sessionID,
+                                  SessionIDParameterName: sessionID,
                                   PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:FavoriteSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionFavorites]}];
                                                   
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                  //MISSING ERROR HANDLING
-                                                  NSLog(@"Error: %@", error);
+                                                  [dataHandler updateReceiverWithNewData:nil info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionFavorites]}];  
                                               }];
 
     
 }
--(void)getWatchlistOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
-{
+-(void)getWatchlistOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
+    
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
-                                  SessionIDParameterName: _sessionID,
+                                  SessionIDParameterName: sessionID,
                                   PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:WatchlistSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionWatchlist]}];
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                  //MISSING ERROR HANDLING
-                                                  NSLog(@"Error: %@", error);
+                                                  [dataHandler updateReceiverWithNewData:nil info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionWatchlist]}];
                                               }];
 }
 
 -(void)getRatedTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
     
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
-                                  SessionIDParameterName: _sessionID,
+                                  SessionIDParameterName: sessionID,
                                   PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:RatedSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionRatings]}];
                                                   
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                  //MISSING ERROR HANDLING
-                                                  NSLog(@"Error: %@", error);
+[dataHandler updateReceiverWithNewData:nil info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionRatings]}];
                                               }];
 }
 
@@ -416,12 +423,13 @@ static DataProviderService *sharedService;
 }
 
 -(void)addResponseDescriptorWithMapping:(RKObjectMapping *)mapping pathPattern:(NSString *)pathPattern keyPath:(NSString *)keyPath forHttpMethod:(HTTPMethod)method{
+    NSIndexSet *postIndexSet=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 2)];
     RKResponseDescriptor *responseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:mapping
                                                  method:method==GET ? RKRequestMethodGET : RKRequestMethodPOST
                                             pathPattern:pathPattern
                                                 keyPath:keyPath
-                                            statusCodes:[NSIndexSet indexSetWithIndex:method==GET ? 200 : 201]];
+                                            statusCodes:method==GET ? [NSIndexSet indexSetWithIndex:200] : postIndexSet];
     
     [objectManager addResponseDescriptor:responseDescriptor];
 }
@@ -431,25 +439,16 @@ static DataProviderService *sharedService;
 }
 
 
-//login
--(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate{
-    _loginHandler=delegate;
-    [[LoginManager alloc] loginWithLoginRequest:loginData delegate:delegate];
-    
-}
-//login manager delegate methods
-
--(void)loginSucceededWithSessionID:(NSString *)sessionID{
-    _sessionID=sessionID;
-    //[_loginHandler loginSucceededWithSessionID:sessionID];
-}
--(void)loginFailedWithError:(NSError *)error{
-    [_loginHandler loginFailedWithError:error];
-}
-
 //POST methods
 
--(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType{
+-(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
     NSMutableDictionary *postObject=[NSMutableDictionary dictionaryWithDictionary:@{ValueParameterName : [NSNumber numberWithFloat:rating]}];
     
     RKObjectMapping *postObjectMapping=[RKObjectMapping requestMapping];
@@ -460,17 +459,30 @@ static DataProviderService *sharedService;
     NSString *subpath=mediaType==MovieType ? MovieDetailsSubpath : TVShowDetailsSubpath;
     subpath=[subpath stringByAppendingString:[NSString stringWithFormat:@"/%d/rating", (int)tvEventID]];
     subpath=[[subpath stringByAppendingString:@"?api_key="] stringByAppendingString:[MovieAppConfiguration getApiKey]];
-    subpath=[[subpath stringByAppendingString:@"&session_id="] stringByAppendingString:_sessionID];
+    subpath=[[subpath stringByAppendingString:@"&session_id="] stringByAppendingString:sessionID];
     [[RKObjectManager sharedManager] setRequestSerializationMIMEType:RKMIMETypeJSON];
     
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        //missing handling
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        //missing handling
+        PostResponse *response=mappingResult.array[0];
+        if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+            [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionRatings];
+        }
+        else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){
+            [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionRatings];
+        }
+    }
+                                        failure:^(RKObjectRequestOperation *operation, NSError *error) {
     }];
 }
 
--(void)favoriteTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove{
+-(void)favoriteTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
     FavoritePostObject *postObject=[[FavoritePostObject alloc] initWithMediaID:tvEventID mediaType:mediaType status:!shouldRemove];
     
     RKObjectMapping *postObjectMapping=[RKObjectMapping requestMapping];
@@ -482,17 +494,31 @@ static DataProviderService *sharedService;
 
     NSString *subpath=[AccountDetailsSubpath stringByAppendingString:FavoriteSubpath];
     subpath=[[subpath stringByAppendingString:@"?api_key="] stringByAppendingString:[MovieAppConfiguration getApiKey]];
-    subpath=[[subpath stringByAppendingString:@"&session_id="] stringByAppendingString:_sessionID];
+    subpath=[[subpath stringByAppendingString:@"&session_id="] stringByAppendingString:sessionID];
     
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        //missing handling
+        PostResponse *response=mappingResult.array[0];
+        if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+            [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionFavorites];
+        }
+        else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){
+            [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionFavorites];
+        }
 
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         //missing handling
     }];
 }
 
--(void)addToWatchlistTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove{
+-(void)addToWatchlistTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
+    
     WatchlistPostObject *postObject=[[WatchlistPostObject alloc] initWithMediaID:tvEventID mediaType:mediaType status:!shouldRemove];
     
     RKObjectMapping *postObjectMapping=[RKObjectMapping requestMapping];
@@ -504,12 +530,35 @@ static DataProviderService *sharedService;
     
     NSString *subpath=[AccountDetailsSubpath stringByAppendingString:WatchlistSubpath];
     subpath=[[subpath stringByAppendingString:@"?api_key="] stringByAppendingString:[MovieAppConfiguration getApiKey]];
-    subpath=[[subpath stringByAppendingString:@"&session_id="] stringByAppendingString:_sessionID];
+    subpath=[[subpath stringByAppendingString:@"&session_id="] stringByAppendingString:sessionID];
     
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        //missing handling
+        PostResponse *response=mappingResult.array[0];
+        if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+            [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionWatchlist];
+        }
+        else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){
+            [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionWatchlist];
+        }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         //missing handling
     }];
+}
+
+-(BOOL)isUserLoggedIn{
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    if(!username  || [username length]==0){
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
+-(NSString *)getSessionID{
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *sessionID=[myKeyChain objectForKey:(id)kSecValueData];
+    return sessionID;
 }
 @end

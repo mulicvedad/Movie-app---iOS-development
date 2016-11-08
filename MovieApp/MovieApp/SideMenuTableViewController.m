@@ -1,5 +1,6 @@
 #import "SideMenuTableViewController.h"
 #import "SideMenuItemTableViewCell.h"
+#import <KeychainItemWrapper.h>
 
 #define FontSize12 12
 
@@ -48,20 +49,22 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
     self.tableView.separatorColor=[MovieAppConfiguration getPreferredDarkGreyColor];
     
     self.automaticallyAdjustsScrollViewInsets=NO;
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+    if(![self isUserLoggedIn]){
             self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     }
 
 }
 
 -(void)configureTableViewHeader{
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+    if(![self isUserLoggedIn]){
         return;
     }
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
     UIView *newTableHeaderView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, HeaderDefaultHeight )];
     newTableHeaderView.backgroundColor=[UIColor blackColor];
     UILabel *currentUserLabel=[[UILabel alloc]initWithFrame:CGRectMake(HeaderLabelXPosition, HeaderLabelYPosition, self.tableView.bounds.size.width, HeaderLabelHeight)];
-    currentUserLabel.text=[[NSUserDefaults standardUserDefaults] stringForKey:UsernameNSUserDefaultsKey];
+    currentUserLabel.text=username;
     currentUserLabel.font=[MovieAppConfiguration getPreferredFontWithSize:16 isBold:YES];
     currentUserLabel.textColor=[MovieAppConfiguration getPrefferedGreyColor];
     [newTableHeaderView addSubview:currentUserLabel];
@@ -71,11 +74,11 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey] ? 2 : 1;
+    return [self isUserLoggedIn] ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+    if(![self isUserLoggedIn]){
         return 1;
     }
     return (section==0) ? 3 : 2;
@@ -102,7 +105,7 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
     return SectionHeaderDefaultHeight;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+    if(![self isUserLoggedIn]){
         UIView *emptyView=[[UIView alloc] initWithFrame:CGRectZero];
         return emptyView;
     }
@@ -132,7 +135,7 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
 }
 
 -(SideMenuOption)optionForIndexPath:(NSIndexPath *)indexPath{
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:IsUserLoggedInNSUserDefaultsKey]){
+    if(![self isUserLoggedIn]){
         return SideMenuOptionLogin;
     }
     else if(indexPath.section==0){
@@ -142,4 +145,17 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
         return indexPath.row==0 ? SideMenuOptionSettings : SideMenuOptionLogout;
     }
 }
+
+
+-(BOOL)isUserLoggedIn{
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    if(!username  || [username length]==0){
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
 @end

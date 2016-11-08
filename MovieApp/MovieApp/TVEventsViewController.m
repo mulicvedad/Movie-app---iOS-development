@@ -14,6 +14,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "LoginRequest.h"
 #import <KeychainItemWrapper.h>
+#import "VirtualDataStorage.h"
 
 
 #define NumberOfSectionsInTable 2
@@ -69,10 +70,8 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
     [self initialDataDownload];
     [self configureSortByControl];
     [self configureSwipeGestureRecogniser];
-    LoginRequest *r=[[LoginRequest alloc]init];
-    r.username=@"creda";
-    r.password=@"Drina1987";
-    [[DataProviderService sharedDataProviderService] loginWithLoginRequest:r delegate:self];
+    [self configureNotifications];
+    
 }
 
 -(void)configureView{
@@ -121,6 +120,10 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
     [self.view addGestureRecognizer:gestureRecogniser];
 }
 
+-(void)configureNotifications{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataStorageReadyNotificationHandler) name:DataStorageReadyNotificationName object:nil];
+}
+
 -(void)swipeAction{
     if(_sideMenuViewController){
         [self removeSideMenuViewController:_sideMenuViewController];
@@ -134,7 +137,7 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-    [cell setupWithTvEvent:_tvEvents[indexPath.row]];
+    [cell setupWithTvEvent:_tvEvents[indexPath.row] indexPathRow:indexPath.row callbackDelegate:self];
     
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
@@ -175,6 +178,7 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
+    [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;
     [self.tvEventsCollectionView reloadData];
@@ -435,38 +439,6 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
                      }];
 }
 
--(void)loginSucceededWithSessionID:(NSString *)sessionID{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:IsUserLoggedInNSUserDefaultsKey];
-    KeychainItemWrapper *myWrapper=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-    [myWrapper setObject:sessionID forKey:kSecValueData];
-
-        /*UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"SUCCESS"
-                                                                   message:sessionID
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Nice" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-
-    
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];*/
-
-}
--(void)loginFailedWithError:(NSError *)error{
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"FAIL"
-                                                                   message:error.description
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Fml/smh but k" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
-
-}
-
 -(void)handleLogoutRequest{
     
     NSMutableAttributedString *alertTitle = [[NSMutableAttributedString alloc] initWithString:@"Logout" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -483,7 +455,11 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
                                                       }];
     UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-                                                              [[NSUserDefaults standardUserDefaults] setBool:NO forKey:IsUserLoggedInNSUserDefaultsKey];
+                                                              KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+                                                              [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
+                                                              [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
+                                                              [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
+                                                              [self.tvEventsCollectionView reloadData];
                                                           }];
     
     
@@ -499,4 +475,79 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
 
    
 }
+
+-(void)addTVEventToCollection:(SideMenuOption)typeOfCollection indexPathRow:(NSUInteger)indexPathRow{
+    MediaType mediaType= [_tvEvents[indexPathRow] isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+    TVEvent *currentTVEvent=_tvEvents[indexPathRow];
+    if(typeOfCollection==SideMenuOptionFavorites){
+        [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:currentTVEvent.id mediaType:mediaType remove:currentTVEvent.isInFavorites responseHandler:self];
+    }
+    else{
+        [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:currentTVEvent.id  mediaType:mediaType remove:currentTVEvent.isInWatchlist responseHandler:self];
+
+    }
+}
+
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent *currentTVEvent=_tvEvents[i];
+        if(currentTVEvent.id==tvEventID){
+            switch (typeOfCollection) {
+                case SideMenuOptionFavorites:
+                    currentTVEvent.isInFavorites=YES;
+                    break;
+                case SideMenuOptionWatchlist:
+                    currentTVEvent.isInWatchlist=YES;
+                    break;
+                case SideMenuOptionRatings:
+                    currentTVEvent.isInRatings=YES;
+                    break;
+                default:
+                    break;
+            }
+            [self.tvEventsCollectionView reloadData];
+            break;
+        }
+    }
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+        for(int i=0;i<[_tvEvents count];i++){
+            TVEvent *currentTVEvent=_tvEvents[i];
+            if(currentTVEvent.id==tvEventID){
+                switch (typeOfCollection) {
+                    case SideMenuOptionFavorites:
+                        currentTVEvent.isInFavorites=NO;
+                        break;
+                    case SideMenuOptionWatchlist:
+                        currentTVEvent.isInWatchlist=NO;
+                        break;
+                    case SideMenuOptionRatings:
+                        currentTVEvent.isInRatings=NO;
+                        break;
+                    default:
+                        break;
+                }
+                [self.tvEventsCollectionView reloadData];
+                break;
+            }
+        }
+}
+
+-(void)dataStorageReadyNotificationHandler{
+    VirtualDataStorage *sharedStorage=[VirtualDataStorage sharedVirtualDataStorage];
+    for(int i=0;i<[_tvEvents count];i++){
+        if([sharedStorage containsTVEventInFavorites:_tvEvents[i]]){
+            ((TVEvent *)_tvEvents[i]).isInFavorites=YES;
+        }
+        else if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
+            ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
+        }
+        else if([sharedStorage containsTVEventInRatedEvents:_tvEvents[i]]){
+            ((TVEvent *)_tvEvents[i]).isInRatings=YES;
+        }
+    }
+    [self.tvEventsCollectionView reloadData];
+}
+
 @end
