@@ -25,7 +25,7 @@
 #import "CarouselTableViewCell.h"
 #import "CarouselCollectionViewCell.h"
 #import "CastMemberDetailsTableViewController.h"
-
+#import "RatingViewController.h"
 
 #define NumberOfSections 6
 #define FontSize14 14
@@ -57,7 +57,8 @@ static CGFloat const TrailerCellWidthHeightRatio=1.72f;
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat const ImagesCellWidthHeightRatio=2.77f;
 static CGFloat const defaultCarouselHeight=180.0f;
-static NSString * const CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
+static NSString *CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
+static NSString *RatingSegueIdentifier=@"RatingSegue";
 
 @implementation TVEventDetailsTableViewController
 
@@ -173,7 +174,7 @@ static NSString * const CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegu
         else if(indexPath.row==1){
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
             
-            [cell setupWithRating:_mainTvEvent.voteAverage];
+            [cell setupWithRating:_mainTvEvent.voteAverage delegate:self];
             return cell;
             
         }
@@ -363,6 +364,10 @@ static NSString * const CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegu
     
 }
 
+-(void)didSelectRateThisTVEvent{
+        [self performSegueWithIdentifier:RatingSegueIdentifier sender:nil];
+}
+
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([customItemsArray count]>0){
         if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
@@ -443,6 +448,11 @@ static NSString * const CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegu
         CastMemberDetailsTableViewController *destinationVC=(CastMemberDetailsTableViewController *)segue.destinationViewController;
         destinationVC.castMember=(CastMember *)sender;
     }
+    else if([segue.identifier isEqualToString:RatingSegueIdentifier]){
+        RatingViewController *destinationVC=segue.destinationViewController;
+        destinationVC.tvEvent=_mainTvEvent;
+    }
+    
 }
 
 -(void)showSeasons{
@@ -482,6 +492,57 @@ static NSString * const CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegu
     [self performSegueWithIdentifier:CastMemberDetailsSegueIdentifier sender:_cast[indexPath.row]];
 }
 
+-(void)addTVEventWithID:(NSUInteger)tvEventID toCollection:(SideMenuOption)typeOfCollection{
+        MediaType mediaType= [_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+        if(typeOfCollection==SideMenuOptionFavorites){
+            [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:_mainTvEvent.id mediaType:mediaType remove:_mainTvEvent.isInFavorites responseHandler:self];
+        }
+        else{
+            [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:_mainTvEvent.id  mediaType:mediaType remove:_mainTvEvent.isInWatchlist responseHandler:self];
+            
+        }
+}
 
+
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+  
+        if(_mainTvEvent.id==tvEventID){
+            switch (typeOfCollection) {
+                case SideMenuOptionFavorites:
+                    _mainTvEvent.isInFavorites=YES;
+                    break;
+                case SideMenuOptionWatchlist:
+                    _mainTvEvent.isInWatchlist=YES;
+                    break;
+                case SideMenuOptionRatings:
+                    //internal error
+                    break;
+                default:
+                    break;
+            }
+            [self.tableView reloadData];
+         
+    }
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(_mainTvEvent.id==tvEventID){
+        switch (typeOfCollection) {
+            case SideMenuOptionFavorites:
+                _mainTvEvent.isInFavorites=NO;
+                break;
+            case SideMenuOptionWatchlist:
+                _mainTvEvent.isInWatchlist=NO;
+                break;
+            case SideMenuOptionRatings:
+                _mainTvEvent.isInRatings=NO;
+                break;
+            default:
+                break;
+        }
+        [self.tableView reloadData];
+        
+    }
+}
 
 @end

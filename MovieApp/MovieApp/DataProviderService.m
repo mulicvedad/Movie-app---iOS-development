@@ -464,7 +464,7 @@ static DataProviderService *sharedService;
     
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         PostResponse *response=mappingResult.array[0];
-        if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+        if(response.statusCode==AddedSucessfullyPostResponseStatusCode || response.statusCode==UpdatedSucessfullyPostResponseStatusCode){
             [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionRatings];
         }
         else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){

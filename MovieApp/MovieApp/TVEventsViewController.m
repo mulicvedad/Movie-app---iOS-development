@@ -540,13 +540,18 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
         if([sharedStorage containsTVEventInFavorites:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInFavorites=YES;
         }
-        else if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
+        if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
         }
-        else if([sharedStorage containsTVEventInRatedEvents:_tvEvents[i]]){
+        if([sharedStorage containsTVEventInRatedEvents:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInRatings=YES;
         }
     }
+    [self.tvEventsCollectionView reloadData];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self.tvEventsCollectionView reloadData];
 }
 

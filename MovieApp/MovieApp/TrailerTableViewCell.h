@@ -2,12 +2,15 @@
 #import <YTPlayerView.h>
 #import "ShowTrailerDelegate.h"
 #import "TVEvent.h"
+#import "AddTVEventToCollectionDelegate.h"
 
 @interface TrailerTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIView *viewForGradient;
 @property (weak, nonatomic) IBOutlet UIImageView *trailerImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UIImageView *favoritesImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *watchlistImageView;
 
 @property (strong, nonatomic) CAGradientLayer *myGradientLayer;
 

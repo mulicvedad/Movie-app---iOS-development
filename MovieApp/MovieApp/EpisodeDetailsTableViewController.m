@@ -86,7 +86,7 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
         }
         else if(indexPath.row==2){
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
-            [cell setupWithRating:self.episode.voteAverage];
+            [cell setupWithRating:self.episode.voteAverage delegate:self];
             return cell;
         }
         else{

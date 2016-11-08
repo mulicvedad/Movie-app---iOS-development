@@ -86,6 +86,7 @@
 		CE948E8C1DCCC5CA00EF6262 /* SortByTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E8B1DCCC5CA00EF6262 /* SortByTableViewDelegate.m */; };
 		CE948E961DCEAD2600EF6262 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E951DCEAD2600EF6262 /* LoginViewController.m */; };
 		CE948E9C1DD0014C00EF6262 /* VirtualDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */; };
+		CE948EA51DD1784D00EF6262 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948EA41DD1784D00EF6262 /* RatingViewController.m */; };
 		CEC965E41DAB2B9A0017C990 /* RatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC965E21DAB2B9A0017C990 /* RatingTableViewCell.m */; };
 		CEC965E51DAB2B9A0017C990 /* RatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEC965E31DAB2B9A0017C990 /* RatingTableViewCell.xib */; };
 		CEC965E91DAB38AA0017C990 /* OverviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC965E71DAB38AA0017C990 /* OverviewTableViewCell.m */; };
@@ -294,6 +295,8 @@
 		CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualDataStorage.m; sourceTree = "<group>"; };
 		CE948E9D1DD0147600EF6262 /* AddTVEventToCollectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTVEventToCollectionDelegate.h; sourceTree = "<group>"; };
 		CE948EA01DD01B0300EF6262 /* TVEventsCollectionsStateChangeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVEventsCollectionsStateChangeHandler.h; sourceTree = "<group>"; };
+		CE948EA31DD1784D00EF6262 /* RatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingViewController.h; sourceTree = "<group>"; };
+		CE948EA41DD1784D00EF6262 /* RatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingViewController.m; sourceTree = "<group>"; };
 		CEC965E11DAB2B9A0017C990 /* RatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingTableViewCell.h; sourceTree = "<group>"; };
 		CEC965E21DAB2B9A0017C990 /* RatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingTableViewCell.m; sourceTree = "<group>"; };
 		CEC965E31DAB2B9A0017C990 /* RatingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingTableViewCell.xib; sourceTree = "<group>"; };
@@ -677,6 +680,8 @@
 				CE948E8B1DCCC5CA00EF6262 /* SortByTableViewDelegate.m */,
 				CE948E941DCEAD2600EF6262 /* LoginViewController.h */,
 				CE948E951DCEAD2600EF6262 /* LoginViewController.m */,
+				CE948EA31DD1784D00EF6262 /* RatingViewController.h */,
+				CE948EA41DD1784D00EF6262 /* RatingViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -979,6 +984,7 @@
 				CECC8E0F1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m in Sources */,
 				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,
 				CE43F6411DA918BE00D8349B /* BasicInfoTableViewCell.m in Sources */,
+				CE948EA51DD1784D00EF6262 /* RatingViewController.m in Sources */,
 				CEF93FA81DADD282005028F5 /* SeasonsTableViewCell.m in Sources */,
 				CE76A0FF1DBA476400725CA1 /* TheMovieDBConstants.m in Sources */,
 				CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */,

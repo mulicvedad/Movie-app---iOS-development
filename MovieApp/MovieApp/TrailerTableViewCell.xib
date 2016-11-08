@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="222"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="375" height="221.5"/>
+                <frame key="frameInset" width="375" height="221"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="44N-C8-zzp">
@@ -33,6 +33,18 @@
                             <action selector="showTrailer:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1HO-U4-9bg"/>
                         </connections>
                     </button>
+                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ratings" translatesAutoresizingMaskIntoConstraints="NO" id="YRK-qx-qe5">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="wQa-Ht-ITs"/>
+                            <constraint firstAttribute="width" constant="20" id="zSY-AO-yKj"/>
+                        </constraints>
+                    </imageView>
+                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ratings" translatesAutoresizingMaskIntoConstraints="NO" id="l5X-gg-wN8">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="p4d-pF-dMP"/>
+                            <constraint firstAttribute="height" constant="20" id="vaq-10-WfS"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
@@ -41,27 +53,34 @@
                     <constraint firstAttribute="trailing" secondItem="qE2-J7-C4D" secondAttribute="trailing" id="5Ct-LW-jZB"/>
                     <constraint firstAttribute="bottom" secondItem="44N-C8-zzp" secondAttribute="bottom" id="6nD-Zu-yJp"/>
                     <constraint firstItem="qE2-J7-C4D" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="9E6-UD-SVQ"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="YRK-qx-qe5" secondAttribute="bottom" constant="8" id="ADA-kM-lU4"/>
                     <constraint firstItem="LdQ-Ws-zqa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="G2l-El-6QI"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="LdQ-Ws-zqa" secondAttribute="bottom" constant="13" id="XuV-Wf-XGW"/>
+                    <constraint firstItem="l5X-gg-wN8" firstAttribute="leading" secondItem="YRK-qx-qe5" secondAttribute="trailing" constant="10" id="Na2-yV-WV7"/>
+                    <constraint firstItem="YRK-qx-qe5" firstAttribute="leading" secondItem="LdQ-Ws-zqa" secondAttribute="trailing" constant="10" id="OgE-t0-yOd"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="LdQ-Ws-zqa" secondAttribute="bottom" constant="8" id="XuV-Wf-XGW"/>
                     <constraint firstItem="MhD-ET-sTw" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="bF7-Nv-8JV"/>
                     <constraint firstItem="44N-C8-zzp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="cLh-Jj-e8c"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="LdQ-Ws-zqa" secondAttribute="trailing" constant="150" id="djb-fs-VQm"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="l5X-gg-wN8" secondAttribute="trailing" constant="20" id="oFJ-gE-fxD"/>
                     <constraint firstItem="44N-C8-zzp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="pW5-3H-I9y"/>
                     <constraint firstAttribute="trailing" secondItem="44N-C8-zzp" secondAttribute="trailing" id="pxk-iX-ofE"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="l5X-gg-wN8" secondAttribute="bottom" constant="8" id="ubF-G9-12n"/>
                     <constraint firstAttribute="bottom" secondItem="qE2-J7-C4D" secondAttribute="bottom" id="wQS-Pm-Ort"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="1" green="0.17284500838926176" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
+                <outlet property="favoritesImageView" destination="l5X-gg-wN8" id="OzX-Kk-Ztk"/>
                 <outlet property="playButton" destination="MhD-ET-sTw" id="QUE-Qr-uzR"/>
                 <outlet property="titleLabel" destination="LdQ-Ws-zqa" id="GLi-Ep-WxU"/>
                 <outlet property="trailerImageView" destination="44N-C8-zzp" id="8ME-yh-px0"/>
                 <outlet property="viewForGradient" destination="qE2-J7-C4D" id="oUd-kO-TgM"/>
+                <outlet property="watchlistImageView" destination="YRK-qx-qe5" id="Kxt-qT-Rlq"/>
             </connections>
             <point key="canvasLocation" x="-393.5" y="-1022"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="Play" width="45" height="45"/>
+        <image name="ratings" width="18" height="19"/>
     </resources>
 </document>

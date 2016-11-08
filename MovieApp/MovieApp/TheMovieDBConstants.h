@@ -24,6 +24,7 @@ typedef enum {
 
 typedef enum {
     AddedSucessfullyPostResponseStatusCode=1,
+    UpdatedSucessfullyPostResponseStatusCode=12,
     RemovedSucessfullyPostResponseStatusCode=13
 }PostResponseStatusCode;
 
