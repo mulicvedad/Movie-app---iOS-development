@@ -5,7 +5,6 @@
 #import "BasicEpisodeInfoTableViewCell.h"
 #import "RatingTableViewCell.h"
 #import "OverviewTableViewCell.h"
-#import "CastTableViewCell.h"
 #import "CastMember.h"
 
 #define FontSize14 14
@@ -39,7 +38,6 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
     [self.tableView registerNib:[UINib nibWithNibName:[BasicEpisodeInfoTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[BasicEpisodeInfoTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[RatingTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[RatingTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[OverviewTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[OverviewTableViewCell cellIdentifier]];    
-    [self.tableView registerNib:[UINib nibWithNibName:[CastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[CastTableViewCell cellIdentifier]];
     
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=44.0;
@@ -88,7 +86,7 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
         }
         else if(indexPath.row==2){
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
-            [cell setupWithRating:self.episode.voteAverage];
+            [cell setupWithRating:self.episode.voteAverage delegate:self];
             return cell;
         }
         else{
@@ -112,8 +110,8 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
         
     }
     else if(indexPath.section==2){
-        if(indexPath.row==0){  //replace totally with carousel
-            CastTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
+       // if(indexPath.row==0){  //replace totally with carousel
+       /*     CastTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
             NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
             NSMutableArray *names=[[NSMutableArray alloc]init];
             NSMutableArray *roles=[[NSMutableArray alloc]init];
@@ -127,7 +125,7 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
             }
             [cell setupWithImageUrls:imageUrls correspondingNames:names roles:roles];
             return cell;
-        }
+        }*/
         
     }
     

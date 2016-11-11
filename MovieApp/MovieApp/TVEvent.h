@@ -13,6 +13,9 @@
 @property (nonatomic, strong) NSString *originalLanguage;
 @property (nonatomic) float voteAverage;
 @property (nonatomic) NSUInteger voteCount;
+@property (nonatomic) BOOL isInFavorites;
+@property (nonatomic) BOOL isInWatchlist;
+@property (nonatomic) BOOL isInRatings;
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId;
 +(NSString *)getClassName;

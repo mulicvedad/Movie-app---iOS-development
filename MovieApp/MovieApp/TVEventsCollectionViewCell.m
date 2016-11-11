@@ -3,12 +3,14 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "TheMovieDBConstants.h"
+#import <KeychainItemWrapper.h>
 
 #define FontSize10 10
 #define FontSize16 16
 
 @interface TVEventsCollectionViewCell(){
     CAGradientLayer *_myGradientLayer;
+    NSUInteger _indexPathRowNumber;
 }
 
 @end
@@ -22,13 +24,29 @@ static CGFloat const StartPointX=0.5f;
 static CGFloat const StartPointY=0.25f;
 static CGFloat const EndPointX=0.5f;
 static CGFloat const EndPointY=0.75f;
+static NSString *FavoritesSelectedImageName=@"favorites-selected";
+static NSString *FavoritesNormalImageName=@"favorites";
 
+static NSString *WatchlistSelectedImageName=@"watchlist-selected";
+static NSString *WatchlistNormalImageName=@"watchlist";
+
+
+
+@interface TVEventsCollectionViewCell (){
+    id<AddTVEventToCollectionDelegate> _delegate;
+}
+
+@end
 
 @implementation TVEventsCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self configure];
     
+}
+
+-(void)configure{
     _myGradientLayer=[[CAGradientLayer alloc]init];
     
     _myGradientLayer.frame = self.frame;
@@ -38,10 +56,14 @@ static CGFloat const EndPointY=0.75f;
                                (id)[[UIColor blackColor] CGColor],
                                nil];
     [self.viewForGradient.layer insertSublayer:_myGradientLayer atIndex:0];
-    [self.titleLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:YES]];
     [self.ratingLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.releaseDateLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.genreLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
+    
+    UITapGestureRecognizer *favoritesTapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAddToFavoritesImageView:)];
+    UITapGestureRecognizer *watchlistTapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAddToWatchlistImageView:)];
+    [self.addToFavoritesImageView addGestureRecognizer:favoritesTapGestureRecognizer];
+    [self.addToWatchlistImageView addGestureRecognizer:watchlistTapGestureRecognizer];
 }
 
 +(UIEdgeInsets)cellInsets{
@@ -61,10 +83,12 @@ static CGFloat const EndPointY=0.75f;
     
 }
 
--(void)setupWithTvEvent:(TVEvent *)tvEvent{
+-(void)setupWithTvEvent:(TVEvent *)tvEvent indexPathRow:(NSUInteger)row callbackDelegate:(id<AddTVEventToCollectionDelegate>)delegate{
     BOOL isMovie=([tvEvent isKindOfClass:[Movie class]]) ? YES : NO;
-    
+    _delegate=delegate;
+    _indexPathRowNumber=row;
     self.titleLabel.text=[tvEvent.title uppercaseString];
+    self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;
@@ -101,6 +125,21 @@ static CGFloat const EndPointY=0.75f;
     else{
         self.posterImageView.image=[UIImage imageNamed:DefaultImageName];
     }
+    
+    self.addToFavoritesImageView.image=[UIImage imageNamed:tvEvent.isInFavorites ? FavoritesSelectedImageName : FavoritesNormalImageName];
+    self.addToWatchlistImageView.image=[UIImage imageNamed:tvEvent.isInWatchlist ? WatchlistSelectedImageName : WatchlistNormalImageName];
+    
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    if(!username || [username length]==0){
+        self.addToFavoritesImageView.hidden=YES;
+        self.addToWatchlistImageView.hidden=YES;
+    }
+    else{
+        self.addToFavoritesImageView.hidden=NO;
+        self.addToWatchlistImageView.hidden=NO;
+    }
+    
 }
 
 -(void)layoutSubviews{
@@ -108,5 +147,11 @@ static CGFloat const EndPointY=0.75f;
     _myGradientLayer.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.height);
 }
 
+-(void)didTapAddToWatchlistImageView:(UIImageView *)sender{
+    [_delegate addTVEventToCollection:SideMenuOptionWatchlist indexPathRow:_indexPathRowNumber];
+}
 
+-(void)didTapAddToFavoritesImageView:(UIImageView *)sender{
+    [_delegate addTVEventToCollection:SideMenuOptionFavorites indexPathRow:_indexPathRowNumber];
+}
 @end

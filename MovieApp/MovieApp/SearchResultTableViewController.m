@@ -22,7 +22,6 @@
 @end
 
 static NSString * const EventDetailsSegueIdentifier=@"ShowDetailsSegue";
-static NSString * const MovieMediaType=@"movie";
 static CGFloat const ResultItemDefaultHeight=92.0f;
 
 @implementation SearchResultTableViewController

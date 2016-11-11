@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -34,20 +34,21 @@
                         <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehV-bH-gb8">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehV-bH-gb8">
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                         <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="AGN-MB-UKG">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="AGN-MB-UKG">
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="GHU-UX-RTj"/>
+                            <constraint firstAttribute="height" constant="25" id="GHU-UX-RTj"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
                     </textView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="www.klix.ba" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="66q-Aj-K8N">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="www.klix.ba" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="66q-Aj-K8N">
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="cY5-Xu-oHX"/>
@@ -61,19 +62,22 @@
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="XWi-Ia-laD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="2x6-ZO-WWC"/>
-                    <constraint firstItem="AGN-MB-UKG" firstAttribute="top" secondItem="ehV-bH-gb8" secondAttribute="bottom" constant="10" id="3nq-GZ-xAP"/>
+                    <constraint firstItem="AGN-MB-UKG" firstAttribute="top" secondItem="ehV-bH-gb8" secondAttribute="bottom" constant="5" id="3nq-GZ-xAP"/>
                     <constraint firstItem="XWi-Ia-laD" firstAttribute="top" secondItem="0Bh-C2-rkv" secondAttribute="bottom" constant="10" id="7ta-WO-0xg"/>
                     <constraint firstAttribute="trailing" secondItem="66q-Aj-K8N" secondAttribute="trailing" constant="16" id="AVK-a5-vZ3"/>
                     <constraint firstItem="ehV-bH-gb8" firstAttribute="top" secondItem="XWi-Ia-laD" secondAttribute="bottom" constant="10" id="EjY-ke-gSy"/>
                     <constraint firstItem="XNA-SN-17h" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Jy6-dL-Sjc"/>
                     <constraint firstItem="0Bh-C2-rkv" firstAttribute="top" secondItem="g4C-dh-ZFE" secondAttribute="bottom" constant="10" id="Nq7-nS-ZBH"/>
                     <constraint firstItem="XNA-SN-17h" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Osy-5N-HTt"/>
-                    <constraint firstItem="66q-Aj-K8N" firstAttribute="bottom" secondItem="0Bh-C2-rkv" secondAttribute="bottom" id="SME-8I-8oe"/>
+                    <constraint firstItem="66q-Aj-K8N" firstAttribute="bottom" secondItem="0Bh-C2-rkv" secondAttribute="bottom" constant="-3" id="SME-8I-8oe"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="g4C-dh-ZFE" secondAttribute="trailing" constant="16" id="Tqy-Pf-B1k"/>
                     <constraint firstItem="g4C-dh-ZFE" firstAttribute="leading" secondItem="XNA-SN-17h" secondAttribute="trailing" constant="7" id="ab4-VY-rJg"/>
                     <constraint firstItem="ehV-bH-gb8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="bTW-cV-HWN"/>
                     <constraint firstAttribute="trailing" secondItem="AGN-MB-UKG" secondAttribute="trailing" constant="16" id="dJk-X9-96U"/>
+                    <constraint firstAttribute="trailing" secondItem="ehV-bH-gb8" secondAttribute="trailing" constant="16" id="dQb-5N-Jys"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="AGN-MB-UKG" secondAttribute="bottom" constant="5" id="hXt-nh-AyG"/>
                     <constraint firstItem="g4C-dh-ZFE" firstAttribute="top" secondItem="XNA-SN-17h" secondAttribute="top" id="nU7-dI-Qm7"/>
-                    <constraint firstItem="AGN-MB-UKG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="qUN-11-zlu"/>
+                    <constraint firstItem="AGN-MB-UKG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="qUN-11-zlu"/>
                     <constraint firstItem="66q-Aj-K8N" firstAttribute="leading" secondItem="0Bh-C2-rkv" secondAttribute="trailing" constant="15" id="xXm-iA-HmF"/>
                     <constraint firstItem="0Bh-C2-rkv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="xef-se-Wyd"/>
                 </constraints>
@@ -82,6 +86,7 @@
                 <outlet property="biographyLabel" destination="ehV-bH-gb8" id="eD8-TO-zNr"/>
                 <outlet property="biographyLinkTextView" destination="AGN-MB-UKG" id="Zzr-0U-YqZ"/>
                 <outlet property="birthInfoLabel" destination="g4C-dh-ZFE" id="6kD-e4-Nbl"/>
+                <outlet property="websiteLabel" destination="0Bh-C2-rkv" id="xSC-Ly-51o"/>
                 <outlet property="websiteTextView" destination="66q-Aj-K8N" id="1an-Un-pgi"/>
             </connections>
             <point key="canvasLocation" x="-524.5" y="-17.5"/>

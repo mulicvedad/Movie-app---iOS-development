@@ -4,6 +4,19 @@ NSString * const RegularHelveticaFontName=@"HelveticaNeue";
 NSString * const BoldHelveticaFontName=@"HelveticaNeue";
 NSString * const YouTubeSiteName=@"YouTube";
 NSString * const FilledStarCode= @"\u2605 ";
+NSString *KeyChainItemWrapperIdentifier=@"myKeyChainWrapper";
+NSString *SessionIDKeyChainKey=@"sessionID";
+NSString *UsernameKeyChainKey=@"username";
+NSString *FontAwesomeFontName=@"FontAwesome";
+
+NSString *HeartFontAwesomeCode=@"\f004";
+NSString *EmptyHeartFontAwesomeCode=@"\uf08a";
+NSString *StarFontAwesomeCode=@"\f005";
+NSString *EmptyStarFontAwesomeCode=@"\uf006";
+NSString *WatchlistFontAwesomeCode=@"\uf02e";
+NSString *EmptyWatchlistFontAwesomeCode=@"\uf097";
+
+
 @implementation MovieAppConfiguration
 
 +(NSURL *)getFeedsSourceUrlPath{
@@ -45,6 +58,14 @@ NSString * const FilledStarCode= @"\u2605 ";
     return [UIColor colorWithRed:137/255.0 green:136/255.0 blue:133/255.0 alpha:1.0];
 }
 
++(UIColor *)getPreferredDarkGreyColor{
+    return [UIColor colorWithRed:41/255.0 green:41/255.0 blue:41/255.0 alpha:1.0];
+}
+
++(UIColor *)getPrefferedLightGreyColor{
+    return [UIColor colorWithRed:206/255.0 green:206/255.0 blue:206/255.0 alpha:1.0];
+}
+
 
 +(UIColor *)getResultsTableViewBackgroungColor{
     return [UIColor colorWithRed:41/255.0 green:41/255.0 blue:41/255.0 alpha:1.0];
@@ -71,5 +92,34 @@ NSString * const FilledStarCode= @"\u2605 ";
     return [UIColor colorWithRed:142/255.0 green:142/255.0 blue:147/255.0 alpha:1.0];
 
 }
+
++(NSArray *)getCriteriaForLikedTVEventsSorting{
+    return @[@"Movies",@"TV Shows"];
+}
+
++(NSString *)getStringRepresentationOfSideMenuOption:(SideMenuOption) option{
+    NSString *value=@"";
+    switch (option) {
+        case SideMenuOptionFavorites:
+            value=@"Favorites";
+            break;
+        case SideMenuOptionWatchlist:
+            value=@"Watchlist";
+            break;
+        case SideMenuOptionRatings:
+            value=@"Ratings";
+            break;
+        case SideMenuOptionSettings:
+            value=@"Settings";
+            break;
+        
+        default:
+            break;
+    }
+    return value;
+}
+
+
+
 
 @end

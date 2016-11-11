@@ -13,6 +13,14 @@ NSString * const PageQueryParameterName=@"page";
 NSString * const CriterionDictionaryKey=@"criterion";
 NSString * const TypeDictionaryKey=@"type";
 NSString * const ErrorDictionaryKey=@"error";
+NSString *SideMenuOptionDictionaryKey=@"sideMenuOption";
+
+NSString *UsernameParameterName=@"username";
+NSString *PasswordParameterName=@"password";
+NSString *RequestTokenParameterName=@"request_token";
+NSString *ValueParameterName=@"value";
+NSString *SessionIDParameterName=@"session_id";
+
 
 NSString * const MovieDetailsSubpath=@"/3/movie";
 NSString * const TVShowDetailsSubpath=@"/3/tv";
@@ -30,6 +38,20 @@ NSString * const VideosForEpisodeSubpath=@"/:id/season/:id/episode/:id/videos";
 NSString * const VideosForMovieSubpath=@"/:id/videos";
 NSString * const EpisodeDetailsSubpath=@"/:id/season/:id";
 NSString * const VariableSubpath=@"/:id";
+NSString * const PersonDetailsSubpath=@"/3/person";
+NSString *CreateNewTokenSubpath=@"/3/authentication/token/new";
+NSString *ValidateTokenSubpath=@"/3/authentication/token/validate_with_login";
+NSString *CreateNewSessionSubpath=@"/3/authentication/session/new";
+NSString *AccountDetailsSubpath=@"/3/account/:id";
+NSString *FavoriteSubpath=@"/favorite";
+NSString *WatchlistSubpath=@"/watchlist";
+NSString *RatedSubpath=@"/rated";
+NSString *FavoriteMovieFullSubpath=@"/3/account/:id/favorite/movies";
+NSString *FavoriteTVShowFullSubpath=@"/3/account/:id/favorite/tv";
+NSString *WatchlistMovieFullSubpath=@"/3/account/:id/watchlist/movies";
+NSString *WatchlistTVShowFullSubpath=@"/3/account/:id/watchlist/tv";
+NSString *RatedMoviesFullSubpath=@"/3/account/:id/rated/movies";
+NSString *RatedTVShowsFullSubpath=@"/3/account/:id/rated/tv";
 
 NSString * const ResultsPath=@"results";
 
@@ -43,6 +65,7 @@ NSString * const ReviewKeypath=@"reviews.results";
 NSString * const VideosKeypath=@"videos";
 NSString * const SeasonKeypath=@"/:id";
 NSString * const EpisodesKeypath=@"episodes";
+NSString * const CastCreditsKeypath=@"combined_credits.cast";
 
 NSString * const DetailsDictionaryValue=@"details";
 NSString * const CreditsDictionaryValue=@"credits";
@@ -50,12 +73,19 @@ NSString * const CriterionPopularityValue=@"popularity.desc";
 NSString * const CriterionReleaseDateValue=@"release_date.desc";
 NSString * const AppendImagesParameterValue=@"images,reviews";
 NSString * const AppendCreditsParameterValue=@"credits";
+NSString * const AppendMovieCreditsParameterValue=@"movie_credits";
+NSString * const AppendCombinedCreditsParameterValue=@"combined_credits";
 
 NSString * const EmptyString=@"";
 
 NSString * const BaseImageUrlForWidth500=@"http://image.tmdb.org/t/p/w500";
 NSString * const BaseImageUrlForWidth185=@"http://image.tmdb.org/t/p/w185";
 NSString * const BaseImageUrlForWidth92=@"http://image.tmdb.org/t/p/w92";
+
+NSString *MovieMediaType=@"movie";
+NSString *TVMediaType=@"tv";
+
+NSString *DataStorageReadyNotificationName=@"DataArrivedNotification";
 
 
 +(NSString *)getTheMovieDbAPIKey{

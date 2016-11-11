@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -56,15 +56,17 @@
                     <constraint firstItem="L48-ya-zw8" firstAttribute="leading" secondItem="yMo-Ny-wsL" secondAttribute="trailing" constant="5" id="YUG-C2-Y9J"/>
                     <constraint firstItem="CqX-5u-Mng" firstAttribute="leading" secondItem="feO-TZ-GBT" secondAttribute="trailing" constant="7" id="d9L-6b-YUa"/>
                     <constraint firstAttribute="bottom" secondItem="VHY-rk-9VX" secondAttribute="bottom" id="k3o-Dc-jw7"/>
-                    <constraint firstItem="feO-TZ-GBT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="mA6-4R-jgm"/>
+                    <constraint firstItem="feO-TZ-GBT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="27" id="mA6-4R-jgm"/>
                     <constraint firstItem="VHY-rk-9VX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="sMb-80-h2F"/>
                     <constraint firstItem="yMo-Ny-wsL" firstAttribute="leading" secondItem="feO-TZ-GBT" secondAttribute="trailing" constant="7" id="uPi-Pf-Hil"/>
-                    <constraint firstItem="CqX-5u-Mng" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="wBa-ow-AJS"/>
+                    <constraint firstItem="CqX-5u-Mng" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="wBa-ow-AJS"/>
                     <constraint firstItem="yMo-Ny-wsL" firstAttribute="top" secondItem="CqX-5u-Mng" secondAttribute="bottom" constant="3" id="ye8-cN-ysf"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
+                <outlet property="arrowButtob" destination="L48-ya-zw8" id="sQV-0u-6NW"/>
+                <outlet property="lineView" destination="VHY-rk-9VX" id="Ogh-iR-nIw"/>
                 <outlet property="posterImageView" destination="feO-TZ-GBT" id="UlG-fK-C40"/>
                 <outlet property="ratingLabel" destination="yMo-Ny-wsL" id="J4Q-d7-Bxi"/>
                 <outlet property="titleLabel" destination="CqX-5u-Mng" id="c0f-Mv-va4"/>

@@ -1,5 +1,6 @@
 #import "TrailerTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <KeychainItemWrapper.h>
 
 #define FontSize18 18
 #define FontSize12 12
@@ -11,9 +12,14 @@ static CGFloat const StartPointY=0.5;
 static CGFloat const EndPointX=0.5;
 static CGFloat const EndPointY=1.0;
 
+static NSString *FavoritesSelectedImageName=@"favorites-selected";
+static NSString *FavoritesNormalImageName=@"favorites";
+
+static NSString *WatchlistSelectedImageName=@"watchlist-selected";
+static NSString *WatchlistNormalImageName=@"watchlist";
 
 @interface TrailerTableViewCell(){
-    id<ShowTrailerDelegate> _delegate;
+    id<ShowTrailerDelegate, AddTVEventToCollectionDelegate> _delegate;
 }
 
 @end
@@ -23,6 +29,14 @@ static CGFloat const EndPointY=1.0;
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setGradientLayer];
+    [self configure];
+}
+
+-(void)configure{
+    UITapGestureRecognizer *favoritesTapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAddToFavoritesImageView:)];
+    UITapGestureRecognizer *watchlistTapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAddToWatchlistImageView:)];
+    [self.favoritesImageView addGestureRecognizer:favoritesTapGestureRecognizer];
+    [self.watchlistImageView addGestureRecognizer:watchlistTapGestureRecognizer];
 }
 -(void)setupCellWithTitle:(NSString *)originalTitle imageUrl:(NSURL *)imageUrl releaseYear:(NSString *)releaseYear{
     releaseYear=(releaseYear) ? releaseYear : @"Year not found";
@@ -63,6 +77,22 @@ static CGFloat const EndPointY=1.0;
     
     [titleAttributedString appendAttributedString:yearAttributedString];
     self.titleLabel.attributedText=titleAttributedString;
+    
+    self.favoritesImageView.image=[UIImage imageNamed:tvEvent.isInFavorites ? FavoritesSelectedImageName : FavoritesNormalImageName];
+    self.watchlistImageView.image=[UIImage imageNamed:tvEvent.isInWatchlist ? WatchlistSelectedImageName : WatchlistNormalImageName];
+    
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    if(!username || [username length]==0){
+        self.favoritesImageView.hidden=YES;
+        self.watchlistImageView.hidden=YES;
+    }
+    else{
+        self.favoritesImageView.hidden=NO;
+        self.watchlistImageView.hidden=NO;
+    }
+    
+    
 
 }
 
@@ -101,4 +131,11 @@ static CGFloat const EndPointY=1.0;
     [_delegate showTrailer];
 }
 
+-(void)didTapAddToWatchlistImageView:(UIImageView *)sender{
+    [_delegate addTVEventWithID:0 toCollection:SideMenuOptionWatchlist];
+}
+
+-(void)didTapAddToFavoritesImageView:(UIImageView *)sender{
+    [_delegate addTVEventWithID:0 toCollection:SideMenuOptionFavorites];
+}
 @end

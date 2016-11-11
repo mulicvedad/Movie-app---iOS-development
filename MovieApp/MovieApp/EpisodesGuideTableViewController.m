@@ -21,7 +21,6 @@
 
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat const EpisodeCellWidthHeightRatio=4.0f;
-static CGFloat const SimpleCellWidthHeightRatio=8.93f;
 static CGFloat const TableViewCellInset=24.0f;
 static CGFloat const DefaultCollectionViewCellWidth=20.0f;
 static NSString * const SeasonSectionName=@"Season";

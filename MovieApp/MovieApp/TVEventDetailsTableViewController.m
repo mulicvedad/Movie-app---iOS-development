@@ -13,8 +13,6 @@
 #import "OverviewTableViewCell.h"
 #import "ImagesTableViewCell.h"
 #import "Image.h"
-#import "CastTableViewCell.h"
-#import "AlternativeCastTableViewCell.h"
 #import "ReviewsTableViewCell.h"
 #import "TVEventReview.h"
 #import "ReviewSeparatorTableViewCell.h"
@@ -26,13 +24,16 @@
 #import "Video.h"
 #import "CarouselTableViewCell.h"
 #import "CarouselCollectionViewCell.h"
-
+#import "CastMemberDetailsTableViewController.h"
+#import "RatingViewController.h"
 
 #define NumberOfSections 6
 #define FontSize14 14
 
+
 @interface TVEventDetailsTableViewController (){
     TVEvent *_mainTvEvent;
+    NSUInteger _mainTVEventID;
     TVEventDetails *_mainTvEventDetails;
     Video *_trailer;
     NSMutableArray *_cast;
@@ -57,6 +58,8 @@ static CGFloat const TrailerCellWidthHeightRatio=1.72f;
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat const ImagesCellWidthHeightRatio=2.77f;
 static CGFloat const defaultCarouselHeight=180.0f;
+static NSString *CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
+static NSString *RatingSegueIdentifier=@"RatingSegue";
 
 @implementation TVEventDetailsTableViewController
 
@@ -82,8 +85,6 @@ static CGFloat const defaultCarouselHeight=180.0f;
     [self.tableView registerNib:[UINib nibWithNibName:[RatingTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[RatingTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[OverviewTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[OverviewTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ImagesTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ImagesTableViewCell cellIdentifier]];
-    [self.tableView registerNib:[UINib nibWithNibName:[CastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[CastTableViewCell cellIdentifier]];
-    [self.tableView registerNib:[UINib nibWithNibName:[AlternativeCastTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[AlternativeCastTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewsTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewSeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewSeparatorTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[SeasonsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeasonsTableViewCell cellIdentifier]];
@@ -116,6 +117,9 @@ static CGFloat const defaultCarouselHeight=180.0f;
     
 }
 
+-(void)setTVEventID:(NSUInteger)tvEventID{
+    _mainTVEventID=tvEventID;
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
 }
@@ -174,7 +178,7 @@ static CGFloat const defaultCarouselHeight=180.0f;
         else if(indexPath.row==1){
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
             
-            [cell setupWithRating:_mainTvEvent.voteAverage];
+            [cell setupWithRating:_mainTvEvent.voteAverage delegate:self];
             return cell;
             
         }
@@ -364,6 +368,10 @@ static CGFloat const defaultCarouselHeight=180.0f;
     
 }
 
+-(void)didSelectRateThisTVEvent{
+        [self performSegueWithIdentifier:RatingSegueIdentifier sender:nil];
+}
+
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([customItemsArray count]>0){
         if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
@@ -439,6 +447,16 @@ static CGFloat const defaultCarouselHeight=180.0f;
         destinationVC.tvEvent=_mainTvEvent;
         destinationVC.video=_trailer;
     }
+    else if([segue.identifier isEqualToString:CastMemberDetailsSegueIdentifier]){
+        
+        CastMemberDetailsTableViewController *destinationVC=(CastMemberDetailsTableViewController *)segue.destinationViewController;
+        destinationVC.castMember=(CastMember *)sender;
+    }
+    else if([segue.identifier isEqualToString:RatingSegueIdentifier]){
+        RatingViewController *destinationVC=segue.destinationViewController;
+        destinationVC.tvEvent=_mainTvEvent;
+    }
+    
 }
 
 -(void)showSeasons{
@@ -475,9 +493,60 @@ static CGFloat const defaultCarouselHeight=180.0f;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+    [self performSegueWithIdentifier:CastMemberDetailsSegueIdentifier sender:_cast[indexPath.row]];
+}
+
+-(void)addTVEventWithID:(NSUInteger)tvEventID toCollection:(SideMenuOption)typeOfCollection{
+        MediaType mediaType= [_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+        if(typeOfCollection==SideMenuOptionFavorites){
+            [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:_mainTvEvent.id mediaType:mediaType remove:_mainTvEvent.isInFavorites responseHandler:self];
+        }
+        else{
+            [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:_mainTvEvent.id  mediaType:mediaType remove:_mainTvEvent.isInWatchlist responseHandler:self];
+            
+        }
 }
 
 
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+  
+        if(_mainTvEvent.id==tvEventID){
+            switch (typeOfCollection) {
+                case SideMenuOptionFavorites:
+                    _mainTvEvent.isInFavorites=YES;
+                    break;
+                case SideMenuOptionWatchlist:
+                    _mainTvEvent.isInWatchlist=YES;
+                    break;
+                case SideMenuOptionRatings:
+                    //internal error
+                    break;
+                default:
+                    break;
+            }
+            [self.tableView reloadData];
+         
+    }
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(_mainTvEvent.id==tvEventID){
+        switch (typeOfCollection) {
+            case SideMenuOptionFavorites:
+                _mainTvEvent.isInFavorites=NO;
+                break;
+            case SideMenuOptionWatchlist:
+                _mainTvEvent.isInWatchlist=NO;
+                break;
+            case SideMenuOptionRatings:
+                _mainTvEvent.isInRatings=NO;
+                break;
+            default:
+                break;
+        }
+        [self.tableView reloadData];
+        
+    }
+}
 
 @end

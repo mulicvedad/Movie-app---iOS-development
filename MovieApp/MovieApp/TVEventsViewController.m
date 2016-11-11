@@ -8,6 +8,14 @@
 #import "SortByControlTableViewDelegate.h"
 #import "MainSortByTableViewCell.h"
 #import "SortByDropDownTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
+#import "SideMenuTableViewController.h"
+#import "LikedTVEventsViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "LoginRequest.h"
+#import <KeychainItemWrapper.h>
+#import "VirtualDataStorage.h"
+
 
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
@@ -24,10 +32,11 @@
     NSUInteger _numberOfPagesLoaded;
     BOOL _noMorePages;
     BOOL _pageDownloaderActive;
-    BOOL _transitionDownloaderActive;
     BOOL _shouldScrollToTop;
-    
     BOOL _refresh;
+    
+    UIViewController *_sideMenuViewController;
+    UIView *_shadowView;
 }
 
 @end
@@ -47,6 +56,8 @@ static NSString * const CancelButtonTitle=@"Cancel" ;
 static NSString * const TryAgainButtonTitle=@"Try again" ;
 static CGFloat const TimerInterval=0.5f;
 static CGFloat const SortByTableDefaultCellHeight=43.0f;
+static NSString *LikedTVEventsSegueIdentifier=@"LikedTVEventsSegueIdentifier";
+static NSString *LoginSegueIdentifier=@"LoginSegue";
 
 @implementation TVEventsViewController
 
@@ -58,10 +69,9 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [self configureView];
     [self initialDataDownload];
     [self configureSortByControl];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+    [self configureSwipeGestureRecogniser];
+    [self configureNotifications];
+    
 }
 
 -(void)configureView{
@@ -69,8 +79,6 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [_tvEventsCollectionView registerNib:[UINib nibWithNibName:[TVEventsCollectionViewCell cellViewClassName] bundle:nil]  forCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier]];
     
     self.edgesForExtendedLayout=UIRectEdgeNone;
-   
-    self.navigationItem.titleView = _searchBar;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:BackButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -79,17 +87,19 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [self.resultsContoller setDelegateForSegue: self];
     
     self.navigationItem.titleView = self.searchController.searchBar;
-    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
-
+    
+   self.searchController.searchBar.placeholder=SearchBarPlaceholder;
+    
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
     
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate=self;
+    //self.searchController.searchBar.delegate = self;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation=NO;
-    self.searchController.obscuresBackgroundDuringPresentation=YES;
+    //self.searchController.obscuresBackgroundDuringPresentation=YES;
     self.definesPresentationContext=YES;
     
 }
@@ -107,6 +117,21 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [self.sortByControlTableView reloadData];
 }
 
+-(void)configureSwipeGestureRecogniser{
+    UISwipeGestureRecognizer *gestureRecogniser=[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeAction)];
+    gestureRecogniser.direction=UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:gestureRecogniser];
+}
+
+-(void)configureNotifications{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataStorageReadyNotificationHandler) name:DataStorageReadyNotificationName object:nil];
+}
+
+-(void)swipeAction{
+    if(_sideMenuViewController){
+        [self removeSideMenuViewController:_sideMenuViewController];
+    }
+}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return _tvEvents ? [_tvEvents count] : 0;
     
@@ -115,9 +140,9 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-    [cell setupWithTvEvent:_tvEvents[indexPath.row]];
+    [cell setupWithTvEvent:_tvEvents[indexPath.row] indexPathRow:indexPath.row callbackDelegate:self];
     
-    if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive){
+    if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)_selectedIndex page:_numberOfPagesLoaded+1 returnToHandler:self];
     }
@@ -156,6 +181,7 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
+    [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;
     [self.tvEventsCollectionView reloadData];
@@ -178,6 +204,11 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     if([segue.identifier isEqualToString:EventDetailsSegueIdentifier] ){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
         [destinationVC setMainTvEvent:sender];
+    }
+    else if([segue.identifier isEqualToString:LikedTVEventsSegueIdentifier]){
+        LikedTVEventsViewController *destinationVC=segue.destinationViewController;
+        [destinationVC setCurrentOption:(SideMenuOption)[(NSNumber *)sender integerValue]];
+        
     }
 }
 
@@ -220,7 +251,7 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 }
 
 
-//table view delegate methods
+//sort by table view delegate methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return NumberOfSectionsInTable;
@@ -267,6 +298,7 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     CGRect frame = self.sortByControlTableView.frame;
     frame.size.height = self.sortByControlTableView.contentSize.height;
     self.sortByControlTableView.frame = frame;
+   
     
 }
 
@@ -310,6 +342,227 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (IBAction)menuButtonPressed:(id)sender {
+    if(!_sideMenuViewController){
+        SideMenuTableViewController *newVC=[[SideMenuTableViewController alloc]init];
+        [newVC setDelegate:self];
+        [newVC setCurrentOption:SideMenuOptionNone];
+        [self presentSideMenuViewController:newVC];
+    }
+    else{
+        [self removeSideMenuViewController:nil];
+    }
+    
+}
 
+-(void)presentSideMenuViewController:(UIViewController *)sideMenuViewController{
+    _sideMenuViewController=sideMenuViewController;
+    [self addChildViewController:sideMenuViewController];
+    [self.view addSubview:sideMenuViewController.view];
+    sideMenuViewController.view.backgroundColor=[UIColor blackColor];
+    sideMenuViewController.view.frame=CGRectMake(0, 0, 0, self.view.frame.size.height);
+    [sideMenuViewController didMoveToParentViewController:self];
+    [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         sideMenuViewController.view.frame=CGRectMake(0, 0, self.view.frame.size.width/2, self.view.frame.size.height);
+                         
+                     }
+                     completion:^(BOOL finished) {
+                         if (finished) {
+                             [self addShadow];
+
+                             
+                         }
+                     }];
+
+}
+
+-(void)removeSideMenuViewController:(UIViewController *)sideMenuViewControllerOrNil{
+    [self removeShadow];
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _sideMenuViewController.view.frame=CGRectMake(-_sideMenuViewController.view.frame.size.width, 0, _sideMenuViewController.view.frame.size.width, _sideMenuViewController.view.frame.size.height);
+                         [_sideMenuViewController removeFromParentViewController];
+
+                     }
+                     completion:^(BOOL finished) {
+                         if (finished) {
+                             [_sideMenuViewController.view removeFromSuperview];
+                             _sideMenuViewController=nil;
+                             
+                         }
+                     }];
+    
+}
+
+-(void)addShadow{
+    if(!_shadowView){
+        _shadowView=[[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _shadowView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    }
+    
+    [self.view addSubview:_shadowView];
+}
+
+-(void)removeShadow{
+    [_shadowView removeFromSuperview];
+}
+
+-(void)doActionForOption:(SideMenuOption)option{
+    [self removeShadow];
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _sideMenuViewController.view.frame=CGRectMake(-_sideMenuViewController.view.frame.size.width, 0, _sideMenuViewController.view.frame.size.width, _sideMenuViewController.view.frame.size.height);
+                         [_sideMenuViewController removeFromParentViewController];
+                         
+                     }
+                     completion:^(BOOL finished) {
+                         if (finished) {
+                             [_sideMenuViewController.view removeFromSuperview];
+                             _sideMenuViewController=nil;
+                             switch (option) {
+                                 case SideMenuOptionLogin:
+                                     [self performSegueWithIdentifier:LoginSegueIdentifier sender:nil];
+                                     break;
+                                 case SideMenuOptionSettings:
+                                     //segue for settings
+                                     break;
+                                 case SideMenuOptionLogout:
+                                     [self handleLogoutRequest];
+                                     break;
+                                 case SideMenuOptionNone:
+                                     //error
+                                     break;
+                                 default:
+                                     [self performSegueWithIdentifier:LikedTVEventsSegueIdentifier sender:[NSNumber numberWithInt:option]];
+                                     break;
+                             }
+                             
+                         }
+                     }];
+}
+
+-(void)handleLogoutRequest{
+    
+    NSMutableAttributedString *alertTitle = [[NSMutableAttributedString alloc] initWithString:@"Logout" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    NSMutableAttributedString *alertMessage = [[NSMutableAttributedString alloc] initWithString:@"\nAre you sure you want to log out?" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedLightGreyColor],                                                   NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:12 isBold:NO ]}];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:EmptyString
+                                                                   message:EmptyString
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert setValue:alertTitle forKey:@"attributedTitle"];
+    [alert setValue:alertMessage forKey:@"attributedMessage"];
+    
+    UIAlertAction* noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action) {
+                                                          
+                                                      }];
+    UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+                                                              [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
+                                                              [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
+                                                              [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
+                                                              [self.tvEventsCollectionView reloadData];
+                                                          }];
+    
+    
+    [alert addAction:noAction];
+    [alert addAction:yesAction];
+    alert.view.tintColor=[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f];
+    UIView *subView = alert.view.subviews.firstObject;
+    UIView *alertContentView = subView.subviews.firstObject;
+    for (UIView *subSubView in alertContentView.subviews) {
+        subSubView.backgroundColor = [MovieAppConfiguration getPreferredDarkGreyColor];
+    }
+    [self presentViewController:alert animated:YES completion:nil];
+
+   
+}
+
+-(void)addTVEventToCollection:(SideMenuOption)typeOfCollection indexPathRow:(NSUInteger)indexPathRow{
+    MediaType mediaType= [_tvEvents[indexPathRow] isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+    TVEvent *currentTVEvent=_tvEvents[indexPathRow];
+    if(typeOfCollection==SideMenuOptionFavorites){
+        [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:currentTVEvent.id mediaType:mediaType remove:currentTVEvent.isInFavorites responseHandler:self];
+    }
+    else{
+        [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:currentTVEvent.id  mediaType:mediaType remove:currentTVEvent.isInWatchlist responseHandler:self];
+
+    }
+}
+
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent *currentTVEvent=_tvEvents[i];
+        if(currentTVEvent.id==tvEventID){
+            switch (typeOfCollection) {
+                case SideMenuOptionFavorites:
+                    currentTVEvent.isInFavorites=YES;
+                    break;
+                case SideMenuOptionWatchlist:
+                    currentTVEvent.isInWatchlist=YES;
+                    break;
+                case SideMenuOptionRatings:
+                    currentTVEvent.isInRatings=YES;
+                    break;
+                default:
+                    break;
+            }
+            [self.tvEventsCollectionView reloadData];
+            break;
+        }
+    }
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+        for(int i=0;i<[_tvEvents count];i++){
+            TVEvent *currentTVEvent=_tvEvents[i];
+            if(currentTVEvent.id==tvEventID){
+                switch (typeOfCollection) {
+                    case SideMenuOptionFavorites:
+                        currentTVEvent.isInFavorites=NO;
+                        break;
+                    case SideMenuOptionWatchlist:
+                        currentTVEvent.isInWatchlist=NO;
+                        break;
+                    case SideMenuOptionRatings:
+                        currentTVEvent.isInRatings=NO;
+                        break;
+                    default:
+                        break;
+                }
+                [self.tvEventsCollectionView reloadData];
+                break;
+            }
+        }
+}
+
+-(void)dataStorageReadyNotificationHandler{
+    VirtualDataStorage *sharedStorage=[VirtualDataStorage sharedVirtualDataStorage];
+    for(int i=0;i<[_tvEvents count];i++){
+        if([sharedStorage containsTVEventInFavorites:_tvEvents[i]]){
+            ((TVEvent *)_tvEvents[i]).isInFavorites=YES;
+        }
+        if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
+            ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
+        }
+        if([sharedStorage containsTVEventInRatedEvents:_tvEvents[i]]){
+            ((TVEvent *)_tvEvents[i]).isInRatings=YES;
+        }
+    }
+    [self.tvEventsCollectionView reloadData];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    UITableView *tmp=self.sortByControlTableView;
+    [super viewWillAppear:animated];
+    [self.tvEventsCollectionView reloadData];
+}
+/*-(void)viewDidAppear:(BOOL)animated{
+    UITableView *tmp=self.sortByControlTableView;
+    CGRect tmpfr=tmp.frame;
+    CGRect tmpfr2=self.tvEventsCollectionView.frame;
+    [super viewDidAppear:animated];
+}*/
 
 @end

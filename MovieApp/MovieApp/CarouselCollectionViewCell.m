@@ -21,4 +21,14 @@
     self.rolesLabel.text=castMember.character;    
                                              
 }
+
+-(void)setupWithTVEvent:(TVEventCredit *)tvEvent castMember:(CastMember *)castMember{
+    if(tvEvent.posterPath){
+        [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:tvEvent.posterPath]]];
+    }
+    self.nameLabel.numberOfLines=3;
+    self.nameLabel.text=tvEvent.title;
+    self.rolesLabel.text=castMember.character;
+    
+}
 @end

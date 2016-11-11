@@ -2,8 +2,11 @@
 #import "ItemsArrayReceiver.h"
 #import "SearchResultTableViewController.h"
 #import "SelectedIndexChangeDelegate.h"
+#import "SideMenuDelegate.h"
+#import "AddTVEventToCollectionDelegate.h"
+#import "TVEventsCollectionsStateChangeHandler.h"
 
-@interface TVEventsViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, ItemsArrayReceiver, UISearchResultsUpdating, UISearchControllerDelegate, SelectedIndexChangeDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface TVEventsViewController : UIViewController <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, ItemsArrayReceiver, UISearchResultsUpdating, UISearchControllerDelegate, SelectedIndexChangeDelegate, UITableViewDelegate, UITableViewDataSource, SideMenuDelegate, AddTVEventToCollectionDelegate, TVEventsCollectionsStateChangeHandler>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *tvEventsCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView *sortByControlTableView;

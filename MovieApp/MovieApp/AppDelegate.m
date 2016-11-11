@@ -4,6 +4,8 @@
 #import "DataProviderService.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <KeychainItemWrapper.h>
+#import "VirtualDataStorage.h"
 
 #define TYPE_KEY @"type"
 
@@ -17,8 +19,18 @@ static DataProviderService *downloader=nil;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
+
+  
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    
+    if(username && [username length]>0){
+        [[VirtualDataStorage sharedVirtualDataStorage] updateData];
+    }
+   
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
+    
     return YES;
     
 }
