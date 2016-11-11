@@ -9,5 +9,6 @@
 @interface TVEventDetailsTableViewController : UITableViewController <ItemsArrayReceiver, SeasonsTableViewCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, AddTVEventToCollectionDelegate, TVEventsCollectionsStateChangeHandler>
 
 -(void)setMainTvEvent:(TVEvent *)tvEvent;
+-(void)setTVEventID:(NSUInteger)tvEventID;
 -(void)didSelectRateThisTVEvent;
 @end

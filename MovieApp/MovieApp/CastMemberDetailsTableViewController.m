@@ -8,11 +8,15 @@
 #import "ReviewSeparatorTableViewCell.h"
 #import "Movie.h"
 #import "TVShow.h"
-
+#import "CarouselTableViewCell.h"
+#import "CarouselCollectionViewCell.h"
+#import "TVEventDetailsTableViewController.h"
 
 @interface CastMemberDetailsTableViewController (){
     NSMutableArray *_tvEventCredits;
     PersonDetails *_personDetails;
+    BOOL _isCarouselCollectionViewSetup;
+
 }
 
 @end
@@ -21,6 +25,8 @@ static CGFloat CastMemberPictureTableViewCellDefaultHeight=220.0f;
 static CGFloat CastMemberInfoTableViewCellDefaultHeight=280.0f;
 static CGFloat CastMemberFilmographyTableViewCellDefaultHeight=160.0f;
 static CGFloat SeparatorCellDefaultHeight=30.0f;
+static CGFloat const DefaultCarouselHeight=180.0f;
+static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
 
 @implementation CastMemberDetailsTableViewController
 
@@ -35,7 +41,18 @@ static CGFloat SeparatorCellDefaultHeight=30.0f;
     [self.tableView registerNib:[UINib nibWithNibName:[CastMemberInfoTableViewCell cellClassName] bundle:nil] forCellReuseIdentifier:[CastMemberInfoTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[FilmographyTableViewCell cellClassName] bundle:nil] forCellReuseIdentifier:[FilmographyTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewSeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewSeparatorTableViewCell cellIdentifier]];
+    [self.tableView registerNib:[UINib nibWithNibName:[CarouselTableViewCell cellClassName] bundle:nil] forCellReuseIdentifier:[CarouselTableViewCell cellIdentifier]];
     _tvEventCredits=[[NSMutableArray alloc]init];
+}
+
+-(void)setupCarouselCollectionView:(UICollectionView *)collectionView{
+    [collectionView setDelegate:self];
+    [collectionView setDataSource:self];
+    [collectionView registerNib:[UINib nibWithNibName:[CarouselCollectionViewCell cellClassName] bundle:nil] forCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier]];
+    UICollectionViewFlowLayout *carouselFlowLayout=[[UICollectionViewFlowLayout alloc]init];
+    carouselFlowLayout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    [collectionView setCollectionViewLayout:carouselFlowLayout];
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -68,10 +85,20 @@ static CGFloat SeparatorCellDefaultHeight=30.0f;
         }
     }
     else{
-        FilmographyTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:[FilmographyTableViewCell cellIdentifier] forIndexPath:indexPath];
+        /*FilmographyTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:[FilmographyTableViewCell cellIdentifier] forIndexPath:indexPath];
         if(_tvEventCredits){
             [cell setupWithTVEventCredits:_tvEventCredits delegateForSegue:self];
         }
+        return cell;*/
+        CarouselTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CarouselTableViewCell cellIdentifier] forIndexPath:indexPath];
+        if(!_isCarouselCollectionViewSetup){
+            [self setupCarouselCollectionView:cell.carouselCollectionView];
+            if([_tvEventCredits count]<5){
+                //remove arrow
+            }
+            _isCarouselCollectionViewSetup=YES;
+        }
+        [cell.carouselCollectionView reloadData];
         return cell;
     }
     return nil;
@@ -86,7 +113,7 @@ static CGFloat SeparatorCellDefaultHeight=30.0f;
             return SeparatorCellDefaultHeight;
         }
     }
-    return UITableViewAutomaticDimension;
+    return DefaultCarouselHeight;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -118,5 +145,51 @@ static CGFloat SeparatorCellDefaultHeight=30.0f;
 
 -(void)showTvEventDetailsForTvEventAtRow:(NSUInteger)row{
     //in order to make this happen, some changes are needed in TvEventDetailsViewController
+}
+
+//carousel collectionview delegate methods
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return [_tvEventCredits count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CarouselCollectionViewCell *carouselCell=[collectionView dequeueReusableCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+    [carouselCell setupWithTVEvent:(TVEventCredit *)_tvEventCredits[indexPath.row] castMember:self.castMember];
+    return carouselCell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(82, 180);
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout{
+    
+    return  UIEdgeInsetsMake(2, 2, 2, 2);
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [self performSegueWithIdentifier:TVEventDetailsSegueIdentifier sender:_tvEventCredits[indexPath.row]];
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:TVEventDetailsSegueIdentifier]){
+        TVEvent *mainTVEvent=[[TVEvent alloc]init];
+        TVEventCredit *currentCredit=sender;
+        mainTVEvent.posterPath=currentCredit.posterPath;
+        mainTVEvent.backdropPath=nil;
+        if(!currentCredit.name){
+            mainTVEvent.title=currentCredit.title;
+        }
+        else{
+            mainTVEvent.title=currentCredit.name;
+
+        }
+        TVEventDetailsTableViewController *destVC=segue.destinationViewController;
+        [destVC setMainTvEvent:(TVEvent *)mainTVEvent];;
+    }
 }
 @end

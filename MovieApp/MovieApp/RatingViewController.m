@@ -57,14 +57,9 @@ static NSString * RatingsImageName=@"rate-this";
                                                      handler:^(UIAlertAction * action) {
                                                          [self.navigationController popViewControllerAnimated:YES];
                                                      }];
-    UIAlertAction* rateAgainAction = [UIAlertAction actionWithTitle:@"Rate again" style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction * action) {
-                                                       //reset state
-                                                      }];
     
     
     [alert addAction:okAction];
-    [alert addAction:rateAgainAction];
     alert.view.tintColor=[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f];
     UIView *subView = alert.view.subviews.firstObject;
     UIView *alertContentView = subView.subviews.firstObject;

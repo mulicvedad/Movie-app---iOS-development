@@ -100,6 +100,13 @@
 		CECC8E0B1DAFD28700E132AA /* YearTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CECC8E091DAFD28700E132AA /* YearTableViewCell.xib */; };
 		CECC8E0F1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CECC8E0D1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m */; };
 		CECC8E101DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CECC8E0E1DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib */; };
+		CED9E76D1DD4100200A22407 /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CED9E76B1DD4100200A22407 /* fontawesome-webfont.ttf */; };
+		CED9E76E1DD4100200A22407 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = CED9E76C1DD4100200A22407 /* FontAwesome.otf */; };
+		CED9E7731DD4175400A22407 /* fontawesome-webfont.eot in Resources */ = {isa = PBXBuildFile; fileRef = CED9E76F1DD4175400A22407 /* fontawesome-webfont.eot */; };
+		CED9E7741DD4175400A22407 /* fontawesome-webfont.svg in Resources */ = {isa = PBXBuildFile; fileRef = CED9E7701DD4175400A22407 /* fontawesome-webfont.svg */; };
+		CED9E7751DD4175400A22407 /* fontawesome-webfont.woff in Resources */ = {isa = PBXBuildFile; fileRef = CED9E7711DD4175400A22407 /* fontawesome-webfont.woff */; };
+		CED9E7761DD4175400A22407 /* fontawesome-webfont.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = CED9E7721DD4175400A22407 /* fontawesome-webfont.woff2 */; };
+		CED9E7791DD5E94A00A22407 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E7781DD5E94A00A22407 /* RegisterViewController.m */; };
 		CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */; };
 		CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE833071DAC8B260024D9B2 /* ReviewsTableViewCell.m */; };
 		CEE8330A1DAC8B260024D9B2 /* ReviewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE833081DAC8B260024D9B2 /* ReviewsTableViewCell.xib */; };
@@ -318,6 +325,14 @@
 		CECC8E0C1DAFD68A00E132AA /* SeasonSelectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeasonSelectionTableViewCell.h; sourceTree = "<group>"; };
 		CECC8E0D1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeasonSelectionTableViewCell.m; sourceTree = "<group>"; };
 		CECC8E0E1DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeasonSelectionTableViewCell.xib; sourceTree = "<group>"; };
+		CED9E76B1DD4100200A22407 /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
+		CED9E76C1DD4100200A22407 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
+		CED9E76F1DD4175400A22407 /* fontawesome-webfont.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.eot"; sourceTree = "<group>"; };
+		CED9E7701DD4175400A22407 /* fontawesome-webfont.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fontawesome-webfont.svg"; sourceTree = "<group>"; };
+		CED9E7711DD4175400A22407 /* fontawesome-webfont.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.woff"; sourceTree = "<group>"; };
+		CED9E7721DD4175400A22407 /* fontawesome-webfont.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.woff2"; sourceTree = "<group>"; };
+		CED9E7771DD5E94A00A22407 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		CED9E7781DD5E94A00A22407 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		CEE833061DAC8B260024D9B2 /* ReviewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsTableViewCell.h; sourceTree = "<group>"; };
@@ -465,6 +480,12 @@
 		CE741D321D91ED5D0081C33A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CED9E76F1DD4175400A22407 /* fontawesome-webfont.eot */,
+				CED9E7701DD4175400A22407 /* fontawesome-webfont.svg */,
+				CED9E7711DD4175400A22407 /* fontawesome-webfont.woff */,
+				CED9E7721DD4175400A22407 /* fontawesome-webfont.woff2 */,
+				CED9E76B1DD4100200A22407 /* fontawesome-webfont.ttf */,
+				CED9E76C1DD4100200A22407 /* FontAwesome.otf */,
 				CE741D331D91ED5D0081C33A /* main.m */,
 			);
 			name = "Supporting Files";
@@ -682,6 +703,8 @@
 				CE948E951DCEAD2600EF6262 /* LoginViewController.m */,
 				CE948EA31DD1784D00EF6262 /* RatingViewController.h */,
 				CE948EA41DD1784D00EF6262 /* RatingViewController.m */,
+				CED9E7771DD5E94A00A22407 /* RegisterViewController.h */,
+				CED9E7781DD5E94A00A22407 /* RegisterViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -830,21 +853,27 @@
 				CE741D421D91ED5D0081C33A /* LaunchScreen.storyboard in Resources */,
 				CEC965EF1DAB3D4B0017C990 /* ImagesTableViewCell.xib in Resources */,
 				CEC965EA1DAB38AA0017C990 /* OverviewTableViewCell.xib in Resources */,
+				CED9E7741DD4175400A22407 /* fontawesome-webfont.svg in Resources */,
 				CE69C6C91DB0360100FE3429 /* SimpleCollectionViewCell.xib in Resources */,
+				CED9E76E1DD4100200A22407 /* FontAwesome.otf in Resources */,
 				CE5AC9D41DB4B2D400498846 /* CastMemberInfoTableViewCell.xib in Resources */,
 				CEC965E51DAB2B9A0017C990 /* RatingTableViewCell.xib in Resources */,
 				CE11095B1DAF26EB005F4676 /* EpisodeTableViewCell.xib in Resources */,
 				CE69C6D61DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.xib in Resources */,
+				CED9E7751DD4175400A22407 /* fontawesome-webfont.woff in Resources */,
 				CE741D3F1D91ED5D0081C33A /* Assets.xcassets in Resources */,
 				CE5885251DB2EDFD00A52DBB /* SearchResultItemTableViewCell.xib in Resources */,
 				CE0760D31DB30F8C00D92135 /* MainSortByTableViewCell.xib in Resources */,
 				CE741D3D1D91ED5D0081C33A /* Main.storyboard in Resources */,
+				CED9E7761DD4175400A22407 /* fontawesome-webfont.woff2 in Resources */,
 				CEF93FA41DADA29E005028F5 /* ReviewSeparatorTableViewCell.xib in Resources */,
 				CE5885271DB2EE9800A52DBB /* FeedTableViewCell.xib in Resources */,
 				CE5885291DB2F14800A52DBB /* TVEventsCollectionViewCell.xib in Resources */,
+				CED9E76D1DD4100200A22407 /* fontawesome-webfont.ttf in Resources */,
 				CE1FFA0A1DC960C1006FBF7B /* SideMenuItemTableViewCell.xib in Resources */,
 				CE43F6471DA9571C00D8349B /* SeparatorTableViewCell.xib in Resources */,
 				CE69C6D11DB0586700FE3429 /* EpisodeTrailerTableViewCell.xib in Resources */,
+				CED9E7731DD4175400A22407 /* fontawesome-webfont.eot in Resources */,
 				CE05F53E1DC614C100F74971 /* FilmographyTableViewCell.xib in Resources */,
 				CE5AC9CC1DB4A16700498846 /* CastMemberPictureTableViewCell.xib in Resources */,
 			);
@@ -993,6 +1022,7 @@
 				CE1FFA2C1DCC1C6D006FBF7B /* FavoritePostObject.m in Sources */,
 				CE69C6D51DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.m in Sources */,
 				CE0760D71DB30FD800D92135 /* SortByDropDownTableViewCell.m in Sources */,
+				CED9E7791DD5E94A00A22407 /* RegisterViewController.m in Sources */,
 				CE11095A1DAF26EB005F4676 /* EpisodeTableViewCell.m in Sources */,
 				CE1FFA261DCBE334006FBF7B /* PostResponse.m in Sources */,
 				CE69C6D01DB0586700FE3429 /* EpisodeTrailerTableViewCell.m in Sources */,

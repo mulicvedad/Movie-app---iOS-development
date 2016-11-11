@@ -49,6 +49,7 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
     self.tableView.separatorColor=[MovieAppConfiguration getPreferredDarkGreyColor];
     
     self.automaticallyAdjustsScrollViewInsets=NO;
+    [self.tableView setScrollEnabled:NO];
     if(![self isUserLoggedIn]){
             self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     }

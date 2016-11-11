@@ -2,20 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Fabric</key>
-    <dict>
-        <key>APIKey</key>
-        <string>614270a54fcf753709b0ffc990bbc21463bc8fa4</string>
-        <key>Kits</key>
-        <array>
-            <dict>
-                <key>KitInfo</key>
-                <dict/>
-                <key>KitName</key>
-                <string>Crashlytics</string>
-            </dict>
-        </array>
-    </dict>
 	<key>BoxOfficeAPI</key>
 	<string>http://www.boxofficemojo.com/data/rss.php?file=topstories.xml</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -34,6 +20,20 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>614270a54fcf753709b0ffc990bbc21463bc8fa4</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -41,10 +41,19 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>TheMovieDbAPIKey</key>
+	<string>0bb62fb7a597e6b58ba06172fbd214f6</string>
 	<key>TheMovieDbBaseUrl</key>
 	<string>https://api.themoviedb.org</string>
-    <key>TheMovieDbAPIKey</key>
-    <string>0bb62fb7a597e6b58ba06172fbd214f6</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>fontawesome-webfont.ttf</string>
+		<string>FontAwesome.otf</string>
+		<string>fontawesome-webfont.eot</string>
+		<string>fontawesome-webfont.svg</string>
+		<string>fontawesome-webfont.woff</string>
+		<string>fontawesome-webfont.woff2</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

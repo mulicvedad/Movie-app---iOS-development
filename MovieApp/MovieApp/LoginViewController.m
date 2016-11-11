@@ -4,9 +4,14 @@
 #import "LoginRequest.h"
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
+#import "RegisterViewController.h"
 
 static NSString *UsernamePlaceholder=@"  Your username";
 static NSString *PasswordPlaceholder=@"  Password";
+static NSString *RegisterSegueIdentifier=@"RegisterSegue";
+static NSString *ResetPasswordSegueIdentifier=@"ResetSegue";
+static CGFloat ContainerViewOffsetWithoutKeyboard=200.0;
+static CGFloat ContainerViewOffsetWithKeyboard=50.0;
 
 @interface LoginViewController (){
    
@@ -35,7 +40,6 @@ static NSString *PasswordPlaceholder=@"  Password";
     
     [ self.createNewAccountLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectCreateNewAccount:)]];
     [ self.forgotDetailsLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectForgotDetails:)]];
-
 }
 
 - (IBAction)didBeginEditingTextfield:(UITextField *)sender {
@@ -71,7 +75,6 @@ static NSString *PasswordPlaceholder=@"  Password";
     [myWrapper setObject:self.usernameTextField.text forKey:(id)kSecAttrAccount];
     [myWrapper setObject:sessionID forKey:(id)kSecValueData];
     [[VirtualDataStorage sharedVirtualDataStorage] updateData];
-    [self notifyUserOfValidationStatus:LoginValidationStatusCompletedSuccessfully];
 }
 
 -(void)loginFailedWithError:(NSError *)error{
@@ -79,12 +82,24 @@ static NSString *PasswordPlaceholder=@"  Password";
 }
 
 -(void)didSelectCreateNewAccount:(UILabel *)sender{
-    //not implemented yet
+    [self performSegueWithIdentifier:RegisterSegueIdentifier sender:nil];
 }
 
 -(void)didSelectForgotDetails:(UILabel *)sender{
-    //not implemented yet
+    [self performSegueWithIdentifier:ResetPasswordSegueIdentifier sender:nil];
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:RegisterSegueIdentifier]){
+        RegisterViewController *destVC=segue.destinationViewController;
+        destVC.shouldResetPassword=NO;
+    }
+    else if([segue.identifier isEqualToString:ResetPasswordSegueIdentifier]){
+        RegisterViewController *destVC=segue.destinationViewController;
+        destVC.shouldResetPassword=YES;
+    }
+}
+
 
 -(LoginValidationStatus)validateTextFields{
     
@@ -150,6 +165,45 @@ static NSString *PasswordPlaceholder=@"  Password";
     else{
         return @"Error";
     }
+}
+
+-(void)keyboardWillShow {
+    CGRect newFrame=self.containerView.frame;
+    newFrame.origin.y=ContainerViewOffsetWithKeyboard;
+    self.containerView.frame = newFrame;
+}
+
+-(void)keyboardWillHide {
+    CGRect newFrame=self.containerView.frame;
+    newFrame.origin.y=ContainerViewOffsetWithoutKeyboard;
+    self.containerView.frame = newFrame;
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];  
 }
 
 

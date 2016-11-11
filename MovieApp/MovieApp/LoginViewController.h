@@ -21,6 +21,7 @@ typedef  enum{
 @property (weak, nonatomic) IBOutlet UILabel *createNewAccountLabel;
 @property (weak, nonatomic) IBOutlet UIView *usernameUnderlineView;
 @property (weak, nonatomic) IBOutlet UIView *passwordUnderlineView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 +(NSString *)getDescriptionForLoginValidationStatus:(LoginValidationStatus)loginStatus;
 +(NSString *)getAlertTitleForLoginValidationStatus:(LoginValidationStatus)loginStatus;

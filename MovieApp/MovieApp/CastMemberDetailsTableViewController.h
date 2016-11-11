@@ -3,6 +3,6 @@
 #import "ItemsArrayReceiver.h"
 #import "ShowDetailsDelegate.h"
 
-@interface CastMemberDetailsTableViewController : UITableViewController <ItemsArrayReceiver, ShowDetailsDelegate>
+@interface CastMemberDetailsTableViewController : UITableViewController <ItemsArrayReceiver, ShowDetailsDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) CastMember *castMember;
 @end

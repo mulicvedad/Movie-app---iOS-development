@@ -19,6 +19,14 @@ extern NSString *KeyChainItemWrapperIdentifier;
 extern NSString *SessionIDKeyChainKey;
 extern NSString *UsernameKeyChainKey;
 
+extern NSString *FontAwesomeFontName;
+
+extern NSString *HeartFontAwesomeCode;
+extern NSString *EmptyHeartFontAwesomeCode;
+extern NSString *StarFontAwesomeCode;
+extern NSString *EmptyStarFontAwesomeCode;
+extern NSString *WatchlistFontAwesomeCode;
+extern NSString *EmptyWatchlistFontAwesomeCode;
 
 
 +(NSURL *)getFeedsSourceUrlPath;

@@ -33,6 +33,7 @@
 
 @interface TVEventDetailsTableViewController (){
     TVEvent *_mainTvEvent;
+    NSUInteger _mainTVEventID;
     TVEventDetails *_mainTvEventDetails;
     Video *_trailer;
     NSMutableArray *_cast;
@@ -116,6 +117,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
+-(void)setTVEventID:(NSUInteger)tvEventID{
+    _mainTVEventID=tvEventID;
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
 }

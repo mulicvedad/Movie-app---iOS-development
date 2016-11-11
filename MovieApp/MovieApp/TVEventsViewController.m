@@ -85,18 +85,21 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
     self.resultsContoller=[[SearchResultTableViewController alloc]init];
     self.searchController=[[UISearchController alloc]initWithSearchResultsController:self.resultsContoller];
     [self.resultsContoller setDelegateForSegue: self];
+    
     self.navigationItem.titleView = self.searchController.searchBar;
-    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
-
+    
+   self.searchController.searchBar.placeholder=SearchBarPlaceholder;
+    
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
     
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate=self;
+    //self.searchController.searchBar.delegate = self;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation=NO;
-    self.searchController.obscuresBackgroundDuringPresentation=YES;
+    //self.searchController.obscuresBackgroundDuringPresentation=YES;
     self.definesPresentationContext=YES;
     
 }
@@ -551,8 +554,15 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    UITableView *tmp=self.sortByControlTableView;
     [super viewWillAppear:animated];
     [self.tvEventsCollectionView reloadData];
 }
+/*-(void)viewDidAppear:(BOOL)animated{
+    UITableView *tmp=self.sortByControlTableView;
+    CGRect tmpfr=tmp.frame;
+    CGRect tmpfr2=self.tvEventsCollectionView.frame;
+    [super viewDidAppear:animated];
+}*/
 
 @end

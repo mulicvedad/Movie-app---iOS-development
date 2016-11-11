@@ -1,4 +1,5 @@
 #import "SideMenuItemTableViewCell.h"
+#import <FontAwesome-iOS/NSString+FontAwesome.h>
 
 #define FontSize12 12
 
@@ -32,6 +33,7 @@ static NSString * SideMenuOptionLogOutText=@"Logout";
 }
 
 -(void)setupWithOption:(SideMenuOption)option selected:(BOOL)selected{
+  
     if(selected){
         self.optionNameLabel.textColor=[MovieAppConfiguration getPrefferedYellowColor];
         self.contentView.backgroundColor=[UIColor colorWithRed:41/255.0 green:41/255.0 blue:41/255.0 alpha:1.0];
@@ -39,6 +41,7 @@ static NSString * SideMenuOptionLogOutText=@"Logout";
     else{
         self.optionNameLabel.textColor=[MovieAppConfiguration getPrefferedLightGreyColor];
     }
+    
     self.optionNameLabel.text=[self getDescriptionForOption:option];
     switch (option) {
         case SideMenuOptionFavorites:

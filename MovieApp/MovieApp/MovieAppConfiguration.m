@@ -7,7 +7,14 @@ NSString * const FilledStarCode= @"\u2605 ";
 NSString *KeyChainItemWrapperIdentifier=@"myKeyChainWrapper";
 NSString *SessionIDKeyChainKey=@"sessionID";
 NSString *UsernameKeyChainKey=@"username";
+NSString *FontAwesomeFontName=@"FontAwesome";
 
+NSString *HeartFontAwesomeCode=@"\f004";
+NSString *EmptyHeartFontAwesomeCode=@"\uf08a";
+NSString *StarFontAwesomeCode=@"\f005";
+NSString *EmptyStarFontAwesomeCode=@"\uf006";
+NSString *WatchlistFontAwesomeCode=@"\uf02e";
+NSString *EmptyWatchlistFontAwesomeCode=@"\uf097";
 
 
 @implementation MovieAppConfiguration

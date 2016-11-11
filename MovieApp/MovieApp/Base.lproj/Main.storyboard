@@ -16,7 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="selectedImageTintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.97254901959999995" green="0.79215686269999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="0.97254901960784312" green="0.792156862745098" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="arx-cm-fXC" kind="relationship" relationship="viewControllers" id="CA4-Y4-DeL"/>
@@ -67,7 +68,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Wbz-xJ-Veh" secondAttribute="trailing" constant="8" id="1dD-6U-7kE"/>
                             <constraint firstItem="Wbz-xJ-Veh" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" constant="8" id="78J-JA-Qna"/>
-                            <constraint firstItem="D9O-QQ-JdD" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" constant="10" id="NIg-lK-NF1"/>
+                            <constraint firstItem="D9O-QQ-JdD" firstAttribute="top" secondItem="iol-ye-JxO" secondAttribute="bottom" constant="10" id="EqI-77-ALk"/>
                             <constraint firstAttribute="trailing" secondItem="D9O-QQ-JdD" secondAttribute="trailing" id="Qgl-jg-HN5"/>
                             <constraint firstItem="Wbz-xJ-Veh" firstAttribute="top" secondItem="D9O-QQ-JdD" secondAttribute="bottom" constant="10" id="gCO-Hg-9Lm"/>
                             <constraint firstItem="D9O-QQ-JdD" firstAttribute="leading" secondItem="B6G-Dh-SWO" secondAttribute="leading" id="oQ9-Ki-zLT"/>
@@ -181,12 +182,12 @@
                                             <action selector="didSelectLoginButton:" destination="ShH-jf-idj" eventType="touchUpInside" id="tah-df-WCj"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Forgot your details?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Afz-Hm-hfm">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Forgot your details?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Afz-Hm-hfm">
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a new account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Deb-WA-rzp">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a new account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Deb-WA-rzp">
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -225,6 +226,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="foO-FI-sKu" id="NP2-Ha-IeY"/>
                         <outlet property="createNewAccountLabel" destination="Deb-WA-rzp" id="IXV-K6-rZB"/>
                         <outlet property="forgotDetailsLabel" destination="Afz-Hm-hfm" id="lDW-h4-DMl"/>
                         <outlet property="loginButton" destination="dg9-AH-2lh" id="soM-1u-FvC"/>
@@ -232,6 +234,8 @@
                         <outlet property="passwordUnderlineView" destination="o72-me-IQw" id="1sj-KC-2Iy"/>
                         <outlet property="usernameTextField" destination="ZIm-Wk-C8c" id="OoG-Ea-Q5X"/>
                         <outlet property="usernameUnderlineView" destination="BR1-4w-c1z" id="GrO-UJ-D2n"/>
+                        <segue destination="hPu-qP-bZe" kind="show" identifier="RegisterSegue" id="OoE-pI-F6p"/>
+                        <segue destination="hPu-qP-bZe" kind="show" identifier="ResetSegue" id="QTG-iR-DHh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpI-oj-gJI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -449,6 +453,38 @@
             </objects>
             <point key="canvasLocation" x="2909.5999999999999" y="-119.1904047976012"/>
         </scene>
+        <!--Register View Controller-->
+        <scene sceneID="br1-lA-rWu">
+            <objects>
+                <viewController id="hPu-qP-bZe" customClass="RegisterViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4sY-Uq-qtb"/>
+                        <viewControllerLayoutGuide type="bottom" id="ina-YW-FiQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2A6-zj-kXx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aim-Lf-HGM">
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ina-YW-FiQ" firstAttribute="top" secondItem="aim-Lf-HGM" secondAttribute="bottom" id="BtU-n4-k7h"/>
+                            <constraint firstItem="aim-Lf-HGM" firstAttribute="leading" secondItem="2A6-zj-kXx" secondAttribute="leading" id="DIv-Qy-ckK"/>
+                            <constraint firstAttribute="trailing" secondItem="aim-Lf-HGM" secondAttribute="trailing" id="d94-A6-ShI"/>
+                            <constraint firstItem="aim-Lf-HGM" firstAttribute="top" secondItem="4sY-Uq-qtb" secondAttribute="bottom" id="kTl-w4-Eg5"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="registerWebView" destination="aim-Lf-HGM" id="ojy-Hb-M0p"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EzU-KO-3AZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4084" y="-123.68815592203899"/>
+        </scene>
         <!--LikedTV Events View Controller-->
         <scene sceneID="60p-pM-6tn">
             <objects>
@@ -514,6 +550,9 @@
                             <outlet property="delegate" destination="xtp-I3-Sv6" id="aJV-dv-Ki9"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="hWE-Ol-Nq1" kind="show" identifier="TVEventDetailsSegue" id="FgZ-1h-wgk"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EQx-Ff-MDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -549,7 +588,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WIC-f1-jF2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Toc-kM-RfY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="Toc-kM-RfY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -568,7 +607,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="arx-cm-fXC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feeds" image="feed-inactive" id="DKl-Pj-yTU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="yeC-kJ-7WM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="yeC-kJ-7WM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -588,7 +627,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kaQ-mv-8os" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Movies" image="movies-inactive" selectedImage="movies-active" id="7mt-Gm-Qtd"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="b96-Zj-pYg">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="b96-Zj-pYg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -618,9 +657,10 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VAR-D8-Grm"/>
         <segue reference="b3H-So-LoW"/>
+        <segue reference="VAR-D8-Grm"/>
         <segue reference="UYh-kZ-oaf"/>
+        <segue reference="QTG-iR-DHh"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
