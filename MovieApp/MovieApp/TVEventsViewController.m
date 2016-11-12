@@ -546,9 +546,7 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
         if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
         }
-        if([sharedStorage containsTVEventInRatedEvents:_tvEvents[i]]){
-            ((TVEvent *)_tvEvents[i]).isInRatings=YES;
-        }
+        
     }
     [self.tvEventsCollectionView reloadData];
 }

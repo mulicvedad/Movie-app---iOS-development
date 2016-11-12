@@ -107,6 +107,8 @@
 		CED9E7751DD4175400A22407 /* fontawesome-webfont.woff in Resources */ = {isa = PBXBuildFile; fileRef = CED9E7711DD4175400A22407 /* fontawesome-webfont.woff */; };
 		CED9E7761DD4175400A22407 /* fontawesome-webfont.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = CED9E7721DD4175400A22407 /* fontawesome-webfont.woff2 */; };
 		CED9E7791DD5E94A00A22407 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E7781DD5E94A00A22407 /* RegisterViewController.m */; };
+		CED9E77C1DD6A79800A22407 /* LocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E77B1DD6A79800A22407 /* LocalNotificationManager.m */; };
+		CED9E77F1DD744E600A22407 /* CustomQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E77E1DD744E600A22407 /* CustomQueue.m */; };
 		CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */; };
 		CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE833071DAC8B260024D9B2 /* ReviewsTableViewCell.m */; };
 		CEE8330A1DAC8B260024D9B2 /* ReviewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE833081DAC8B260024D9B2 /* ReviewsTableViewCell.xib */; };
@@ -333,6 +335,10 @@
 		CED9E7721DD4175400A22407 /* fontawesome-webfont.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.woff2"; sourceTree = "<group>"; };
 		CED9E7771DD5E94A00A22407 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		CED9E7781DD5E94A00A22407 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		CED9E77A1DD6A79800A22407 /* LocalNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotificationManager.h; sourceTree = "<group>"; };
+		CED9E77B1DD6A79800A22407 /* LocalNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotificationManager.m; sourceTree = "<group>"; };
+		CED9E77D1DD744E600A22407 /* CustomQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomQueue.h; sourceTree = "<group>"; };
+		CED9E77E1DD744E600A22407 /* CustomQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomQueue.m; sourceTree = "<group>"; };
 		CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		CEE833061DAC8B260024D9B2 /* ReviewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsTableViewCell.h; sourceTree = "<group>"; };
@@ -434,6 +440,8 @@
 				CE76A0FE1DBA476400725CA1 /* TheMovieDBConstants.m */,
 				CE1FFA0F1DCA9CF1006FBF7B /* LoginManager.h */,
 				CE1FFA101DCA9CF1006FBF7B /* LoginManager.m */,
+				CED9E77A1DD6A79800A22407 /* LocalNotificationManager.h */,
+				CED9E77B1DD6A79800A22407 /* LocalNotificationManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -578,6 +586,8 @@
 				CE1FFA2E1DCC2B1A006FBF7B /* WatchlistPostObject.m */,
 				CE948E9A1DD0014C00EF6262 /* VirtualDataStorage.h */,
 				CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */,
+				CED9E77D1DD744E600A22407 /* CustomQueue.h */,
+				CED9E77E1DD744E600A22407 /* CustomQueue.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -969,6 +979,7 @@
 				CE1FFA201DCAAAF6006FBF7B /* SessionIDResponse.m in Sources */,
 				CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */,
 				CE1FFA111DCA9CF1006FBF7B /* LoginManager.m in Sources */,
+				CED9E77F1DD744E600A22407 /* CustomQueue.m in Sources */,
 				CE58851D1DB2E88D00A52DBB /* SearchResultTableViewController.m in Sources */,
 				CEC965E91DAB38AA0017C990 /* OverviewTableViewCell.m in Sources */,
 				CE43F6561DA9C74E00D8349B /* CastMember.m in Sources */,
@@ -1039,6 +1050,7 @@
 				CE948E9C1DD0014C00EF6262 /* VirtualDataStorage.m in Sources */,
 				CECC8E031DAFAEC100E132AA /* EpisodesGuideTableViewController.m in Sources */,
 				CE43F6501DA9C2CF00D8349B /* TVShowDetails.m in Sources */,
+				CED9E77C1DD6A79800A22407 /* LocalNotificationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

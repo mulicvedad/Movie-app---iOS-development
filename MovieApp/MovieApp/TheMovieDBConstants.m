@@ -14,6 +14,10 @@ NSString * const CriterionDictionaryKey=@"criterion";
 NSString * const TypeDictionaryKey=@"type";
 NSString * const ErrorDictionaryKey=@"error";
 NSString *SideMenuOptionDictionaryKey=@"sideMenuOption";
+NSString *TVEventIDDictionaryKey=@"tvEventID";
+NSString *TVSeasonNumberDictionaryKey=@"seasonNumber";
+
+
 
 NSString *UsernameParameterName=@"username";
 NSString *PasswordParameterName=@"password";
@@ -69,6 +73,9 @@ NSString * const CastCreditsKeypath=@"combined_credits.cast";
 
 NSString * const DetailsDictionaryValue=@"details";
 NSString * const CreditsDictionaryValue=@"credits";
+NSString *EpisodesDictionaryValue=@"episodes";
+
+
 NSString * const CriterionPopularityValue=@"popularity.desc";
 NSString * const CriterionReleaseDateValue=@"release_date.desc";
 NSString * const AppendImagesParameterValue=@"images,reviews";

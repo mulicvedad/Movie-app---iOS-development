@@ -37,6 +37,8 @@ extern NSString * const CriterionDictionaryKey;
 extern NSString * const TypeDictionaryKey;
 extern NSString * const ErrorDictionaryKey;
 extern NSString *SideMenuOptionDictionaryKey;
+extern NSString *TVEventIDDictionaryKey;
+extern NSString *TVSeasonNumberDictionaryKey;
 extern NSString *UsernameParameterName;
 extern NSString *PasswordParameterName;
 extern NSString *RequestTokenParameterName;
@@ -91,6 +93,8 @@ extern NSString * const CastCreditsKeypath;
 
 extern NSString * const DetailsDictionaryValue;
 extern NSString * const CreditsDictionaryValue;
+extern NSString *EpisodesDictionaryValue;
+
 extern NSString * const CriterionPopularityValue;
 extern NSString * const CriterionReleaseDateValue;
 extern NSString * const AppendImagesParameterValue;

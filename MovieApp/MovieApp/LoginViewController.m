@@ -49,6 +49,7 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
     else{
         self.passwordUnderlineView.backgroundColor=[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f];
     }
+ 
 }
 - (IBAction)didEndEditingTextfield:(UITextField *)sender {
     if(sender==self.usernameTextField){
@@ -57,6 +58,7 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
     else{
         self.passwordUnderlineView.backgroundColor=[MovieAppConfiguration getPrefferedLightGreyColor];
     }
+
 }
 - (IBAction)didSelectLoginButton:(UIButton *)sender {
     LoginManager *apiLoginManager=[[LoginManager alloc]init];

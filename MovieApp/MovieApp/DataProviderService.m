@@ -21,10 +21,12 @@
 #import "FavoritePostObject.h"
 #import "WatchlistPostObject.h"
 #import <KeychainItemWrapper.h>
+#import "VirtualDataStorage.h"
 
 @interface DataProviderService(){
     RKObjectManager *objectManager;
     id<LoginManagerDelegate> _loginHandler;
+    id<ItemsArrayReceiver> _episodesReceiver;
 }
 @end
 
@@ -200,6 +202,34 @@ static DataProviderService *sharedService;
     
 }
 
+-(void)getDetailsForTvEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
+                                  AppendToResponseParameterName : AppendImagesParameterValue};
+    NSString *subpath;
+    if(mediaType==MovieType){
+        subpath=MovieDetailsSubpath;
+    }
+    else{
+        subpath=TVShowDetailsSubpath;
+    }
+    
+    subpath=[subpath stringByAppendingString:[NSString stringWithFormat:@"/%lu",tvEventID]];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:subpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:DetailsDictionaryValue}];
+                                                  
+                                                  
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  //MISSING ERROR HANDLING
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+    
+    
+}
+
 -(void)getCreditsForTvEvent:(TVEvent *)tvEvent returnTo:(id)dataHandler{
     NSDictionary *queryParams = @{APIKeyParameterName: [MovieAppConfiguration getApiKey]};
     NSString *subpath;
@@ -254,7 +284,7 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:EpisodesDictionaryValue, TVEventIDDictionaryKey:[NSNumber numberWithUnsignedInteger:tvShowID]}];
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                                   //MISSING ERROR HANDLING
@@ -561,4 +591,30 @@ static DataProviderService *sharedService;
     NSString *sessionID=[myKeyChain objectForKey:(id)kSecValueData];
     return sessionID;
 }
+
+//helper methods for notification purposes
+-(void)getAllEpisodesForTVShowWithID:(NSUInteger)tvShowID numberOfSeasons:(NSUInteger)numberOfSeasons  returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    if(numberOfSeasons>0){
+        for(int i=1;i<numberOfSeasons+1;i++){
+            [self getSeasonDetailsForTvShow:tvShowID seasonNumber:i returnTo:self];
+        }
+    }
+    else{
+        //_episodesReceiver=dataHandler;
+        [self getDetailsForTvEventWithID:tvShowID mediaType:TVShowType returnTo:self];
+    }
+}
+
+-(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
+    if([[info objectForKey:TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
+        TVShowDetails *tvShow=customItemsArray[0];
+        [self getAllEpisodesForTVShowWithID:tvShow.id numberOfSeasons:tvShow.numberOfSeasons returnTo:self];
+        
+    }
+    else if([[info objectForKey:TypeDictionaryKey ] isEqualToString:EpisodesDictionaryValue]){
+        [[VirtualDataStorage sharedVirtualDataStorage] updateReceiverWithNewData:customItemsArray info:@{TypeDictionaryKey:EpisodesDictionaryValue, TVEventIDDictionaryKey:[info objectForKey:TVEventIDDictionaryKey]}];
+    }
+}
+
+
 @end

@@ -10,6 +10,4 @@
 -(void)removeAllData;
 -(BOOL)containsTVEventInFavorites:(TVEvent *)tvEvent;
 -(BOOL)containsTVEventInWatchlist:(TVEvent *)tvEvent;
--(BOOL)containsTVEventInRatedEvents:(TVEvent *)tvEvent;
-
 @end
