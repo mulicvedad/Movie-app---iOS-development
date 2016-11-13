@@ -3,6 +3,8 @@
 #import "LocalNotificationManager.h"
 #import "TVShowEpisode.h"
 #import "CustomQueue.h"
+#import "LocalNotificationHandler.h"
+#import "LocalNotificationManagerOldVersion.h"
 
 @interface  VirtualDataStorage (){
     NSMutableArray *_favoriteMovies;
@@ -16,12 +18,20 @@
 static VirtualDataStorage *sharedDataStorage;
 static NSUInteger responseCounter;
 static CGFloat TimerInterval=10.0f;
+static id<LocalNotificationHandler> _localNotificationManager;
+
 @implementation VirtualDataStorage
 
 +(VirtualDataStorage *)sharedVirtualDataStorage{
     if(!sharedDataStorage){
         sharedDataStorage=[[VirtualDataStorage alloc]init];
         [sharedDataStorage configure];
+        /*if([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion>=10){
+            _localNotificationManager=[LocalNotificationManager sharedNotificationManager];
+        }
+        else{*/
+        _localNotificationManager=[LocalNotificationManagerOldVersion sharedNotificationManager];
+        //}
     }
     return sharedDataStorage;
 }
@@ -72,7 +82,7 @@ static CGFloat TimerInterval=10.0f;
             }
         }
         
-        [[LocalNotificationManager sharedNotificationManager] addNotificationAboutEpisodes:customItemsArray];
+        [_localNotificationManager addNotificationAboutEpisodes:customItemsArray];
         return;
     }
     responseCounter++;

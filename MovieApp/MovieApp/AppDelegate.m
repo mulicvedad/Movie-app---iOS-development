@@ -20,7 +20,6 @@ static DataProviderService *downloader=nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
 
-  
     KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
     NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
     

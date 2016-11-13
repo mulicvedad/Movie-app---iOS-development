@@ -1,11 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "TVEvent.h"
 #import <UserNotifications/UserNotifications.h>
+#import "LocalNotificationHandler.h"
 
-@interface LocalNotificationManager : NSObject <UNUserNotificationCenterDelegate>
+@interface LocalNotificationManager : NSObject <UNUserNotificationCenterDelegate, LocalNotificationHandler>
 
--(void)configure;
--(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent;
--(void)addNotificationAboutEpisodes:(NSArray *)episodes;
-+(instancetype)sharedNotificationManager;
 @end
