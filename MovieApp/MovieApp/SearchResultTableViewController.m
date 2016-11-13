@@ -15,8 +15,7 @@
     BOOL _isDownloaderActive;
     BOOL _noMorePages;
     NSString *_query;
-    id _delegate;
-    id _delegateForSegue;
+    UIViewController *_delegateForSegue;
 }
 
 @end
@@ -32,7 +31,7 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 }
 
 -(void)configure{
-    self.edgesForExtendedLayout=UIRectEdgeTop;
+    //self.edgesForExtendedLayout=UIRectEdgeTop;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.backgroundColor=[MovieAppConfiguration getResultsTableViewBackgroungColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -106,7 +105,7 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [_delegateForSegue performSegueWithIdentifier:EventDetailsSegueIdentifier sender:_results[indexPath.row]];
-
+    [self showTvEventDetailsForTvEventAtRow:indexPath.row];
 }
+
 @end
