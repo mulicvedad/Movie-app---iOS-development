@@ -1,9 +1,12 @@
 #import "LocalNotificationManager.h"
 #import "TVShowEpisode.h"
+#import "VirtualDataStorage.h"
 
 static LocalNotificationManager *sharedNotificationManager;
 static CGFloat numberOfSecondsInOneDay=24.0f*60*60;
 static CGFloat episodeNotificationTimeInterval=60.0f;
+static NSString *MovieNotificationCategoryName=@"movie";
+static NSString *TVShowNotificationCategoryName=@"tvshow";
 
 @implementation LocalNotificationManager
 
@@ -27,7 +30,7 @@ static CGFloat episodeNotificationTimeInterval=60.0f;
     }];
 }
 
--(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent{
+-(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent isEpisode:(BOOL)isEpisode{
     NSCalendar *cal = [NSCalendar currentCalendar];
 
     NSDateComponents *components = [cal components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
@@ -56,7 +59,7 @@ static CGFloat episodeNotificationTimeInterval=60.0f;
         dateString=[dateFormatter stringFromDate:tvEvent.releaseDate];
         
         //if episode air date is thursday we will get notification on wednesday
-        NSDate *triggerDate = [NSDate dateWithTimeInterval:-numberOfSecondsInOneDay sinceDate:tvEvent.releaseDate];
+        NSDate *triggerDate = [NSDate dateWithTimeInterval:-(NSTimeInterval)numberOfSecondsInOneDay sinceDate:tvEvent.releaseDate];
         NSDateComponents *triggerDateComponents = [[NSCalendar currentCalendar]
                                          components:NSCalendarUnitYear +
                                          NSCalendarUnitMonth + NSCalendarUnitDay +
@@ -65,8 +68,8 @@ static CGFloat episodeNotificationTimeInterval=60.0f;
         calendarTrigger=[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDateComponents repeats:NO];
     }
     
-    
-    NSString *notificationIdentifier=[NSString stringWithFormat:@"%d", (int)tvEvent.id];
+    NSString *notificationIdentifier=isEpisode ? TVShowNotificationCategoryName : MovieNotificationCategoryName;
+    notificationIdentifier=[notificationIdentifier stringByAppendingString:[NSString stringWithFormat:@"%d", (int)tvEvent.id]];
     UNUserNotificationCenter *notificationCenter=[UNUserNotificationCenter currentNotificationCenter];
     UNMutableNotificationContent *notificationContent = [UNMutableNotificationContent new];
     
@@ -93,7 +96,7 @@ static CGFloat episodeNotificationTimeInterval=60.0f;
             episodeEvent.id=episode.id;
             episodeEvent.title=episode.name;
             episodeEvent.releaseDate=episode.airDate;
-            [self addNotificationAboutTVEvent:episodeEvent];
+            [self addNotificationAboutTVEvent:episodeEvent isEpisode:YES];
         }
         
     }
@@ -108,4 +111,45 @@ static CGFloat episodeNotificationTimeInterval=60.0f;
     
 }
 
+-(void)removeAllNotificationsForMovies{
+    NSMutableArray *notificationsIdentifiers=[[NSMutableArray alloc]init];
+    NSArray *movies=[[VirtualDataStorage sharedVirtualDataStorage] getWatchlistOfType:MovieType];
+    for(TVEvent *tvEvent in movies){
+        if(tvEvent.releaseDate){
+            if(!([tvEvent.releaseDate compare:[NSDate date]] == NSOrderedAscending)){
+                [notificationsIdentifiers addObject:[MovieNotificationCategoryName stringByAppendingString:[NSString stringWithFormat:@"%d", (int)tvEvent.id]]];
+            }
+        }
+    }
+    [[UNUserNotificationCenter currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:notificationsIdentifiers];
+    
+}
+
+-(void)removeAllNotificationsForTVShows{
+    NSMutableArray *notificationsIdentifiers=[[NSMutableArray alloc]init];
+    NSArray *tvShows=[[VirtualDataStorage sharedVirtualDataStorage] getWatchlistOfType:TVShowType];
+    for(TVEvent *tvEvent in tvShows){
+        if(tvEvent.releaseDate){
+            if(!([tvEvent.releaseDate compare:[NSDate date]] == NSOrderedAscending)){
+                [notificationsIdentifiers addObject:[TVShowNotificationCategoryName stringByAppendingString:[NSString stringWithFormat:@"%d", (int)tvEvent.id]]];
+            }
+        }
+    }
+    [[UNUserNotificationCenter currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:notificationsIdentifiers];
+}
+
+-(void)scheduleMoviesNotifications{
+    NSArray *movies=[[VirtualDataStorage sharedVirtualDataStorage] getWatchlistOfType:MovieType];
+    for(TVEvent *tvEvent in movies){
+        if(tvEvent.releaseDate){
+            if(!([tvEvent.releaseDate compare:[NSDate date]] == NSOrderedAscending)){
+                [self addNotificationAboutTVEvent:tvEvent isEpisode:NO];
+            }
+        }
+    }
+}
+
+-(void)scheduleTVShowsNotifications{
+    [[VirtualDataStorage sharedVirtualDataStorage] beginEpisodesFetching];
+}
 @end

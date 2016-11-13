@@ -4,8 +4,11 @@
 @protocol LocalNotificationHandler <NSObject>
 
 +(instancetype)sharedNotificationManager;
--(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent;
+-(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent isEpisode:(BOOL)isEpisode;
 -(void)addNotificationAboutEpisodes:(NSArray *)episodes;
-
+-(void)removeAllNotificationsForMovies;
+-(void)removeAllNotificationsForTVShows;
+-(void)scheduleMoviesNotifications;
+-(void)scheduleTVShowsNotifications;
 
 @end

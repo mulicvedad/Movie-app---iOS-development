@@ -29,7 +29,7 @@ static DataProviderService *downloader=nil;
    
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
-    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     return YES;
     
 }

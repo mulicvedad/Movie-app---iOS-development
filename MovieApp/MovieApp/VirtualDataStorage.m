@@ -123,7 +123,6 @@ static id<LocalNotificationHandler> _localNotificationManager;
     }
     if(responseCounter%4==0){
         [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
-        [self beginEpisodesFetching];
     }
 }
 
@@ -182,9 +181,10 @@ static id<LocalNotificationHandler> _localNotificationManager;
 }
 
 -(void)fetchNextSetOfEpisodes{
-    if([_mainTVShowQueue count]==0){
+    if([_mainTVShowQueue count]==0 || ![[NSUserDefaults standardUserDefaults] boolForKey:TVShowsNotificationsEnabledNSUserDefaultsKey]){
         [_timer invalidate];
         _timer=nil;
+        return;
     }
     TVEvent *currentTVEvent=[_mainTVShowQueue dequeue];
     [[DataProviderService sharedDataProviderService] getAllEpisodesForTVShowWithID:currentTVEvent.id numberOfSeasons:0 returnTo:self];

@@ -28,6 +28,8 @@ extern NSString *EmptyStarFontAwesomeCode;
 extern NSString *WatchlistFontAwesomeCode;
 extern NSString *EmptyWatchlistFontAwesomeCode;
 
+extern NSString *TVShowsNotificationsEnabledNSUserDefaultsKey;
+extern NSString *MoviesNotificationsEnabledNSUserDefaultsKey;
 
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;

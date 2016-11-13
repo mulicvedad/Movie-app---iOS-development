@@ -110,6 +110,8 @@
 		CED9E77C1DD6A79800A22407 /* LocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E77B1DD6A79800A22407 /* LocalNotificationManager.m */; };
 		CED9E77F1DD744E600A22407 /* CustomQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E77E1DD744E600A22407 /* CustomQueue.m */; };
 		CED9E7851DD7E34600A22407 /* LocalNotificationManagerOldVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E7841DD7E34600A22407 /* LocalNotificationManagerOldVersion.m */; };
+		CED9E7881DD7F9DB00A22407 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E7871DD7F9DB00A22407 /* SettingsViewController.m */; };
+		CED9E78B1DD8B96F00A22407 /* AccountDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = CED9E78A1DD8B96F00A22407 /* AccountDetails.m */; };
 		CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */; };
 		CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE833071DAC8B260024D9B2 /* ReviewsTableViewCell.m */; };
 		CEE8330A1DAC8B260024D9B2 /* ReviewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE833081DAC8B260024D9B2 /* ReviewsTableViewCell.xib */; };
@@ -343,6 +345,10 @@
 		CED9E7801DD7E25F00A22407 /* LocalNotificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotificationHandler.h; sourceTree = "<group>"; };
 		CED9E7831DD7E34600A22407 /* LocalNotificationManagerOldVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotificationManagerOldVersion.h; sourceTree = "<group>"; };
 		CED9E7841DD7E34600A22407 /* LocalNotificationManagerOldVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotificationManagerOldVersion.m; sourceTree = "<group>"; };
+		CED9E7861DD7F9DB00A22407 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		CED9E7871DD7F9DB00A22407 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		CED9E7891DD8B96F00A22407 /* AccountDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetails.h; sourceTree = "<group>"; };
+		CED9E78A1DD8B96F00A22407 /* AccountDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDetails.m; sourceTree = "<group>"; };
 		CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		CEE833061DAC8B260024D9B2 /* ReviewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsTableViewCell.h; sourceTree = "<group>"; };
@@ -595,6 +601,8 @@
 				CE948E9B1DD0014C00EF6262 /* VirtualDataStorage.m */,
 				CED9E77D1DD744E600A22407 /* CustomQueue.h */,
 				CED9E77E1DD744E600A22407 /* CustomQueue.m */,
+				CED9E7891DD8B96F00A22407 /* AccountDetails.h */,
+				CED9E78A1DD8B96F00A22407 /* AccountDetails.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -722,6 +730,8 @@
 				CE948EA41DD1784D00EF6262 /* RatingViewController.m */,
 				CED9E7771DD5E94A00A22407 /* RegisterViewController.h */,
 				CED9E7781DD5E94A00A22407 /* RegisterViewController.m */,
+				CED9E7861DD7F9DB00A22407 /* SettingsViewController.h */,
+				CED9E7871DD7F9DB00A22407 /* SettingsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1016,6 +1026,7 @@
 				CE43F64D1DA9C2C000D8349B /* MovieDetails.m in Sources */,
 				CE741D371D91ED5D0081C33A /* AppDelegate.m in Sources */,
 				CEF6C5A51DA459EB0008160F /* TVShow.m in Sources */,
+				CED9E78B1DD8B96F00A22407 /* AccountDetails.m in Sources */,
 				CEC965EE1DAB3D4B0017C990 /* ImagesTableViewCell.m in Sources */,
 				CEEA7D081D9487CF00D90DEF /* NewsFeedTableViewController.m in Sources */,
 				CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */,
@@ -1037,6 +1048,7 @@
 				CE76A0FF1DBA476400725CA1 /* TheMovieDBConstants.m in Sources */,
 				CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */,
 				CE530D971D996043003A708F /* FeedDownloader.m in Sources */,
+				CED9E7881DD7F9DB00A22407 /* SettingsViewController.m in Sources */,
 				CE43F6531DA9C73E00D8349B /* Person.m in Sources */,
 				CE1FFA2C1DCC1C6D006FBF7B /* FavoritePostObject.m in Sources */,
 				CE69C6D51DB062E500FE3429 /* BasicEpisodeInfoTableViewCell.m in Sources */,

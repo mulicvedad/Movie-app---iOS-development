@@ -124,7 +124,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     return @"TrailerTableViewCell";
 }
 
--(void)setDelegate:(id<ShowTrailerDelegate>)delegate{
+-(void)setDelegate:(id<ShowTrailerDelegate, AddTVEventToCollectionDelegate>)delegate{
     _delegate=delegate;
 }
 - (IBAction)showTrailer:(UIButton *)sender {
