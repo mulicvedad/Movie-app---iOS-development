@@ -37,6 +37,7 @@
     
     UIViewController *_sideMenuViewController;
     UIView *_shadowView;
+    
 }
 
 @end
@@ -72,6 +73,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     [self configureSortByControl];
     [self configureSwipeGestureRecogniser];
     [self configureNotifications];
+    [self configureSearchController];
     
 }
 
@@ -83,28 +85,30 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:BackButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
     
+   
+    
+}
+
+-(void)configureSearchController{
     self.resultsContoller=[[SearchResultTableViewController alloc]init];
     self.searchController=[[UISearchController alloc]initWithSearchResultsController:self.resultsContoller];
     [self.resultsContoller setDelegateForSegue: self];
     
     self.navigationItem.titleView = self.searchController.searchBar;
     
-   self.searchController.searchBar.placeholder=SearchBarPlaceholder;
-    
+    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
+   
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
     
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate=self;
-    //self.searchController.searchBar.delegate = self;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation=NO;
     //self.searchController.obscuresBackgroundDuringPresentation=YES;
     self.definesPresentationContext=YES;
-    
 }
-
 -(void)configureSortByControl{
 
     [self.sortByControlTableView registerNib:[UINib nibWithNibName:[MainSortByTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[MainSortByTableViewCell cellIdentifier]];
@@ -562,5 +566,19 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     CGRect tmpfr2=self.tvEventsCollectionView.frame;
     [super viewDidAppear:animated];
 }*/
+
+-(void)didDismissSearchController:(UISearchController *)searchController{
+    //this is the forced solution to the bug
+     if(_isMovieViewController){
+        [self.tabBarController setSelectedIndex:2];
+        [self.tabBarController setSelectedIndex:1];
+    }
+    else{
+        [self.tabBarController setSelectedIndex:1];
+        [self.tabBarController setSelectedIndex:2];
+    }
+    
+    
+}
 
 @end
