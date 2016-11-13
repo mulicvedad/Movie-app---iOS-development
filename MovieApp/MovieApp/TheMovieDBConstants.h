@@ -76,6 +76,7 @@ extern NSString *WatchlistMovieFullSubpath;
 extern NSString *WatchlistTVShowFullSubpath;
 extern NSString *RatedMoviesFullSubpath;
 extern NSString *RatedTVShowsFullSubpath;
+extern NSString *AccountInfoSubpath;
 
 extern NSString * const ResultsPath;
 

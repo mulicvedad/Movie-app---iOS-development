@@ -56,6 +56,8 @@ NSString *WatchlistMovieFullSubpath=@"/3/account/:id/watchlist/movies";
 NSString *WatchlistTVShowFullSubpath=@"/3/account/:id/watchlist/tv";
 NSString *RatedMoviesFullSubpath=@"/3/account/:id/rated/movies";
 NSString *RatedTVShowsFullSubpath=@"/3/account/:id/rated/tv";
+NSString *AccountInfoSubpath=@"/3/account";
+
 
 NSString * const ResultsPath=@"results";
 

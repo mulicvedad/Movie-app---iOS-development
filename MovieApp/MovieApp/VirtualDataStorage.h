@@ -10,4 +10,5 @@
 -(void)removeAllData;
 -(BOOL)containsTVEventInFavorites:(TVEvent *)tvEvent;
 -(BOOL)containsTVEventInWatchlist:(TVEvent *)tvEvent;
+-(void)beginEpisodesFetching;
 @end

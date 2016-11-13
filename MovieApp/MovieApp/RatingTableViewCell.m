@@ -27,7 +27,7 @@ static NSString * const NotRatedText=@"Not rated";
     return @"RatingTableViewCell";
 }
 
--(void)setupWithRating:(CGFloat)rating delegate:(id)delegate{
+-(void)setupWithRating:(CGFloat)rating delegate:(id<AddTVEventToCollectionDelegate>)delegate{
     UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(didSelectRateThisTVEvent)];
     UITapGestureRecognizer *tapGestureRecognizer2=[[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(didSelectRateThisTVEvent)];
     [self.rateThisLabel addGestureRecognizer:tapGestureRecognizer];

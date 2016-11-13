@@ -22,11 +22,11 @@
 #import "WatchlistPostObject.h"
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
+#import "AccountDetails.h"
 
 @interface DataProviderService(){
     RKObjectManager *objectManager;
     id<LoginManagerDelegate> _loginHandler;
-    id<ItemsArrayReceiver> _episodesReceiver;
 }
 @end
 
@@ -68,7 +68,8 @@ static DataProviderService *sharedService;
     RKObjectMapping *personDetailsMapping = [RKObjectMapping mappingForClass:[PersonDetails class]];
     RKObjectMapping *tvEventCreditMapping = [RKObjectMapping mappingForClass:[TVEventCredit class]];
     RKObjectMapping *postResponseMapping = [RKObjectMapping mappingForClass:[PostResponse class]];
- 
+    RKObjectMapping *accountDetailsMapping = [RKObjectMapping mappingForClass:[AccountDetails class]];
+
     
     [movieMapping addAttributeMappingsFromDictionary:[Movie propertiesMapping]];
     [tvShowMapping addAttributeMappingsFromDictionary:[TVShow propertiesMapping]];
@@ -86,6 +87,7 @@ static DataProviderService *sharedService;
     [personDetailsMapping addAttributeMappingsFromDictionary:[PersonDetails propertiesMapping]];
     [tvEventCreditMapping addAttributeMappingsFromDictionary:[TVEventCredit propertiesMapping]];
     [postResponseMapping addAttributeMappingsFromDictionary:[PostResponse propertiesMapping]];
+    [accountDetailsMapping addAttributeMappingsFromDictionary:[AccountDetails propertiesMapping]];
 
     
     pathPattern=[subpathForMovies stringByAppendingString:VariableSubpath];
@@ -122,6 +124,7 @@ static DataProviderService *sharedService;
     [self addResponseDescriptorWithMapping:tvEventCreditMapping pathPattern:[PersonDetailsSubpath stringByAppendingString:VariableSubpath] keyPath:CastCreditsKeypath forHttpMethod:GET];
     
     [self addResponseDescriptorWithMapping:postResponseMapping pathPattern:nil keyPath:EmptyString forHttpMethod:POST];
+    [self addResponseDescriptorWithMapping:accountDetailsMapping pathPattern:AccountInfoSubpath  keyPath:EmptyString forHttpMethod:GET];
 
     
 }
@@ -381,7 +384,8 @@ static DataProviderService *sharedService;
     
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   SessionIDParameterName: sessionID,
-                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
+                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber],
+                                  SortByParameterName: @"created_at.desc"};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:FavoriteSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
@@ -407,7 +411,8 @@ static DataProviderService *sharedService;
     
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   SessionIDParameterName: sessionID,
-                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
+                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber],
+                                  SortByParameterName: @"created_at.desc"};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:WatchlistSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
@@ -595,12 +600,9 @@ static DataProviderService *sharedService;
 //helper methods for notification purposes
 -(void)getAllEpisodesForTVShowWithID:(NSUInteger)tvShowID numberOfSeasons:(NSUInteger)numberOfSeasons  returnTo:(id<ItemsArrayReceiver>)dataHandler{
     if(numberOfSeasons>0){
-        for(int i=1;i<numberOfSeasons+1;i++){
-            [self getSeasonDetailsForTvShow:tvShowID seasonNumber:i returnTo:self];
-        }
+            [self getSeasonDetailsForTvShow:tvShowID seasonNumber:numberOfSeasons returnTo:self];
     }
     else{
-        //_episodesReceiver=dataHandler;
         [self getDetailsForTvEventWithID:tvShowID mediaType:TVShowType returnTo:self];
     }
 }
@@ -616,5 +618,29 @@ static DataProviderService *sharedService;
     }
 }
 
+
+-(void)getAccountDetailsReturnTo:(id<ItemsArrayReceiver>)dataHandler{
+    NSString *sessionID;
+    if(![self isUserLoggedIn]){
+        return;
+    }
+    else{
+        sessionID=[self getSessionID];
+    }
+    
+    NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
+                                  SessionIDParameterName: sessionID};
+
+    [[RKObjectManager sharedManager] getObjectsAtPath:AccountInfoSubpath
+                                           parameters:queryParams
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                  
+                                              }];
+     
+}
 
 @end

@@ -58,6 +58,7 @@ static CGFloat const TimerInterval=0.5f;
 static CGFloat const SortByTableDefaultCellHeight=43.0f;
 static NSString *LikedTVEventsSegueIdentifier=@"LikedTVEventsSegueIdentifier";
 static NSString *LoginSegueIdentifier=@"LoginSegue";
+static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 @implementation TVEventsViewController
 
@@ -425,7 +426,7 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
                                      [self performSegueWithIdentifier:LoginSegueIdentifier sender:nil];
                                      break;
                                  case SideMenuOptionSettings:
-                                     //segue for settings
+                                     [self performSegueWithIdentifier:SettingsSegueIdentifier sender:nil];
                                      break;
                                  case SideMenuOptionLogout:
                                      [self handleLogoutRequest];
@@ -552,7 +553,6 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    UITableView *tmp=self.sortByControlTableView;
     [super viewWillAppear:animated];
     [self.tvEventsCollectionView reloadData];
 }
