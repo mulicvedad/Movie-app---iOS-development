@@ -91,13 +91,7 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
             
             _isCarouselCollectionViewSetup=YES;
         }
-        if([_tvEventCredits count]<5){
-            cell.arrowImageView.hidden=YES;
-        }
-        else{
-            cell.arrowImageView.hidden=NO;
-
-        }
+       
         [cell.carouselCollectionView reloadData];
         return cell;
     }

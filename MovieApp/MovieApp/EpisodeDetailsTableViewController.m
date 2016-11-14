@@ -128,13 +128,7 @@ static NSString *CastMemberDetailsSegueIdentifier=@"EpisodeCastMemberDetailsSegu
                
                _isCarouselCollectionViewSetup=YES;
            }
-           if([_cast count]<5){
-               cell.arrowImageView.hidden=YES;
-           }
-           else{
-               cell.arrowImageView.hidden=YES;
-
-           }
+          
            [cell.carouselCollectionView reloadData];
            return cell;
         }

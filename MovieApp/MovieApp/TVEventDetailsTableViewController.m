@@ -490,8 +490,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout{
+
     
-    return  UIEdgeInsetsMake(2, 2, 2, 2);
+    return  UIEdgeInsetsMake(2, 0, 2, 10);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
