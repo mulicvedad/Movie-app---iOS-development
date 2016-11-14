@@ -103,7 +103,6 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     _seasons=[[NSMutableArray alloc]init];
     
     self.navigationItem.title=_mainTvEvent.title;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
 }
 
@@ -117,9 +116,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
--(void)setTVEventID:(NSUInteger)tvEventID{
-    _mainTVEventID=tvEventID;
-}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
 }
@@ -150,7 +147,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section==0){
-        if(indexPath.row==0){ //setup with maintvevent
+        if(indexPath.row==0){ 
             TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];
             [cell setupWithTVEvent:_mainTvEvent];
             [cell setDelegate:(id<ShowTrailerDelegate>)self];

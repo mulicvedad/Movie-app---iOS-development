@@ -349,6 +349,7 @@
 		CED9E7871DD7F9DB00A22407 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		CED9E7891DD8B96F00A22407 /* AccountDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetails.h; sourceTree = "<group>"; };
 		CED9E78A1DD8B96F00A22407 /* AccountDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDetails.m; sourceTree = "<group>"; };
+		CED9E78C1DD93CAE00A22407 /* ReloadContentHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReloadContentHandler.h; sourceTree = "<group>"; };
 		CEE832CD1D9547FC0074648B /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		CEE832CE1D9547FC0074648B /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		CEE833061DAC8B260024D9B2 /* ReviewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsTableViewCell.h; sourceTree = "<group>"; };
@@ -432,6 +433,7 @@
 				CE948E9D1DD0147600EF6262 /* AddTVEventToCollectionDelegate.h */,
 				CE948EA01DD01B0300EF6262 /* TVEventsCollectionsStateChangeHandler.h */,
 				CED9E7801DD7E25F00A22407 /* LocalNotificationHandler.h */,
+				CED9E78C1DD93CAE00A22407 /* ReloadContentHandler.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";

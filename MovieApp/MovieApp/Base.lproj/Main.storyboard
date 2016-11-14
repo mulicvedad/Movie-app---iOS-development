@@ -397,6 +397,9 @@
                             <outlet property="delegate" destination="AiY-De-QNY" id="GHB-AO-Y8S"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="xtp-I3-Sv6" kind="show" identifier="EpisodeCastMemberDetailsSegue" id="nDy-rY-TlG"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rg1-ih-Opo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -800,10 +803,11 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="jDt-M6-KIs"/>
         <segue reference="caU-mR-hlb"/>
         <segue reference="UYh-kZ-oaf"/>
         <segue reference="QTG-iR-DHh"/>
-        <segue reference="jDt-M6-KIs"/>
+        <segue reference="nDy-rY-TlG"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

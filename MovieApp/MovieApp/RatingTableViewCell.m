@@ -29,9 +29,7 @@ static NSString * const NotRatedText=@"Not rated";
 
 -(void)setupWithRating:(CGFloat)rating delegate:(id<AddTVEventToCollectionDelegate>)delegate{
     UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(didSelectRateThisTVEvent)];
-    UITapGestureRecognizer *tapGestureRecognizer2=[[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(didSelectRateThisTVEvent)];
     [self.rateThisLabel addGestureRecognizer:tapGestureRecognizer];
-    [self.rateThisImageView addGestureRecognizer:tapGestureRecognizer2];
     
     if(rating<0.1){
         self.ratingLabel.text=NotRatedText;

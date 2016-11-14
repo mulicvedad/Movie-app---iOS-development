@@ -73,7 +73,7 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         else if(indexPath.row==1){
             CastMemberInfoTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:[CastMemberInfoTableViewCell cellIdentifier] forIndexPath:indexPath];
             if(_personDetails){
-                [cell setupWithCastMember:_personDetails];
+                [cell setupWithCastMember:_personDetails delegate:self];
             }
             return cell;
         }
@@ -85,18 +85,18 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         }
     }
     else{
-        /*FilmographyTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:[FilmographyTableViewCell cellIdentifier] forIndexPath:indexPath];
-        if(_tvEventCredits){
-            [cell setupWithTVEventCredits:_tvEventCredits delegateForSegue:self];
-        }
-        return cell;*/
         CarouselTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CarouselTableViewCell cellIdentifier] forIndexPath:indexPath];
         if(!_isCarouselCollectionViewSetup){
             [self setupCarouselCollectionView:cell.carouselCollectionView];
-            if([_tvEventCredits count]<5){
-                //remove arrow
-            }
+            
             _isCarouselCollectionViewSetup=YES;
+        }
+        if([_tvEventCredits count]<5){
+            cell.arrowImageView.hidden=YES;
+        }
+        else{
+            cell.arrowImageView.hidden=NO;
+
         }
         [cell.carouselCollectionView reloadData];
         return cell;
@@ -108,6 +108,9 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
     if(indexPath.section==0){
         if(indexPath.row==0){
             return (self.castMember.profileImageUrl) ? CastMemberPictureTableViewCellDefaultHeight : 60;
+        }
+        else if(indexPath.row==1){
+            return UITableViewAutomaticDimension;
         }
         else if(indexPath.row==2){
             return SeparatorCellDefaultHeight;
@@ -191,5 +194,8 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         TVEventDetailsTableViewController *destVC=segue.destinationViewController;
         [destVC setMainTvEvent:(TVEvent *)mainTVEvent];;
     }
+}
+-(void)setNeedsReload{
+    [self.tableView reloadData];
 }
 @end

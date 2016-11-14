@@ -25,15 +25,9 @@
                             <constraint firstAttribute="width" constant="19" id="su4-2e-I0E"/>
                         </constraints>
                     </imageView>
-                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rate-this" translatesAutoresizingMaskIntoConstraints="NO" id="lkH-rE-SZU">
-                        <constraints>
-                            <constraint firstAttribute="height" constant="19" id="0Na-Zq-snM"/>
-                            <constraint firstAttribute="width" constant="19" id="M4L-Cg-cTb"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate this" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChL-FA-hc8">
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" red="0.87843137250000003" green="0.71764705880000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -41,17 +35,14 @@
                 <constraints>
                     <constraint firstItem="L2C-2I-lpb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1WQ-Im-m4F"/>
                     <constraint firstItem="qX2-vK-9e3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="8u3-N2-d4K"/>
-                    <constraint firstItem="ChL-FA-hc8" firstAttribute="centerY" secondItem="lkH-rE-SZU" secondAttribute="centerY" id="AJx-qO-1jb"/>
+                    <constraint firstAttribute="trailing" secondItem="ChL-FA-hc8" secondAttribute="trailing" constant="22" id="Bsb-fb-qhs"/>
                     <constraint firstItem="qX2-vK-9e3" firstAttribute="centerY" secondItem="L2C-2I-lpb" secondAttribute="centerY" id="DRb-rg-8sH"/>
                     <constraint firstItem="L2C-2I-lpb" firstAttribute="leading" secondItem="qX2-vK-9e3" secondAttribute="trailing" constant="6" id="Ff4-kf-hlD"/>
-                    <constraint firstItem="L2C-2I-lpb" firstAttribute="centerY" secondItem="lkH-rE-SZU" secondAttribute="centerY" id="Jl6-GM-LNf"/>
                     <constraint firstAttribute="bottom" secondItem="L2C-2I-lpb" secondAttribute="bottom" constant="5" id="XPC-g6-uyC"/>
-                    <constraint firstItem="lkH-rE-SZU" firstAttribute="leading" secondItem="L2C-2I-lpb" secondAttribute="trailing" constant="6" id="gZO-QR-Zv7"/>
-                    <constraint firstItem="ChL-FA-hc8" firstAttribute="leading" secondItem="lkH-rE-SZU" secondAttribute="trailing" constant="6" id="oFo-00-pYa"/>
+                    <constraint firstItem="ChL-FA-hc8" firstAttribute="centerY" secondItem="L2C-2I-lpb" secondAttribute="centerY" id="XgV-SP-mA4"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="rateThisImageView" destination="lkH-rE-SZU" id="5HC-YL-1Vm"/>
                 <outlet property="rateThisLabel" destination="ChL-FA-hc8" id="iyF-zB-znt"/>
                 <outlet property="ratingLabel" destination="L2C-2I-lpb" id="h5p-UB-LSg"/>
             </connections>
@@ -59,7 +50,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="rate-this" width="19" height="17"/>
         <image name="ratings-selected" width="18" height="19"/>
     </resources>
 </document>

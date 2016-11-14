@@ -108,6 +108,8 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     self.searchController.hidesNavigationBarDuringPresentation=NO;
     //self.searchController.obscuresBackgroundDuringPresentation=YES;
     self.definesPresentationContext=YES;
+    
+    
 }
 -(void)configureSortByControl{
 
@@ -209,6 +211,17 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     if([segue.identifier isEqualToString:EventDetailsSegueIdentifier] ){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
         [destinationVC setMainTvEvent:sender];
+        /*
+         
+         second solution to bug
+         if(self.searchController.isActive){
+         [self.searchController dismissViewControllerAnimated:NO completion:^{
+         [self.navigationController pushViewController:destinationVC animated:YES];
+         }];
+         }
+         
+         */
+        
     }
     else if([segue.identifier isEqualToString:LikedTVEventsSegueIdentifier]){
         LikedTVEventsViewController *destinationVC=segue.destinationViewController;
@@ -560,16 +573,10 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     [super viewWillAppear:animated];
     [self.tvEventsCollectionView reloadData];
 }
-/*-(void)viewDidAppear:(BOOL)animated{
-    UITableView *tmp=self.sortByControlTableView;
-    CGRect tmpfr=tmp.frame;
-    CGRect tmpfr2=self.tvEventsCollectionView.frame;
-    [super viewDidAppear:animated];
-}*/
 
 -(void)didDismissSearchController:(UISearchController *)searchController{
     //this is the forced solution to the bug
-     if(_isMovieViewController){
+    if(_isMovieViewController){
         [self.tabBarController setSelectedIndex:2];
         [self.tabBarController setSelectedIndex:1];
     }
@@ -577,6 +584,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
         [self.tabBarController setSelectedIndex:1];
         [self.tabBarController setSelectedIndex:2];
     }
+    
     
     
 }

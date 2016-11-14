@@ -6,12 +6,17 @@
 #import "RatingTableViewCell.h"
 #import "OverviewTableViewCell.h"
 #import "CastMember.h"
+#import "CarouselTableViewCell.h"
+#import "CarouselCollectionViewCell.h"
+#import "CastMemberDetailsTableViewController.h"
 
 #define FontSize14 14
 #define NumberOfSections 3
 
 @interface EpisodeDetailsTableViewController (){
     NSMutableArray *_cast;
+    BOOL _isCarouselCollectionViewSetup;
+
 }
 
 @end
@@ -20,6 +25,8 @@ static NSString * const CastSectionName=@"Cast";
 static NSString * const HeaderTitleStringFormat=@"Season %lu Episode %lu";
 static CGFloat SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat DefaultvideoPlayerHeight=220.0f;
+static CGFloat const DefaultCarouselHeight=180.0f;
+static NSString *CastMemberDetailsSegueIdentifier=@"EpisodeCastMemberDetailsSegue";
 
 @implementation EpisodeDetailsTableViewController
 
@@ -38,7 +45,7 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
     [self.tableView registerNib:[UINib nibWithNibName:[BasicEpisodeInfoTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[BasicEpisodeInfoTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[RatingTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[RatingTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[OverviewTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[OverviewTableViewCell cellIdentifier]];    
-    
+    [self.tableView registerNib:[UINib nibWithNibName:[CarouselTableViewCell cellClassName] bundle:nil] forCellReuseIdentifier:[CarouselTableViewCell cellIdentifier]];
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=44.0;
     
@@ -46,11 +53,15 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
     _cast=[[NSMutableArray alloc]init];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+-(void)setupCarouselCollectionView:(UICollectionView *)collectionView{
+    [collectionView setDelegate:self];
+    [collectionView setDataSource:self];
+    [collectionView registerNib:[UINib nibWithNibName:[CarouselCollectionViewCell cellClassName] bundle:nil] forCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier]];
+    UICollectionViewFlowLayout *carouselFlowLayout=[[UICollectionViewFlowLayout alloc]init];
+    carouselFlowLayout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    [collectionView setCollectionViewLayout:carouselFlowLayout];
+    
 }
-
-#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
@@ -110,22 +121,23 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
         
     }
     else if(indexPath.section==2){
-       // if(indexPath.row==0){  //replace totally with carousel
-       /*     CastTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[CastTableViewCell cellIdentifier] forIndexPath:indexPath];
-            NSMutableArray *imageUrls=[[NSMutableArray alloc]init];
-            NSMutableArray *names=[[NSMutableArray alloc]init];
-            NSMutableArray *roles=[[NSMutableArray alloc]init];
-            for(int i=0;i<4 && i<[_cast count];i++){
-                CastMember *currentCastMember=_cast[i];
-                if(currentCastMember.profileImageUrl && currentCastMember.name){
-                    [imageUrls addObject:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:currentCastMember.profileImageUrl]]];
-                    [names addObject:currentCastMember.name];
-                    [roles addObject:currentCastMember.character];
-                }
-            }
-            [cell setupWithImageUrls:imageUrls correspondingNames:names roles:roles];
-            return cell;
-        }*/
+       if(indexPath.row==0){
+           CarouselTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CarouselTableViewCell cellIdentifier] forIndexPath:indexPath];
+           if(!_isCarouselCollectionViewSetup){
+               [self setupCarouselCollectionView:cell.carouselCollectionView];
+               
+               _isCarouselCollectionViewSetup=YES;
+           }
+           if([_cast count]<5){
+               cell.arrowImageView.hidden=YES;
+           }
+           else{
+               cell.arrowImageView.hidden=YES;
+
+           }
+           [cell.carouselCollectionView reloadData];
+           return cell;
+        }
         
     }
     
@@ -179,8 +191,16 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
     }
     
     else if(indexPath.section==1){
-        if(indexPath.row==1){
+        if(indexPath.row==0){
+            return UITableViewAutomaticDimension;
+        }
+        else if(indexPath.row==1){
             return [self separatorCellHeight];
+        }
+    }
+    else if(indexPath.section==2){
+        if(indexPath.row==0){
+            return DefaultCarouselHeight;
         }
     }
     
@@ -205,6 +225,42 @@ static CGFloat DefaultvideoPlayerHeight=220.0f;
 
 -(CGFloat)separatorCellHeight{
     return self.tableView.bounds.size.width/SeparatorCellWidthHeightRatio;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:CastMemberDetailsSegueIdentifier]){
+        
+        CastMemberDetailsTableViewController *destinationVC=(CastMemberDetailsTableViewController *)segue.destinationViewController;
+        destinationVC.castMember=(CastMember *)sender;
+    }
+}
+
+//carousel collection view delegate methods
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return [_cast count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CarouselCollectionViewCell *carouselCell=[collectionView dequeueReusableCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+    [carouselCell setupWithCastMember:_cast[indexPath.row]];
+    return carouselCell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(82, 180);
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout{
+    
+    return  UIEdgeInsetsMake(2, 2, 2, 2);
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [self performSegueWithIdentifier:CastMemberDetailsSegueIdentifier sender:_cast[indexPath.row]];
 }
 
 @end
