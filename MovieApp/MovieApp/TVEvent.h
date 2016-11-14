@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "TVEventDetails.h"
 
 @interface TVEvent : NSObject
 
@@ -22,4 +23,5 @@
 -(NSString *)getFormattedReleaseDate;
 -(NSString *)getFormattedGenresRepresentation;
 -(NSString *)getReleaseYear;
+-(void)setupWithTVEventDetails:(TVEventDetails *)tvEventDetails;
 @end

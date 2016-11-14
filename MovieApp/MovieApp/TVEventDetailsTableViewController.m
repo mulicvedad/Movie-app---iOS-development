@@ -122,6 +122,10 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(!_mainTvEventDetails){
+        return 0;
+    }
+    
     if(section==0){
         return 3;
     }
@@ -373,6 +377,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     if([customItemsArray count]>0){
         if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
             _mainTvEventDetails=customItemsArray[0];
+            [_mainTvEvent setupWithTVEventDetails:_mainTvEventDetails];
             for(int i=1;i<[customItemsArray count];i++){
                 if([customItemsArray[i] isKindOfClass:[Image class]]){
                     [_images addObject:customItemsArray[i]];

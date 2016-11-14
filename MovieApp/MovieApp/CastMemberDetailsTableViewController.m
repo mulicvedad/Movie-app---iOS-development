@@ -180,17 +180,18 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:TVEventDetailsSegueIdentifier]){
-        TVEvent *mainTVEvent=[[TVEvent alloc]init];
         TVEventCredit *currentCredit=sender;
-        mainTVEvent.posterPath=currentCredit.posterPath;
-        mainTVEvent.backdropPath=nil;
-        if(!currentCredit.name){
-            mainTVEvent.title=currentCredit.title;
+        TVEvent *mainTVEvent;
+        if([currentCredit.mediaType isEqualToString:MediaTypeMovie]){
+            mainTVEvent=[[Movie alloc]init];
         }
         else{
-            mainTVEvent.title=currentCredit.name;
+            mainTVEvent=[[TVShow alloc]init];
 
         }
+        
+        mainTVEvent.id=currentCredit.id;
+      
         TVEventDetailsTableViewController *destVC=segue.destinationViewController;
         [destVC setMainTvEvent:(TVEvent *)mainTVEvent];;
     }
