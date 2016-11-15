@@ -26,7 +26,8 @@ static DataProviderService *downloader=nil;
     if(username && [username length]>0){
         [[VirtualDataStorage sharedVirtualDataStorage] updateData];
     }
-   
+    NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
+    NSLog(@"%@",tmp);
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];

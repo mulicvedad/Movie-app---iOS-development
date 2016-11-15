@@ -227,6 +227,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="containerTopConstraint" destination="T0g-O7-BTf" id="Hkg-O3-Yt5"/>
                         <outlet property="containerView" destination="foO-FI-sKu" id="NP2-Ha-IeY"/>
                         <outlet property="createNewAccountLabel" destination="Deb-WA-rzp" id="IXV-K6-rZB"/>
                         <outlet property="forgotDetailsLabel" destination="Afz-Hm-hfm" id="lDW-h4-DMl"/>

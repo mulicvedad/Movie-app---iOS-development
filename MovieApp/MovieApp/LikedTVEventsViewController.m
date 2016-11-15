@@ -3,6 +3,7 @@
 #import "DataProviderService.h"
 #import "SearchResultItemTableViewCell.h"
 #import "TVEventDetailsTableViewController.h"
+#import "VirtualDataStorage.h"
 
 #define TvEventsPageSize 20
 
@@ -38,6 +39,8 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 }
 
 -(void)configure{
+    self.tvEventsTableView.allowsMultipleSelectionDuringEditing = NO;
+
     [self setupSortByTableView];
     _tvEvents=[[NSMutableArray alloc]init];
     [self.tvEventsTableView registerNib:[UINib nibWithNibName: NSStringFromClass([SearchResultItemTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SearchResultItemTableViewCell class]) ];
@@ -163,6 +166,46 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     [alert addAction:defaultAction];
     [alert addAction:reloadAction];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleDelete;
+}
+
+
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *deleteButton = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Remove" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+                                    {
+                                        TVEvent *currentTVEvent=_tvEvents[indexPath.row];
+                                        MediaType mediaType=[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+                                        NSUInteger tvEventID=currentTVEvent.id;
+                                        
+                                        [_tvEvents removeObjectAtIndex:indexPath.row];
+                                        if(_currentOption==SideMenuOptionFavorites){
+                                            [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:tvEventID mediaType:mediaType remove:YES responseHandler:self];
+                                        }
+                                        else if(_currentOption==SideMenuOptionWatchlist){
+                                            [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:tvEventID mediaType:mediaType remove:YES responseHandler:self];
+                                        }
+                                        else if(_currentOption==SideMenuOptionRatings){
+                                            
+                                        }
+                                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:_currentOption];
+                                        [self.tvEventsTableView reloadData];
+                                    }];
+    deleteButton.backgroundColor = [MovieAppConfiguration getPrefferedYellowColor];
+    
+    
+    
+    return @[deleteButton];
+}
+
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    
 }
 
 @end

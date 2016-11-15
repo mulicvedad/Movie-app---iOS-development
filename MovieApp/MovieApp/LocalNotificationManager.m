@@ -4,10 +4,11 @@
 
 static LocalNotificationManager *sharedNotificationManager;
 static CGFloat numberOfSecondsInOneDay=24.0f*60*60;
-static CGFloat episodeNotificationTimeInterval=60.0f;
+static CGFloat episodeNotificationTimeInterval=10.0f;
 static NSString *MovieNotificationCategoryName=@"movie";
 static NSString *TVShowNotificationCategoryName=@"tvshow";
 
+static NSUInteger tmpCounter;
 @implementation LocalNotificationManager
 
 +(instancetype)sharedNotificationManager{
@@ -31,6 +32,16 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
 }
 
 -(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent isEpisode:(BOOL)isEpisode{
+    if(tmpCounter>=5){
+        return;
+    }
+    else if(tmpCounter%2==0){
+        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:2*60*60];
+    }
+    else{
+        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:24*60*60+30];
+    }
+    tmpCounter++;
     NSCalendar *cal = [NSCalendar currentCalendar];
 
     NSDateComponents *components = [cal components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
@@ -51,7 +62,7 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
         [dateFormatter setDateFormat:@"HH:mm"];
         dateString=[@"Today: " stringByAppendingString:[dateFormatter stringFromDate:tvEvent.releaseDate]];
         //if episode air date is today we will get notification soon
-        timeIntervalTrigger=[UNTimeIntervalNotificationTrigger triggerWithTimeInterval:episodeNotificationTimeInterval repeats:NO];
+        timeIntervalTrigger=[UNTimeIntervalNotificationTrigger triggerWithTimeInterval:tmpCounter*episodeNotificationTimeInterval repeats:NO];
         isToday=YES;
     }
     else{

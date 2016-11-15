@@ -11,4 +11,5 @@
 -(BOOL)containsTVEventInFavorites:(TVEvent *)tvEvent;
 -(BOOL)containsTVEventInWatchlist:(TVEvent *)tvEvent;
 -(void)beginEpisodesFetching;
+-(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(SideMenuOption)collectionType;
 @end
