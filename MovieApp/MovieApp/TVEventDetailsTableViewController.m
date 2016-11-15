@@ -26,6 +26,7 @@
 #import "CarouselCollectionViewCell.h"
 #import "CastMemberDetailsTableViewController.h"
 #import "RatingViewController.h"
+#import "VirtualDataStorage.h"
 
 #define NumberOfSections 6
 #define FontSize14 14
@@ -45,6 +46,8 @@
     BOOL _creditsLoaded;
     BOOL _videoLoaded;
     BOOL _isCarouselCollectionViewSetup;
+    
+    id<TVEventsCollectionsStateChangeHandler> _delegate;
 }
 
 @end
@@ -103,7 +106,6 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     _seasons=[[NSMutableArray alloc]init];
     
     self.navigationItem.title=_mainTvEvent.title;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
 }
 
@@ -117,14 +119,16 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
--(void)setTVEventID:(NSUInteger)tvEventID{
-    _mainTVEventID=tvEventID;
-}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(!_mainTvEventDetails){
+        return 0;
+    }
+    
     if(section==0){
         return 3;
     }
@@ -150,7 +154,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section==0){
-        if(indexPath.row==0){ //setup with maintvevent
+        if(indexPath.row==0){ 
             TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];
             [cell setupWithTVEvent:_mainTvEvent];
             [cell setDelegate:(id<ShowTrailerDelegate>)self];
@@ -256,7 +260,8 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     return nil;
 }
 
--(void)setMainTvEvent:(TVEvent *)tvEvent{
+-(void)setMainTvEvent:(TVEvent *)tvEvent dalegate:(id<TVEventsCollectionsStateChangeHandler>)delegate{
+    _delegate=delegate;
     if(tvEvent){
         _mainTvEvent=tvEvent;
     }
@@ -376,6 +381,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     if([customItemsArray count]>0){
         if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
             _mainTvEventDetails=customItemsArray[0];
+            [_mainTvEvent setupWithTVEventDetails:_mainTvEventDetails];
             for(int i=1;i<[customItemsArray count];i++){
                 if([customItemsArray[i] isKindOfClass:[Image class]]){
                     [_images addObject:customItemsArray[i]];
@@ -488,8 +494,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout{
+
     
-    return  UIEdgeInsetsMake(2, 2, 2, 2);
+    return  UIEdgeInsetsMake(2, 0, 2, 10);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -509,7 +516,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 
 
 -(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
-  
+    if(_delegate){
+        [_delegate addedTVEventWithID:tvEventID toCollectionOfType:typeOfCollection];
+    }
         if(_mainTvEvent.id==tvEventID){
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
@@ -527,9 +536,13 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             [self.tableView reloadData];
          
     }
+    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:_mainTvEvent toCollection:typeOfCollection];
 }
 
 -(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(_delegate){
+        [_delegate removedTVEventWithID:tvEventID fromCollectionOfType:typeOfCollection];
+    }
     if(_mainTvEvent.id==tvEventID){
         switch (typeOfCollection) {
             case SideMenuOptionFavorites:
@@ -546,7 +559,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         }
         [self.tableView reloadData];
         
+        
     }
+    [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
 }
 
 @end

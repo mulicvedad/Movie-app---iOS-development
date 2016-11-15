@@ -16,6 +16,10 @@ NSString *EmptyStarFontAwesomeCode=@"\uf006";
 NSString *WatchlistFontAwesomeCode=@"\uf02e";
 NSString *EmptyWatchlistFontAwesomeCode=@"\uf097";
 
+NSString *TVShowsNotificationsEnabledNSUserDefaultsKey=@"tvShowsNotificationsenabled";
+NSString *MoviesNotificationsEnabledNSUserDefaultsKey=@"moviesNotificationsenabled";
+
+
 
 @implementation MovieAppConfiguration
 

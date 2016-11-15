@@ -27,17 +27,15 @@ static NSString * const NotRatedText=@"Not rated";
     return @"RatingTableViewCell";
 }
 
--(void)setupWithRating:(CGFloat)rating delegate:(id)delegate{
+-(void)setupWithRating:(CGFloat)rating delegate:(id<AddTVEventToCollectionDelegate>)delegate{
     UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(didSelectRateThisTVEvent)];
-    UITapGestureRecognizer *tapGestureRecognizer2=[[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(didSelectRateThisTVEvent)];
     [self.rateThisLabel addGestureRecognizer:tapGestureRecognizer];
-    [self.rateThisImageView addGestureRecognizer:tapGestureRecognizer2];
     
     if(rating<0.1){
         self.ratingLabel.text=NotRatedText;
     }
     else{
-        NSAttributedString *separatorString=[[NSAttributedString alloc] initWithString:@"  | " attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
+        NSAttributedString *separatorString=[[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
         NSMutableAttributedString *content=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.1f/10", rating]];
         
         [content addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:216 green:216 blue:216 alpha:100],

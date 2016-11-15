@@ -88,5 +88,9 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     
 }
 
+-(NSUInteger)getSelectedIndex{
+    return _selectedIndex;
+    
+}
 
 @end

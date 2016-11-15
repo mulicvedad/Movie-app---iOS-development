@@ -1,8 +1,9 @@
 #import "LikedTVEventsViewController.h"
 #import "SortByTableViewDelegate.h"
 #import "DataProviderService.h"
-#import "SearchResultItemTableViewCell.h"
 #import "TVEventDetailsTableViewController.h"
+#import "VirtualDataStorage.h"
+#import "LikedTVEventTableViewCell.h"
 
 #define TvEventsPageSize 20
 
@@ -38,9 +39,12 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 }
 
 -(void)configure{
+    self.tvEventsTableView.allowsMultipleSelectionDuringEditing = NO;
+
     [self setupSortByTableView];
     _tvEvents=[[NSMutableArray alloc]init];
-    [self.tvEventsTableView registerNib:[UINib nibWithNibName: NSStringFromClass([SearchResultItemTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SearchResultItemTableViewCell class]) ];
+   
+    [self.tvEventsTableView registerNib:[UINib nibWithNibName: NSStringFromClass([LikedTVEventTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([LikedTVEventTableViewCell class]) ];
     self.navigationItem.title=[MovieAppConfiguration getStringRepresentationOfSideMenuOption:_currentOption];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
    }
@@ -87,8 +91,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    SearchResultItemTableViewCell *cell=[self.tvEventsTableView dequeueReusableCellWithIdentifier:NSStringFromClass([SearchResultItemTableViewCell class])];
-    [cell configureForLikedTVEvents];
+    LikedTVEventTableViewCell *cell=[self.tvEventsTableView dequeueReusableCellWithIdentifier:NSStringFromClass([LikedTVEventTableViewCell class])];
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
@@ -108,7 +111,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:EventDetailsSegueIdentifier]){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
-        [destinationVC setMainTvEvent:(TVEvent *)sender];
+        [destinationVC setMainTvEvent:(TVEvent *)sender dalegate:self];
     }
 }
 
@@ -130,6 +133,22 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     }
     if([customItemsArray count]<20){
         _noMorePages=YES;
+    }
+    for(int i=0;i<[customItemsArray count];i++){
+        TVEvent *currentTVEvent=customItemsArray[i];
+        if(_currentOption==SideMenuOptionWatchlist){
+            currentTVEvent.isInWatchlist=YES;
+            if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+                currentTVEvent.isInFavorites=YES;
+            }
+        }
+        else if(_currentOption==SideMenuOptionFavorites){
+            currentTVEvent.isInFavorites=YES;
+            if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+                currentTVEvent.isInWatchlist=YES;
+            }
+        }
+        
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
     _numberOfPagesLoaded++;
@@ -165,4 +184,59 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleDelete;
+}
+
+
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *deleteButton = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Remove" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+                                    {
+                                        TVEvent *currentTVEvent=_tvEvents[indexPath.row];
+                                        MediaType mediaType=[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+                                        NSUInteger tvEventID=currentTVEvent.id;
+                                        
+                                        [_tvEvents removeObjectAtIndex:indexPath.row];
+                                        if(_currentOption==SideMenuOptionFavorites){
+                                            [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:tvEventID mediaType:mediaType remove:YES responseHandler:self];
+                                        }
+                                        else if(_currentOption==SideMenuOptionWatchlist){
+                                            [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:tvEventID mediaType:mediaType remove:YES responseHandler:self];
+                                        }
+                                        else if(_currentOption==SideMenuOptionRatings){
+                                            
+                                        }
+                                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:_currentOption];
+                                        [self.tvEventsTableView reloadData];
+                                    }];
+    deleteButton.backgroundColor = [MovieAppConfiguration getPrefferedYellowColor];
+    
+    
+    
+    return @[deleteButton];
+}
+
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(typeOfCollection==_currentOption){
+        TVEvent *eventToRemove=nil;
+        for(TVEvent *event in _tvEvents){
+            if(event.id==tvEventID){
+                eventToRemove=event;
+                break;
+            }
+        }
+        if(eventToRemove){
+            [_tvEvents removeObject:eventToRemove];
+        }
+        
+    }
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tvEventsTableView reloadData];
+}
 @end

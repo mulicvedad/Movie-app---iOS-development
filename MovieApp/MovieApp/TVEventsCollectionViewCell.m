@@ -88,7 +88,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     _delegate=delegate;
     _indexPathRowNumber=row;
     self.titleLabel.text=[tvEvent.title uppercaseString];
-    self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
+    //self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;

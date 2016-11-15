@@ -12,7 +12,7 @@
                 <tabBarController id="4Dy-Cx-8q8" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="jPD-i6-omI">
+                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" translucent="NO" itemPositioning="centered" id="jPD-i6-omI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -88,6 +88,7 @@
                         <segue destination="hWE-Ol-Nq1" kind="show" identifier="ShowDetailsSegue" id="VAR-D8-Grm"/>
                         <segue destination="VzF-xZ-Jzx" kind="show" identifier="LikedTVEventsSegueIdentifier" id="AN9-rp-coG"/>
                         <segue destination="ShH-jf-idj" kind="show" identifier="LoginSegue" id="UYh-kZ-oaf"/>
+                        <segue destination="SWf-3k-mgi" kind="show" identifier="SettingsSegue" id="hZr-3H-8DO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A7n-cR-pMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -226,6 +227,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="containerTopConstraint" destination="T0g-O7-BTf" id="Hkg-O3-Yt5"/>
                         <outlet property="containerView" destination="foO-FI-sKu" id="NP2-Ha-IeY"/>
                         <outlet property="createNewAccountLabel" destination="Deb-WA-rzp" id="IXV-K6-rZB"/>
                         <outlet property="forgotDetailsLabel" destination="Afz-Hm-hfm" id="lDW-h4-DMl"/>
@@ -396,6 +398,9 @@
                             <outlet property="delegate" destination="AiY-De-QNY" id="GHB-AO-Y8S"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="xtp-I3-Sv6" kind="show" identifier="EpisodeCastMemberDetailsSegue" id="nDy-rY-TlG"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rg1-ih-Opo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -534,6 +539,147 @@
             </objects>
             <point key="canvasLocation" x="1199" y="731"/>
         </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="P1p-a5-q47">
+            <objects>
+                <viewController id="SWf-3k-mgi" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XkA-4K-JXh"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Gs-E9-kmn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rnl-hX-xLj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VAH-ND-ZsZ">
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oWk-hd-6ML">
+                                        <color key="backgroundColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="F3g-Oh-AlK"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="Q9i-hr-tJM"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16Q-uG-LAE">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mkj-Q0-BcY">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3No-jt-wAO">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-pW-TwM">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Mkj-Q0-BcY" firstAttribute="top" secondItem="oWk-hd-6ML" secondAttribute="bottom" constant="16" id="37o-9M-TJY"/>
+                                    <constraint firstItem="YjK-pW-TwM" firstAttribute="baseline" secondItem="Mkj-Q0-BcY" secondAttribute="baseline" id="9ZB-Jk-DnY"/>
+                                    <constraint firstAttribute="height" constant="94" id="JiC-j5-89m"/>
+                                    <constraint firstItem="3No-jt-wAO" firstAttribute="baseline" secondItem="16Q-uG-LAE" secondAttribute="baseline" id="QdX-Vm-0hz"/>
+                                    <constraint firstItem="3No-jt-wAO" firstAttribute="leading" secondItem="YjK-pW-TwM" secondAttribute="leading" id="UAi-ya-UNz"/>
+                                    <constraint firstAttribute="trailing" secondItem="oWk-hd-6ML" secondAttribute="trailing" id="Vhh-AE-8o5"/>
+                                    <constraint firstItem="YjK-pW-TwM" firstAttribute="leading" secondItem="Mkj-Q0-BcY" secondAttribute="trailing" constant="18" id="ZMP-uC-rQC"/>
+                                    <constraint firstItem="16Q-uG-LAE" firstAttribute="leading" secondItem="VAH-ND-ZsZ" secondAttribute="leading" constant="25" id="kmh-og-WSv"/>
+                                    <constraint firstItem="16Q-uG-LAE" firstAttribute="top" secondItem="VAH-ND-ZsZ" secondAttribute="top" constant="19" id="nZx-9M-DK9"/>
+                                    <constraint firstItem="oWk-hd-6ML" firstAttribute="leading" secondItem="VAH-ND-ZsZ" secondAttribute="leading" constant="20" id="oTG-QP-7tP"/>
+                                    <constraint firstItem="Mkj-Q0-BcY" firstAttribute="leading" secondItem="VAH-ND-ZsZ" secondAttribute="leading" constant="25" id="scM-uT-yh9"/>
+                                    <constraint firstItem="oWk-hd-6ML" firstAttribute="top" secondItem="VAH-ND-ZsZ" secondAttribute="top" constant="46" id="zMn-wd-F9j"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgy-R2-C4j">
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJj-zU-4fs">
+                                        <color key="backgroundColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="qLH-x3-H6m"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie notifications:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGN-oU-3JY">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TV Shows notifications:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hT-0f-Q5U">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toggle-inactive" translatesAutoresizingMaskIntoConstraints="NO" id="Qs9-CN-tHU">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="23" id="ATF-wb-qNW"/>
+                                            <constraint firstAttribute="width" constant="37" id="xZb-8i-tK8"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toggle-inactive" translatesAutoresizingMaskIntoConstraints="NO" id="7cr-dF-dFS">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="37" id="4RP-ib-ELe"/>
+                                            <constraint firstAttribute="height" constant="23" id="SeI-v7-fGp"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="zJj-zU-4fs" firstAttribute="top" secondItem="fgy-R2-C4j" secondAttribute="top" constant="46" id="2Ds-eQ-lBa"/>
+                                    <constraint firstAttribute="trailing" secondItem="zJj-zU-4fs" secondAttribute="trailing" id="MVB-9F-apt"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qs9-CN-tHU" secondAttribute="trailing" constant="30" id="Ptl-tU-FE3"/>
+                                    <constraint firstItem="gGN-oU-3JY" firstAttribute="top" secondItem="fgy-R2-C4j" secondAttribute="top" constant="15" id="QgW-aa-gsC"/>
+                                    <constraint firstItem="Qs9-CN-tHU" firstAttribute="top" secondItem="zJj-zU-4fs" secondAttribute="bottom" constant="10" id="WxG-4M-xVT"/>
+                                    <constraint firstItem="7hT-0f-Q5U" firstAttribute="leading" secondItem="fgy-R2-C4j" secondAttribute="leading" constant="25" id="i2p-y9-hc0"/>
+                                    <constraint firstItem="gGN-oU-3JY" firstAttribute="leading" secondItem="fgy-R2-C4j" secondAttribute="leading" constant="25" id="lTS-M2-03A"/>
+                                    <constraint firstItem="7cr-dF-dFS" firstAttribute="top" secondItem="fgy-R2-C4j" secondAttribute="top" constant="10" id="mSz-fn-JWO"/>
+                                    <constraint firstAttribute="height" constant="94" id="prc-kG-vAd"/>
+                                    <constraint firstItem="zJj-zU-4fs" firstAttribute="leading" secondItem="fgy-R2-C4j" secondAttribute="leading" constant="20" id="rbx-0R-qgY"/>
+                                    <constraint firstAttribute="trailing" secondItem="7cr-dF-dFS" secondAttribute="trailing" constant="30" id="ska-AM-PHL"/>
+                                    <constraint firstItem="7hT-0f-Q5U" firstAttribute="top" secondItem="zJj-zU-4fs" secondAttribute="bottom" constant="15" id="y2V-7v-e5g"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACCOUNT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S05-Hf-jym">
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" red="0.8784313725490196" green="0.71764705882352942" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACCOUNT NOTIFICATIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pie-lr-Xbh">
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" red="0.8784313725490196" green="0.71764705882352942" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="VAH-ND-ZsZ" firstAttribute="leading" secondItem="Rnl-hX-xLj" secondAttribute="leading" id="6pI-f6-ayf"/>
+                            <constraint firstItem="S05-Hf-jym" firstAttribute="top" secondItem="XkA-4K-JXh" secondAttribute="bottom" constant="19" id="GMJ-hB-9mV"/>
+                            <constraint firstItem="pie-lr-Xbh" firstAttribute="leading" secondItem="Rnl-hX-xLj" secondAttribute="leadingMargin" constant="25" id="HqC-AC-IGI"/>
+                            <constraint firstAttribute="trailing" secondItem="fgy-R2-C4j" secondAttribute="trailing" id="La8-fM-BJg"/>
+                            <constraint firstItem="fgy-R2-C4j" firstAttribute="leading" secondItem="Rnl-hX-xLj" secondAttribute="leading" id="SPr-s9-whq"/>
+                            <constraint firstAttribute="trailing" secondItem="VAH-ND-ZsZ" secondAttribute="trailing" id="ZUZ-4S-Fgs"/>
+                            <constraint firstItem="fgy-R2-C4j" firstAttribute="top" secondItem="VAH-ND-ZsZ" secondAttribute="bottom" constant="50" id="dVK-Xa-ts1"/>
+                            <constraint firstItem="S05-Hf-jym" firstAttribute="leading" secondItem="Rnl-hX-xLj" secondAttribute="leadingMargin" constant="25" id="oyU-Ri-Hfy"/>
+                            <constraint firstItem="pie-lr-Xbh" firstAttribute="top" secondItem="VAH-ND-ZsZ" secondAttribute="bottom" constant="19" id="q7f-5N-R3a"/>
+                            <constraint firstItem="VAH-ND-ZsZ" firstAttribute="top" secondItem="XkA-4K-JXh" secondAttribute="bottom" constant="50" id="rVR-F9-2gW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="movieNotificationsToggleImageView" destination="7cr-dF-dFS" id="kvs-2q-IL5"/>
+                        <outlet property="nameLabel" destination="3No-jt-wAO" id="9AT-HM-Xov"/>
+                        <outlet property="tvShowNotificationsToggleImageView" destination="Qs9-CN-tHU" id="4ZB-gz-Vxe"/>
+                        <outlet property="usernameLabel" destination="YjK-pW-TwM" id="q4e-Rn-gCW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LNC-IR-dzY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2095.1999999999998" y="745.27736131934034"/>
+        </scene>
         <!--Cast Member Details Table View Controller-->
         <scene sceneID="ePA-fT-vyZ">
             <objects>
@@ -572,10 +718,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="News Feed" id="sYx-fp-H4h">
-                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="u1g-iG-nBx"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="u1g-iG-nBx">
+                            <connections>
+                                <action selector="menuButtonPressed:" destination="tkD-4c-zu7" id="i3j-ID-HJe"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="ShH-jf-idj" kind="show" identifier="LoginSegue" id="L7v-UT-a4S"/>
+                        <segue destination="ShH-jf-idj" kind="show" identifier="FeedsLoginSegue" id="L7v-UT-a4S"/>
+                        <segue destination="VzF-xZ-Jzx" kind="show" identifier="FeedLikedTVEventsSegue" id="hrW-ML-XxA"/>
+                        <segue destination="SWf-3k-mgi" kind="show" identifier="FeedSettingsSegue" id="ixp-9v-NOS"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uem-vf-TZF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -586,7 +738,9 @@
         <scene sceneID="jDj-Fs-tmW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WIC-f1-jF2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4"/>
+                    <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="Toc-kM-RfY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -605,7 +759,9 @@
         <scene sceneID="Glh-Jw-jdc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="arx-cm-fXC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feeds" image="feed-inactive" id="DKl-Pj-yTU"/>
+                    <tabBarItem key="tabBarItem" title="Feeds" image="feed-inactive" selectedImage="feed-active" id="DKl-Pj-yTU">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="yeC-kJ-7WM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -625,7 +781,9 @@
         <scene sceneID="Arz-pf-sPF">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kaQ-mv-8os" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movies" image="movies-inactive" selectedImage="movies-active" id="7mt-Gm-Qtd"/>
+                    <tabBarItem key="tabBarItem" title="Movies" image="movies-inactive" selectedImage="movies-active" id="7mt-Gm-Qtd">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="b96-Zj-pYg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -647,19 +805,24 @@
         </scene>
     </scenes>
     <resources>
+        <image name="feed-active" width="28" height="28"/>
         <image name="feed-inactive" width="20" height="20"/>
         <image name="menu-item" width="25" height="16"/>
         <image name="movies-active" width="21" height="20"/>
         <image name="movies-inactive" width="21" height="20"/>
         <image name="rate-this" width="19" height="17"/>
         <image name="ratings-selected" width="18" height="19"/>
+        <image name="toggle-inactive" width="39" height="28"/>
         <image name="tv-active" width="23" height="22"/>
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b3H-So-LoW"/>
-        <segue reference="VAR-D8-Grm"/>
-        <segue reference="UYh-kZ-oaf"/>
+        <segue reference="caU-mR-hlb"/>
+        <segue reference="ixp-9v-NOS"/>
+        <segue reference="hrW-ML-XxA"/>
+        <segue reference="L7v-UT-a4S"/>
+        <segue reference="jDt-M6-KIs"/>
+        <segue reference="nDy-rY-TlG"/>
         <segue reference="QTG-iR-DHh"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

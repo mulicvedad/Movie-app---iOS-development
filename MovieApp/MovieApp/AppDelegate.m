@@ -20,17 +20,17 @@ static DataProviderService *downloader=nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
 
-  
     KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
     NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
     
     if(username && [username length]>0){
         [[VirtualDataStorage sharedVirtualDataStorage] updateData];
     }
-   
+    NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
+    NSLog(@"%@",tmp);
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
-    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     return YES;
     
 }

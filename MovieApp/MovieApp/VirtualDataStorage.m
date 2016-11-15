@@ -1,23 +1,53 @@
 #import "VirtualDataStorage.h"
 #import "Movie.h"
+#import "TVShowEpisode.h"
+#import "CustomQueue.h"
+#import "LocalNotificationHandler.h"
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+#import "LocalNotificationManager.h"
+#else
+#import "LocalNotificationManagerOldVersion.h"
+#endif
 
 @interface  VirtualDataStorage (){
     NSMutableArray *_favoriteMovies;
     NSMutableArray *_watchListMovies;
-    NSMutableArray *_ratedMovies;
     NSMutableArray *_favoriteTVShows;
     NSMutableArray *_watchListTVShows;
-    NSMutableArray *_ratedTVShows;
+    CustomQueue *_mainTVShowQueue;
+    NSTimer *_timer;
+    
+    BOOL _noMoreFavoriteTVShows;
+    BOOL _noMoreFavoriteMovies;
+    BOOL _noMoreWatchlistTVShows;
+    BOOL _noMoreWatchlistMovies;
+    
+    NSUInteger _favoriteTVShowsPagesLoaded;
+    NSUInteger _favoriteMoviesPagesLoaded;
+    NSUInteger _watchlistTVShowsPagesLoaded;
+    NSUInteger _watchlistMoviesPagesLoaded;
+
+
 }
 @end
 static VirtualDataStorage *sharedDataStorage;
 static NSUInteger responseCounter;
+static CGFloat TimerInterval=10.0f;
+static id<LocalNotificationHandler> _localNotificationManager;
+
 @implementation VirtualDataStorage
 
 +(VirtualDataStorage *)sharedVirtualDataStorage{
     if(!sharedDataStorage){
         sharedDataStorage=[[VirtualDataStorage alloc]init];
         [sharedDataStorage configure];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+
+        _localNotificationManager=[LocalNotificationManager sharedNotificationManager];
+#else
+        _localNotificationManager=[LocalNotificationManagerOldVersion sharedNotificationManager];
+#endif
     }
     return sharedDataStorage;
 }
@@ -27,29 +57,39 @@ static NSUInteger responseCounter;
 
     _watchListMovies=[[NSMutableArray alloc] init];
     _watchListTVShows=[[NSMutableArray alloc] init];
-    
-    _ratedMovies=[[NSMutableArray alloc] init];
-    _ratedTVShows=[[NSMutableArray alloc] init];
 
 }
 -(void)updateData{
-    [[DataProviderService sharedDataProviderService] getFavoriteTVEventsOfType:MovieType pageNumber:1 returnTo:self];
-    [[DataProviderService sharedDataProviderService] getFavoriteTVEventsOfType:TVShowType pageNumber:1 returnTo:self];
+    if(!_noMoreFavoriteMovies){
+        [[DataProviderService sharedDataProviderService] getFavoriteTVEventsOfType:MovieType pageNumber:_favoriteMoviesPagesLoaded+1 returnTo:self];
+    }
+    if(!_noMoreFavoriteTVShows){
+        [[DataProviderService sharedDataProviderService] getFavoriteTVEventsOfType:TVShowType pageNumber:_favoriteTVShowsPagesLoaded+1 returnTo:self];
+    }
+    if(!_noMoreWatchlistMovies){
+        [[DataProviderService sharedDataProviderService] getWatchlistOfType:MovieType pageNumber:_watchlistMoviesPagesLoaded+1 returnTo:self];
+    }
+    if(!_noMoreWatchlistTVShows){
+        [[DataProviderService sharedDataProviderService] getWatchlistOfType:TVShowType pageNumber:_watchlistTVShowsPagesLoaded+1 returnTo:self];
+    }
 
-    [[DataProviderService sharedDataProviderService] getWatchlistOfType:MovieType pageNumber:1 returnTo:self];
-    [[DataProviderService sharedDataProviderService] getWatchlistOfType:TVShowType pageNumber:1 returnTo:self];
-
-    [[DataProviderService sharedDataProviderService] getRatedTVEventsOfType:MovieType pageNumber:1 returnTo:self];
-    [[DataProviderService sharedDataProviderService] getRatedTVEventsOfType:TVShowType pageNumber:1 returnTo:self];
 }
 
 -(void)removeAllData{
+    responseCounter=0;
+    _favoriteTVShowsPagesLoaded=0;
+    _favoriteMoviesPagesLoaded=0;
+    _watchlistTVShowsPagesLoaded=0;
+    _watchlistMoviesPagesLoaded=0;
+    _noMoreFavoriteTVShows=NO;
+    _noMoreFavoriteMovies=NO;
+    _noMoreWatchlistTVShows=NO;
+    _noMoreWatchlistMovies=NO;
     [_favoriteMovies removeAllObjects];
     [_favoriteTVShows removeAllObjects];
     [_watchListMovies removeAllObjects];
     [_watchListTVShows removeAllObjects];
-    [_ratedMovies removeAllObjects];
-    [_ratedTVShows removeAllObjects];
+
 }
 
 -(NSArray *)getFavoriteTVEventsOfType:(MediaType)mediaType{
@@ -59,10 +99,24 @@ static NSUInteger responseCounter;
     return mediaType==MovieType ? _watchListMovies : _watchListTVShows;
 
 }
--(NSArray *)getRatedTVEventsOfType:(MediaType)mediaType{
-    return mediaType==MovieType ? _ratedMovies : _ratedTVShows;
-}
+
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
+    if([[info objectForKey:TypeDictionaryKey] isEqualToString:EpisodesDictionaryValue]){
+        NSUInteger tvShowID=[(NSNumber *)[info objectForKey:TVEventIDDictionaryKey] integerValue];
+        NSString *tvShowTitle=[self titleForTVEventWithID:tvShowID mediaType:TVShowType];
+        for(int i=0;i<[customItemsArray count];i++){
+            TVShowEpisode *episode=customItemsArray[i];
+            if(episode.name){
+                episode.name=[[tvShowTitle stringByAppendingString:@": "]stringByAppendingString:episode.name];
+            }
+            else{
+                episode.name=@"Not found";
+            }
+        }
+        
+        [_localNotificationManager addNotificationAboutEpisodes:customItemsArray];
+        return;
+    }
     responseCounter++;
     if(!customItemsArray || [customItemsArray count]==0){
         if(responseCounter%6==0){
@@ -83,33 +137,54 @@ static NSUInteger responseCounter;
         case SideMenuOptionFavorites:
             if(mediaType==MovieType){
                 [_favoriteMovies addObjectsFromArray:customItemsArray];
+                if([customItemsArray count]<20){
+                    _noMoreFavoriteMovies=YES;
+                }
+                else{
+                    _favoriteMoviesPagesLoaded++;
+                }
             }
             else{
                 [_favoriteTVShows addObjectsFromArray:customItemsArray];
+                if([customItemsArray count]<20){
+                    _noMoreFavoriteTVShows=YES;
+                }
+                else{
+                    _favoriteTVShowsPagesLoaded++;
+                }
             }
             break;
         case SideMenuOptionWatchlist:
             if(mediaType==MovieType){
                 [_watchListMovies addObjectsFromArray:customItemsArray];
+                if([customItemsArray count]<20){
+                    _noMoreWatchlistMovies=YES;
+                }
+                else{
+                    _watchlistMoviesPagesLoaded++;
+                }
             }
             else{
                 [_watchListTVShows addObjectsFromArray:customItemsArray];
-            }
-            break;
-        case SideMenuOptionRatings:
-            if(mediaType==MovieType){
-                [_ratedMovies addObjectsFromArray:customItemsArray];
-            }
-            else{
-                [_ratedTVShows addObjectsFromArray:customItemsArray];
+                if([customItemsArray count]<20){
+                    _noMoreWatchlistTVShows=YES;
+                }
+                else{
+                    _watchlistTVShowsPagesLoaded++;
+                }
             }
             break;
         default:
             break;
     }
-    if(responseCounter%6==0){
+    if(_noMoreWatchlistTVShows && _noMoreWatchlistMovies && _noMoreFavoriteTVShows && _noMoreFavoriteMovies){
         [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
     }
+    else if(responseCounter>=4){
+        [self updateData];
+    }
+
+
 }
 
 -(BOOL)containsTVEventInFavorites:(TVEvent *)tvEvent{
@@ -148,22 +223,105 @@ static NSUInteger responseCounter;
     return NO;
     
 }
--(BOOL)containsTVEventInRatedEvents:(TVEvent *)tvEvent{
-    if([tvEvent isKindOfClass:[Movie class]]){
-        for(TVEvent *event in _ratedMovies){
-            if(event.id==tvEvent.id){
-                return YES;
-            }
+
+-(NSString *)titleForTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType{
+    for(TVEvent *tvEvent in mediaType==MovieType ? _watchListMovies : _watchListTVShows){
+        if(tvEvent.id==tvEventID){
+            return tvEvent.title;
         }
     }
-    else{
-        for(TVEvent *event in _ratedTVShows){
-            if(event.id==tvEvent.id){
-                return YES;
-            }
-        }
+    return @"";
+}
+
+-(void)beginEpisodesFetching{
+    _mainTVShowQueue=[CustomQueue queueWithArray:_watchListTVShows];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:TimerInterval
+                                              target:self
+                                            selector:@selector(fetchNextSetOfEpisodes)
+                                            userInfo:nil repeats:YES];
+}
+
+-(void)fetchNextSetOfEpisodes{
+    if([_mainTVShowQueue count]==0 || ![[NSUserDefaults standardUserDefaults] boolForKey:TVShowsNotificationsEnabledNSUserDefaultsKey]){
+        [_timer invalidate];
+        _timer=nil;
+        return;
     }
-    return NO;
+    TVEvent *currentTVEvent=[_mainTVShowQueue dequeue];
+    [[DataProviderService sharedDataProviderService] getAllEpisodesForTVShowWithID:currentTVEvent.id numberOfSeasons:0 returnTo:self];
     
 }
+-(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(SideMenuOption)collectionType{
+    TVEvent *eventToRemove=nil;
+    switch (collectionType) {
+        case SideMenuOptionFavorites:
+            if(mediatype==MovieType){
+                for(TVEvent *tvEvent in _favoriteMovies){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_favoriteMovies removeObject:eventToRemove];
+                }
+            }
+            else{
+                for(TVEvent *tvEvent in _favoriteTVShows){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_favoriteTVShows removeObject:eventToRemove];
+                }
+            }
+            break;
+        case SideMenuOptionWatchlist:
+            if(mediatype==MovieType){
+                for(TVEvent *tvEvent in _watchListMovies){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_watchListMovies removeObject:eventToRemove];
+                }
+            }
+            else{
+                for(TVEvent *tvEvent in _watchListTVShows){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_watchListTVShows removeObject:eventToRemove];
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)addTVEvent:(TVEvent *)tvEvent toCollection:(SideMenuOption)collectionType{
+    if(collectionType==SideMenuOptionFavorites && ![self containsTVEventInFavorites:tvEvent]){
+        if([tvEvent isKindOfClass:[Movie class]]){
+            [_favoriteMovies addObject:tvEvent];
+        }
+        else{
+            [_favoriteTVShows addObject:tvEvent];
+
+           
+        }
+    }
+    else if(collectionType==SideMenuOptionWatchlist && ![self containsTVEventInWatchlist:tvEvent]){
+        if([tvEvent isKindOfClass:[Movie class]]){
+             [_watchListMovies addObject:tvEvent];
+        }
+        else{
+            [_watchListTVShows addObject:tvEvent];
+        }
+    }
+}
+
 @end

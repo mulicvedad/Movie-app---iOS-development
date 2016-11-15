@@ -10,7 +10,7 @@ static NSString *UsernamePlaceholder=@"  Your username";
 static NSString *PasswordPlaceholder=@"  Password";
 static NSString *RegisterSegueIdentifier=@"RegisterSegue";
 static NSString *ResetPasswordSegueIdentifier=@"ResetSegue";
-static CGFloat ContainerViewOffsetWithoutKeyboard=200.0;
+static CGFloat ContainerViewOffsetWithoutKeyboard=150.0;
 static CGFloat ContainerViewOffsetWithKeyboard=50.0;
 
 @interface LoginViewController (){
@@ -45,18 +45,27 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
 - (IBAction)didBeginEditingTextfield:(UITextField *)sender {
     if(sender==self.usernameTextField){
         self.usernameUnderlineView.backgroundColor=[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f];
+        NSLog(@"TEST___BEGIN EDIT USERNAME");
     }
     else{
         self.passwordUnderlineView.backgroundColor=[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f];
+        NSLog(@"TEST___BEGIN EDIT PASSWORD");
+
     }
+ 
 }
 - (IBAction)didEndEditingTextfield:(UITextField *)sender {
     if(sender==self.usernameTextField){
         self.usernameUnderlineView.backgroundColor=[MovieAppConfiguration getPrefferedLightGreyColor];
+        NSLog(@"TEST___END EDIT USERNAME");
+
     }
     else{
         self.passwordUnderlineView.backgroundColor=[MovieAppConfiguration getPrefferedLightGreyColor];
+        NSLog(@"TEST___END EDIT PASSWORD");
+
     }
+
 }
 - (IBAction)didSelectLoginButton:(UIButton *)sender {
     LoginManager *apiLoginManager=[[LoginManager alloc]init];
@@ -75,6 +84,7 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
     [myWrapper setObject:self.usernameTextField.text forKey:(id)kSecAttrAccount];
     [myWrapper setObject:sessionID forKey:(id)kSecValueData];
     [[VirtualDataStorage sharedVirtualDataStorage] updateData];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)loginFailedWithError:(NSError *)error{
@@ -168,15 +178,16 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
 }
 
 -(void)keyboardWillShow {
-    CGRect newFrame=self.containerView.frame;
-    newFrame.origin.y=ContainerViewOffsetWithKeyboard;
-    self.containerView.frame = newFrame;
+    NSLog(@"TEST___WILL SHOW");
+
+    self.containerTopConstraint.constant=ContainerViewOffsetWithKeyboard;
 }
 
 -(void)keyboardWillHide {
-    CGRect newFrame=self.containerView.frame;
-    newFrame.origin.y=ContainerViewOffsetWithoutKeyboard;
-    self.containerView.frame = newFrame;
+    NSLog(@"TEST___WILL HIDE");
+
+    self.containerTopConstraint.constant=ContainerViewOffsetWithoutKeyboard;
+
 }
 
 
@@ -197,11 +208,11 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
+       [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillShowNotification
                                                   object:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self
+ [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil];  
 }
