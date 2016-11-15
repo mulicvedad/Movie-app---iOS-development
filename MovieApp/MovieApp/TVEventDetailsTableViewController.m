@@ -26,6 +26,7 @@
 #import "CarouselCollectionViewCell.h"
 #import "CastMemberDetailsTableViewController.h"
 #import "RatingViewController.h"
+#import "VirtualDataStorage.h"
 
 #define NumberOfSections 6
 #define FontSize14 14
@@ -45,6 +46,8 @@
     BOOL _creditsLoaded;
     BOOL _videoLoaded;
     BOOL _isCarouselCollectionViewSetup;
+    
+    id<TVEventsCollectionsStateChangeHandler> _delegate;
 }
 
 @end
@@ -257,7 +260,8 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     return nil;
 }
 
--(void)setMainTvEvent:(TVEvent *)tvEvent{
+-(void)setMainTvEvent:(TVEvent *)tvEvent dalegate:(id<TVEventsCollectionsStateChangeHandler>)delegate{
+    _delegate=delegate;
     if(tvEvent){
         _mainTvEvent=tvEvent;
     }
@@ -512,7 +516,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 
 
 -(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
-  
+    if(_delegate){
+        [_delegate addedTVEventWithID:tvEventID toCollectionOfType:typeOfCollection];
+    }
         if(_mainTvEvent.id==tvEventID){
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
@@ -530,9 +536,13 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             [self.tableView reloadData];
          
     }
+    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:_mainTvEvent toCollection:typeOfCollection];
 }
 
 -(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(_delegate){
+        [_delegate removedTVEventWithID:tvEventID fromCollectionOfType:typeOfCollection];
+    }
     if(_mainTvEvent.id==tvEventID){
         switch (typeOfCollection) {
             case SideMenuOptionFavorites:
@@ -549,7 +559,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         }
         [self.tableView reloadData];
         
+        
     }
+    [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
 }
 
 @end

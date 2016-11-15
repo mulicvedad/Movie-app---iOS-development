@@ -187,10 +187,15 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         mainTVEvent.id=currentCredit.id;
       
         TVEventDetailsTableViewController *destVC=segue.destinationViewController;
-        [destVC setMainTvEvent:(TVEvent *)mainTVEvent];;
+        [destVC setMainTvEvent:(TVEvent *)mainTVEvent dalegate:nil];;
     }
 }
 -(void)setNeedsReload{
+    [self.tableView reloadData];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
 @end

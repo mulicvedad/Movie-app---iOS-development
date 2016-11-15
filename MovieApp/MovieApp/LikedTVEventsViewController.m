@@ -111,7 +111,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:EventDetailsSegueIdentifier]){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
-        [destinationVC setMainTvEvent:(TVEvent *)sender];
+        [destinationVC setMainTvEvent:(TVEvent *)sender dalegate:self];
     }
 }
 
@@ -133,6 +133,22 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     }
     if([customItemsArray count]<20){
         _noMorePages=YES;
+    }
+    for(int i=0;i<[customItemsArray count];i++){
+        TVEvent *currentTVEvent=customItemsArray[i];
+        if(_currentOption==SideMenuOptionWatchlist){
+            currentTVEvent.isInWatchlist=YES;
+            if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+                currentTVEvent.isInFavorites=YES;
+            }
+        }
+        else if(_currentOption==SideMenuOptionFavorites){
+            currentTVEvent.isInFavorites=YES;
+            if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+                currentTVEvent.isInWatchlist=YES;
+            }
+        }
+        
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
     _numberOfPagesLoaded++;
@@ -205,7 +221,22 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 }
 
 -(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
-    
+    if(typeOfCollection==_currentOption){
+        TVEvent *eventToRemove=nil;
+        for(TVEvent *event in _tvEvents){
+            if(event.id==tvEventID){
+                eventToRemove=event;
+                break;
+            }
+        }
+        if(eventToRemove){
+            [_tvEvents removeObject:eventToRemove];
+        }
+        
+    }
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tvEventsTableView reloadData];
+}
 @end
