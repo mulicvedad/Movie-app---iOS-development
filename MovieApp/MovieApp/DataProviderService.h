@@ -38,4 +38,6 @@
 -(void)getDetailsForTvEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)getAllEpisodesForTVShowWithID:(NSUInteger)tvShowID numberOfSeasons:(NSUInteger)numberOfSeasons  returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)getAccountDetailsReturnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(BOOL)isUserLoggedIn;
+
 @end

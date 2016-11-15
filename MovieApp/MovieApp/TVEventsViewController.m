@@ -578,6 +578,15 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent * currentTVEvent=_tvEvents[i];
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
+        }
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

@@ -183,6 +183,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
             
             [cell setupWithRating:_mainTvEvent.voteAverage delegate:self];
+            if([[DataProviderService sharedDataProviderService] isUserLoggedIn]){
+                [cell hideRating];
+            }
             return cell;
             
         }
