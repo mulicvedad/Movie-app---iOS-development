@@ -15,6 +15,8 @@ static CGFloat episodeNotificationTimeInterval=60.0f;
 static NSString *MovieNotificationCategoryName=@"Movie";
 static NSString *TVShowNotificationCategoryName=@"TV Show";
 
+static NSUInteger tmpCounter;
+
 
 @implementation LocalNotificationManagerOldVersion
 
@@ -27,6 +29,16 @@ static NSString *TVShowNotificationCategoryName=@"TV Show";
 }
 
 -(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent isEpisode:(BOOL)isEpisode{
+    if(tmpCounter>=5){
+        return;
+    }
+    else if(tmpCounter%2==0){
+        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:2*60*60];
+    }
+    else{
+        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:24*60*60+30];
+    }
+    tmpCounter++;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSDateComponents *components = [calendar components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
@@ -60,7 +72,7 @@ static NSString *TVShowNotificationCategoryName=@"TV Show";
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = triggerDate;
     localNotification.alertTitle=tvEvent.title;
-    localNotification.alertBody=[@" airing soon: " stringByAppendingString:dateString];
+    localNotification.alertBody=[@"Airing soon: " stringByAppendingString:dateString];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     localNotification.category=isEpisode ? TVShowNotificationCategoryName : MovieNotificationCategoryName;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];

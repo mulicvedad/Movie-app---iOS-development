@@ -7,7 +7,11 @@
              @"runtime":@"duration",
              @"homepage":@"homepage",
              @"backdrop_path":@"backdropPath",
-             @"genres":@"genres"
+             @"title":@"title",
+             @"poster_path":@"posterPath",
+             @"overview":@"overview",
+             @"release_date":@"releaseDate",
+             @"vote_average":@"voteAverage"
              };
 }
 

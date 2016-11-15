@@ -73,7 +73,7 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         else if(indexPath.row==1){
             CastMemberInfoTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:[CastMemberInfoTableViewCell cellIdentifier] forIndexPath:indexPath];
             if(_personDetails){
-                [cell setupWithCastMember:_personDetails];
+                [cell setupWithCastMember:_personDetails delegate:self];
             }
             return cell;
         }
@@ -85,19 +85,13 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         }
     }
     else{
-        /*FilmographyTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:[FilmographyTableViewCell cellIdentifier] forIndexPath:indexPath];
-        if(_tvEventCredits){
-            [cell setupWithTVEventCredits:_tvEventCredits delegateForSegue:self];
-        }
-        return cell;*/
         CarouselTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CarouselTableViewCell cellIdentifier] forIndexPath:indexPath];
         if(!_isCarouselCollectionViewSetup){
             [self setupCarouselCollectionView:cell.carouselCollectionView];
-            if([_tvEventCredits count]<5){
-                //remove arrow
-            }
+            
             _isCarouselCollectionViewSetup=YES;
         }
+       
         [cell.carouselCollectionView reloadData];
         return cell;
     }
@@ -108,6 +102,9 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
     if(indexPath.section==0){
         if(indexPath.row==0){
             return (self.castMember.profileImageUrl) ? CastMemberPictureTableViewCellDefaultHeight : 60;
+        }
+        else if(indexPath.row==1){
+            return UITableViewAutomaticDimension;
         }
         else if(indexPath.row==2){
             return SeparatorCellDefaultHeight;
@@ -177,19 +174,23 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:TVEventDetailsSegueIdentifier]){
-        TVEvent *mainTVEvent=[[TVEvent alloc]init];
         TVEventCredit *currentCredit=sender;
-        mainTVEvent.posterPath=currentCredit.posterPath;
-        mainTVEvent.backdropPath=nil;
-        if(!currentCredit.name){
-            mainTVEvent.title=currentCredit.title;
+        TVEvent *mainTVEvent;
+        if([currentCredit.mediaType isEqualToString:MediaTypeMovie]){
+            mainTVEvent=[[Movie alloc]init];
         }
         else{
-            mainTVEvent.title=currentCredit.name;
+            mainTVEvent=[[TVShow alloc]init];
 
         }
+        
+        mainTVEvent.id=currentCredit.id;
+      
         TVEventDetailsTableViewController *destVC=segue.destinationViewController;
         [destVC setMainTvEvent:(TVEvent *)mainTVEvent];;
     }
+}
+-(void)setNeedsReload{
+    [self.tableView reloadData];
 }
 @end

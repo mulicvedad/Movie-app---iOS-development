@@ -1,11 +1,18 @@
 #import "SettingsViewController.h"
-#import "LocalNotificationManagerOldVersion.h"
 #import "DataProviderService.h"
+#import "LocalNotificationHandler.h"
 #import "AccountDetails.h"
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+#import "LocalNotificationManager.h"
+#else
+#import "LocalNotificationManagerOldVersion.h"
+#endif
 
 @interface SettingsViewController (){
     BOOL _movieNotificationsEnabled;
     BOOL _tvShowNotificationsEnabled;
+    id<LocalNotificationHandler> _notificationHandler;
 }
 
 @end
@@ -25,18 +32,24 @@ static NSString *InactiveToggleImageName=@"toggle-inactive";
     [self.movieNotificationsToggleImageView addGestureRecognizer:tapRecognizer];
     tapRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTVShowNotificationsToggle)];
     [self.tvShowNotificationsToggleImageView addGestureRecognizer:tapRecognizer];
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+    _notificationHandler=[LocalNotificationManager sharedNotificationManager];
+#else
+    _notificationHandler=[LocalNotificationManagerOldVersion sharedNotificationManager];
+#endif
 }
 
 -(void)didTapMovieNotificationsToggle{
     if(_movieNotificationsEnabled){
         self.movieNotificationsToggleImageView.image=[UIImage imageNamed:InactiveToggleImageName];
-        [[LocalNotificationManagerOldVersion sharedNotificationManager] removeAllNotificationsForMovies];
+        [_notificationHandler removeAllNotificationsForMovies];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
         
     }
     else{
         self.movieNotificationsToggleImageView.image=[UIImage imageNamed:ActiveToggleImageName];
-        [[LocalNotificationManagerOldVersion sharedNotificationManager] scheduleMoviesNotifications];
+        [_notificationHandler scheduleMoviesNotifications];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
 
 
@@ -48,13 +61,13 @@ static NSString *InactiveToggleImageName=@"toggle-inactive";
 -(void)didTapTVShowNotificationsToggle{
     if(_tvShowNotificationsEnabled){
         self.tvShowNotificationsToggleImageView.image=[UIImage imageNamed:InactiveToggleImageName];
-        [[LocalNotificationManagerOldVersion sharedNotificationManager] removeAllNotificationsForTVShows];
+        [_notificationHandler removeAllNotificationsForTVShows];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
 
     }
     else{
         self.tvShowNotificationsToggleImageView.image=[UIImage imageNamed:ActiveToggleImageName];
-        [[LocalNotificationManagerOldVersion sharedNotificationManager] scheduleTVShowsNotifications];
+        [_notificationHandler scheduleTVShowsNotifications];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
 
     }

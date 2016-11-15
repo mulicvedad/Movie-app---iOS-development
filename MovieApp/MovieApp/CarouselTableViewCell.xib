@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="374" height="166"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="374" height="165.5"/>
+                <frame key="frameInset" width="374" height="165"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="KRT-RS-gnD">
@@ -23,21 +23,12 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrrow button" translatesAutoresizingMaskIntoConstraints="NO" id="FDm-hx-i8u">
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="30" id="1Ys-Zs-fMd"/>
-                            <constraint firstAttribute="height" constant="30" id="JD4-PK-CE4"/>
-                        </constraints>
-                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstItem="FDm-hx-i8u" firstAttribute="top" secondItem="KRT-RS-gnD" secondAttribute="top" constant="50" id="0uG-96-vV9"/>
                     <constraint firstItem="KRT-RS-gnD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="54o-is-z42"/>
                     <constraint firstAttribute="trailing" secondItem="KRT-RS-gnD" secondAttribute="trailing" constant="-20" id="BeQ-oH-2zz"/>
                     <constraint firstItem="KRT-RS-gnD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="dPY-jz-NeT"/>
-                    <constraint firstAttribute="trailing" secondItem="FDm-hx-i8u" secondAttribute="trailing" constant="5" id="i1O-nM-Mrh"/>
                     <constraint firstAttribute="bottom" secondItem="KRT-RS-gnD" secondAttribute="bottom" constant="10" id="meh-6B-Pp7"/>
                 </constraints>
             </tableViewCellContentView>
@@ -47,7 +38,4 @@
             <point key="canvasLocation" x="40" y="134"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="arrrow button" width="9" height="14"/>
-    </resources>
 </document>

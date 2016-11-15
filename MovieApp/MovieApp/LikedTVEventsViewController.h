@@ -5,11 +5,11 @@
 #import "TVEvent.h"
 #import "Movie.h"
 #import "TVShow.h"
+#import "TVEventsCollectionsStateChangeHandler.h"
 
-@interface LikedTVEventsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SelectedIndexChangeDelegate, ItemsArrayReceiver>
+@interface LikedTVEventsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SelectedIndexChangeDelegate, ItemsArrayReceiver, TVEventsCollectionsStateChangeHandler>
 @property (weak, nonatomic) IBOutlet UITableView *tvEventsTableView;
 @property (weak, nonatomic) IBOutlet UITableView *sortByTableView;
-
 -(void)setCurrentOption:(SideMenuOption)option;
 
 @end

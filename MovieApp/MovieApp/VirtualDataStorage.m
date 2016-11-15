@@ -1,10 +1,14 @@
 #import "VirtualDataStorage.h"
 #import "Movie.h"
-#import "LocalNotificationManager.h"
 #import "TVShowEpisode.h"
 #import "CustomQueue.h"
 #import "LocalNotificationHandler.h"
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+#import "LocalNotificationManager.h"
+#else
 #import "LocalNotificationManagerOldVersion.h"
+#endif
 
 @interface  VirtualDataStorage (){
     NSMutableArray *_favoriteMovies;
@@ -26,12 +30,12 @@ static id<LocalNotificationHandler> _localNotificationManager;
     if(!sharedDataStorage){
         sharedDataStorage=[[VirtualDataStorage alloc]init];
         [sharedDataStorage configure];
-        /*if([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion>=10){
-            _localNotificationManager=[LocalNotificationManager sharedNotificationManager];
-        }
-        else{*/
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+
+        _localNotificationManager=[LocalNotificationManager sharedNotificationManager];
+#else
         _localNotificationManager=[LocalNotificationManagerOldVersion sharedNotificationManager];
-        //}
+#endif
     }
     return sharedDataStorage;
 }
@@ -190,5 +194,57 @@ static id<LocalNotificationHandler> _localNotificationManager;
     [[DataProviderService sharedDataProviderService] getAllEpisodesForTVShowWithID:currentTVEvent.id numberOfSeasons:0 returnTo:self];
     
 }
+-(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(SideMenuOption)collectionType{
+    TVEvent *eventToRemove=nil;
+    switch (collectionType) {
+        case SideMenuOptionFavorites:
+            if(mediatype==MovieType){
+                for(TVEvent *tvEvent in _favoriteMovies){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_favoriteMovies removeObject:eventToRemove];
+                }
+            }
+            else{
+                for(TVEvent *tvEvent in _favoriteTVShows){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_favoriteTVShows removeObject:eventToRemove];
+                }
+            }
+            break;
+        case SideMenuOptionWatchlist:
+            if(mediatype==MovieType){
+                for(TVEvent *tvEvent in _watchListMovies){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_watchListMovies removeObject:eventToRemove];
+                }
+            }
+            else{
+                for(TVEvent *tvEvent in _watchListTVShows){
+                    if(tvEvent.id==tvEventID){
+                        eventToRemove=tvEvent;
+                    }
+                }
+                if(eventToRemove){
+                    [_watchListTVShows removeObject:eventToRemove];
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 
 @end

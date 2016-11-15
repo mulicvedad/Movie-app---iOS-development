@@ -43,4 +43,14 @@ static NSString * const YearDateFormat=@"yyyy";
     
     return dateString;
 }
+
+-(void)setupWithTVEventDetails:(TVEventDetails *)tvEventDetails{
+    self.title=tvEventDetails.title;
+    self.originalTitle=tvEventDetails.title;
+    self.releaseDate=tvEventDetails.releaseDate;
+    self.backdropPath=tvEventDetails.backdropPath;
+    self.posterPath=tvEventDetails.posterPath;
+    self.overview=tvEventDetails.overview;
+    self.voteAverage=tvEventDetails.voteAverage;
+}
 @end

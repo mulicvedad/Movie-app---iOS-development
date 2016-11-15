@@ -103,7 +103,6 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     _seasons=[[NSMutableArray alloc]init];
     
     self.navigationItem.title=_mainTvEvent.title;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
 }
 
@@ -117,14 +116,16 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
--(void)setTVEventID:(NSUInteger)tvEventID{
-    _mainTVEventID=tvEventID;
-}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(!_mainTvEventDetails){
+        return 0;
+    }
+    
     if(section==0){
         return 3;
     }
@@ -150,7 +151,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section==0){
-        if(indexPath.row==0){ //setup with maintvevent
+        if(indexPath.row==0){ 
             TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];
             [cell setupWithTVEvent:_mainTvEvent];
             [cell setDelegate:(id<ShowTrailerDelegate>)self];
@@ -376,6 +377,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     if([customItemsArray count]>0){
         if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
             _mainTvEventDetails=customItemsArray[0];
+            [_mainTvEvent setupWithTVEventDetails:_mainTvEventDetails];
             for(int i=1;i<[customItemsArray count];i++){
                 if([customItemsArray[i] isKindOfClass:[Image class]]){
                     [_images addObject:customItemsArray[i]];
@@ -488,8 +490,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout{
+
     
-    return  UIEdgeInsetsMake(2, 2, 2, 2);
+    return  UIEdgeInsetsMake(2, 0, 2, 10);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
