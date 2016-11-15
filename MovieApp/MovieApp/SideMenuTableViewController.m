@@ -44,12 +44,11 @@ static NSString * MoreInfoTableViewSectionHeaderText=@"MORE";
     [self configureTableViewHeader];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SideMenuItemTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SideMenuItemTableViewCell class])];
     self.tableView.backgroundColor=[UIColor blackColor];
-    self.tableView.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
-    self.tableView.separatorInset=UIEdgeInsetsZero;
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableView.separatorColor=[MovieAppConfiguration getPreferredDarkGreyColor];
     
     self.automaticallyAdjustsScrollViewInsets=NO;
-    [self.tableView setScrollEnabled:NO];
+    //[self.tableView setScrollEnabled:NO];
     if(![self isUserLoggedIn]){
             self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     }

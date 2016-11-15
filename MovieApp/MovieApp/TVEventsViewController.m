@@ -37,6 +37,7 @@
     
     UIViewController *_sideMenuViewController;
     UIView *_shadowView;
+    
 }
 
 @end
@@ -58,6 +59,7 @@ static CGFloat const TimerInterval=0.5f;
 static CGFloat const SortByTableDefaultCellHeight=43.0f;
 static NSString *LikedTVEventsSegueIdentifier=@"LikedTVEventsSegueIdentifier";
 static NSString *LoginSegueIdentifier=@"LoginSegue";
+static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 @implementation TVEventsViewController
 
@@ -71,6 +73,7 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
     [self configureSortByControl];
     [self configureSwipeGestureRecogniser];
     [self configureNotifications];
+    [self configureSearchController];
     
 }
 
@@ -81,29 +84,32 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
     self.edgesForExtendedLayout=UIRectEdgeNone;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:BackButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
+   
     
+}
+
+-(void)configureSearchController{
     self.resultsContoller=[[SearchResultTableViewController alloc]init];
     self.searchController=[[UISearchController alloc]initWithSearchResultsController:self.resultsContoller];
     [self.resultsContoller setDelegateForSegue: self];
     
     self.navigationItem.titleView = self.searchController.searchBar;
     
-   self.searchController.searchBar.placeholder=SearchBarPlaceholder;
-    
+    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
+   
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
     
     self.searchController.searchResultsUpdater = self;
     self.searchController.delegate=self;
-    //self.searchController.searchBar.delegate = self;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation=NO;
     //self.searchController.obscuresBackgroundDuringPresentation=YES;
     self.definesPresentationContext=YES;
     
+    
 }
-
 -(void)configureSortByControl{
 
     [self.sortByControlTableView registerNib:[UINib nibWithNibName:[MainSortByTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[MainSortByTableViewCell cellIdentifier]];
@@ -204,6 +210,17 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
     if([segue.identifier isEqualToString:EventDetailsSegueIdentifier] ){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
         [destinationVC setMainTvEvent:sender];
+        /*
+         
+         second solution to bug
+         if(self.searchController.isActive){
+         [self.searchController dismissViewControllerAnimated:NO completion:^{
+         [self.navigationController pushViewController:destinationVC animated:YES];
+         }];
+         }
+         
+         */
+        
     }
     else if([segue.identifier isEqualToString:LikedTVEventsSegueIdentifier]){
         LikedTVEventsViewController *destinationVC=segue.destinationViewController;
@@ -425,7 +442,7 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
                                      [self performSegueWithIdentifier:LoginSegueIdentifier sender:nil];
                                      break;
                                  case SideMenuOptionSettings:
-                                     //segue for settings
+                                     [self performSegueWithIdentifier:SettingsSegueIdentifier sender:nil];
                                      break;
                                  case SideMenuOptionLogout:
                                      [self handleLogoutRequest];
@@ -546,23 +563,42 @@ static NSString *LoginSegueIdentifier=@"LoginSegue";
         if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
         }
-        if([sharedStorage containsTVEventInRatedEvents:_tvEvents[i]]){
-            ((TVEvent *)_tvEvents[i]).isInRatings=YES;
-        }
+        
     }
     [self.tvEventsCollectionView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    UITableView *tmp=self.sortByControlTableView;
     [super viewWillAppear:animated];
-    [self.tvEventsCollectionView reloadData];
+    self.navigationItem.titleView=nil;
+    self.navigationItem.titleView = self.searchController.searchBar;
+    
+    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
+    
+    UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
+    searchTextField.backgroundColor = [UIColor darkGrayColor];
+    searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
 }
-/*-(void)viewDidAppear:(BOOL)animated{
-    UITableView *tmp=self.sortByControlTableView;
-    CGRect tmpfr=tmp.frame;
-    CGRect tmpfr2=self.tvEventsCollectionView.frame;
-    [super viewDidAppear:animated];
-}*/
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationItem.titleView=[[UISearchBar alloc] init];
+
+}
+
+-(void)didDismissSearchController:(UISearchController *)searchController{
+    //this is the forced solution to the bug
+    if(_isMovieViewController){
+        [self.tabBarController setSelectedIndex:2];
+        [self.tabBarController setSelectedIndex:1];
+    }
+    else{
+        [self.tabBarController setSelectedIndex:1];
+        [self.tabBarController setSelectedIndex:2];
+    }
+    
+    
+    
+}
 
 @end

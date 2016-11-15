@@ -14,6 +14,10 @@ NSString * const CriterionDictionaryKey=@"criterion";
 NSString * const TypeDictionaryKey=@"type";
 NSString * const ErrorDictionaryKey=@"error";
 NSString *SideMenuOptionDictionaryKey=@"sideMenuOption";
+NSString *TVEventIDDictionaryKey=@"tvEventID";
+NSString *TVSeasonNumberDictionaryKey=@"seasonNumber";
+
+
 
 NSString *UsernameParameterName=@"username";
 NSString *PasswordParameterName=@"password";
@@ -52,6 +56,8 @@ NSString *WatchlistMovieFullSubpath=@"/3/account/:id/watchlist/movies";
 NSString *WatchlistTVShowFullSubpath=@"/3/account/:id/watchlist/tv";
 NSString *RatedMoviesFullSubpath=@"/3/account/:id/rated/movies";
 NSString *RatedTVShowsFullSubpath=@"/3/account/:id/rated/tv";
+NSString *AccountInfoSubpath=@"/3/account";
+
 
 NSString * const ResultsPath=@"results";
 
@@ -69,6 +75,9 @@ NSString * const CastCreditsKeypath=@"combined_credits.cast";
 
 NSString * const DetailsDictionaryValue=@"details";
 NSString * const CreditsDictionaryValue=@"credits";
+NSString *EpisodesDictionaryValue=@"episodes";
+
+
 NSString * const CriterionPopularityValue=@"popularity.desc";
 NSString * const CriterionReleaseDateValue=@"release_date.desc";
 NSString * const AppendImagesParameterValue=@"images,reviews";

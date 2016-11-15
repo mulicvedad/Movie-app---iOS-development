@@ -3,23 +3,23 @@
 
 #define FontSize12 12
 
-static NSString * FavoritesNormalImageName=@"favorites";
+static NSString * FavoritesNormalImageName=@"favorites-new";
 static NSString * FavoritesSelectedImageName=@"favorites-selected";
-static NSString * WatchlistNormalImageName=@"watchlist";
+static NSString * WatchlistNormalImageName=@"watchlist-new";
 static NSString * WatchlistSelectedImageName=@"watchlist-selected";
 static NSString * RatingsNormalImageName=@"ratings";
 static NSString * RatingsSelectedImageName=@"ratings-selected";
 static NSString * SettingsNormalImageName=@"settings";
 static NSString * SettingsSelectedImageName=@"settings-selected";
-static NSString * LoginNormalImageName=@"logout";
-static NSString * LoginSelectedImageName=@"logout-selected";
+static NSString * LoginNormalImageName=@"login";
+static NSString * LoginSelectedImageName=@"login-selected";
 static NSString * LogoutNormalImageName=@"logout";
 static NSString * LogoutSelectedImageName=@"logout-selected";
 
 static NSString * SideMenuOptionFavoritesText=@"Your favorites";
 static NSString * SideMenuOptionWatchlistText=@"Your watchlist";
 static NSString * SideMenuOptionRatingsText=@"Your ratings";
-static NSString * SideMenuOptionSettingsText=@"Options";
+static NSString * SideMenuOptionSettingsText=@"Settings";
 static NSString * SideMenuOptionLoginText=@"Login";
 static NSString * SideMenuOptionLogOutText=@"Logout";
 

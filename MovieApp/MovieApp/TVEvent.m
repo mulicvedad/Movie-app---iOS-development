@@ -21,7 +21,7 @@ static NSString * const YearDateFormat=@"yyyy";
 
 -(NSString *)getFormattedGenresRepresentation{
     NSMutableString *genresRepresentation=[NSMutableString stringWithString:@""];
-    for(int i=0;i<[self.genreIDs count];i++){
+    for(int i=0;i<[self.genreIDs count] && i<2;i++){
         NSUInteger currentID=[(NSNumber *)self.genreIDs[i] unsignedIntegerValue];
         [genresRepresentation appendString:[self getGenreNameForId:currentID]];
         
@@ -42,5 +42,15 @@ static NSString * const YearDateFormat=@"yyyy";
     }
     
     return dateString;
+}
+
+-(void)setupWithTVEventDetails:(TVEventDetails *)tvEventDetails{
+    self.title=tvEventDetails.title;
+    self.originalTitle=tvEventDetails.title;
+    self.releaseDate=tvEventDetails.releaseDate;
+    self.backdropPath=tvEventDetails.backdropPath;
+    self.posterPath=tvEventDetails.posterPath;
+    self.overview=tvEventDetails.overview;
+    self.voteAverage=tvEventDetails.voteAverage;
 }
 @end

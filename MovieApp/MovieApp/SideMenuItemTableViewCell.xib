@@ -19,9 +19,14 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings" translatesAutoresizingMaskIntoConstraints="NO" id="2XV-pp-nrm"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings" translatesAutoresizingMaskIntoConstraints="NO" id="2XV-pp-nrm">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="19" id="SHj-Bw-TU7"/>
+                            <constraint firstAttribute="height" constant="19" id="z1s-kw-1tv"/>
+                        </constraints>
+                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZWD-xR-gef">
-                        <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.12941176470588234" green="0.12941176470588234" blue="0.12941176470588234" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="hTB-4Q-1l3"/>
                         </constraints>
@@ -30,7 +35,7 @@
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="aO6-hm-Tcv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1ei-by-JaR"/>
-                    <constraint firstItem="aO6-hm-Tcv" firstAttribute="leading" secondItem="2XV-pp-nrm" secondAttribute="trailing" constant="5" id="GPz-dc-jUc"/>
+                    <constraint firstItem="aO6-hm-Tcv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="Df9-Pe-KhS"/>
                     <constraint firstItem="ZWD-xR-gef" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="b3T-Ra-jaG"/>
                     <constraint firstItem="2XV-pp-nrm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cga-5s-qEA"/>
                     <constraint firstAttribute="bottom" secondItem="ZWD-xR-gef" secondAttribute="bottom" id="gWq-8f-DHx"/>
