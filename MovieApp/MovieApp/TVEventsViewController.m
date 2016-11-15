@@ -84,7 +84,6 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     self.edgesForExtendedLayout=UIRectEdgeNone;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:BackButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
-    
    
     
 }
@@ -571,7 +570,20 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.tvEventsCollectionView reloadData];
+    self.navigationItem.titleView=nil;
+    self.navigationItem.titleView = self.searchController.searchBar;
+    
+    self.searchController.searchBar.placeholder=SearchBarPlaceholder;
+    
+    UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
+    searchTextField.backgroundColor = [UIColor darkGrayColor];
+    searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationItem.titleView=[[UISearchBar alloc] init];
+
 }
 
 -(void)didDismissSearchController:(UISearchController *)searchController{

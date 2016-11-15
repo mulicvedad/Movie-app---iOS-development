@@ -51,7 +51,7 @@ static NSUInteger tmpCounter;
     NSDate *triggerDate;
     BOOL isToday;
     if([airDate compare:today]==NSOrderedAscending){
-        //if airing date is older then today we dont need notification
+        //if airing date is older than today we dont need notification
         return;
     }
     else if([today isEqualToDate:airDate]) {

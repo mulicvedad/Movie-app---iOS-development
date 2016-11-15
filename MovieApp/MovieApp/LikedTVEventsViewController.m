@@ -1,9 +1,9 @@
 #import "LikedTVEventsViewController.h"
 #import "SortByTableViewDelegate.h"
 #import "DataProviderService.h"
-#import "SearchResultItemTableViewCell.h"
 #import "TVEventDetailsTableViewController.h"
 #import "VirtualDataStorage.h"
+#import "LikedTVEventTableViewCell.h"
 
 #define TvEventsPageSize 20
 
@@ -43,7 +43,8 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 
     [self setupSortByTableView];
     _tvEvents=[[NSMutableArray alloc]init];
-    [self.tvEventsTableView registerNib:[UINib nibWithNibName: NSStringFromClass([SearchResultItemTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SearchResultItemTableViewCell class]) ];
+   
+    [self.tvEventsTableView registerNib:[UINib nibWithNibName: NSStringFromClass([LikedTVEventTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([LikedTVEventTableViewCell class]) ];
     self.navigationItem.title=[MovieAppConfiguration getStringRepresentationOfSideMenuOption:_currentOption];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
    }
@@ -90,8 +91,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    SearchResultItemTableViewCell *cell=[self.tvEventsTableView dequeueReusableCellWithIdentifier:NSStringFromClass([SearchResultItemTableViewCell class])];
-    [cell configureForLikedTVEvents];
+    LikedTVEventTableViewCell *cell=[self.tvEventsTableView dequeueReusableCellWithIdentifier:NSStringFromClass([LikedTVEventTableViewCell class])];
     [cell setupWithTvEvent:_tvEvents[indexPath.row]];
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
