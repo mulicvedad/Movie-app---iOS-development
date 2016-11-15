@@ -10,6 +10,7 @@ static NSString * const DateNotFoundText=@"Date not found";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle=UITableViewCellSelectionStyleNone;
 }
 -(void)setupWithTvEvent:(TVEvent *)tvEvent{
     NSURL *imageUrl;

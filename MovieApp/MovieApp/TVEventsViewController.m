@@ -209,7 +209,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:EventDetailsSegueIdentifier] ){
         TVEventDetailsTableViewController *destinationVC=segue.destinationViewController;
-        [destinationVC setMainTvEvent:sender];
+        [destinationVC setMainTvEvent:sender dalegate:nil];
         /*
          
          second solution to bug
@@ -515,12 +515,11 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
                     currentTVEvent.isInFavorites=YES;
+                    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
                     break;
                 case SideMenuOptionWatchlist:
                     currentTVEvent.isInWatchlist=YES;
-                    break;
-                case SideMenuOptionRatings:
-                    currentTVEvent.isInRatings=YES;
+                    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
                     break;
                 default:
                     break;
@@ -538,16 +537,16 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                 switch (typeOfCollection) {
                     case SideMenuOptionFavorites:
                         currentTVEvent.isInFavorites=NO;
+                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
                         break;
                     case SideMenuOptionWatchlist:
                         currentTVEvent.isInWatchlist=NO;
-                        break;
-                    case SideMenuOptionRatings:
-                        currentTVEvent.isInRatings=NO;
+                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
                         break;
                     default:
                         break;
                 }
+                
                 [self.tvEventsCollectionView reloadData];
                 break;
             }
@@ -570,6 +569,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.tvEventsCollectionView reloadData];
     self.navigationItem.titleView=nil;
     self.navigationItem.titleView = self.searchController.searchBar;
     
