@@ -12,7 +12,7 @@
                 <tabBarController id="4Dy-Cx-8q8" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="jPD-i6-omI">
+                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" translucent="NO" itemPositioning="centered" id="jPD-i6-omI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -718,10 +718,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="News Feed" id="sYx-fp-H4h">
-                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="u1g-iG-nBx"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu-item" id="u1g-iG-nBx">
+                            <connections>
+                                <action selector="menuButtonPressed:" destination="tkD-4c-zu7" id="i3j-ID-HJe"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="ShH-jf-idj" kind="show" identifier="LoginSegue" id="L7v-UT-a4S"/>
+                        <segue destination="ShH-jf-idj" kind="show" identifier="FeedsLoginSegue" id="L7v-UT-a4S"/>
+                        <segue destination="VzF-xZ-Jzx" kind="show" identifier="FeedLikedTVEventsSegue" id="hrW-ML-XxA"/>
+                        <segue destination="SWf-3k-mgi" kind="show" identifier="FeedSettingsSegue" id="ixp-9v-NOS"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uem-vf-TZF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -732,7 +738,9 @@
         <scene sceneID="jDj-Fs-tmW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WIC-f1-jF2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4"/>
+                    <tabBarItem key="tabBarItem" title="Tv shows" image="tv-inactive" selectedImage="tv-active" id="Xdb-eR-nN4">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="Toc-kM-RfY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -751,7 +759,9 @@
         <scene sceneID="Glh-Jw-jdc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="arx-cm-fXC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feeds" image="feed-inactive" id="DKl-Pj-yTU"/>
+                    <tabBarItem key="tabBarItem" title="Feeds" image="feed-inactive" selectedImage="feed-active" id="DKl-Pj-yTU">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="yeC-kJ-7WM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -771,7 +781,9 @@
         <scene sceneID="Arz-pf-sPF">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kaQ-mv-8os" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movies" image="movies-inactive" selectedImage="movies-active" id="7mt-Gm-Qtd"/>
+                    <tabBarItem key="tabBarItem" title="Movies" image="movies-inactive" selectedImage="movies-active" id="7mt-Gm-Qtd">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="b96-Zj-pYg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -793,6 +805,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="feed-active" width="28" height="28"/>
         <image name="feed-inactive" width="20" height="20"/>
         <image name="menu-item" width="25" height="16"/>
         <image name="movies-active" width="21" height="20"/>
@@ -804,11 +817,13 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jDt-M6-KIs"/>
         <segue reference="caU-mR-hlb"/>
-        <segue reference="UYh-kZ-oaf"/>
-        <segue reference="QTG-iR-DHh"/>
+        <segue reference="ixp-9v-NOS"/>
+        <segue reference="hrW-ML-XxA"/>
+        <segue reference="L7v-UT-a4S"/>
+        <segue reference="jDt-M6-KIs"/>
         <segue reference="nDy-rY-TlG"/>
+        <segue reference="QTG-iR-DHh"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

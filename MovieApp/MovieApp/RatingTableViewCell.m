@@ -35,7 +35,7 @@ static NSString * const NotRatedText=@"Not rated";
         self.ratingLabel.text=NotRatedText;
     }
     else{
-        NSAttributedString *separatorString=[[NSAttributedString alloc] initWithString:@"  | " attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
+        NSAttributedString *separatorString=[[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize16 isBold:NO], NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedGreyColor]}];
         NSMutableAttributedString *content=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.1f/10", rating]];
         
         [content addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:216 green:216 blue:216 alpha:100],

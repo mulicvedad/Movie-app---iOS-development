@@ -21,7 +21,7 @@ static NSString * const YearDateFormat=@"yyyy";
 
 -(NSString *)getFormattedGenresRepresentation{
     NSMutableString *genresRepresentation=[NSMutableString stringWithString:@""];
-    for(int i=0;i<[self.genreIDs count];i++){
+    for(int i=0;i<[self.genreIDs count] && i<2;i++){
         NSUInteger currentID=[(NSNumber *)self.genreIDs[i] unsignedIntegerValue];
         [genresRepresentation appendString:[self getGenreNameForId:currentID]];
         

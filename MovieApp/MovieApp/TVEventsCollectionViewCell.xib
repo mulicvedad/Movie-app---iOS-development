@@ -39,14 +39,14 @@
                             </label>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="watchlist" translatesAutoresizingMaskIntoConstraints="NO" id="fKE-7H-KWh">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="Ecc-Hc-Dkx"/>
-                                    <constraint firstAttribute="height" constant="20" id="njo-gx-5XL"/>
+                                    <constraint firstAttribute="width" constant="16" id="Ecc-Hc-Dkx"/>
+                                    <constraint firstAttribute="height" constant="16" id="njo-gx-5XL"/>
                                 </constraints>
                             </imageView>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favorites" translatesAutoresizingMaskIntoConstraints="NO" id="tAj-XF-BWw">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="O8E-Vo-8HE"/>
-                                    <constraint firstAttribute="height" constant="20" id="XyJ-1U-fMo"/>
+                                    <constraint firstAttribute="width" constant="16" id="O8E-Vo-8HE"/>
+                                    <constraint firstAttribute="height" constant="16" id="XyJ-1U-fMo"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qdj-le-JEL">
@@ -57,8 +57,8 @@
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ratings-selected" translatesAutoresizingMaskIntoConstraints="NO" id="7Ol-pQ-T6u">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="12" id="SmG-j1-5xj"/>
-                                    <constraint firstAttribute="height" constant="12" id="gdz-f4-Iyj"/>
+                                    <constraint firstAttribute="width" constant="13" id="SmG-j1-5xj"/>
+                                    <constraint firstAttribute="height" constant="13" id="gdz-f4-Iyj"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -79,7 +79,7 @@
                             <constraint firstItem="GOE-Zc-aF1" firstAttribute="leading" secondItem="bcf-Pg-EdW" secondAttribute="leading" id="bwM-XV-PvM"/>
                             <constraint firstAttribute="bottom" secondItem="fKE-7H-KWh" secondAttribute="bottom" constant="4" id="cX8-Pz-aRQ"/>
                             <constraint firstItem="GOE-Zc-aF1" firstAttribute="top" secondItem="bcf-Pg-EdW" secondAttribute="bottom" constant="4" id="ewd-st-8hL"/>
-                            <constraint firstItem="4Mv-SD-fTm" firstAttribute="top" secondItem="GOE-Zc-aF1" secondAttribute="bottom" id="j4u-1v-fbq"/>
+                            <constraint firstItem="4Mv-SD-fTm" firstAttribute="top" secondItem="GOE-Zc-aF1" secondAttribute="bottom" constant="2" id="j4u-1v-fbq"/>
                             <constraint firstAttribute="trailing" secondItem="Qdj-le-JEL" secondAttribute="trailing" id="oXz-9o-9jC"/>
                             <constraint firstItem="7Ol-pQ-T6u" firstAttribute="leading" secondItem="tOZ-WO-cy4" secondAttribute="leading" constant="10" id="pwz-Pi-NK2"/>
                             <constraint firstItem="F0f-mN-Dw4" firstAttribute="leading" secondItem="7Ol-pQ-T6u" secondAttribute="trailing" constant="4" id="rLj-C5-cO1"/>
@@ -113,9 +113,9 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="favorites" width="15" height="13"/>
+        <image name="favorites" width="16" height="14"/>
         <image name="poster-placeholder" width="46" height="69"/>
         <image name="ratings-selected" width="18" height="19"/>
-        <image name="watchlist" width="11" height="15"/>
+        <image name="watchlist" width="12" height="15"/>
     </resources>
 </document>
