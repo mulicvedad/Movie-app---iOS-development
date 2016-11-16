@@ -574,6 +574,23 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent * currentTVEvent=_tvEvents[i];
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        else{
+            currentTVEvent.isInFavorites=NO;
+
+        }
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
+        }
+        else{
+            currentTVEvent.isInWatchlist=NO;
+            
+        }
+    }
     [self.tvEventsCollectionView reloadData];
     self.navigationItem.titleView=nil;
     self.navigationItem.titleView = self.searchController.searchBar;
