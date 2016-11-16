@@ -8,7 +8,6 @@ static CGFloat episodeNotificationTimeInterval=10.0f;
 static NSString *MovieNotificationCategoryName=@"movie";
 static NSString *TVShowNotificationCategoryName=@"tvshow";
 
-static NSUInteger tmpCounter;
 @implementation LocalNotificationManager
 
 +(instancetype)sharedNotificationManager{
@@ -32,16 +31,7 @@ static NSUInteger tmpCounter;
 }
 
 -(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent isEpisode:(BOOL)isEpisode{
-    if(tmpCounter>=5){
-        return;
-    }
-    else if(tmpCounter%2==0){
-        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:2*60*60];
-    }
-    else{
-        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:24*60*60+30];
-    }
-    tmpCounter++;
+    
     NSCalendar *cal = [NSCalendar currentCalendar];
 
     NSDateComponents *components = [cal components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
@@ -53,7 +43,7 @@ static NSUInteger tmpCounter;
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;
-    BOOL isToday;
+    BOOL isToday=NO;;
     if([otherDate compare:today]==NSOrderedAscending){
         //if airing date is older then today we dont need notification
         return;
@@ -62,7 +52,7 @@ static NSUInteger tmpCounter;
         [dateFormatter setDateFormat:@"HH:mm"];
         dateString=[@"Today: " stringByAppendingString:[dateFormatter stringFromDate:tvEvent.releaseDate]];
         //if episode air date is today we will get notification soon
-        timeIntervalTrigger=[UNTimeIntervalNotificationTrigger triggerWithTimeInterval:tmpCounter*episodeNotificationTimeInterval repeats:NO];
+        timeIntervalTrigger=[UNTimeIntervalNotificationTrigger triggerWithTimeInterval:episodeNotificationTimeInterval repeats:NO];
         isToday=YES;
     }
     else{
@@ -162,5 +152,19 @@ static NSUInteger tmpCounter;
 
 -(void)scheduleTVShowsNotifications{
     [[VirtualDataStorage sharedVirtualDataStorage] beginEpisodesFetching];
+}
+
+-(void)scheduleTestNotifications{
+    TVEvent *testEvent=[[TVEvent alloc] init];
+    testEvent.title=@"Game of Thrones: The real game begins";
+    testEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:5];
+    testEvent.id=13121312;
+    TVEvent *testEvent2=[[TVEvent alloc] init];
+    testEvent2.title=@"Harry Potter and The Prisoners of Azkhaban";
+    testEvent2.releaseDate=[NSDate dateWithTimeIntervalSinceNow:numberOfSecondsInOneDay+20];
+    testEvent2.id=12131213;
+    [self addNotificationAboutTVEvent:testEvent isEpisode:NO];
+    [self addNotificationAboutTVEvent:testEvent2 isEpisode:NO];
+    
 }
 @end

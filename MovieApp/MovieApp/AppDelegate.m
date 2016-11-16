@@ -26,6 +26,10 @@ static DataProviderService *downloader=nil;
     if(username && [username length]>0){
         [[VirtualDataStorage sharedVirtualDataStorage] updateData];
     }
+    else{
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
+    }
     NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
     NSLog(@"%@",tmp);
     [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];

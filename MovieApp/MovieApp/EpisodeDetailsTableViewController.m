@@ -98,6 +98,7 @@ static NSString *CastMemberDetailsSegueIdentifier=@"EpisodeCastMemberDetailsSegu
         else if(indexPath.row==2){
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
             [cell setupWithRating:self.episode.voteAverage delegate:self];
+            [cell hideRating];
             return cell;
         }
         else{

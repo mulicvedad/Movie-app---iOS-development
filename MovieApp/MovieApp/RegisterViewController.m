@@ -2,6 +2,7 @@
 
 @interface RegisterViewController (){
     BOOL _isPostRequestActive;
+    BOOL _isMainPageLoaded;
 }
 
 @end
@@ -29,8 +30,15 @@ static NSString *RegisterSucceededCookieName=@"login";
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    
     if([request.HTTPMethod isEqualToString:@"POST"]){
         _isPostRequestActive=YES;
+    }
+    else if(_isMainPageLoaded){
+        return NO;
+    }
+    if(!_isMainPageLoaded){
+        _isMainPageLoaded=YES;
     }
     NSArray<NSHTTPCookie *> *cookies=[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     

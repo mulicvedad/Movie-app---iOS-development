@@ -18,7 +18,7 @@
 static NSString * const MovieDateFormat=@"dd MMMM yyyy";
 static NSString * const TVshowDateFormat=@"yyyy";
 static NSString * const DefaultImageName=@"black_image";
-static NSString * const PlaceholderImageName=@"poster-placeholder";
+static NSString * const PlaceholderImageName=@"poster-placeholder-new-medium";
 static NSString * const TVShowReleaseDatePrefix=@"Tv Series ";
 static CGFloat const StartPointX=0.5f;
 static CGFloat const StartPointY=0.25f;

@@ -3,6 +3,7 @@
 
 @interface RatingViewController (){
     CGFloat _rating;
+    id<AddTVEventToCollectionDelegate> _delegate;
 }
 @end
 
@@ -37,6 +38,9 @@ static NSString * RatingsImageName=@"rate-this";
 }
 
 -(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(_delegate){
+        [_delegate didRateTVEvent:_rating];
+    }
     [self notifyUserOfRatingSuccess];
 }
 
@@ -92,6 +96,9 @@ static NSString * RatingsImageName=@"rate-this";
     }
     
     _rating=(CGFloat)sender.view.tag;
+}
+-(void)setDelegate:(id<AddTVEventToCollectionDelegate>)delegate{
+    _delegate=delegate;
 }
 
 @end

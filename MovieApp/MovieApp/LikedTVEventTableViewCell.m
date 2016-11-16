@@ -1,7 +1,7 @@
 #import "LikedTVEventTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-static NSString * const PosterPlaceholderImageName=@"poster-placeholder";
+static NSString * const PosterPlaceholderImageName=@"poster-placeholder-new-medium";
 static NSString * const NameNotFoundText=@"Name not found";
 static NSString * const DateNotFoundText=@"Date not found";
 

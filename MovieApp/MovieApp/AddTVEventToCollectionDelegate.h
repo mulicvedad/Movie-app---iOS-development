@@ -6,4 +6,5 @@
 -(void)addTVEventToCollection:(SideMenuOption)typeOfCollection indexPathRow:(NSUInteger)indexPathRow;
 -(void)addTVEventWithID:(NSUInteger)tvEventID toCollection:(SideMenuOption)typeOfCollection;
 -(void)didSelectRateThisTVEvent;
+-(void)didRateTVEvent:(CGFloat)rating;
 @end

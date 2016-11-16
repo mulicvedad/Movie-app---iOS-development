@@ -83,6 +83,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="menuButton" destination="2sY-WE-5l2" id="seg-PX-L3R"/>
                         <outlet property="sortByControlTableView" destination="D9O-QQ-JdD" id="DMW-Ij-SSb"/>
                         <outlet property="tvEventsCollectionView" destination="Wbz-xJ-Veh" id="Iow-Dc-Krr"/>
                         <segue destination="hWE-Ol-Nq1" kind="show" identifier="ShowDetailsSegue" id="VAR-D8-Grm"/>
@@ -229,6 +230,7 @@
                     <connections>
                         <outlet property="containerTopConstraint" destination="T0g-O7-BTf" id="Hkg-O3-Yt5"/>
                         <outlet property="containerView" destination="foO-FI-sKu" id="NP2-Ha-IeY"/>
+                        <outlet property="createNewAccBottomContraint" destination="jMs-0w-dWd" id="UlZ-Fv-roC"/>
                         <outlet property="createNewAccountLabel" destination="Deb-WA-rzp" id="IXV-K6-rZB"/>
                         <outlet property="forgotDetailsLabel" destination="Afz-Hm-hfm" id="lDW-h4-DMl"/>
                         <outlet property="loginButton" destination="dg9-AH-2lh" id="soM-1u-FvC"/>
@@ -818,10 +820,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="caU-mR-hlb"/>
-        <segue reference="ixp-9v-NOS"/>
-        <segue reference="hrW-ML-XxA"/>
-        <segue reference="L7v-UT-a4S"/>
-        <segue reference="jDt-M6-KIs"/>
+        <segue reference="VAR-D8-Grm"/>
+        <segue reference="hZr-3H-8DO"/>
+        <segue reference="UYh-kZ-oaf"/>
+        <segue reference="AN9-rp-coG"/>
         <segue reference="nDy-rY-TlG"/>
         <segue reference="QTG-iR-DHh"/>
     </inferredMetricsTieBreakers>

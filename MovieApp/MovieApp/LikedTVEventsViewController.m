@@ -47,6 +47,8 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     [self.tvEventsTableView registerNib:[UINib nibWithNibName: NSStringFromClass([LikedTVEventTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([LikedTVEventTableViewCell class]) ];
     self.navigationItem.title=[MovieAppConfiguration getStringRepresentationOfSideMenuOption:_currentOption];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    self.tvEventsTableView.backgroundColor=[MovieAppConfiguration getPreferredDarkGreyColor];
    }
 -(void)setupSortByTableView{
     _sortByTableViewDelegate=[[SortByTableViewDelegate alloc] init];

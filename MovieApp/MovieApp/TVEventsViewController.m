@@ -38,6 +38,8 @@
     UIViewController *_sideMenuViewController;
     UIView *_shadowView;
     
+    UIBarButtonItem *_menuButtonItem;
+    
 }
 
 @end
@@ -74,6 +76,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     [self configureSwipeGestureRecogniser];
     [self configureNotifications];
     [self configureSearchController];
+    _menuButtonItem=self.menuButton;
     
 }
 
@@ -479,6 +482,8 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                                                               [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
                                                               [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
                                                               [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
+                                                              [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
+                                                              [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
                                                               [self.tvEventsCollectionView reloadData];
                                                           }];
     
@@ -605,9 +610,13 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
         [self.tabBarController setSelectedIndex:1];
         [self.tabBarController setSelectedIndex:2];
     }
+    [self.navigationItem setLeftBarButtonItem:_menuButtonItem];
+
     
     
-    
+}
+-(void)willPresentSearchController:(UISearchController *)searchController{
+    [self.navigationItem setLeftBarButtonItem:nil];
 }
 
 @end

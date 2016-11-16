@@ -11,12 +11,9 @@
 
 static LocalNotificationManagerOldVersion *sharedNotificationManager;
 static CGFloat numberOfSecondsInOneDay=24.0f*60*60;
-static CGFloat episodeNotificationTimeInterval=60.0f;
+static CGFloat episodeNotificationTimeInterval=10.0f;
 static NSString *MovieNotificationCategoryName=@"Movie";
 static NSString *TVShowNotificationCategoryName=@"TV Show";
-
-static NSUInteger tmpCounter;
-
 
 @implementation LocalNotificationManagerOldVersion
 
@@ -29,16 +26,7 @@ static NSUInteger tmpCounter;
 }
 
 -(void)addNotificationAboutTVEvent:(TVEvent *)tvEvent isEpisode:(BOOL)isEpisode{
-    if(tmpCounter>=5){
-        return;
-    }
-    else if(tmpCounter%2==0){
-        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:2*60*60];
-    }
-    else{
-        tvEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:24*60*60+30];
-    }
-    tmpCounter++;
+    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSDateComponents *components = [calendar components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
@@ -124,4 +112,18 @@ static NSUInteger tmpCounter;
 -(void)scheduleTVShowsNotifications{
     [[VirtualDataStorage sharedVirtualDataStorage] beginEpisodesFetching];
 }
+-(void)scheduleTestNotifications{
+    TVEvent *testEvent=[[TVEvent alloc] init];
+    testEvent.title=@"Game of Thrones: The real game begins";
+    testEvent.releaseDate=[NSDate dateWithTimeIntervalSinceNow:5];
+    testEvent.id=13121312;
+    TVEvent *testEvent2=[[TVEvent alloc] init];
+    testEvent2.title=@"Harry Potter and The Prisoners of Azkhaban";
+    testEvent2.releaseDate=[NSDate dateWithTimeIntervalSinceNow:numberOfSecondsInOneDay+20];
+    testEvent2.id=12131213;
+    [self addNotificationAboutTVEvent:testEvent isEpisode:NO];
+    [self addNotificationAboutTVEvent:testEvent2 isEpisode:NO];
+
+}
+
 @end
