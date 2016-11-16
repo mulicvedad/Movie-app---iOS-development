@@ -187,6 +187,9 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(_currentOption==SideMenuOptionRatings){
+        return UITableViewCellEditingStyleNone;
+    }
     return UITableViewCellEditingStyleDelete;
 }
 
@@ -233,6 +236,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
         }
         if(eventToRemove){
             [_tvEvents removeObject:eventToRemove];
+            [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:eventToRemove.id mediaType:[eventToRemove isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
         }
         
     }

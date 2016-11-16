@@ -119,9 +119,9 @@ static id<LocalNotificationHandler> _localNotificationManager;
     }
     responseCounter++;
     if(!customItemsArray || [customItemsArray count]==0){
-        if(responseCounter%6==0){
+        
             [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
-        }
+        
         return;
     }
     NSNumber *optionNumber=[info objectForKey:SideMenuOptionDictionaryKey];
