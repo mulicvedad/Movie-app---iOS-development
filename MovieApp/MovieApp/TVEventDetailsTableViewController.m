@@ -183,6 +183,9 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
             
             [cell setupWithRating:_mainTvEvent.voteAverage delegate:self];
+            if(![[DataProviderService sharedDataProviderService] isUserLoggedIn]){
+                [cell hideRating];
+            }
             return cell;
             
         }
@@ -461,6 +464,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     else if([segue.identifier isEqualToString:RatingSegueIdentifier]){
         RatingViewController *destinationVC=segue.destinationViewController;
         destinationVC.tvEvent=_mainTvEvent;
+        [destinationVC setDelegate:self];
     }
     
 }
@@ -508,10 +512,11 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         if(typeOfCollection==SideMenuOptionFavorites){
             [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:_mainTvEvent.id mediaType:mediaType remove:_mainTvEvent.isInFavorites responseHandler:self];
         }
-        else{
+        else if(typeOfCollection==SideMenuOptionWatchlist){
             [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:_mainTvEvent.id  mediaType:mediaType remove:_mainTvEvent.isInWatchlist responseHandler:self];
             
         }
+        
 }
 
 
@@ -562,6 +567,14 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         
     }
     [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
+}
+
+-(void)didRateTVEvent:(CGFloat)rating{
+    if(_mainTvEvent.voteAverage==0.0f){
+        _mainTvEvent.voteAverage=rating;
+        [self.tableView reloadData];
+    }
+    
 }
 
 @end

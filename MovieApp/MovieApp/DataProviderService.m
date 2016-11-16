@@ -435,7 +435,8 @@ static DataProviderService *sharedService;
     
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   SessionIDParameterName: sessionID,
-                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber]};
+                                  PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber],
+                                  SortByParameterName: @"created_at.desc"};
     NSString *subpath=[[AccountDetailsSubpath stringByAppendingString:RatedSubpath] stringByAppendingString:mediaType==MovieType ? @"/movies" : @"/tv" ];
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams

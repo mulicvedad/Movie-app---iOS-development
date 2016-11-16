@@ -6,7 +6,7 @@
 
 #define FontSize12 12
 #define FontSize18 18
-static NSString * const PosterPlaceholderImageName=@"poster-placeholder";
+static NSString * const PosterPlaceholderImageName=@"poster-placeholder-new-medium";
 static NSString * const NameNotFoundText=@"Name not found";
 
 

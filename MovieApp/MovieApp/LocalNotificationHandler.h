@@ -10,5 +10,6 @@
 -(void)removeAllNotificationsForTVShows;
 -(void)scheduleMoviesNotifications;
 -(void)scheduleTVShowsNotifications;
+-(void)scheduleTestNotifications;
 
 @end

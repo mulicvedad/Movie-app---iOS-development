@@ -178,15 +178,13 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
 }
 
 -(void)keyboardWillShow {
-    NSLog(@"TEST___WILL SHOW");
-
     self.containerTopConstraint.constant=ContainerViewOffsetWithKeyboard;
+    self.createNewAccBottomContraint.constant=230.0f;
 }
 
 -(void)keyboardWillHide {
-    NSLog(@"TEST___WILL HIDE");
-
     self.containerTopConstraint.constant=ContainerViewOffsetWithoutKeyboard;
+    self.createNewAccBottomContraint.constant=30.0f;
 
 }
 

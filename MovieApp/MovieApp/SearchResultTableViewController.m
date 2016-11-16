@@ -6,6 +6,7 @@
 #import "TVEventDetailsTableViewController.h"
 #import "DataProviderService.h"
 #import "TVEventsViewController.h"
+#import "VirtualDataStorage.h"
 
 #define SearchResultsPageSize 20
 
@@ -78,6 +79,15 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
         else{
             [_results addObject:[TVShow tvShowWithSearchResultItem:currentItem]];
             
+        }
+    }
+    for(int i=0;i<[_results count];i++){
+         TVEvent * currentTVEvent=_results[i];
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
         }
     }
     _numberOfPagesLoaded++;

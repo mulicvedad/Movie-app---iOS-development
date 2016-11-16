@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="177" height="254"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="U8R-jC-kn7"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder-new-medium" translatesAutoresizingMaskIntoConstraints="NO" id="U8R-jC-kn7"/>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tOZ-WO-cy4">
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8.9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0f-mN-Dw4">
@@ -70,7 +70,7 @@
                             <constraint firstItem="Qdj-le-JEL" firstAttribute="leading" secondItem="tOZ-WO-cy4" secondAttribute="leading" id="Hzj-sh-GAL"/>
                             <constraint firstAttribute="bottom" secondItem="Qdj-le-JEL" secondAttribute="bottom" constant="28" id="Qoh-b7-d0g"/>
                             <constraint firstItem="F0f-mN-Dw4" firstAttribute="centerY" secondItem="7Ol-pQ-T6u" secondAttribute="centerY" id="S6T-I6-Di1"/>
-                            <constraint firstItem="tAj-XF-BWw" firstAttribute="leading" secondItem="fKE-7H-KWh" secondAttribute="trailing" constant="5" id="TmZ-L5-Vze"/>
+                            <constraint firstItem="tAj-XF-BWw" firstAttribute="leading" secondItem="fKE-7H-KWh" secondAttribute="trailing" constant="8" id="TmZ-L5-Vze"/>
                             <constraint firstAttribute="trailing" secondItem="tAj-XF-BWw" secondAttribute="trailing" constant="8" id="ULs-ly-jZ8"/>
                             <constraint firstAttribute="trailing" secondItem="bcf-Pg-EdW" secondAttribute="trailing" constant="8" id="V4I-37-OOx"/>
                             <constraint firstAttribute="bottom" secondItem="7Ol-pQ-T6u" secondAttribute="bottom" constant="8" id="WQs-Jj-2RQ"/>
@@ -114,7 +114,7 @@
     </objects>
     <resources>
         <image name="favorites" width="16" height="14"/>
-        <image name="poster-placeholder" width="46" height="69"/>
+        <image name="poster-placeholder-new-medium" width="87" height="127"/>
         <image name="ratings-selected" width="18" height="19"/>
         <image name="watchlist" width="12" height="15"/>
     </resources>

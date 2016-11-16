@@ -38,6 +38,8 @@
     UIViewController *_sideMenuViewController;
     UIView *_shadowView;
     
+    UIBarButtonItem *_menuButtonItem;
+    
 }
 
 @end
@@ -74,6 +76,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     [self configureSwipeGestureRecogniser];
     [self configureNotifications];
     [self configureSearchController];
+    _menuButtonItem=self.menuButton;
     
 }
 
@@ -479,6 +482,8 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                                                               [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
                                                               [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
                                                               [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
+                                                              [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
+                                                              [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
                                                               [self.tvEventsCollectionView reloadData];
                                                           }];
     
@@ -578,6 +583,15 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent * currentTVEvent=_tvEvents[i];
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
+        }
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -596,9 +610,13 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
         [self.tabBarController setSelectedIndex:1];
         [self.tabBarController setSelectedIndex:2];
     }
+    [self.navigationItem setLeftBarButtonItem:_menuButtonItem];
+
     
     
-    
+}
+-(void)willPresentSearchController:(UISearchController *)searchController{
+    [self.navigationItem setLeftBarButtonItem:nil];
 }
 
 @end

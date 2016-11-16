@@ -49,6 +49,8 @@ static NSString * const NotRatedText=@"Not rated";
     }
        
 }
-
+-(void)hideRating{
+    self.rateThisLabel.hidden=YES;
+}
 
 @end
