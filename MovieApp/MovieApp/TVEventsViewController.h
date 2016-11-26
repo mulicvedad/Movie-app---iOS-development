@@ -10,6 +10,8 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *tvEventsCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView *sortByControlTableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
+
 @property (nonatomic) BOOL isMovieViewController;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) SearchResultTableViewController *resultsContoller;

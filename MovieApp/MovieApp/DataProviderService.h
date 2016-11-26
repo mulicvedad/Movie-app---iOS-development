@@ -5,9 +5,10 @@
 #import "LoginManagerDelagate.h"
 #import "LoginRequest.h"
 #import "TVEventsCollectionsStateChangeHandler.h"
+#import "TVShow.h"
 
 //singleton
-@interface DataProviderService : NSObject
+@interface DataProviderService : NSObject<ItemsArrayReceiver>
 
 +(DataProviderService *)sharedDataProviderService;
 +(NSArray *)getCriteriaForSorting;
@@ -24,8 +25,6 @@
 -(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)cancelAllRequests;
 -(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler;
--(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate;
-
 -(void)getFavoriteTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)getWatchlistOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)getRatedTVEventsOfType:(MediaType)mediaType pageNumber:(NSUInteger)pageNumber returnTo:(id<ItemsArrayReceiver>)dataHandler;
@@ -34,5 +33,11 @@
 -(void)rateTVEventWithID:(NSUInteger)tvEventID rating:(CGFloat)rating mediaType:(MediaType)mediaType responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler;
 -(void)favoriteTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shoulRemove responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler;
 -(void)addToWatchlistTVEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType remove:(BOOL)shouldRemove responseHandler:(id<TVEventsCollectionsStateChangeHandler>)responseHandler;
+
+
+-(void)getDetailsForTvEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getAllEpisodesForTVShowWithID:(NSUInteger)tvShowID numberOfSeasons:(NSUInteger)numberOfSeasons  returnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(void)getAccountDetailsReturnTo:(id<ItemsArrayReceiver>)dataHandler;
+-(BOOL)isUserLoggedIn;
 
 @end

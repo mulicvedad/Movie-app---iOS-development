@@ -8,7 +8,6 @@
 
 @interface LoginManager : NSObject
 @property (nonatomic, strong) LoginRequest *loginData;
-@property (nonatomic, strong) NSString *dummy;
 @property (nonatomic, strong) id<LoginManagerDelegate> delegate;
 
 -(void)loginWithLoginRequest:(LoginRequest *)loginData delegate:(id<LoginManagerDelegate>)delegate;

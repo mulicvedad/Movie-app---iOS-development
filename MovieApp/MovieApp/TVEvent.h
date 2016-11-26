@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "TVEventDetails.h"
 
 @interface TVEvent : NSObject
 
@@ -16,10 +17,13 @@
 @property (nonatomic) BOOL isInFavorites;
 @property (nonatomic) BOOL isInWatchlist;
 @property (nonatomic) BOOL isInRatings;
+@property (nonatomic) float rating;
+
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId;
 +(NSString *)getClassName;
 -(NSString *)getFormattedReleaseDate;
 -(NSString *)getFormattedGenresRepresentation;
 -(NSString *)getReleaseYear;
+-(void)setupWithTVEventDetails:(TVEventDetails *)tvEventDetails;
 @end

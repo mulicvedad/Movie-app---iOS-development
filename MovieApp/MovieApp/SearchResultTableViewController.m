@@ -6,6 +6,7 @@
 #import "TVEventDetailsTableViewController.h"
 #import "DataProviderService.h"
 #import "TVEventsViewController.h"
+#import "VirtualDataStorage.h"
 
 #define SearchResultsPageSize 20
 
@@ -15,8 +16,7 @@
     BOOL _isDownloaderActive;
     BOOL _noMorePages;
     NSString *_query;
-    id _delegate;
-    id _delegateForSegue;
+    UIViewController *_delegateForSegue;
 }
 
 @end
@@ -32,7 +32,7 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 }
 
 -(void)configure{
-    self.edgesForExtendedLayout=UIRectEdgeTop;
+    //self.edgesForExtendedLayout=UIRectEdgeTop;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.backgroundColor=[MovieAppConfiguration getResultsTableViewBackgroungColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -81,6 +81,15 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
             
         }
     }
+    for(int i=0;i<[_results count];i++){
+         TVEvent * currentTVEvent=_results[i];
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
+        }
+    }
     _numberOfPagesLoaded++;
     _isDownloaderActive=NO;
     [self.tableView reloadData];
@@ -106,7 +115,7 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [_delegateForSegue performSegueWithIdentifier:EventDetailsSegueIdentifier sender:_results[indexPath.row]];
-
+    [self showTvEventDetailsForTvEventAtRow:indexPath.row];
 }
+
 @end

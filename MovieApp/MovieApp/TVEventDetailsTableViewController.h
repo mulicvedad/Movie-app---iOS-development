@@ -5,10 +5,8 @@
 #import "AddTVEventToCollectionDelegate.h"
 #import "TVEventsCollectionsStateChangeHandler.h"
 
-
 @interface TVEventDetailsTableViewController : UITableViewController <ItemsArrayReceiver, SeasonsTableViewCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, AddTVEventToCollectionDelegate, TVEventsCollectionsStateChangeHandler>
 
--(void)setMainTvEvent:(TVEvent *)tvEvent;
--(void)setTVEventID:(NSUInteger)tvEventID;
+-(void)setMainTvEvent:(TVEvent *)tvEvent dalegate:(id<TVEventsCollectionsStateChangeHandler>)delegate;
 -(void)didSelectRateThisTVEvent;
 @end

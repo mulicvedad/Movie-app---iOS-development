@@ -18,7 +18,7 @@
 static NSString * const MovieDateFormat=@"dd MMMM yyyy";
 static NSString * const TVshowDateFormat=@"yyyy";
 static NSString * const DefaultImageName=@"black_image";
-static NSString * const PlaceholderImageName=@"poster-placeholder";
+static NSString * const PlaceholderImageName=@"poster-placeholder-new-medium";
 static NSString * const TVShowReleaseDatePrefix=@"Tv Series ";
 static CGFloat const StartPointX=0.5f;
 static CGFloat const StartPointY=0.25f;
@@ -88,7 +88,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     _delegate=delegate;
     _indexPathRowNumber=row;
     self.titleLabel.text=[tvEvent.title uppercaseString];
-    self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
+    //self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;

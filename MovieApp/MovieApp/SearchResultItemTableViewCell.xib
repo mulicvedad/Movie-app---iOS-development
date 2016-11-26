@@ -14,7 +14,7 @@
                 <frame key="frameInset" width="375" height="91"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="feO-TZ-GBT">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poster-placeholder-new-medium" translatesAutoresizingMaskIntoConstraints="NO" id="feO-TZ-GBT">
                         <constraints>
                             <constraint firstAttribute="height" constant="86" id="0eE-vN-gtR"/>
                             <constraint firstAttribute="width" constant="57" id="VKd-O8-Okl"/>
@@ -76,6 +76,6 @@
     </objects>
     <resources>
         <image name="arrrow button" width="9" height="14"/>
-        <image name="poster-placeholder" width="46" height="69"/>
+        <image name="poster-placeholder-new-medium" width="87" height="127"/>
     </resources>
 </document>

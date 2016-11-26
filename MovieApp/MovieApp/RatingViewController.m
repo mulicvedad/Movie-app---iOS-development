@@ -3,6 +3,7 @@
 
 @interface RatingViewController (){
     CGFloat _rating;
+    id<AddTVEventToCollectionDelegate> _delegate;
 }
 @end
 
@@ -17,7 +18,14 @@ static NSString * RatingsImageName=@"rate-this";
 }
 
 -(void)configure{
-    _rating=5.0f;
+    
+    _rating=0.0f;
+
+    for(int i=0;i<[self.starsStackView.subviews count];i++){
+        UIImageView *starImageView=self.starsStackView.subviews[i];
+        starImageView.image=[UIImage imageNamed:RatingsImageName];
+        
+    }
     if(self.tvEvent.title){
         self.navigationItem.title=self.tvEvent.title;
         self.titleLabel.text=[@"Name: " stringByAppendingString:self.tvEvent.title];
@@ -37,6 +45,9 @@ static NSString * RatingsImageName=@"rate-this";
 }
 
 -(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    if(_delegate){
+        [_delegate didRateTVEvent:_rating];
+    }
     [self notifyUserOfRatingSuccess];
 }
 
@@ -92,6 +103,9 @@ static NSString * RatingsImageName=@"rate-this";
     }
     
     _rating=(CGFloat)sender.view.tag;
+}
+-(void)setDelegate:(id<AddTVEventToCollectionDelegate>)delegate{
+    _delegate=delegate;
 }
 
 @end

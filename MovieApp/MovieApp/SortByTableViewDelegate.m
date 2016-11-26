@@ -16,6 +16,8 @@ enum{
     BOOL _isDropdownActive;
     NSUInteger _selectedIndex;
     MainSortByTableViewCell *_mainCell;
+    BOOL _isFilterBy;
+
 }
 
 @end
@@ -43,7 +45,9 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return NumberOfSectionsInTable;
 }
-
+-(void)setIsFilterBy:(BOOL)filter{
+    _isFilterBy=filter;
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(section==SortByTableMainSection){
         return 1;
@@ -58,7 +62,7 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==SortByTableMainSection){
-        [_mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive];
+        [_mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive isFilterBy:_isFilterBy];
         return _mainCell;
     }
     else if(indexPath.section==1){
@@ -88,5 +92,9 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
     
 }
 
+-(NSUInteger)getSelectedIndex{
+    return _selectedIndex;
+    
+}
 
 @end

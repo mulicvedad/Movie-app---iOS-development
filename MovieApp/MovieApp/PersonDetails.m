@@ -20,12 +20,17 @@ static NSString * const BirthdayDateFormat=@"yyyy-mm-dd";
     NSMutableString *birthInfo=[[NSMutableString alloc] initWithString:@""];
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:BirthdayDateFormat];
-    NSDate *birthDate=[dateFormatter dateFromString:self.birthday];
-    [dateFormatter setDateFormat:DefaultDateFormat];
-    NSString *birthdayFormatted=[dateFormatter stringFromDate:birthDate];
-    [birthInfo appendString:birthdayFormatted];
-    [birthInfo appendString:@", "];
-    [birthInfo appendString:self.placeOfBirth];
+    if(self.birthday){
+        NSDate *birthDate=[dateFormatter dateFromString:self.birthday];
+        [dateFormatter setDateFormat:DefaultDateFormat];
+        NSString *birthdayFormatted=[dateFormatter stringFromDate:birthDate];
+        [birthInfo appendString:birthdayFormatted];
+    }
+    
+    if(self.placeOfBirth){
+        [birthInfo appendString:@", "];
+        [birthInfo appendString:self.placeOfBirth];
+    }
     return birthInfo;
 }
 @end
