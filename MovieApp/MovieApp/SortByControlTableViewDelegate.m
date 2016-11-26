@@ -8,6 +8,7 @@
     NSUInteger _selectedIndex;
     BOOL _isDropDownActive;
     id<SelectedIndexChangeDelegate> _delegate;
+    BOOL _isFilterBy;
 }
 
 @end
@@ -25,7 +26,9 @@ enum{
     _delegate=delegate;
    
 }
-
+-(void)setIsFilterBy:(BOOL)filter{
+    _isFilterBy=filter;
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return NumberOfSections;
 }
@@ -46,7 +49,7 @@ enum{
     if(indexPath.section==MainSection){
         MainSortByTableViewCell *mainCell=[tableView dequeueReusableCellWithIdentifier:[MainSortByTableViewCell cellIdentifier] forIndexPath:indexPath];
         
-        [mainCell setupWithCriterion:self.criterions[_selectedIndex] isDropDownActive:_isDropDownActive];
+        [mainCell setupWithCriterion:self.criterions[_selectedIndex] isDropDownActive:_isDropDownActive isFilterBy:_isFilterBy];
         return mainCell;
     }
     else if(indexPath.section==1){

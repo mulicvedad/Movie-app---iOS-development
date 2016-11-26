@@ -291,7 +291,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==SortByTableMainSection){
-        [_mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive];
+        [_mainCell setupWithCriterion:_criteriaForSorting[_selectedIndex] isDropDownActive:_isDropdownActive isFilterBy:NO];
         return _mainCell;
     }
     else if(indexPath.section==1){

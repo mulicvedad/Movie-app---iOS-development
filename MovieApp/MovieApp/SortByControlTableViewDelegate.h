@@ -8,5 +8,5 @@
 
 -(NSUInteger)getSelectedIndex;
 -(void)registerDelegate:(id<SelectedIndexChangeDelegate>)delegate;
-
+-(void)setIsFilterBy:(BOOL)filter;
 @end

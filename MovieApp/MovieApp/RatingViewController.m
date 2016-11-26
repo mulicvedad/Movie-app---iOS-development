@@ -18,7 +18,14 @@ static NSString * RatingsImageName=@"rate-this";
 }
 
 -(void)configure{
-    _rating=5.0f;
+    
+    _rating=0.0f;
+
+    for(int i=0;i<[self.starsStackView.subviews count];i++){
+        UIImageView *starImageView=self.starsStackView.subviews[i];
+        starImageView.image=[UIImage imageNamed:RatingsImageName];
+        
+    }
     if(self.tvEvent.title){
         self.navigationItem.title=self.tvEvent.title;
         self.titleLabel.text=[@"Name: " stringByAppendingString:self.tvEvent.title];

@@ -8,5 +8,6 @@
 
 -(void)configureWithCriteriaForSorting:(NSArray *)criteria selectionHandlerDelegate:(id<SelectedIndexChangeDelegate>)delegate;
 -(NSUInteger)getSelectedIndex;
+-(void)setIsFilterBy:(BOOL)filter;
 
 @end

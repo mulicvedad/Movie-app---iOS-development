@@ -18,7 +18,8 @@ static NSArray *genres=nil;
              @"video":@"hasVideo",
              @"genre_ids":@"genreIDs",
              @"original_language":@"originalLanguage",
-             @"backdrop_path":@"backdropPath"};
+             @"backdrop_path":@"backdropPath",
+             @"rating":@"rating"};
 }
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId{
