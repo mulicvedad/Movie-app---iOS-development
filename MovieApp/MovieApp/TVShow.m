@@ -18,7 +18,8 @@ static NSArray *genres=nil;
              @"genre_ids":@"genreIDs",
              @"original_language":@"originalLanguage",
              @"backdrop_path":@"backdropPath",
-             @"origin_country":@"originCountries"};
+             @"origin_country":@"originCountries",
+             @"rating":@"rating"};
 }
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId{

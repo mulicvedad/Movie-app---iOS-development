@@ -17,6 +17,8 @@
 @property (nonatomic) BOOL isInFavorites;
 @property (nonatomic) BOOL isInWatchlist;
 @property (nonatomic) BOOL isInRatings;
+@property (nonatomic) float rating;
+
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId;
 +(NSString *)getClassName;

@@ -54,6 +54,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     _sortByTableViewDelegate=[[SortByTableViewDelegate alloc] init];
     _sortByTableViewDelegate.sortByControlTableView=self.sortByTableView;
     [_sortByTableViewDelegate configureWithCriteriaForSorting:[MovieAppConfiguration getCriteriaForLikedTVEventsSorting] selectionHandlerDelegate:self];
+    [_sortByTableViewDelegate setIsFilterBy:YES];
     self.sortByTableView.delegate=_sortByTableViewDelegate;
     self.sortByTableView.dataSource=_sortByTableViewDelegate;
     
