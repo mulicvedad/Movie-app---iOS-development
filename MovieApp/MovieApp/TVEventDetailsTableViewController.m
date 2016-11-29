@@ -64,7 +64,6 @@ static NSString * const CastSectionName=@" Cast";
 static NSString * const ReviewsSectionName=@" Reviews";
 static CGFloat const TrailerCellWidthHeightRatio=1.72f;
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
-static CGFloat const ImagesCellWidthHeightRatio=2.77f;
 static CGFloat const defaultCarouselHeight=200.0f;
 static CGFloat const defaultGalleryCarouselHeight=200.0f;
 static NSString *CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
@@ -654,8 +653,4 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 
 }
 
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    return;
-}
 @end

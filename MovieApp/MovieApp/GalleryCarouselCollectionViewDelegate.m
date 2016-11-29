@@ -41,26 +41,12 @@
     return  UIEdgeInsetsMake(2, 0, 2, 10);
 }
 
-
--(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
-}
-
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if(_delegate){
         [_delegate didSelectImageWIthIndex:indexPath.row];
     }
 }
 
--(BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
-}
-
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if(_delegate){
-        [_delegate didSelectImageWIthIndex:indexPath.row];
-    }
-}
 
 
 
