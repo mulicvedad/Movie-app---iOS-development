@@ -8,4 +8,5 @@ pod 'Crashlytics'
 pod 'KeychainItemWrapper'
 pod 'FontAwesome-iOS'
 pod ‘Realm’
+pod ‘MWPhotoBrowser’
 end

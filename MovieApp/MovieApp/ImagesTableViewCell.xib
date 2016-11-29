@@ -26,8 +26,11 @@
                     <view opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHF-1E-F5I">
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T5-5A-PCt">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T5-5A-PCt">
                         <state key="normal" backgroundImage="see all"/>
+                        <connections>
+                            <action selector="openGallery:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JRC-7v-dNL"/>
+                        </connections>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

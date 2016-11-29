@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE04AB011DEA77AE001C9FC5 /* GalleryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04AAFF1DEA77AE001C9FC5 /* GalleryCollectionViewCell.m */; };
+		CE04AB021DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE04AB001DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib */; };
+		CE04AB061DEDA0A9001C9FC5 /* GalleryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04AB041DEDA0A9001C9FC5 /* GalleryTableViewCell.m */; };
+		CE04AB071DEDA0A9001C9FC5 /* GalleryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE04AB051DEDA0A9001C9FC5 /* GalleryTableViewCell.xib */; };
 		CE05F53D1DC614C100F74971 /* FilmographyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE05F53B1DC614C100F74971 /* FilmographyTableViewCell.m */; };
 		CE05F53E1DC614C100F74971 /* FilmographyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE05F53C1DC614C100F74971 /* FilmographyTableViewCell.xib */; };
 		CE0760D21DB30F8C00D92135 /* MainSortByTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0760D01DB30F8C00D92135 /* MainSortByTableViewCell.m */; };
@@ -89,6 +93,7 @@
 		CE948EA51DD1784D00EF6262 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948EA41DD1784D00EF6262 /* RatingViewController.m */; };
 		CE9D55D61DDB45CA00A4F70A /* LikedTVEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */; };
 		CE9D55D71DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */; };
+		CEA09E701DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA09E6F1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m */; };
 		CEA2FB941DE8DD88006BC152 /* PersonDb.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA2FB931DE8DD88006BC152 /* PersonDb.m */; };
 		CEA2FB971DE8DE61006BC152 /* StudentBachelor.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA2FB961DE8DE61006BC152 /* StudentBachelor.m */; };
 		CEA2FB9A1DE8DF42006BC152 /* StudentMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA2FB991DE8DF42006BC152 /* StudentMaster.m */; };
@@ -159,6 +164,12 @@
 		040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.release.xcconfig"; sourceTree = "<group>"; };
 		3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.debug.xcconfig"; sourceTree = "<group>"; };
 		62BDEE23B07756E1D461645C /* libPods-MovieApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MovieApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE04AAFE1DEA77AE001C9FC5 /* GalleryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryCollectionViewCell.h; sourceTree = "<group>"; };
+		CE04AAFF1DEA77AE001C9FC5 /* GalleryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryCollectionViewCell.m; sourceTree = "<group>"; };
+		CE04AB001DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryCollectionViewCell.xib; sourceTree = "<group>"; };
+		CE04AB031DEDA0A9001C9FC5 /* GalleryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryTableViewCell.h; sourceTree = "<group>"; };
+		CE04AB041DEDA0A9001C9FC5 /* GalleryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryTableViewCell.m; sourceTree = "<group>"; };
+		CE04AB051DEDA0A9001C9FC5 /* GalleryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryTableViewCell.xib; sourceTree = "<group>"; };
 		CE05F53A1DC614C100F74971 /* FilmographyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilmographyTableViewCell.h; sourceTree = "<group>"; };
 		CE05F53B1DC614C100F74971 /* FilmographyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilmographyTableViewCell.m; sourceTree = "<group>"; };
 		CE05F53C1DC614C100F74971 /* FilmographyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilmographyTableViewCell.xib; sourceTree = "<group>"; };
@@ -319,6 +330,9 @@
 		CE9D55D31DDB45CA00A4F70A /* LikedTVEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikedTVEventTableViewCell.h; sourceTree = "<group>"; };
 		CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikedTVEventTableViewCell.m; sourceTree = "<group>"; };
 		CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LikedTVEventTableViewCell.xib; sourceTree = "<group>"; };
+		CEA09E6E1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryCarouselCollectionViewDelegate.h; sourceTree = "<group>"; };
+		CEA09E6F1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryCarouselCollectionViewDelegate.m; sourceTree = "<group>"; };
+		CEA09E711DEA4753002B1351 /* GallerySelectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GallerySelectionHandler.h; sourceTree = "<group>"; };
 		CEA2FB921DE8DD88006BC152 /* PersonDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonDb.h; sourceTree = "<group>"; };
 		CEA2FB931DE8DD88006BC152 /* PersonDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonDb.m; sourceTree = "<group>"; };
 		CEA2FB951DE8DE61006BC152 /* StudentBachelor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentBachelor.h; sourceTree = "<group>"; };
@@ -454,6 +468,7 @@
 				CE948EA01DD01B0300EF6262 /* TVEventsCollectionsStateChangeHandler.h */,
 				CED9E7801DD7E25F00A22407 /* LocalNotificationHandler.h */,
 				CED9E78C1DD93CAE00A22407 /* ReloadContentHandler.h */,
+				CEA09E711DEA4753002B1351 /* GallerySelectionHandler.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -719,6 +734,12 @@
 				CE9D55D31DDB45CA00A4F70A /* LikedTVEventTableViewCell.h */,
 				CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */,
 				CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */,
+				CE04AAFE1DEA77AE001C9FC5 /* GalleryCollectionViewCell.h */,
+				CE04AAFF1DEA77AE001C9FC5 /* GalleryCollectionViewCell.m */,
+				CE04AB001DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib */,
+				CE04AB031DEDA0A9001C9FC5 /* GalleryTableViewCell.h */,
+				CE04AB041DEDA0A9001C9FC5 /* GalleryTableViewCell.m */,
+				CE04AB051DEDA0A9001C9FC5 /* GalleryTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -760,6 +781,8 @@
 				CED9E7871DD7F9DB00A22407 /* SettingsViewController.m */,
 				CEA2FB9B1DE8E17F006BC152 /* TestViewController.h */,
 				CEA2FB9C1DE8E17F006BC152 /* TestViewController.m */,
+				CEA09E6E1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.h */,
+				CEA09E6F1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -914,6 +937,7 @@
 				CE5025E01DC34C75007FC9AF /* CarouselCollectionViewCell.xib in Resources */,
 				CECC8E101DAFD68A00E132AA /* SeasonSelectionTableViewCell.xib in Resources */,
 				CE43F6611DAAED3D00D8349B /* TVEventCreditsTableViewCell.xib in Resources */,
+				CE04AB021DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib in Resources */,
 				CE5025DB1DC34952007FC9AF /* CarouselTableViewCell.xib in Resources */,
 				CECC8E0B1DAFD28700E132AA /* YearTableViewCell.xib in Resources */,
 				CEF93FA91DADD282005028F5 /* SeasonsTableViewCell.xib in Resources */,
@@ -946,6 +970,7 @@
 				CE69C6D11DB0586700FE3429 /* EpisodeTrailerTableViewCell.xib in Resources */,
 				CED9E7731DD4175400A22407 /* fontawesome-webfont.eot in Resources */,
 				CE05F53E1DC614C100F74971 /* FilmographyTableViewCell.xib in Resources */,
+				CE04AB071DEDA0A9001C9FC5 /* GalleryTableViewCell.xib in Resources */,
 				CE5AC9CC1DB4A16700498846 /* CastMemberPictureTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1041,6 +1066,7 @@
 				CEE833091DAC8B260024D9B2 /* ReviewsTableViewCell.m in Sources */,
 				CE1FFA111DCA9CF1006FBF7B /* LoginManager.m in Sources */,
 				CED9E77F1DD744E600A22407 /* CustomQueue.m in Sources */,
+				CE04AB011DEA77AE001C9FC5 /* GalleryCollectionViewCell.m in Sources */,
 				CE58851D1DB2E88D00A52DBB /* SearchResultTableViewController.m in Sources */,
 				CEC965E91DAB38AA0017C990 /* OverviewTableViewCell.m in Sources */,
 				CE43F6561DA9C74E00D8349B /* CastMember.m in Sources */,
@@ -1083,6 +1109,7 @@
 				CE530D931D993061003A708F /* CustomTableViewCell.m in Sources */,
 				CEE832D01D9547FC0074648B /* FeedTableViewCell.m in Sources */,
 				CE5025E91DC38D63007FC9AF /* PersonDetails.m in Sources */,
+				CE04AB061DEDA0A9001C9FC5 /* GalleryTableViewCell.m in Sources */,
 				CE948E8C1DCCC5CA00EF6262 /* SortByTableViewDelegate.m in Sources */,
 				CECC8E0F1DAFD68A00E132AA /* SeasonSelectionTableViewCell.m in Sources */,
 				CEEA7D001D947D3300D90DEF /* Movie.m in Sources */,
@@ -1092,6 +1119,7 @@
 				CEF93FA81DADD282005028F5 /* SeasonsTableViewCell.m in Sources */,
 				CE76A0FF1DBA476400725CA1 /* TheMovieDBConstants.m in Sources */,
 				CE8329B31DA7BE82000F9424 /* TVEventDetailsTableViewController.m in Sources */,
+				CEA09E701DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m in Sources */,
 				CE530D971D996043003A708F /* FeedDownloader.m in Sources */,
 				CED9E7881DD7F9DB00A22407 /* SettingsViewController.m in Sources */,
 				CEA2FB9D1DE8E17F006BC152 /* TestViewController.m in Sources */,

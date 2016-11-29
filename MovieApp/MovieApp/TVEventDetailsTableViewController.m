@@ -27,6 +27,9 @@
 #import "CastMemberDetailsTableViewController.h"
 #import "RatingViewController.h"
 #import "VirtualDataStorage.h"
+#import "GalleryCarouselCollectionViewDelegate.h"
+#import "GalleryCollectionViewCell.h"
+#import "GalleryTableViewCell.h"
 
 #define NumberOfSections 6
 #define FontSize14 14
@@ -45,9 +48,11 @@
     BOOL _detailsLoaded;
     BOOL _creditsLoaded;
     BOOL _videoLoaded;
-    BOOL _isCarouselCollectionViewSetup;
+    BOOL _isCastCarouselCollectionViewSetup;
+    BOOL _isGalleryCarouselCollectionViewSetup;
     
     id<TVEventsCollectionsStateChangeHandler> _delegate;
+    GalleryCarouselCollectionViewDelegate *_galleryDelegate;
 }
 
 @end
@@ -60,7 +65,8 @@ static NSString * const ReviewsSectionName=@" Reviews";
 static CGFloat const TrailerCellWidthHeightRatio=1.72f;
 static CGFloat const SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat const ImagesCellWidthHeightRatio=2.77f;
-static CGFloat const defaultCarouselHeight=180.0f;
+static CGFloat const defaultCarouselHeight=200.0f;
+static CGFloat const defaultGalleryCarouselHeight=200.0f;
 static NSString *CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
 static NSString *RatingSegueIdentifier=@"RatingSegue";
 
@@ -92,6 +98,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     [self.tableView registerNib:[UINib nibWithNibName:[ReviewSeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[ReviewSeparatorTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[SeasonsTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeasonsTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[CarouselTableViewCell cellClassName] bundle:nil] forCellReuseIdentifier:[CarouselTableViewCell cellIdentifier]];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([GalleryTableViewCell class])bundle:nil] forCellReuseIdentifier:NSStringFromClass([GalleryTableViewCell class])];
     
     _detailsLoaded=NO;
     _creditsLoaded=NO;
@@ -109,7 +116,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
--(void)setupCarouselCollectionView:(UICollectionView *)collectionView{
+-(void)setupCastCarouselCollectionView:(UICollectionView *)collectionView{
     [collectionView setDelegate:self];
     [collectionView setDataSource:self];
     [collectionView registerNib:[UINib nibWithNibName:[CarouselCollectionViewCell cellClassName] bundle:nil] forCellWithReuseIdentifier:[CarouselCollectionViewCell cellIdentifier]];
@@ -119,6 +126,21 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
+-(void)setupGalleryCarouselCollectionView:(UICollectionView *)collectionView{
+
+    _galleryDelegate = [[GalleryCarouselCollectionViewDelegate alloc] init];
+    [_galleryDelegate setupWithImages:_images selectionHandler:self];
+
+    [collectionView setDelegate:_galleryDelegate];
+    [collectionView setDataSource:_galleryDelegate];
+    
+    [collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([GalleryCollectionViewCell class])  bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([GalleryCollectionViewCell class]) ];
+    
+    UICollectionViewFlowLayout *carouselFlowLayout=[[UICollectionViewFlowLayout alloc]init];
+    carouselFlowLayout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    [collectionView setCollectionViewLayout:carouselFlowLayout];
+    
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return NumberOfSections;
@@ -212,13 +234,19 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             return cell;
         }
     }
-    else if(indexPath.section==2){//replace by carousel
+    else if(indexPath.section==2){
         if(indexPath.row==0){
-            ImagesTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[ImagesTableViewCell cellIdentifier] forIndexPath:indexPath];
-            if([_images count]>0){
-                [cell setupWithUrls:[Image getURLsFromImagesArray:_images]];
-            }
+            GalleryTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:NSStringFromClass([GalleryTableViewCell class] )];
+            
+            if(!_isGalleryCarouselCollectionViewSetup){
+             [self setupGalleryCarouselCollectionView:cell.galleryCollectionView];
+             _isGalleryCarouselCollectionViewSetup=YES;
+             }
+            cell.selectionHandler=self;
+            [cell.galleryCollectionView reloadData];
+
             return cell;
+            
         }
         else{
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
@@ -228,12 +256,13 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     else if(indexPath.section==3){
         if(indexPath.row==0){
             CarouselTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:[CarouselTableViewCell cellIdentifier] forIndexPath:indexPath];
-            if(!_isCarouselCollectionViewSetup){
-                [self setupCarouselCollectionView:cell.carouselCollectionView];
-                _isCarouselCollectionViewSetup=YES;
+            if(!_isCastCarouselCollectionViewSetup){
+                [self setupCastCarouselCollectionView:cell.carouselCollectionView];
+                _isCastCarouselCollectionViewSetup=YES;
             }
             [cell.carouselCollectionView reloadData];
             return cell;
+            
         }
         else{
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
@@ -306,7 +335,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             return 0;
         }
         else if(indexPath.row==0){
-            return [self getHeightForCellWithDivisor:ImagesCellWidthHeightRatio];
+            return defaultGalleryCarouselHeight;
         }
         else if(indexPath.row==1){
             return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
@@ -577,4 +606,56 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
 }
 
+//gallery methods
+
+-(void)openGallery{
+    MWPhotoBrowser *gallery = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    gallery.enableGrid=YES;
+    gallery.zoomPhotosToFill=NO;
+    gallery.startOnGrid=YES;
+    [self.navigationController pushViewController:gallery animated:YES];
+    
+}
+
+-(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser{
+    return _images.count;
+}
+
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index{
+    
+    Image *currentImage = _images[index];
+    if(currentImage.filePath){
+        MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[BaseImageUrlForWidth500 stringByAppendingString:currentImage.filePath]]];
+        return photo;
+
+    }
+    return nil;
+    
+    
+}
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index{
+    Image *currentImage = _images[index];
+    if(currentImage.filePath){
+        MWPhoto *photo = [MWPhoto photoWithURL:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:currentImage.filePath]]];
+        return photo;
+        
+    }
+    return nil;
+}
+
+-(void)didSelectImageWIthIndex:(NSInteger)index{
+  
+    MWPhotoBrowser *gallery = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    gallery.enableGrid=YES;
+    gallery.zoomPhotosToFill=NO;
+    gallery.startOnGrid=NO;
+    [gallery setCurrentPhotoIndex:index];
+    [self.navigationController pushViewController:gallery animated:YES];
+
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    return;
+}
 @end
