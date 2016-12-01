@@ -16,6 +16,8 @@
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
 
+#import <Realm/Realm.h>
+#import "MovieDb.h"
 
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
@@ -190,6 +192,22 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
+    //realm testing begin
+    RLMRealm *realm=[RLMRealm defaultRealm];
+    
+    [realm beginWriteTransaction];
+    
+    for(TVEvent *tvEvent in _tvEvents){
+        if([tvEvent isKindOfClass:[Movie class]]){
+            MovieDb *movieDb=[[MovieDb alloc] initWithMovie:(Movie *)tvEvent];
+            //[realm addObject:movieDb];
+            [realm addOrUpdateObject:movieDb];
+        }
+    }
+    
+    [realm commitWriteTransaction];
+    
+    //realm testing end
     [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;
