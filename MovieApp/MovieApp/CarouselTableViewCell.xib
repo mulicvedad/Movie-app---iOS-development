@@ -35,7 +35,7 @@
             <connections>
                 <outlet property="carouselCollectionView" destination="KRT-RS-gnD" id="jdi-T6-B4h"/>
             </connections>
-            <point key="canvasLocation" x="40" y="134"/>
+            <point key="canvasLocation" x="-1360" y="97"/>
         </tableViewCell>
     </objects>
 </document>
