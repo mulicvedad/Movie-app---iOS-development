@@ -7,6 +7,7 @@
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
 #import <Realm/Realm.h>
+#import "Genre.h"
 
 #define TYPE_KEY @"type"
 
@@ -20,18 +21,17 @@ static DataProviderService *downloader=nil;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    // below is code for migration purposes
-    /*
+    
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // Set the new schema version. This must be greater than the previously used
     // version (if you've never set a schema version before, the version is 0).
-    config.schemaVersion = 2;
+    config.schemaVersion = 6;
     
     // Set the block which will be called automatically when opening a Realm with a
     // schema version lower than the one set above
     config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
         // We haven’t migrated anything yet, so oldSchemaVersion == 0
-        if (oldSchemaVersion < 2) {
+        if (oldSchemaVersion < 6) {
             // Nothing to do!
             // Realm will automatically detect new properties and removed properties
             // And will update the schema on disk automatically
@@ -44,7 +44,7 @@ static DataProviderService *downloader=nil;
     // Now that we've told Realm how to handle the schema change, opening the file
     // will automatically perform the migration
     [RLMRealm defaultRealm];
-    */
+    
     
     [Fabric with:@[[Crashlytics class]]];
 
@@ -60,9 +60,11 @@ static DataProviderService *downloader=nil;
     }
     NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
     NSLog(@"%@",tmp);
-    [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
-    [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    //[[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
+    //[[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
+    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    [self setupGenres];
     
     return YES;
 }
@@ -76,5 +78,30 @@ static DataProviderService *downloader=nil;
     }
 }
 
+
+-(void)setupGenres{
+    RLMResults *movieGenresDb=[GenreDb objectsWhere:@"isMovieGenre=YES"];
+    RLMResults *tvShowGenresDb=[GenreDb objectsWhere:@"isMovieGenre=NO"];
+    
+    NSMutableArray *movieGenres=[[NSMutableArray alloc] init];
+    NSMutableArray *tvShowGenres=[[NSMutableArray alloc] init];
+    
+    for(GenreDb *genreDb in movieGenresDb){
+        Genre *newGenre=[[Genre alloc ]init];
+        newGenre.genreID=genreDb.id;
+        newGenre.genreName=genreDb.genreName;
+        [movieGenres addObject:newGenre];
+    }
+    
+    for(GenreDb *genreDb in tvShowGenresDb){
+        Genre *newGenre=[[Genre alloc ]init];
+        newGenre.genreID=genreDb.id;
+        newGenre.genreName=genreDb.genreName;
+        [tvShowGenres addObject:newGenre];
+    }
+    
+    [Movie initializeGenres:movieGenres];
+    [TVShow initializeGenres:tvShowGenres];
+}
 
 @end

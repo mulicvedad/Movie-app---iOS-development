@@ -192,22 +192,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
-    //realm testing begin
-    RLMRealm *realm=[RLMRealm defaultRealm];
     
-    [realm beginWriteTransaction];
-    
-    for(TVEvent *tvEvent in _tvEvents){
-        if([tvEvent isKindOfClass:[Movie class]]){
-            MovieDb *movieDb=[[MovieDb alloc] initWithMovie:(Movie *)tvEvent];
-            //[realm addObject:movieDb];
-            [realm addOrUpdateObject:movieDb];
-        }
-    }
-    
-    [realm commitWriteTransaction];
-    
-    //realm testing end
     [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;

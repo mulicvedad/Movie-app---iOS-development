@@ -1,10 +1,11 @@
 #import <Realm/Realm.h>
 #import "TVEventDb.h"
-#import "Movie.h"
+
+@class Movie;
 
 @interface MovieDb : TVEventDb
 
 @property TVEventDb *tvEvent;
 
--(instancetype)initWithMovie:(Movie *)movie;
+-(id)initWithMovie:(Movie *)movie;
 @end

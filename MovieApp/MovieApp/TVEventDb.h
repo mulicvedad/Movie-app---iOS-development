@@ -3,6 +3,7 @@
 #import "CrewMemberDb.h"
 #import "ImageDb.h"
 #import "IntegerObjectDb.h"
+#import "GenreDb.h"
 
 @interface TVEventDb : RLMObject
 
@@ -24,7 +25,7 @@
 @property BOOL isInHighestRated;
 @property float usersRating;
 @property NSInteger duration;
-@property RLMArray<IntegerObjectDb *><IntegerObjectDb> *genreIDs;
+@property RLMArray<GenreDb *><GenreDb> *genres;
 @property RLMArray<CastMemberDb *><CastMemberDb> *castMembers;
 @property RLMArray<CrewMemberDb *><CrewMemberDb> *crewMembers;
 @property RLMArray<ImageDb *><ImageDb> *images;

@@ -23,6 +23,7 @@
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
 #import "AccountDetails.h"
+#import "DatabaseManager.h"
 
 @interface DataProviderService(){
     RKObjectManager *objectManager;
@@ -131,6 +132,17 @@ static DataProviderService *sharedService;
 
 -(void)getTvEventsByCriterion:(Criterion)criterion page:(NSUInteger)page returnToHandler:(id<ItemsArrayReceiver>)delegate{
 
+    //if no connection
+    /*
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        CollectionType collection=[DataProviderService collectionTypeFromCriterion:criterion];
+        NSArray *tvEvents=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:collection];
+        [delegate updateReceiverWithNewData:tvEvents info:nil];
+        return;
+    }
+    
+       */
+    //section end
     Class currentClass=((TVEventsViewController *)delegate).isMovieViewController ? [Movie class] : [TVShow class];
     NSString *criterionForSorting;
     if(criterion==LATEST){
@@ -148,7 +160,7 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  
+                                                  //[[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:tvEvents toCollection:[DataProviderService collectionTypeFromCriterion:criterion]];
                                                   [delegate updateReceiverWithNewData:tvEvents info:@{CriterionDictionaryKey:[DataProviderService getCriteriaForSorting][criterion]}];
                                                   
                                               }
@@ -193,6 +205,7 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  NSArray *tmp = mappingResult.array;
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:DetailsDictionaryValue}];
                                                   
                                                   
@@ -644,4 +657,25 @@ static DataProviderService *sharedService;
      
 }
 
++(CollectionType)collectionTypeFromCriterion:(Criterion)criterion{
+    switch (criterion) {
+        case LATEST:
+            return CollectionTypeLatest;
+            break;
+        case MOST_POPULAR:
+            return CollectionTypePopular;
+            break;
+        case TOP_RATED:
+            return CollectionTypeHighestRated;
+            break;
+        case ON_THE_AIR:
+            return CollectionTypeOnTheAir;
+            break;
+        case AIRING_TODAY:
+            return CollectionTypeAiringToday;
+            break;
+        default:
+            break;
+    }
+}
 @end

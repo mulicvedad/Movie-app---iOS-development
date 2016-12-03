@@ -251,9 +251,10 @@ static id<LocalNotificationHandler> _localNotificationManager;
     [[DataProviderService sharedDataProviderService] getAllEpisodesForTVShowWithID:currentTVEvent.id numberOfSeasons:0 returnTo:self];
     
 }
--(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(SideMenuOption)collectionType{
+-(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType{
+    SideMenuOption typeOfCollection = [VirtualDataStorage sideMenuOptionForCollectionType:collectionType];
     TVEvent *eventToRemove=nil;
-    switch (collectionType) {
+    switch (typeOfCollection) {
         case SideMenuOptionFavorites:
             if(mediatype==MovieType){
                 for(TVEvent *tvEvent in _favoriteMovies){
@@ -303,8 +304,9 @@ static id<LocalNotificationHandler> _localNotificationManager;
     }
 }
 
--(void)addTVEvent:(TVEvent *)tvEvent toCollection:(SideMenuOption)collectionType{
-    if(collectionType==SideMenuOptionFavorites && ![self containsTVEventInFavorites:tvEvent]){
+-(void)addTVEvent:(TVEvent *)tvEvent toCollection:(CollectionType)collectionType{
+    SideMenuOption typeOfCollection = [VirtualDataStorage sideMenuOptionForCollectionType:collectionType];
+    if(typeOfCollection==SideMenuOptionFavorites && ![self containsTVEventInFavorites:tvEvent]){
         if([tvEvent isKindOfClass:[Movie class]]){
             [_favoriteMovies addObject:tvEvent];
         }
@@ -314,7 +316,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
            
         }
     }
-    else if(collectionType==SideMenuOptionWatchlist && ![self containsTVEventInWatchlist:tvEvent]){
+    else if(typeOfCollection==SideMenuOptionWatchlist && ![self containsTVEventInWatchlist:tvEvent]){
         if([tvEvent isKindOfClass:[Movie class]]){
              [_watchListMovies addObject:tvEvent];
         }
@@ -322,6 +324,13 @@ static id<LocalNotificationHandler> _localNotificationManager;
             [_watchListTVShows addObject:tvEvent];
         }
     }
+}
+
++(SideMenuOption)sideMenuOptionForCollectionType:(CollectionType)collectionType{
+    if(collectionType == CollectionTypeFavorites || collectionType == CollectionTypeWatchlist){
+        return (SideMenuOption)collectionType;
+    }
+    @throw NSInvalidArgumentException;
 }
 
 @end
