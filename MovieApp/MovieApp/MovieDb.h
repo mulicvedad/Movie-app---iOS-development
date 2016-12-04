@@ -5,7 +5,6 @@
 
 @interface MovieDb : TVEventDb
 
-@property TVEventDb *tvEvent;
-
 -(id)initWithMovie:(Movie *)movie;
+
 @end

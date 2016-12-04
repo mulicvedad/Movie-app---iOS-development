@@ -1,4 +1,5 @@
 #import "DatabaseManager.h"
+#import "MovieDetails.h"
 
 @interface DatabaseManager (){
     RLMRealm *_realm;
@@ -48,7 +49,17 @@ static DatabaseManager *_uniqueInstance;
 }
 
 -(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType{
-    
+    TVEventDb *tvEventDb;
+    if(mediatype==MovieType){
+        tvEventDb=[MovieDb objectForPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+    }
+    else{
+        tvEventDb=[TVShowDb objectForPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+    }
+    if(!tvEventDb){
+        @throw NSInternalInconsistencyException;
+    }
+    [tvEventDb setValue:@"NO" forKey:[DatabaseManager keyForCollectionType:collectionType]];
 }
 
 -(BOOL)containsTVEventInFavorites:(TVEvent *)tvEvent{
@@ -78,29 +89,7 @@ static DatabaseManager *_uniqueInstance;
                 MovieDb *existingMovie=[MovieDb objectForPrimaryKey:[NSNumber numberWithUnsignedInteger:tvEvent.id]];
                 
                 if(existingMovie){
-                    switch (collection) {
-                        case CollectionTypeLatest:
-                            existingMovie.isInLatest=YES;
-                            break;
-                        case CollectionTypePopular:
-                            existingMovie.isInPopular=YES;
-                            break;
-                        case CollectionTypeHighestRated:
-                            existingMovie.isInHighestRated=YES;
-                            break;
-                        case CollectionTypeFavorites:
-                            existingMovie.isInFavorites=YES;
-                            break;
-                        case CollectionTypeWatchlist:
-                            existingMovie.isInWatchlist=YES;
-                            break;
-                        case CollectionTypeRatings:
-                            existingMovie.isInRatings=YES;
-                            break;
-                        default:
-                            @throw NSInternalInconsistencyException;
-                            break;
-                    }
+                    [existingMovie setValue:@"YES" forKey:[DatabaseManager keyForCollectionType:collection]];
                     
                 }
                 else{
@@ -110,35 +99,13 @@ static DatabaseManager *_uniqueInstance;
                         RLMResults *results=[GenreDb objectsWhere:@"id=%d AND isMovieGenre=YES", genreID];
                         [newMovie.genres addObjects:results];
                     }
-                    switch (collection) {
-                        case CollectionTypeLatest:
-                            newMovie.isInLatest=YES;
-                            break;
-                        case CollectionTypePopular:
-                            newMovie.isInPopular=YES;
-                            break;
-                        case CollectionTypeHighestRated:
-                            newMovie.isInHighestRated=YES;
-                            break;
-                        case CollectionTypeFavorites:
-                            newMovie.isInFavorites=YES;
-                            break;
-                        case CollectionTypeWatchlist:
-                            newMovie.isInWatchlist=YES;
-                            break;
-                        case CollectionTypeRatings:
-                            newMovie.isInRatings=YES;
-                            break;
-                        default:
-                            @throw NSInternalInconsistencyException;
-                            break;
-                    }
+                    [newMovie setValue:@"YES" forKey:[DatabaseManager keyForCollectionType:collection]];
                     [_realm addOrUpdateObject:newMovie];
                 }
             }
         }
         else{
-            
+            //MISSING LEL
         }
     
     [_realm commitWriteTransaction];
@@ -202,37 +169,15 @@ static DatabaseManager *_uniqueInstance;
 
 }
 -(NSArray *)getMoviesOfCollection:(CollectionType)collection{
-    RLMResults *results;
-    switch (collection) {
-        case CollectionTypeLatest:
-            results=[MovieDb objectsWhere:@"isInLatest=YES"];
-            break;
-        case CollectionTypePopular:
-            results=[MovieDb objectsWhere:@"isInPopular=YES"];
-            break;
-        case CollectionTypeHighestRated:
-            results=[MovieDb objectsWhere:@"isInRated=YES"];
-            break;
-        case CollectionTypeFavorites:
-            results=[MovieDb objectsWhere:@"isInFavorites=YES"];
-            break;
-        case CollectionTypeWatchlist:
-            results=[MovieDb objectsWhere:@"isInWatchlist=YES"];
-            break;
-        case CollectionTypeRatings:
-            results=[MovieDb objectsWhere:@"isInRatings=YES"];
-            break;
-        default:
-            @throw NSInvalidArgumentException;
-            break;
-    }
-    //int count=results.count;
+    NSString *where=[NSString stringWithFormat:@"%@=YES", [DatabaseManager keyForCollectionType:collection]];
+    RLMResults *results=[MovieDb objectsWhere:where];
+    
     return [Movie moviesArrayFromRLMArray:results];
 
 }
 -(NSArray *)getTVShowsOfCollection:(CollectionType)collection{
-    RLMResults *results;
-    switch (collection) {
+    NSString *where=[NSString stringWithFormat:@"%@=YES", [DatabaseManager keyForCollectionType:collection]];
+    RLMResults *results=[TVShowDb objectsWhere:where];    /*switch (collection) {
         case CollectionTypeLatest:
             results=[TVShowDb objectsWhere:@"isInLatest=YES"];
             break;
@@ -260,8 +205,8 @@ static DatabaseManager *_uniqueInstance;
         default:
             @throw NSInvalidArgumentException;
             break;
-    }
-    //int count=results.count;
+    }*/
+    int count=results.count;
     return [TVShow tvShowsArrayFromRLMArray:results];
 
 }
@@ -279,6 +224,63 @@ static DatabaseManager *_uniqueInstance;
 }
 -(NSArray *)getReviewsForTVEvent:(TVEvent *)tvEvent{
     return nil;
+
+}
+
+
+-(void)updateTVEvent:(NSInteger)tvEventID withTVEventDetails:(TVEventDetails *)tvEventDetails{
+    TVEventDb *tvEvent;
+    if([tvEventDetails isKindOfClass:[MovieDetails class]]){
+        tvEvent=[MovieDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+
+    }
+    else{
+        tvEvent=[TVShowDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+
+    }
+    if(!tvEvent){
+        @throw NSInternalInconsistencyException;
+    }
+    [_realm beginWriteTransaction];
+    
+    tvEvent.title=tvEventDetails.title;
+    tvEvent.originalTitle=tvEventDetails.title;
+    tvEvent.releaseDate=tvEventDetails.releaseDate;
+    tvEvent.backdropPath=tvEventDetails.backdropPath;
+    tvEvent.posterPath=tvEventDetails.posterPath;
+    tvEvent.overview=tvEventDetails.overview;
+    tvEvent.voteAverage=tvEventDetails.voteAverage;
+    tvEvent.duration=tvEventDetails.duration;
+    
+    [_realm commitWriteTransaction];
+    
+    
+}
+
++(NSString *)keyForCollectionType:(CollectionType)collection{
+    switch (collection) {
+        case CollectionTypeLatest:
+            return @"isInLatest";
+        case CollectionTypePopular:
+            return @"isInPopular";
+        case CollectionTypeHighestRated:
+            return @"isInHighestRated";
+        case CollectionTypeOnTheAir:
+            return @"isOnTheAir";
+        case CollectionTypeAiringToday:
+            return @"isAiringToday";
+        case CollectionTypeFavorites:
+            return @"isInFavorites";
+        case CollectionTypeWatchlist:
+            return @"isInWatchlist";
+            break;
+        case CollectionTypeRatings:
+            return @"isInRatings";
+            break;
+        default:
+            @throw NSInvalidArgumentException;
+            break;
+    }
 
 }
 @end

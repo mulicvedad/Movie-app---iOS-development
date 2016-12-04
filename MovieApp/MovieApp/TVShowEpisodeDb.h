@@ -1,5 +1,7 @@
 #import <Realm/Realm.h>
 
+@class TVShowEpisode;
+
 @interface TVShowEpisodeDb : RLMObject
 
 @property NSInteger id;
@@ -9,6 +11,8 @@
 @property NSInteger episodeNumber;
 @property NSInteger seasonNumber;
 @property float voteAverage;
+
++(TVShowEpisodeDb *)episodeDbWithEpisode:(TVShowEpisode *)episode;
 
 @end
 

@@ -133,7 +133,7 @@ static DataProviderService *sharedService;
 -(void)getTvEventsByCriterion:(Criterion)criterion page:(NSUInteger)page returnToHandler:(id<ItemsArrayReceiver>)delegate{
 
     //if no connection
-    /*
+    
     if(![MovieAppConfiguration isConnectedToInternet]){
         CollectionType collection=[DataProviderService collectionTypeFromCriterion:criterion];
         NSArray *tvEvents=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:collection];
@@ -141,7 +141,7 @@ static DataProviderService *sharedService;
         return;
     }
     
-       */
+    
     //section end
     Class currentClass=((TVEventsViewController *)delegate).isMovieViewController ? [Movie class] : [TVShow class];
     NSString *criterionForSorting;
@@ -205,7 +205,7 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  NSArray *tmp = mappingResult.array;
+                                                  //[[DatabaseManager sharedDatabaseManager] updateTVEvent:tvEvent.id withTVEventDetails:mappingResult.array[0]];
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:DetailsDictionaryValue}];
                                                   
                                                   
@@ -234,6 +234,7 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:DetailsDictionaryValue}];
                                                   
                                                   

@@ -523,11 +523,11 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
                     currentTVEvent.isInFavorites=YES;
-                    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
+                    //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
                     break;
                 case SideMenuOptionWatchlist:
                     currentTVEvent.isInWatchlist=YES;
-                    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
+                    //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
                     break;
                 default:
                     break;
@@ -545,11 +545,11 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                 switch (typeOfCollection) {
                     case SideMenuOptionFavorites:
                         currentTVEvent.isInFavorites=NO;
-                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
+                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
                         break;
                     case SideMenuOptionWatchlist:
                         currentTVEvent.isInWatchlist=NO;
-                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
+                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
                         break;
                     default:
                         break;

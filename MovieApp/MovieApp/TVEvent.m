@@ -52,6 +52,7 @@ static NSString * const YearDateFormat=@"yyyy";
     self.posterPath=tvEventDetails.posterPath;
     self.overview=tvEventDetails.overview;
     self.voteAverage=tvEventDetails.voteAverage;
+    self.duration=tvEventDetails.duration;
 }
 
 

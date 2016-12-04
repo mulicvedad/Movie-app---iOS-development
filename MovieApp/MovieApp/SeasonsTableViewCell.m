@@ -45,6 +45,7 @@
     
     if([seasons count]==0){
         self.seeAllButton.hidden=YES;
+        return;
     }
     else{
         self.seeAllButton.hidden=NO;

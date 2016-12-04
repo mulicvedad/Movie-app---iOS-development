@@ -124,7 +124,7 @@ NSString *MoviesNotificationsEnabledNSUserDefaultsKey=@"moviesNotificationsenabl
 }
 
 +(BOOL)isConnectedToInternet{
-    return YES;
+    return NO;
 }
 
 

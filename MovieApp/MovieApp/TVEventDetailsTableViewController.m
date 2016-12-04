@@ -146,14 +146,17 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    /*
     if(!_mainTvEventDetails){
         return 0;
     }
+    */
     
     if(section==0){
         return 3;
     }
     else if(section==1){
+
         return ([_mainTvEvent isKindOfClass:[Movie class]]) ? 4 : 6;
     }
     else if(section==2 && [_images count]>0){
@@ -183,8 +186,8 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         }
         else if(indexPath.row==1){
             BasicInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[BasicInfoTableViewCell cellIdentifier] forIndexPath:indexPath];
-            
-            [cell setupWithReleaseDate:[_mainTvEvent getFormattedReleaseDate] duration:_mainTvEventDetails.duration genres:[_mainTvEvent getFormattedGenresRepresentation]];
+            [cell setupWithTVEvent:_mainTvEvent];
+            //[cell setupWithReleaseDate:[_mainTvEvent getFormattedReleaseDate] duration:_mainTvEvent.duration genres:[_mainTvEvent getFormattedGenresRepresentation]];
             return cell;
             
         }
@@ -569,7 +572,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             [self.tableView reloadData];
          
     }
-    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:_mainTvEvent toCollection:typeOfCollection];
+   // [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:_mainTvEvent toCollection:typeOfCollection];
 }
 
 -(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
@@ -594,7 +597,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         
         
     }
-    [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
+   // [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
 }
 
 -(void)didRateTVEvent:(CGFloat)rating{

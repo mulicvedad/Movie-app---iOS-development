@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "TVShowSeasonDb.h"
 
 @interface TvShowSeason : NSObject
 @property (nonatomic, strong) NSDate *airDate;
@@ -10,4 +11,7 @@
 +(NSDictionary *)propertiesMapping;
 +(NSString *)getStringOfYearsForSeasons:(NSArray *)seasons;
 -(NSString *)getReleaseYear;
+
++(TvShowSeason *)seasonWithSeasonDb:(TVShowSeasonDb *)seasonDb;
++(NSArray *)seasonsArrayWithRLMArray:(RLMResults *)results;
 @end

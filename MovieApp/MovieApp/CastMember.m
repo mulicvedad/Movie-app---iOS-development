@@ -35,5 +35,23 @@ static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
 }
 
 
-
++(CastMember *)castMemberWithCastMemberDb:(CastMemberDb *)castMemberDb{
+    CastMember *newCastMember=[[CastMember alloc]init];
+    
+    newCastMember.id=castMemberDb.id;
+    newCastMember.profileImageUrl=castMemberDb.profileImageUrl;
+    newCastMember.castID=castMemberDb.castID;
+    newCastMember.creditID=castMemberDb.creditID;
+    newCastMember.character=castMemberDb.character;
+    newCastMember.order=castMemberDb.order;
+    
+    return newCastMember;
+}
++(NSArray *)castMembersArrayWithRLMArray:(RLMResults *)results{
+    NSMutableArray *newMembers=[[NSMutableArray alloc]  init];
+    for(CastMemberDb *castMemberDb in results){
+        [newMembers addObject:[CastMember castMemberWithCastMemberDb:castMemberDb]];
+    }
+    return newMembers;
+}
 @end

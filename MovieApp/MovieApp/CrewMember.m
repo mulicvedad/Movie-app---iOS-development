@@ -44,5 +44,26 @@
     return @"";
 }
 
++(CrewMember *)crewMemberWithCrewMemberDb:(CrewMemberDb *)crewMemberDb{
+    CrewMember *newCrewMember=[[CrewMember alloc] init];
+    
+    newCrewMember.id=crewMemberDb.id;
+    newCrewMember.name=crewMemberDb.name;
+    newCrewMember.profileImageUrl=crewMemberDb.profileImageUrl;
+    newCrewMember.department=crewMemberDb.department;
+    newCrewMember.job=crewMemberDb.job;
+    newCrewMember.creditID=crewMemberDb.creditID;
+    
+    return newCrewMember;
+}
+
++(NSArray *)crewMembersArrayWithRLMArray:(RLMResults *)results{
+    NSMutableArray *newCrew=[[NSMutableArray alloc] init];
+    for(CrewMemberDb *crewMemberDb in results){
+        [newCrew addObject:[CrewMember crewMemberWithCrewMemberDb:crewMemberDb]];
+    }
+    return newCrew;
+}
+
 
 @end

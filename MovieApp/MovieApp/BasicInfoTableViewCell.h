@@ -8,5 +8,6 @@
 
 +(NSString *)cellIdentifier;
 +(NSString *)cellIClassName;
+-(void)setupWithTVEvent:(TVEvent *)tvEvent;
 -(void)setupWithReleaseDate:(NSString *)dateString duration:(NSUInteger)duration genres:(NSString *)genresRepresentation;
 @end

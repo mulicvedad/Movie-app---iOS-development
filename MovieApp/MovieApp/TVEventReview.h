@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "ReviewDb.h"
 
 @interface TVEventReview : NSObject
 
@@ -9,4 +10,6 @@
 
 +(NSArray *)propertiesNames;
 
++(TVEventReview *)reviewWithReviewDb:(ReviewDb *)reviewDb;
++(NSArray *)reviewsArrayWithRLMArray:(RLMResults *)results;
 @end

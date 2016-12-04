@@ -9,7 +9,6 @@
 static NSString *numOfPersons=@"Number of persons: ";
 static NSString *numOfBchelors=@"Number of bachelors: ";
 static NSString *numOfMasters=@"Number of masters: ";
-static NSInteger counter = 1;
 @implementation TestViewController
 
 - (void)viewDidLoad {

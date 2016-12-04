@@ -36,5 +36,16 @@ static NSString * const UnknownDurationText=@"Unknown duration";
     self.releaseDateLabel.text=dateString;
 }
 
+-(void)setupWithTVEvent:(TVEvent *)tvEvent{
+    if(tvEvent.duration==0){
+        self.durationLabel.text=UnknownDurationText;
+    }
+    else{
+        self.durationLabel.text=[NSString stringWithFormat:@"%dh %dmin", (int)(tvEvent.duration/60),(int)tvEvent.duration%60];
+    }
+    self.genresLabel.text=[tvEvent getFormattedGenresRepresentation];
+    self.releaseDateLabel.text=[tvEvent getFormattedReleaseDate];
+}
+
 
 @end

@@ -1,5 +1,7 @@
 #import <Realm/Realm.h>
 
+@class PersonDetails;
+
 @interface PersonDetailsDb : RLMObject
 
 @property NSInteger id;
@@ -11,4 +13,5 @@
 @property NSString *birthday;
 @property NSString *deathday;
 
++(PersonDetailsDb *)personDetailsDbWithPersonDetails:(PersonDetails *)personDetails;
 @end

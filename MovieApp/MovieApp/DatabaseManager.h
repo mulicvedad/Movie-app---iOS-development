@@ -51,5 +51,7 @@
 -(NSArray *)getImagesForTVEvent:(TVEvent *)tvEvent;
 -(NSArray *)getReviewsForTVEvent:(TVEvent *)tvEvent;
 
+-(void)updateTVEvent:(NSInteger)tvEventID withTVEventDetails:(TVEventDetails *)tvEventDetails;
+
 
 @end
