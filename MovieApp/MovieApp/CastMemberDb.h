@@ -10,7 +10,7 @@
 @property NSString *character;
 @property NSInteger order;
 
-+(CastMember *)castMemberDbWithCastMember:(CastMember *)castMember;
++(CastMemberDb *)castMemberDbWithCastMember:(CastMember *)castMember;
 
 @end
 

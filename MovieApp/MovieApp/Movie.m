@@ -52,8 +52,9 @@ static NSArray *genres=nil;
 }
 
 +(void)initializeGenres:(NSArray *)genresArray{
+    
     /*
-    [[RLMRealm defaultRealm] beginWriteTransaction];
+     [[RLMRealm defaultRealm] beginWriteTransaction];
     for(Genre *genre in genresArray){
         GenreDb *genreDb=[[GenreDb alloc] init];
         genreDb.id=genre.genreID;
@@ -63,7 +64,8 @@ static NSArray *genres=nil;
 
     }
     [[RLMRealm defaultRealm] commitWriteTransaction];
-    */
+     */
+    
     genres=genresArray;
 
 }

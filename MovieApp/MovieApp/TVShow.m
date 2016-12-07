@@ -63,7 +63,8 @@ static NSArray *genres=nil;
         [[RLMRealm defaultRealm] addObject:genreDb];
     }
     [[RLMRealm defaultRealm] commitWriteTransaction];
-     */
+    */
+    
     genres=genresArray;
 }
 

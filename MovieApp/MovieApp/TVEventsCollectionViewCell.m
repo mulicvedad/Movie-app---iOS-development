@@ -5,6 +5,8 @@
 #import "TheMovieDBConstants.h"
 #import <KeychainItemWrapper.h>
 
+#import "DatabaseManager.h"
+
 #define FontSize10 10
 #define FontSize16 16
 
@@ -88,7 +90,6 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     _delegate=delegate;
     _indexPathRowNumber=row;
     self.titleLabel.text=[tvEvent.title uppercaseString];
-    //self.titleLabel.font=[MovieAppConfiguration getPreferredFontWithSize:18 isBold:YES];
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     NSString *dateString;
@@ -119,8 +120,20 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     self.genreLabel.text =  genresRepresentation;
     self.ratingLabel.text=[NSString stringWithFormat:@"%.1f", tvEvent.voteAverage];
     if(tvEvent.posterPath){
-
-        [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PlaceholderImageName]];
+        UIImage *uiImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
+        if(uiImage){
+            self.posterImageView.image=uiImage;
+        }
+        else if([MovieAppConfiguration isConnectedToInternet]){
+            [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PlaceholderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
+                
+            }];
+        }
+        else{
+            self.posterImageView.image=[UIImage imageNamed:DefaultImageName];
+            
+        }
     }
     else{
         self.posterImageView.image=[UIImage imageNamed:DefaultImageName];

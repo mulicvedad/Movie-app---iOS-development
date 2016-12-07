@@ -44,6 +44,7 @@ static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
     newCastMember.creditID=castMemberDb.creditID;
     newCastMember.character=castMemberDb.character;
     newCastMember.order=castMemberDb.order;
+    newCastMember.name=castMemberDb.name;
     
     return newCastMember;
 }

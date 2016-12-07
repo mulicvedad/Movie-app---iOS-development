@@ -16,6 +16,7 @@
     newCastMemberDb.creditID=castMember.creditID;
     newCastMemberDb.character=castMember.character;
     newCastMemberDb.order=castMember.order;
+    newCastMemberDb.name=castMember.name;
     
     return newCastMemberDb;
 }

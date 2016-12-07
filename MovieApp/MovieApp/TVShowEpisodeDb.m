@@ -2,11 +2,11 @@
 #import "TVShowEpisode.h"
 
 @implementation TVShowEpisodeDb
-
+/*
 +(NSString *)primaryKey{
     return @"id";
 }
-
+*/
 +(TVShowEpisodeDb *)episodeDbWithEpisode:(TVShowEpisode *)episode{
     TVShowEpisodeDb *episodeDb=[[TVShowEpisodeDb alloc] init];
     episodeDb.id=episode.id;

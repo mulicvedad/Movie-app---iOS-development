@@ -146,11 +146,6 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    /*
-    if(!_mainTvEventDetails){
-        return 0;
-    }
-    */
     
     if(section==0){
         return 3;
@@ -187,7 +182,6 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         else if(indexPath.row==1){
             BasicInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[BasicInfoTableViewCell cellIdentifier] forIndexPath:indexPath];
             [cell setupWithTVEvent:_mainTvEvent];
-            //[cell setupWithReleaseDate:[_mainTvEvent getFormattedReleaseDate] duration:_mainTvEvent.duration genres:[_mainTvEvent getFormattedGenresRepresentation]];
             return cell;
             
         }

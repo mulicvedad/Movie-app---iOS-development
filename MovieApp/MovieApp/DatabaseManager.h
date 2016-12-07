@@ -26,24 +26,27 @@
 +(instancetype)sharedDatabaseManager;
 -(void)removeAllITVEventsFromCollection:(CollectionType)collectionType;
 -(void)addTVEventsFromArray:(NSArray *)tvEvents toCollection:(CollectionType)collection;
--(void)addTVShowSeason:(TvShowSeason *)season;
--(void)addTVShowSeasonsFromArray:(NSArray *)seasons;
--(void)addTVShowEpisode:(TVShowEpisode *)episode;
--(void)addTVShowEpisodesFromArray:(NSArray *)episode;
--(void)addCastMember:(CastMember *)castMember;
--(void)addCastMembersFromArray:(NSArray *)castMembers;
+-(void)addTVShowSeason:(TvShowSeason *)season toTVShowWithID:(NSInteger)tvShowID;
+-(void)addTVShowSeasonsFromArray:(NSArray *)seasons toTVShowWithID:(NSInteger)tvShowID;
+-(void)addTVShowEpisode:(TVShowEpisode *)episode toTVShow:(TVShow *)tvShow seasoNumber:(NSInteger)seasonNumber;
+-(void)addTVShowEpisodesFromArray:(NSArray *)episodes toTVShow:(TVShow *)tvShow seasoNumber:(NSInteger)seasonNumber;
+-(void)addTVShowEpisodesFromArray:(NSArray *)episodes toTVShowWithID:(NSInteger)tvShowID seasoNumber:(NSInteger)seasonNumber;
+-(void)addCastMember:(CastMember *)castMember toTVEvent:(TVEvent *)tvEvent;;
+-(void)addCastMembersFromArray:(NSArray *)castMembers toTVEvent:(TVEvent *)tvEvent;
 -(void)addCrewMember:(CrewMember *)crewMember;
--(void)addCrewMembers:(NSArray *)crewMembers;
--(void)addImage:(Image *)image;
--(void)addImagesFromArray:(NSArray *)images;
+-(void)addCrewMembers:(NSArray *)crewMembers toTVEvent:(TVEvent *)tvEvent;
+-(void)addUIImage:(UIImage *)image toImageDbWithID:(NSString *)imageDbID;
+-(void)addImagesFromArray:(NSArray *)images toTVEvent:(TVEvent *)tvEvent;
 -(void)addPerson:(PersonDetails *)person;
 -(void)addReview:(TVEventReview *)review;
--(void)addReviewsFromArray:(TVEventReview *)reviews;
+-(void)addReviewsFromArray:(NSArray *)reviews toMovie:(TVEvent *)movie;
 -(TVEvent *)getTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediaType;
 -(Movie *)getMovieWithID:(NSInteger)movieID;
 -(TVShow *)getTVShowWithID:(NSInteger)tvShowID;
+-(PersonDetails *)getPersonDetailsForID:(NSInteger)personID;
 -(NSArray *)getSeasonsForTVShow:(TVShow *)tvShow;
 -(NSArray *)getEpisodesForTVShow:(TVShow *)tvShow seasonNumber:(NSInteger)seasonNumber;
+-(NSArray *)getEpisodesForTVShowWithID:(NSInteger)tvShowID seasonNumber:(NSInteger)seasonNumber;
 -(NSArray *)getMoviesOfCollection:(CollectionType)collection;
 -(NSArray *)getTVShowsOfCollection:(CollectionType)collection;
 -(NSArray *)getCastMembersForTVEvent:(TVEvent *)tvEvent;
@@ -51,6 +54,7 @@
 -(NSArray *)getImagesForTVEvent:(TVEvent *)tvEvent;
 -(NSArray *)getReviewsForTVEvent:(TVEvent *)tvEvent;
 
+-(UIImage *)getUIImageFromImageDbWithID:(NSString *)imageDbId;
 -(void)updateTVEvent:(NSInteger)tvEventID withTVEventDetails:(TVEventDetails *)tvEventDetails;
 
 

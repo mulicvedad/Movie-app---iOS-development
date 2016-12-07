@@ -2,11 +2,11 @@
 #import "TVEventReview.h"
 
 @implementation ReviewDb
-
+/*
 +(NSString *)primaryKey{
     return @"id";
 }
-
+*/
 +(ReviewDb *)reviewDbWithReview:(TVEventReview *)review{
     ReviewDb *newReviewDb=[[ReviewDb alloc] init];
     

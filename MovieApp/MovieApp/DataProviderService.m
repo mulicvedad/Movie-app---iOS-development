@@ -133,17 +133,25 @@ static DataProviderService *sharedService;
 -(void)getTvEventsByCriterion:(Criterion)criterion page:(NSUInteger)page returnToHandler:(id<ItemsArrayReceiver>)delegate{
 
     //if no connection
-    
+    Class currentClass=((TVEventsViewController *)delegate).isMovieViewController ? [Movie class] : [TVShow class];
     if(![MovieAppConfiguration isConnectedToInternet]){
         CollectionType collection=[DataProviderService collectionTypeFromCriterion:criterion];
-        NSArray *tvEvents=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:collection];
+        NSArray *tvEvents;
+
+        if(currentClass==[Movie class]){
+            tvEvents=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:collection];
+
+        }
+        else{
+            tvEvents=[[DatabaseManager sharedDatabaseManager] getTVShowsOfCollection:collection];
+
+        }
         [delegate updateReceiverWithNewData:tvEvents info:nil];
         return;
     }
     
     
     //section end
-    Class currentClass=((TVEventsViewController *)delegate).isMovieViewController ? [Movie class] : [TVShow class];
     NSString *criterionForSorting;
     if(criterion==LATEST){
         criterionForSorting=(currentClass == [Movie class]) ? MovieLatestSubpath : TVShowLatestSubpath;
@@ -160,7 +168,7 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  //[[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:tvEvents toCollection:[DataProviderService collectionTypeFromCriterion:criterion]];
+                                                  [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:tvEvents toCollection:[DataProviderService collectionTypeFromCriterion:criterion]];
                                                   [delegate updateReceiverWithNewData:tvEvents info:@{CriterionDictionaryKey:[DataProviderService getCriteriaForSorting][criterion]}];
                                                   
                                               }
@@ -188,8 +196,21 @@ static DataProviderService *sharedService;
                                               }];
     
 }
-
+//in this method we get in response objects: tv event details, images, reviews and seasons
 -(void)getDetailsForTvEvent:(TVEvent *)tvEvent returnTo:(id)dataHandler{
+    MediaType mediaType= [tvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType;
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSMutableArray *results=[[NSMutableArray alloc] init];
+        [results addObject:[[DatabaseManager sharedDatabaseManager] getMovieWithID:tvEvent.id]];
+        if(mediaType==TVShowType){
+            [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getSeasonsForTVShow:(TVShow *)tvEvent]];
+        }
+        [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getImagesForTVEvent:tvEvent]];
+        [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getReviewsForTVEvent:tvEvent]];
+        [dataHandler updateReceiverWithNewData:results info:@{TypeDictionaryKey:DetailsDictionaryValue}];
+        return;
+        
+    }
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   AppendToResponseParameterName : AppendImagesParameterValue};
     NSString *subpath;
@@ -205,7 +226,34 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  //[[DatabaseManager sharedDatabaseManager] updateTVEvent:tvEvent.id withTVEventDetails:mappingResult.array[0]];
+                                                  NSArray *results=mappingResult.array;
+                                                  [[DatabaseManager sharedDatabaseManager] updateTVEvent:tvEvent.id withTVEventDetails:mappingResult.array[0]];
+                                                  NSMutableArray *seasons=[[NSMutableArray alloc] init];
+                                                  NSMutableArray *images=[[NSMutableArray alloc] init];
+                                                  NSMutableArray *reviews=[[NSMutableArray alloc] init];
+                                                  for(int i=0;i<results.count;i++){
+                                                      if([results[i] isKindOfClass:[TvShowSeason class]]){
+                                                          [seasons addObject:results[i]];
+                                                      }
+                                                      else if([results[i] isKindOfClass:[Image class]]){
+                                                          [images addObject:results[i]];
+                                                      }
+                                                      else if([results[i] isKindOfClass:[TVEventReview class]]){
+                                                          [reviews addObject:results[i]];
+                                                      }
+                                                      
+                                                      
+                                                  }
+                                                  if([tvEvent isKindOfClass:[TVShow class]]){
+                                                      
+                                                      [[DatabaseManager sharedDatabaseManager] addTVShowSeasonsFromArray:seasons toTVShowWithID:tvEvent.id];
+                                                  }
+                                                  else{
+                                                      [[DatabaseManager sharedDatabaseManager] addReviewsFromArray:reviews toMovie:tvEvent];
+                                                  }
+                                                  [[DatabaseManager sharedDatabaseManager] addImagesFromArray:images toTVEvent:tvEvent];
+                                                  
+                                                  
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:DetailsDictionaryValue}];
                                                   
                                                   
@@ -248,6 +296,14 @@ static DataProviderService *sharedService;
 }
 
 -(void)getCreditsForTvEvent:(TVEvent *)tvEvent returnTo:(id)dataHandler{
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSMutableArray *results=[[NSMutableArray alloc] init];
+        [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getCastMembersForTVEvent:tvEvent]];
+        [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getCrewMembersForTVEvent:tvEvent]];
+        [dataHandler updateReceiverWithNewData:results info:nil];
+        return;
+        
+    }
     NSDictionary *queryParams = @{APIKeyParameterName: [MovieAppConfiguration getApiKey]};
     NSString *subpath;
     if([tvEvent isKindOfClass:[Movie class]]){
@@ -262,6 +318,22 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  NSArray *results=mappingResult.array;
+                                                  NSMutableArray *crewMembers=[[NSMutableArray alloc] init];
+                                                  NSMutableArray *castMembers=[[NSMutableArray alloc] init];
+                                                  
+                                                  for(int i=0;i<results.count;i++){
+                                                      if([results[i] isKindOfClass:[CastMember class]]){
+                                                          [castMembers addObject:results[i]];
+                                                      }
+                                                      else if([results[i] isKindOfClass:[CrewMember class]]){
+                                                          [crewMembers addObject:results[i]];
+                                                      }
+                                                  }
+                                                  
+                                                  [[DatabaseManager sharedDatabaseManager] addCastMembersFromArray:castMembers toTVEvent:tvEvent];
+                                                  [[DatabaseManager sharedDatabaseManager] addCrewMembers:crewMembers toTVEvent:tvEvent];
+
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:CreditsDictionaryValue}];
                                                   
                                                   
@@ -293,14 +365,28 @@ static DataProviderService *sharedService;
 }
 
 -(void)getSeasonDetailsForTvShow:(NSUInteger)tvShowID seasonNumber:(NSUInteger)number returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSArray *episodes=[[DatabaseManager sharedDatabaseManager] getEpisodesForTVShowWithID:tvShowID seasonNumber:number];
+        [dataHandler updateReceiverWithNewData:episodes info:nil];
+        return;
+    }
+    
     NSDictionary *queryParams = @{APIKeyParameterName: [MovieAppConfiguration getApiKey]};
     NSString *subpath;
-    
+   
     subpath=[[TVShowDetailsSubpath stringByAppendingString:[NSString stringWithFormat:@"/%lu",tvShowID]] stringByAppendingString:[NSString stringWithFormat:@"/season/%lu",number]];
     
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  NSMutableArray *episodes=[[NSMutableArray alloc] init];
+                                                  for(int i=0;i<mappingResult.array.count;i++){
+                                                      if([mappingResult.array[0] isKindOfClass:[TVShowEpisode class]]){
+                                                          [episodes addObject:mappingResult.array[0]];
+                                                      }
+                                                  }
+                                                  [[DatabaseManager sharedDatabaseManager] addTVShowEpisodesFromArray:episodes toTVShowWithID:tvShowID seasoNumber:number];
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:@{TypeDictionaryKey:EpisodesDictionaryValue, TVEventIDDictionaryKey:[NSNumber numberWithUnsignedInteger:tvShowID]}];
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -367,6 +453,12 @@ static DataProviderService *sharedService;
 }
 
 -(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSMutableArray *personDetails=[[NSMutableArray alloc] init];
+        [personDetails addObject:[[DatabaseManager sharedDatabaseManager] getPersonDetailsForID:personID]];
+        [dataHandler updateReceiverWithNewData:personDetails info:nil];
+        return;
+    }
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   AppendToResponseParameterName : AppendCombinedCreditsParameterValue};
     NSString *subpath;
@@ -376,6 +468,7 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  [[DatabaseManager sharedDatabaseManager] addPerson:mappingResult.array[0]];
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
                                                   
                                                   
