@@ -3,6 +3,7 @@
 #import "TVShowEpisode.h"
 #import "CustomQueue.h"
 #import "LocalNotificationHandler.h"
+#import "DatabaseManager.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 #import "LocalNotificationManager.h"
@@ -120,7 +121,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
     responseCounter++;
     if(!customItemsArray || [customItemsArray count]==0){
         
-            [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
+            //[[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
         
         return;
     }
@@ -136,7 +137,8 @@ static id<LocalNotificationHandler> _localNotificationManager;
     switch (currentOption) {
         case SideMenuOptionFavorites:
             if(mediaType==MovieType){
-                [_favoriteMovies addObjectsFromArray:customItemsArray];
+                //[_favoriteMovies addObjectsFromArray:customItemsArray];
+                
                 if([customItemsArray count]<20){
                     _noMoreFavoriteMovies=YES;
                 }
@@ -145,7 +147,8 @@ static id<LocalNotificationHandler> _localNotificationManager;
                 }
             }
             else{
-                [_favoriteTVShows addObjectsFromArray:customItemsArray];
+                //[_favoriteTVShows addObjectsFromArray:customItemsArray];
+                
                 if([customItemsArray count]<20){
                     _noMoreFavoriteTVShows=YES;
                 }
@@ -153,6 +156,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
                     _favoriteTVShowsPagesLoaded++;
                 }
             }
+             [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:customItemsArray toCollection:CollectionTypeFavorites];
             break;
         case SideMenuOptionWatchlist:
             if(mediaType==MovieType){
@@ -173,12 +177,13 @@ static id<LocalNotificationHandler> _localNotificationManager;
                     _watchlistTVShowsPagesLoaded++;
                 }
             }
+             [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:customItemsArray toCollection:CollectionTypeWatchlist];
             break;
         default:
             break;
     }
     if(_noMoreWatchlistTVShows && _noMoreWatchlistMovies && _noMoreFavoriteTVShows && _noMoreFavoriteMovies){
-        [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
     }
     else if(responseCounter>=4){
         [self updateData];

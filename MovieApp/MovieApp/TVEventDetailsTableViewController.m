@@ -31,6 +31,8 @@
 #import "GalleryCollectionViewCell.h"
 #import "GalleryTableViewCell.h"
 
+#import "DatabaseManager.h"
+
 #define NumberOfSections 6
 #define FontSize14 14
 
@@ -174,7 +176,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     
     if(indexPath.section==0){
         if(indexPath.row==0){ 
-            TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];
+            TrailerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[TrailerTableViewCell cellIdentifier] forIndexPath:indexPath];\
             [cell setupWithTVEvent:_mainTvEvent];
             [cell setDelegate:(id<ShowTrailerDelegate>)self];
             return cell;
@@ -298,12 +300,20 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==0){
         if(indexPath.row==0){
+            
             if(_mainTvEvent.backdropPath){
+                if(![MovieAppConfiguration isConnectedToInternet]){
+                    UIImage *image=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth500 stringByAppendingString:_mainTvEvent.backdropPath]];
+                    if(!image){
+                        return UITableViewAutomaticDimension;
+                    }
+                }
+                
                 return [self getHeightForCellWithDivisor:TrailerCellWidthHeightRatio];
 
             }
             else{
-                return 80;
+                return UITableViewAutomaticDimension;
             }
         }
         else if(indexPath.row==2){
@@ -368,6 +378,18 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     return self.tableView.bounds.size.width/divisor;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section==0 && indexPath.row==0){
+        if(_mainTvEvent.backdropPath){
+            return [self getHeightForCellWithDivisor:TrailerCellWidthHeightRatio];
+            
+        }
+        else{
+            return 80.0;
+        }
+    }
+    return 0.0;
+}
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
@@ -408,8 +430,14 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([customItemsArray count]>0){
         if([info[TypeDictionaryKey] isEqualToString:DetailsDictionaryValue]){
-            _mainTvEventDetails=customItemsArray[0];
-            [_mainTvEvent setupWithTVEventDetails:_mainTvEventDetails];
+            if(![MovieAppConfiguration isConnectedToInternet]){
+                _mainTvEvent=customItemsArray[0];
+            }
+            else{
+                _mainTvEventDetails=customItemsArray[0];
+                [_mainTvEvent setupWithTVEventDetails:_mainTvEventDetails];
+            }
+            
             for(int i=1;i<[customItemsArray count];i++){
                 if([customItemsArray[i] isKindOfClass:[Image class]]){
                     [_images addObject:customItemsArray[i]];
@@ -567,6 +595,8 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
          
     }
    // [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:_mainTvEvent toCollection:typeOfCollection];
+    [[DatabaseManager sharedDatabaseManager] addTVEvent:_mainTvEvent toCollection:[DataProviderService collectionTypeFromSideMenuOption:typeOfCollection]];
+    
 }
 
 -(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
@@ -592,6 +622,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         
     }
    // [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
+    [[DatabaseManager sharedDatabaseManager] removeTVEvent:_mainTvEvent fromCollection:[DataProviderService collectionTypeFromSideMenuOption:typeOfCollection]];
 }
 
 -(void)didRateTVEvent:(CGFloat)rating{
@@ -649,5 +680,6 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     [self.navigationController pushViewController:gallery animated:YES];
 
 }
+
 
 @end

@@ -15,6 +15,7 @@
 #import "LoginRequest.h"
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
+#import "DatabaseManager.h"
 
 #import <Realm/Realm.h>
 #import "MovieDb.h"
@@ -362,7 +363,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     
     [alert addAction:defaultAction];
     [alert addAction:reloadAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    //[self presentViewController:alert animated:YES completion:nil];
 }
 
 - (IBAction)menuButtonPressed:(id)sender {
@@ -523,10 +524,12 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
                     currentTVEvent.isInFavorites=YES;
+                    [[DatabaseManager sharedDatabaseManager] addTVEvent:currentTVEvent toCollection:CollectionTypeFavorites];
                     //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
                     break;
                 case SideMenuOptionWatchlist:
                     currentTVEvent.isInWatchlist=YES;
+                    [[DatabaseManager sharedDatabaseManager] addTVEvent:currentTVEvent toCollection:CollectionTypeWatchlist];
                     //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
                     break;
                 default:
@@ -545,10 +548,12 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                 switch (typeOfCollection) {
                     case SideMenuOptionFavorites:
                         currentTVEvent.isInFavorites=NO;
+                        [[DatabaseManager sharedDatabaseManager] removeTVEvent:currentTVEvent fromCollection:CollectionTypeFavorites];
                         //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
                         break;
                     case SideMenuOptionWatchlist:
                         currentTVEvent.isInWatchlist=NO;
+                        [[DatabaseManager sharedDatabaseManager] removeTVEvent:currentTVEvent fromCollection:CollectionTypeWatchlist];
                         //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
                         break;
                     default:
@@ -562,13 +567,21 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 }
 
 -(void)dataStorageReadyNotificationHandler{
-    VirtualDataStorage *sharedStorage=[VirtualDataStorage sharedVirtualDataStorage];
+    DatabaseManager *sharedDatabaseManager=[DatabaseManager sharedDatabaseManager];
+    
     for(int i=0;i<[_tvEvents count];i++){
-        if([sharedStorage containsTVEventInFavorites:_tvEvents[i]]){
+        if([sharedDatabaseManager containsTVEventInFavorites:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInFavorites=YES;
         }
-        if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
+        else{
+            ((TVEvent *)_tvEvents[i]).isInFavorites=NO;
+
+        }
+        if([sharedDatabaseManager containsTVEventInWatchlist:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
+        }
+        else{
+            ((TVEvent *)_tvEvents[i]).isInWatchlist=NO;
         }
         
     }
@@ -577,7 +590,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    for(int i=0;i<[_tvEvents count];i++){
+    /*for(int i=0;i<[_tvEvents count];i++){
         TVEvent * currentTVEvent=_tvEvents[i];
         if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
             currentTVEvent.isInFavorites=YES;
@@ -594,6 +607,24 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
             
         }
     }
+    [self.tvEventsCollectionView reloadData];*/
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent * currentTVEvent=_tvEvents[i];
+        if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        else{
+            currentTVEvent.isInFavorites=NO;
+            
+        }
+        if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
+        }
+        else{
+            currentTVEvent.isInWatchlist=NO;
+            
+        }
+    }
     [self.tvEventsCollectionView reloadData];
     self.navigationItem.titleView=nil;
     self.navigationItem.titleView = self.searchController.searchBar;
@@ -603,15 +634,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
-    for(int i=0;i<[_tvEvents count];i++){
-        TVEvent * currentTVEvent=_tvEvents[i];
-        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
-            currentTVEvent.isInFavorites=YES;
-        }
-        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
-            currentTVEvent.isInWatchlist=YES;
-        }
-    }
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

@@ -131,12 +131,12 @@ static NSString *WatchlistNormalImageName=@"watchlist";
             }];
         }
         else{
-            self.posterImageView.image=[UIImage imageNamed:DefaultImageName];
+            self.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
             
         }
     }
     else{
-        self.posterImageView.image=[UIImage imageNamed:DefaultImageName];
+        self.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
     }
     
     self.addToFavoritesImageView.image=[UIImage imageNamed:tvEvent.isInFavorites ? FavoritesSelectedImageName : FavoritesNormalImageName];

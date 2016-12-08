@@ -25,6 +25,9 @@
 @interface DatabaseManager : NSObject<DataStorageProtocol>
 +(instancetype)sharedDatabaseManager;
 -(void)removeAllITVEventsFromCollection:(CollectionType)collectionType;
+-(void)removeTVEvent:(TVEvent *)tvEvent fromCollection:(CollectionType)collectionType;
+-(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType;
+-(void)addTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollection:(CollectionType)collectionType;
 -(void)addTVEventsFromArray:(NSArray *)tvEvents toCollection:(CollectionType)collection;
 -(void)addTVShowSeason:(TvShowSeason *)season toTVShowWithID:(NSInteger)tvShowID;
 -(void)addTVShowSeasonsFromArray:(NSArray *)seasons toTVShowWithID:(NSInteger)tvShowID;
@@ -40,6 +43,7 @@
 -(void)addPerson:(PersonDetails *)person;
 -(void)addReview:(TVEventReview *)review;
 -(void)addReviewsFromArray:(NSArray *)reviews toMovie:(TVEvent *)movie;
+-(void)addCastMembersFromArray:(NSArray *)castMembers toTVShowWithID:(NSInteger)tvShowID seasonNumber:(NSInteger)seasonNumber episodeNumber:(NSInteger)episodeNumber;
 -(TVEvent *)getTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediaType;
 -(Movie *)getMovieWithID:(NSInteger)movieID;
 -(TVShow *)getTVShowWithID:(NSInteger)tvShowID;
@@ -53,7 +57,7 @@
 -(NSArray *)getCrewMembersForTVEvent:(TVEvent *)tvEvent;
 -(NSArray *)getImagesForTVEvent:(TVEvent *)tvEvent;
 -(NSArray *)getReviewsForTVEvent:(TVEvent *)tvEvent;
-
+-(NSArray *)getCastMembersForTVShowWithID:(NSInteger)tvShowID easonNumber:(NSInteger)seasonNumber episodeNumber:(NSInteger)episodeNumber;
 -(UIImage *)getUIImageFromImageDbWithID:(NSString *)imageDbId;
 -(void)updateTVEvent:(NSInteger)tvEventID withTVEventDetails:(TVEventDetails *)tvEventDetails;
 

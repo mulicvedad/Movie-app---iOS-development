@@ -100,7 +100,6 @@ static NSArray *genres=nil;
 
 +(NSArray *)getCriteriaForSorting{
     return @[@"Most popular",@"Latest",@"Highest-rated"];
-
 }
 
 +(instancetype)movieWithMovieDb:(MovieDb *)movieDb{
@@ -108,6 +107,7 @@ static NSArray *genres=nil;
     movie.id=movieDb.id;
     movie.title=movieDb.title;
     movie.originalTitle=movieDb.originalTitle;
+    movie.overview=movieDb.overview;
     NSMutableArray *genres=[[NSMutableArray alloc]init];
     for(GenreDb *genreDb in movieDb.genres){
         [genres addObject:[NSNumber numberWithInteger:genreDb.id]];
@@ -115,7 +115,15 @@ static NSArray *genres=nil;
     movie.genreIDs=genres;
     movie.releaseDate = movieDb.releaseDate;
     movie.posterPath=movieDb.posterPath;
+    movie.backdropPath=movieDb.backdropPath;
+    movie.rating=movieDb.usersRating;
+    movie.voteCount=movieDb.voteCount;
     movie.voteAverage=movieDb.voteAverage;
+    movie.duration=movieDb.duration;
+    movie.isInRatings=movieDb.isInRatings;
+    movie.isInFavorites=movieDb.isInFavorites;
+    movie.isInWatchlist=movieDb.isInWatchlist;
+    
     return movie;
     
 }

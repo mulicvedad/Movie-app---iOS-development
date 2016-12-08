@@ -71,12 +71,32 @@ static DatabaseManager *_uniqueInstance;
 -(void)updateData{
     //wat to do
 }
-
+-(void)addTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollection:(CollectionType)collectionType{
+    TVEvent *tvEvent;
+    if(mediaType==MovieType){
+        tvEvent=[[Movie alloc] init];
+        tvEvent.id=tvEventId;
+    }
+    else{
+        tvEvent=[[TVShow alloc] init];
+        tvEvent.id=tvEventId;
+    }
+    NSArray *tvEvents=[NSArray arrayWithObject:tvEvent];
+    [self  addTVEventsFromArray:tvEvents toCollection:collectionType];
+}
 -(void)addTVEvent:(TVEvent *)tvEvent toCollection:(CollectionType)collectionType{
     NSArray *tvEvents=[NSArray arrayWithObject:tvEvent];
     [self  addTVEventsFromArray:tvEvents toCollection:collectionType];
 }
-
+-(void)removeTVEvent:(TVEvent *)tvEvent fromCollection:(CollectionType)collectionType{
+    if([tvEvent isKindOfClass:[Movie class]]){
+        [self removeTVEventWithID:tvEvent.id mediaType:MovieType fromCollection:collectionType];
+    }
+    else{
+        [self removeTVEventWithID:tvEvent.id mediaType:TVShowType fromCollection:collectionType];
+    }
+    
+}
 -(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType{
     TVEventDb *tvEventDb;
     if(mediatype==MovieType){
@@ -88,7 +108,11 @@ static DatabaseManager *_uniqueInstance;
     if(!tvEventDb){
         @throw NSInternalInconsistencyException;
     }
+    [_realm beginWriteTransaction];
+    
     [tvEventDb setValue:@"NO" forKey:[DatabaseManager keyForCollectionType:collectionType]];
+    
+    [_realm commitWriteTransaction];
 }
 
 -(BOOL)containsTVEventInFavorites:(TVEvent *)tvEvent{
@@ -105,7 +129,7 @@ static DatabaseManager *_uniqueInstance;
 
 
 -(BOOL)containsTVEvent:(TVEvent *)tvEvent inCollection:(CollectionType)collection{
-    NSString *where=[NSString stringWithFormat:@"%@=YES", [DatabaseManager keyForCollectionType:collection]];
+    NSString *where=[NSString stringWithFormat:@"id=%lu AND %@=YES", tvEvent.id,[DatabaseManager keyForCollectionType:collection]];
     RLMResults *results;
     if([tvEvent isKindOfClass:[Movie class]]){
         results=[MovieDb objectsWhere:where];
@@ -113,8 +137,8 @@ static DatabaseManager *_uniqueInstance;
     else{
         results=[TVShowDb objectsWhere:where];
     }
-    
-    return results.count;
+    int tmp=results.count;
+    return results.count!=0;
 }
 -(BOOL)containsTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediaType inCollection:(CollectionType)collection{
     NSString *where=[NSString stringWithFormat:@"id=%d AND %@=YES", (int)tvEventID, [DatabaseManager keyForCollectionType:collection]];
@@ -275,6 +299,30 @@ static DatabaseManager *_uniqueInstance;
     [_realm commitWriteTransaction];
     
 }
+-(void)addCastMembersFromArray:(NSArray *)castMembers toTVShowWithID:(NSInteger)tvShowID seasonNumber:(NSInteger)seasonNumber episodeNumber:(NSInteger)episodeNumber{
+    TVShowDb *tvShowDb=[TVShowDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvShowID]];
+    if(!tvShowDb){
+        @throw NSInternalInconsistencyException;
+    }
+    
+    TVShowEpisodeDb *episodeDb=tvShowDb.seasons[seasonNumber].episodes[episodeNumber];
+    if(episodeDb.cast.count>0){
+        return;
+    }
+    
+    [_realm beginWriteTransaction];
+    
+    for(CastMember *castMember in castMembers){
+        CastMemberDb *castMemberDb=[CastMemberDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:castMember.id]];
+        if(!castMemberDb){
+            castMemberDb=[CastMemberDb castMemberDbWithCastMember:castMember];
+        }
+        [episodeDb.cast addObject:castMemberDb];
+    }
+    
+    [_realm commitWriteTransaction];
+}
+
 -(void)addCrewMember:(CrewMember *)crewMember{
     //not implemented - probably wont be needed
 }
@@ -461,6 +509,18 @@ static DatabaseManager *_uniqueInstance;
     return [TVEventReview reviewsArrayWithRLMArray:(RLMResults *)movieDb.reviews];
 
 }
+
+-(NSArray *)getCastMembersForTVShowWithID:(NSInteger)tvShowID easonNumber:(NSInteger)seasonNumber episodeNumber:(NSInteger)episodeNumber{
+    TVShowDb *tvShowDb=[TVShowDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvShowID]];
+    if(!tvShowDb){
+        @throw NSInternalInconsistencyException;
+    }
+    
+    TVShowEpisodeDb *episodeDb=tvShowDb.seasons[seasonNumber].episodes[episodeNumber];
+    
+    return [CastMember castMembersArrayWithRLMArray:(RLMResults *)episodeDb.cast];
+}
+
 
 -(PersonDetails *)getPersonDetailsForID:(NSInteger)personID{
     PersonDetailsDb *personDetailsDb=[PersonDetailsDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:personID]];

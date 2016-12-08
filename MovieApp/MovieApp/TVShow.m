@@ -97,6 +97,7 @@ static NSArray *genres=nil;
     newTvShow.releaseDate=searchResultItem.firstAirDate;
     newTvShow.posterPath=searchResultItem.posterPath;
     newTvShow.backdropPath=searchResultItem.backdropPath;
+
     
     return newTvShow;
 }
@@ -123,6 +124,11 @@ static NSArray *genres=nil;
     newTvShow.releaseDate=tvShowDb.releaseDate;
     newTvShow.posterPath=tvShowDb.posterPath;
     newTvShow.backdropPath=tvShowDb.backdropPath;
+    newTvShow.rating=tvShowDb.usersRating;
+    newTvShow.duration=tvShowDb.duration;
+    newTvShow.isInRatings=tvShowDb.isInRatings;
+    newTvShow.isInFavorites=tvShowDb.isInFavorites;
+    newTvShow.isInWatchlist=tvShowDb.isInWatchlist;
     
     return newTvShow;
 }

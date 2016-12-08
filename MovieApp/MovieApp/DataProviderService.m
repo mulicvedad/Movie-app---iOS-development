@@ -201,12 +201,15 @@ static DataProviderService *sharedService;
     MediaType mediaType= [tvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType;
     if(![MovieAppConfiguration isConnectedToInternet]){
         NSMutableArray *results=[[NSMutableArray alloc] init];
-        [results addObject:[[DatabaseManager sharedDatabaseManager] getMovieWithID:tvEvent.id]];
         if(mediaType==TVShowType){
+            [results addObject:[[DatabaseManager sharedDatabaseManager] getTVShowWithID:tvEvent.id]];
             [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getSeasonsForTVShow:(TVShow *)tvEvent]];
         }
+        else{
+            [results addObject:[[DatabaseManager sharedDatabaseManager] getMovieWithID:tvEvent.id]];
+            [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getReviewsForTVEvent:tvEvent]];
+        }
         [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getImagesForTVEvent:tvEvent]];
-        [results addObjectsFromArray:[[DatabaseManager sharedDatabaseManager] getReviewsForTVEvent:tvEvent]];
         [dataHandler updateReceiverWithNewData:results info:@{TypeDictionaryKey:DetailsDictionaryValue}];
         return;
         
@@ -265,7 +268,7 @@ static DataProviderService *sharedService;
     
     
 }
-
+//not in use - but maybe will be needed
 -(void)getDetailsForTvEventWithID:(NSUInteger)tvEventID mediaType:(MediaType)mediaType returnTo:(id<ItemsArrayReceiver>)dataHandler{
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   AppendToResponseParameterName : AppendImagesParameterValue};
@@ -349,7 +352,9 @@ static DataProviderService *sharedService;
 -(void)getVideosForTvEventID:(NSUInteger)tvEventID returnTo:(id<ItemsArrayReceiver>)dataHandler{
     NSDictionary *queryParams = @{APIKeyParameterName: [MovieAppConfiguration getApiKey]};
     NSString *subpath;
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        return;
+    }
     subpath=[[MovieDetailsSubpath stringByAppendingString:[NSString stringWithFormat:@"/%lu",tvEventID]] stringByAppendingString:VideosSubpath];
     
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
@@ -364,6 +369,7 @@ static DataProviderService *sharedService;
     
 }
 
+//this method also fetches episodes for season
 -(void)getSeasonDetailsForTvShow:(NSUInteger)tvShowID seasonNumber:(NSUInteger)number returnTo:(id<ItemsArrayReceiver>)dataHandler{
     
     if(![MovieAppConfiguration isConnectedToInternet]){
@@ -382,8 +388,8 @@ static DataProviderService *sharedService;
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   NSMutableArray *episodes=[[NSMutableArray alloc] init];
                                                   for(int i=0;i<mappingResult.array.count;i++){
-                                                      if([mappingResult.array[0] isKindOfClass:[TVShowEpisode class]]){
-                                                          [episodes addObject:mappingResult.array[0]];
+                                                      if([mappingResult.array[i] isKindOfClass:[TVShowEpisode class]]){
+                                                          [episodes addObject:mappingResult.array[i]];
                                                       }
                                                   }
                                                   [[DatabaseManager sharedDatabaseManager] addTVShowEpisodesFromArray:episodes toTVShowWithID:tvShowID seasoNumber:number];
@@ -397,7 +403,9 @@ static DataProviderService *sharedService;
 }
 
 -(void)getVideosForTvShowID:(NSUInteger)tvShowID seasonNumber:(NSUInteger)seasonNumber episodeNumber:(NSUInteger)episodeNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        return;
+    }
     NSDictionary *queryParams = @{APIKeyParameterName: [MovieAppConfiguration getApiKey]};
     NSString *subpath;
     
@@ -416,7 +424,11 @@ static DataProviderService *sharedService;
 }
 
 -(void)getCastForTvShowID:(NSUInteger)tvShowID seasonNumber:(NSUInteger)seasonNumber episodeNumber:(NSUInteger)episodeNumber returnTo:(id<ItemsArrayReceiver>)dataHandler{
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSArray *results=[[DatabaseManager sharedDatabaseManager] getCastMembersForTVShowWithID:tvShowID easonNumber:seasonNumber episodeNumber:episodeNumber];
+        [dataHandler updateReceiverWithNewData:results info:nil];
+        return;
+    }
     NSDictionary *queryParams = @{APIKeyParameterName: [MovieAppConfiguration getApiKey]};
     NSString *subpath;
     
@@ -425,6 +437,13 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] getObjectsAtPath:subpath
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                  NSMutableArray *cast=[[NSMutableArray alloc] init];
+                                                  for(int i=0;i<mappingResult.array.count;i++){
+                                                      if([mappingResult.array[i] isKindOfClass:[CastMember class]]){
+                                                          [cast addObject:mappingResult.array[i]];
+                                                      }
+                                                  }
+                                                  [[DatabaseManager sharedDatabaseManager] addCastMembersFromArray:cast toTVShowWithID:tvShowID seasonNumber:seasonNumber episodeNumber:episodeNumber];
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -435,6 +454,7 @@ static DataProviderService *sharedService;
 }
 
 -(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler{
+    //if there is no connection return search results from database
     
     NSDictionary *queryParams = @{QueryParameterName : query,
                                   PageQueryParameterName:[NSNumber numberWithUnsignedInteger:page],
@@ -488,7 +508,19 @@ static DataProviderService *sharedService;
     else{
         sessionID=[self getSessionID];
     }
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSArray *favorites;
+        if(mediaType==MovieType){
+            favorites=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:CollectionTypeFavorites];
+
+        }
+        else{
+            favorites=[[DatabaseManager sharedDatabaseManager] getTVShowsOfCollection:CollectionTypeFavorites];
+        }
+        [dataHandler updateReceiverWithNewData:favorites info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionFavorites]}];
+        return;
+        
+    }
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   SessionIDParameterName: sessionID,
                                   PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber],
@@ -514,6 +546,19 @@ static DataProviderService *sharedService;
     }
     else{
         sessionID=[self getSessionID];
+    }
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSArray *watchlist;
+        if(mediaType==MovieType){
+            watchlist=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:CollectionTypeWatchlist];
+            
+        }
+        else{
+            watchlist=[[DatabaseManager sharedDatabaseManager] getTVShowsOfCollection:CollectionTypeWatchlist];
+        }
+        [dataHandler updateReceiverWithNewData:watchlist info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionWatchlist]}];
+        return;
+        
     }
     
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
@@ -770,6 +815,23 @@ static DataProviderService *sharedService;
             break;
         default:
             break;
+    }
+}
+
+
++(CollectionType)collectionTypeFromSideMenuOption:(SideMenuOption)sideMenuOption{
+    switch (sideMenuOption) {
+        case SideMenuOptionFavorites:
+            return CollectionTypeFavorites;
+            break;
+        case SideMenuOptionWatchlist:
+            return CollectionTypeWatchlist;
+            break;
+        case SideMenuOptionRatings:
+            return CollectionTypeRatings;
+            break;
+        default:
+            @throw NSInternalInconsistencyException;
     }
 }
 @end

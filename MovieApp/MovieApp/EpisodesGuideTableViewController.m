@@ -37,7 +37,7 @@ enum{
     [super viewDidLoad];
     [self configure];
     currentSeasonIndex=0;
-    [[DataProviderService sharedDataProviderService] getSeasonDetailsForTvShow:_tvShow.id seasonNumber:currentSeasonIndex+1 returnTo:self];
+    [[DataProviderService sharedDataProviderService] getSeasonDetailsForTvShow:_tvShow.id seasonNumber:currentSeasonIndex returnTo:self];
 
 }
 
@@ -223,7 +223,7 @@ enum{
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
         currentSeasonIndex=indexPath.row;
-        [[DataProviderService sharedDataProviderService] getSeasonDetailsForTvShow:_tvShow.id seasonNumber:currentSeasonIndex+1 returnTo:self];
+        [[DataProviderService sharedDataProviderService] getSeasonDetailsForTvShow:_tvShow.id seasonNumber:currentSeasonIndex returnTo:self];
     
     
 }

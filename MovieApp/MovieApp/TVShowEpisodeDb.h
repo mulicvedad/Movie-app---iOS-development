@@ -1,4 +1,5 @@
 #import <Realm/Realm.h>
+#import "CastMemberDb.h"
 
 @class TVShowEpisode;
 
@@ -11,7 +12,7 @@
 @property NSInteger episodeNumber;
 @property NSInteger seasonNumber;
 @property float voteAverage;
-
+@property RLMArray<CastMemberDb *><CastMemberDb> *cast;
 +(TVShowEpisodeDb *)episodeDbWithEpisode:(TVShowEpisode *)episode;
 
 @end
