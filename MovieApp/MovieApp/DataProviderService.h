@@ -39,5 +39,7 @@
 -(void)getAllEpisodesForTVShowWithID:(NSUInteger)tvShowID numberOfSeasons:(NSUInteger)numberOfSeasons  returnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(void)getAccountDetailsReturnTo:(id<ItemsArrayReceiver>)dataHandler;
 -(BOOL)isUserLoggedIn;
++(CollectionType)collectionTypeFromCriterion:(Criterion)criterion;
++(CollectionType)collectionTypeFromSideMenuOption:(SideMenuOption)sideMenuOption;
 
 @end

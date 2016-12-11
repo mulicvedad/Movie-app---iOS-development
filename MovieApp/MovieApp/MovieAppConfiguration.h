@@ -11,6 +11,18 @@ typedef enum{
     SideMenuOptionLogout,
     SideMenuOptionNone
 } SideMenuOption;
+
+typedef enum{
+    CollectionTypeFavorites,
+    CollectionTypeWatchlist,
+    CollectionTypeRatings,
+    CollectionTypeLatest,
+    CollectionTypePopular,
+    CollectionTypeHighestRated,
+    CollectionTypeAiringToday,
+    CollectionTypeOnTheAir
+}CollectionType;
+
 @interface MovieAppConfiguration : NSObject
 
 extern NSString * const YouTubeSiteName;
@@ -49,4 +61,5 @@ extern NSString *MoviesNotificationsEnabledNSUserDefaultsKey;
 +(UIColor *)getPreferredTextColorForSearchBar;
 +(NSArray *)getCriteriaForLikedTVEventsSorting;
 +(NSString *)getStringRepresentationOfSideMenuOption:(SideMenuOption) option;
++(BOOL)isConnectedToInternet;
 @end

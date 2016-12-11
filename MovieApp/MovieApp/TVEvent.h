@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "TVEventDetails.h"
+#import "TVShowDb.h"
 
 @interface TVEvent : NSObject
 
@@ -17,8 +18,8 @@
 @property (nonatomic) BOOL isInFavorites;
 @property (nonatomic) BOOL isInWatchlist;
 @property (nonatomic) BOOL isInRatings;
-@property (nonatomic) float rating;
-
+@property (nonatomic) NSInteger rating;
+@property (nonatomic) NSInteger duration;
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId;
 +(NSString *)getClassName;

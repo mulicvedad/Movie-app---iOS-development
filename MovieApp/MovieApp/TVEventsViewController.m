@@ -15,7 +15,10 @@
 #import "LoginRequest.h"
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
-
+#import "DatabaseManager.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <Realm/Realm.h>
+#import "MovieDb.h"
 
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
@@ -62,6 +65,8 @@ static CGFloat const SortByTableDefaultCellHeight=43.0f;
 static NSString *LikedTVEventsSegueIdentifier=@"LikedTVEventsSegueIdentifier";
 static NSString *LoginSegueIdentifier=@"LoginSegue";
 static NSString *SettingsSegueIdentifier=@"SettingsSegue";
+static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
+
 
 @implementation TVEventsViewController
 
@@ -149,7 +154,38 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-    [cell setupWithTvEvent:_tvEvents[indexPath.row] indexPathRow:indexPath.row callbackDelegate:self];
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    TVEvent *currentTVEvent=_tvEvents[indexPath.row];
+    
+    if(currentTVEvent.posterPath){
+        UIImage *uiImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
+        
+        if([MovieAppConfiguration isConnectedToInternet]){
+            [cell.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PlaceholderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if(!uiImage){
+                    [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
+                }
+                
+                
+            }];
+        }
+        else if(uiImage){
+            cell.posterImageView.image=uiImage;
+
+        }
+        else{
+            cell.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
+            
+        }
+        
+    }
+    else{
+        cell.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
+        
+    }
+    
+    [cell setupWithTvEvent:currentTVEvent indexPathRow:indexPath.row callbackDelegate:self];
     
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
@@ -186,7 +222,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
         [self handleError:[info objectForKey:ErrorDictionaryKey]];
         return;
     }
-    if([customItemsArray count]<20){
+    if([customItemsArray count]<20 || ![MovieAppConfiguration isConnectedToInternet]){
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
@@ -359,7 +395,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     
     [alert addAction:defaultAction];
     [alert addAction:reloadAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    //[self presentViewController:alert animated:YES completion:nil];
 }
 
 - (IBAction)menuButtonPressed:(id)sender {
@@ -481,7 +517,8 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                                                               KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
                                                               [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
                                                               [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
-                                                              [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
+                                                              
+                                                              [[DatabaseManager sharedDatabaseManager] removeUserRelatedInfo];
                                                               [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
                                                               [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
                                                               [self.tvEventsCollectionView reloadData];
@@ -505,9 +542,12 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     MediaType mediaType= [_tvEvents[indexPathRow] isKindOfClass:[Movie class]] ? MovieType : TVShowType;
     TVEvent *currentTVEvent=_tvEvents[indexPathRow];
     if(typeOfCollection==SideMenuOptionFavorites){
+        BOOL isis=currentTVEvent.isInFavorites;
         [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:currentTVEvent.id mediaType:mediaType remove:currentTVEvent.isInFavorites responseHandler:self];
     }
     else{
+        BOOL isis=currentTVEvent.isInWatchlist;
+
         [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:currentTVEvent.id  mediaType:mediaType remove:currentTVEvent.isInWatchlist responseHandler:self];
 
     }
@@ -520,11 +560,13 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
                     currentTVEvent.isInFavorites=YES;
-                    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
+                    //[[DatabaseManager sharedDatabaseManager] addTVEvent:currentTVEvent toCollection:CollectionTypeFavorites];
+                    //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
                     break;
                 case SideMenuOptionWatchlist:
                     currentTVEvent.isInWatchlist=YES;
-                    [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
+                    //[[DatabaseManager sharedDatabaseManager] addTVEvent:currentTVEvent toCollection:CollectionTypeWatchlist];
+                    //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
                     break;
                 default:
                     break;
@@ -542,11 +584,13 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
                 switch (typeOfCollection) {
                     case SideMenuOptionFavorites:
                         currentTVEvent.isInFavorites=NO;
-                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
+                        //[[DatabaseManager sharedDatabaseManager] removeTVEvent:currentTVEvent fromCollection:CollectionTypeFavorites];
+                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
                         break;
                     case SideMenuOptionWatchlist:
                         currentTVEvent.isInWatchlist=NO;
-                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
+                        //[[DatabaseManager sharedDatabaseManager] removeTVEvent:currentTVEvent fromCollection:CollectionTypeWatchlist];
+                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
                         break;
                     default:
                         break;
@@ -559,13 +603,21 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 }
 
 -(void)dataStorageReadyNotificationHandler{
-    VirtualDataStorage *sharedStorage=[VirtualDataStorage sharedVirtualDataStorage];
+    DatabaseManager *sharedDatabaseManager=[DatabaseManager sharedDatabaseManager];
+    
     for(int i=0;i<[_tvEvents count];i++){
-        if([sharedStorage containsTVEventInFavorites:_tvEvents[i]]){
+        if([sharedDatabaseManager containsTVEventInFavorites:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInFavorites=YES;
         }
-        if([sharedStorage containsTVEventInWatchlist:_tvEvents[i]]){
+        else{
+            ((TVEvent *)_tvEvents[i]).isInFavorites=NO;
+
+        }
+        if([sharedDatabaseManager containsTVEventInWatchlist:_tvEvents[i]]){
             ((TVEvent *)_tvEvents[i]).isInWatchlist=YES;
+        }
+        else{
+            ((TVEvent *)_tvEvents[i]).isInWatchlist=NO;
         }
         
     }
@@ -574,7 +626,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    for(int i=0;i<[_tvEvents count];i++){
+    /*for(int i=0;i<[_tvEvents count];i++){
         TVEvent * currentTVEvent=_tvEvents[i];
         if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
             currentTVEvent.isInFavorites=YES;
@@ -591,6 +643,24 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
             
         }
     }
+    [self.tvEventsCollectionView reloadData];*/
+    for(int i=0;i<[_tvEvents count];i++){
+        TVEvent * currentTVEvent=_tvEvents[i];
+        if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:currentTVEvent]){
+            currentTVEvent.isInFavorites=YES;
+        }
+        else{
+            currentTVEvent.isInFavorites=NO;
+            
+        }
+        if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:currentTVEvent]){
+            currentTVEvent.isInWatchlist=YES;
+        }
+        else{
+            currentTVEvent.isInWatchlist=NO;
+            
+        }
+    }
     [self.tvEventsCollectionView reloadData];
     self.navigationItem.titleView=nil;
     self.navigationItem.titleView = self.searchController.searchBar;
@@ -600,15 +670,7 @@ static NSString *SettingsSegueIdentifier=@"SettingsSegue";
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
-    for(int i=0;i<[_tvEvents count];i++){
-        TVEvent * currentTVEvent=_tvEvents[i];
-        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
-            currentTVEvent.isInFavorites=YES;
-        }
-        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
-            currentTVEvent.isInWatchlist=YES;
-        }
-    }
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

@@ -3,6 +3,7 @@
 #import "TVShowEpisode.h"
 #import "CustomQueue.h"
 #import "LocalNotificationHandler.h"
+#import "DatabaseManager.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 #import "LocalNotificationManager.h"
@@ -15,6 +16,9 @@
     NSMutableArray *_watchListMovies;
     NSMutableArray *_favoriteTVShows;
     NSMutableArray *_watchListTVShows;
+    NSMutableArray *_ratedMovies;
+    NSMutableArray *_ratedTVShows;
+    
     CustomQueue *_mainTVShowQueue;
     NSTimer *_timer;
     
@@ -22,11 +26,15 @@
     BOOL _noMoreFavoriteMovies;
     BOOL _noMoreWatchlistTVShows;
     BOOL _noMoreWatchlistMovies;
+    BOOL _noMoreRatedTVShows;
+    BOOL _noMoreRatedMovies;
     
     NSUInteger _favoriteTVShowsPagesLoaded;
     NSUInteger _favoriteMoviesPagesLoaded;
     NSUInteger _watchlistTVShowsPagesLoaded;
     NSUInteger _watchlistMoviesPagesLoaded;
+    NSUInteger _ratedTVShowsPagesLoaded;
+    NSUInteger _ratedMoviesPagesLoaded;
 
 
 }
@@ -57,6 +65,9 @@ static id<LocalNotificationHandler> _localNotificationManager;
 
     _watchListMovies=[[NSMutableArray alloc] init];
     _watchListTVShows=[[NSMutableArray alloc] init];
+    
+    _ratedMovies=[[NSMutableArray alloc] init];
+    _ratedTVShows=[[NSMutableArray alloc] init];
 
 }
 -(void)updateData{
@@ -72,6 +83,12 @@ static id<LocalNotificationHandler> _localNotificationManager;
     if(!_noMoreWatchlistTVShows){
         [[DataProviderService sharedDataProviderService] getWatchlistOfType:TVShowType pageNumber:_watchlistTVShowsPagesLoaded+1 returnTo:self];
     }
+    if(!_noMoreRatedMovies){
+        [[DataProviderService sharedDataProviderService] getRatedTVEventsOfType:MovieType pageNumber:_ratedMoviesPagesLoaded+1 returnTo:self];
+    }
+    if(!_noMoreRatedTVShows){
+        [[DataProviderService sharedDataProviderService] getRatedTVEventsOfType:TVShowType pageNumber:_ratedTVShowsPagesLoaded+1 returnTo:self];
+    }
 
 }
 
@@ -81,14 +98,20 @@ static id<LocalNotificationHandler> _localNotificationManager;
     _favoriteMoviesPagesLoaded=0;
     _watchlistTVShowsPagesLoaded=0;
     _watchlistMoviesPagesLoaded=0;
+    _ratedMoviesPagesLoaded=0;
+    _ratedTVShowsPagesLoaded=0;
     _noMoreFavoriteTVShows=NO;
     _noMoreFavoriteMovies=NO;
     _noMoreWatchlistTVShows=NO;
     _noMoreWatchlistMovies=NO;
+    _noMoreRatedTVShows=NO;
+    _noMoreRatedMovies=NO;
     [_favoriteMovies removeAllObjects];
     [_favoriteTVShows removeAllObjects];
     [_watchListMovies removeAllObjects];
     [_watchListTVShows removeAllObjects];
+    [_ratedTVShows removeAllObjects];
+    [_ratedTVShows removeAllObjects];
 
 }
 
@@ -99,7 +122,10 @@ static id<LocalNotificationHandler> _localNotificationManager;
     return mediaType==MovieType ? _watchListMovies : _watchListTVShows;
 
 }
-
+-(NSArray *)getRatedTVEventsOfType:(MediaType)mediaType{
+    return mediaType==MovieType ? _ratedMovies : _ratedTVShows;
+    
+}
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
     if([[info objectForKey:TypeDictionaryKey] isEqualToString:EpisodesDictionaryValue]){
         NSUInteger tvShowID=[(NSNumber *)[info objectForKey:TVEventIDDictionaryKey] integerValue];
@@ -120,7 +146,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
     responseCounter++;
     if(!customItemsArray || [customItemsArray count]==0){
         
-            [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
+            //[[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
         
         return;
     }
@@ -136,7 +162,8 @@ static id<LocalNotificationHandler> _localNotificationManager;
     switch (currentOption) {
         case SideMenuOptionFavorites:
             if(mediaType==MovieType){
-                [_favoriteMovies addObjectsFromArray:customItemsArray];
+                //[_favoriteMovies addObjectsFromArray:customItemsArray];
+                
                 if([customItemsArray count]<20){
                     _noMoreFavoriteMovies=YES;
                 }
@@ -145,7 +172,8 @@ static id<LocalNotificationHandler> _localNotificationManager;
                 }
             }
             else{
-                [_favoriteTVShows addObjectsFromArray:customItemsArray];
+                //[_favoriteTVShows addObjectsFromArray:customItemsArray];
+                
                 if([customItemsArray count]<20){
                     _noMoreFavoriteTVShows=YES;
                 }
@@ -153,6 +181,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
                     _favoriteTVShowsPagesLoaded++;
                 }
             }
+             [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:customItemsArray toCollection:CollectionTypeFavorites];
             break;
         case SideMenuOptionWatchlist:
             if(mediaType==MovieType){
@@ -173,14 +202,36 @@ static id<LocalNotificationHandler> _localNotificationManager;
                     _watchlistTVShowsPagesLoaded++;
                 }
             }
+             [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:customItemsArray toCollection:CollectionTypeWatchlist];
+            break;
+        case SideMenuOptionRatings:
+            if(mediaType==MovieType){
+                [_ratedMovies addObjectsFromArray:customItemsArray];
+                if([customItemsArray count]<20){
+                    _noMoreRatedMovies=YES;
+                }
+                else{
+                    _ratedMoviesPagesLoaded++;
+                }
+            }
+            else{
+                [_ratedTVShows addObjectsFromArray:customItemsArray];
+                if([customItemsArray count]<20){
+                    _noMoreRatedTVShows=YES;
+                }
+                else{
+                    _ratedTVShowsPagesLoaded++;
+                }
+            }
+            [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:customItemsArray toCollection:CollectionTypeRatings];
             break;
         default:
             break;
     }
-    if(_noMoreWatchlistTVShows && _noMoreWatchlistMovies && _noMoreFavoriteTVShows && _noMoreFavoriteMovies){
+    if(_noMoreWatchlistTVShows && _noMoreWatchlistMovies && _noMoreFavoriteTVShows && _noMoreFavoriteMovies &&_noMoreRatedMovies && _noMoreRatedMovies){
         [[NSNotificationCenter defaultCenter] postNotificationName:DataStorageReadyNotificationName object:self];
     }
-    else if(responseCounter>=4){
+    else if(responseCounter>=6){
         [self updateData];
     }
 
@@ -251,9 +302,10 @@ static id<LocalNotificationHandler> _localNotificationManager;
     [[DataProviderService sharedDataProviderService] getAllEpisodesForTVShowWithID:currentTVEvent.id numberOfSeasons:0 returnTo:self];
     
 }
--(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(SideMenuOption)collectionType{
+-(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType{
+    SideMenuOption typeOfCollection = [VirtualDataStorage sideMenuOptionForCollectionType:collectionType];
     TVEvent *eventToRemove=nil;
-    switch (collectionType) {
+    switch (typeOfCollection) {
         case SideMenuOptionFavorites:
             if(mediatype==MovieType){
                 for(TVEvent *tvEvent in _favoriteMovies){
@@ -303,8 +355,9 @@ static id<LocalNotificationHandler> _localNotificationManager;
     }
 }
 
--(void)addTVEvent:(TVEvent *)tvEvent toCollection:(SideMenuOption)collectionType{
-    if(collectionType==SideMenuOptionFavorites && ![self containsTVEventInFavorites:tvEvent]){
+-(void)addTVEvent:(TVEvent *)tvEvent toCollection:(CollectionType)collectionType{
+    SideMenuOption typeOfCollection = [VirtualDataStorage sideMenuOptionForCollectionType:collectionType];
+    if(typeOfCollection==SideMenuOptionFavorites && ![self containsTVEventInFavorites:tvEvent]){
         if([tvEvent isKindOfClass:[Movie class]]){
             [_favoriteMovies addObject:tvEvent];
         }
@@ -314,7 +367,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
            
         }
     }
-    else if(collectionType==SideMenuOptionWatchlist && ![self containsTVEventInWatchlist:tvEvent]){
+    else if(typeOfCollection==SideMenuOptionWatchlist && ![self containsTVEventInWatchlist:tvEvent]){
         if([tvEvent isKindOfClass:[Movie class]]){
              [_watchListMovies addObject:tvEvent];
         }
@@ -322,6 +375,13 @@ static id<LocalNotificationHandler> _localNotificationManager;
             [_watchListTVShows addObject:tvEvent];
         }
     }
+}
+
++(SideMenuOption)sideMenuOptionForCollectionType:(CollectionType)collectionType{
+    if(collectionType == CollectionTypeFavorites || collectionType == CollectionTypeWatchlist){
+        return (SideMenuOption)collectionType;
+    }
+    @throw NSInvalidArgumentException;
 }
 
 @end

@@ -1,5 +1,6 @@
 #import "CastMemberPictureTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "DatabaseManager.h"
 
 @interface CastMemberPictureTableViewCell (){
     CAGradientLayer *_myGradientLayer;
@@ -51,7 +52,20 @@ static NSString *placeHolderImageName=@"wide-placeholder";
 -(void)setupWithCastMember:(CastMember *)castMember{
     self.nameLabel.text=castMember.name;
     if(castMember.profileImageUrl){
-        [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth500 stringByAppendingString:castMember.profileImageUrl]] placeholderImage:[UIImage imageNamed:placeHolderImageName]];
+        NSString *imageFullUrlPath=[BaseImageUrlForWidth500 stringByAppendingString:castMember.profileImageUrl];
+        UIImage *image=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:imageFullUrlPath];
+        if(image){
+            self.profileImageView.image=image;
+        }
+        else if([MovieAppConfiguration isConnectedToInternet]){
+            [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:imageFullUrlPath] placeholderImage:[UIImage imageNamed:placeHolderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:imageFullUrlPath];
+            }];
+        }
+        else{
+            
+        }
+        
 
     }
 }

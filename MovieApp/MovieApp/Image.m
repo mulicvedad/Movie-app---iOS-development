@@ -20,4 +20,21 @@
     }
     return imagesMutable;
 }
+
++(Image *)imageWithImageDb:(ImageDb *)imageDb{
+    Image *newImage=[[Image alloc] init];
+    
+    newImage.filePath=imageDb.filePath;
+    //newImage.aspectRatio=...
+    return newImage;
+}
++(NSArray *)imagesArrayFromRLMArray:(RLMResults *)results{
+    NSMutableArray *newImages=[[NSMutableArray alloc] init];
+    
+    for(ImageDb *imageDb in results){
+        [newImages addObject:[Image imageWithImageDb:imageDb]];
+    }
+    
+    return newImages;
+}
 @end
