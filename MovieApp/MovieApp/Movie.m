@@ -1,7 +1,7 @@
 #import "Movie.h"
 #import "DataProviderService.h"
 #import "Genre.h"
-
+#import "GenreDb.h"
 static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
 
 @implementation Movie
@@ -22,6 +22,26 @@ static NSArray *genres=nil;
              @"rating":@"rating"};
 }
 
++(NSDictionary *)propertiesMappingForDetails{
+    return @{@"id":@"id",
+             @"title":@"title",
+             @"original_title":@"originalTitle",
+             @"vote_average":@"voteAverage",
+             @"overview":@"overview",
+             @"release_date":@"releaseDate",
+             @"vote_count":@"voteCount",
+             @"poster_path":@"posterPath",
+             @"video":@"hasVideo",
+             @"genre_ids":@"genreIDs",
+             @"original_language":@"originalLanguage",
+             @"backdrop_path":@"backdropPath",
+             @"rating":@"rating",
+             @"runtime":@"duration"
+             
+             };
+}
+
+
 -(NSString *)getGenreNameForId:(NSUInteger)genreId{
     for(Genre *genre in genres){
         if(genre.genreID==genreId){
@@ -32,7 +52,25 @@ static NSArray *genres=nil;
 }
 
 +(void)initializeGenres:(NSArray *)genresArray{
+    
+    RLMResults *genresDb=[GenreDb allObjects];
+    if(genresDb.count==0){
+        [[RLMRealm defaultRealm] beginWriteTransaction];
+        for(Genre *genre in genresArray){
+            GenreDb *genreDb=[[GenreDb alloc] init];
+            genreDb.id=genre.genreID;
+            genreDb.genreName=genre.genreName;
+            genreDb.isMovieGenre=YES;
+            [[RLMRealm defaultRealm] addObject:genreDb];
+            
+        }
+        [[RLMRealm defaultRealm] commitWriteTransaction];
+    }
+    
+     
+    
     genres=genresArray;
+
 }
 
 +(NSString *)getClassName{
@@ -65,9 +103,40 @@ static NSArray *genres=nil;
 
 +(NSArray *)getCriteriaForSorting{
     return @[@"Most popular",@"Latest",@"Highest-rated"];
-
 }
 
++(instancetype)movieWithMovieDb:(MovieDb *)movieDb{
+    Movie *movie=[[Movie alloc] init];
+    movie.id=movieDb.id;
+    movie.title=movieDb.title;
+    movie.originalTitle=movieDb.originalTitle;
+    movie.overview=movieDb.overview;
+    NSMutableArray *genres=[[NSMutableArray alloc]init];
+    for(GenreDb *genreDb in movieDb.genres){
+        [genres addObject:[NSNumber numberWithInteger:genreDb.id]];
+    }
+    movie.genreIDs=genres;
+    movie.releaseDate = movieDb.releaseDate;
+    movie.posterPath=movieDb.posterPath;
+    movie.backdropPath=movieDb.backdropPath;
+    movie.rating=movieDb.usersRating;
+    movie.voteCount=movieDb.voteCount;
+    movie.voteAverage=movieDb.voteAverage;
+    movie.duration=movieDb.duration;
+    movie.isInRatings=movieDb.isInRatings;
+    movie.isInFavorites=movieDb.isInFavorites;
+    movie.isInWatchlist=movieDb.isInWatchlist;
+    
+    return movie;
+    
+}
++(NSArray *)moviesArrayFromRLMArray:(RLMResults *)results{
+    NSMutableArray *movies=[[NSMutableArray alloc] init];
+    for(MovieDb *movieDb in results){
+        [movies addObject:[Movie movieWithMovieDb:movieDb]];
+    }
+    return movies;
+}
 
 
 

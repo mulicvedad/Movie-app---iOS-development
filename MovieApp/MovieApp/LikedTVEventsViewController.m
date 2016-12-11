@@ -134,7 +134,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
         _noMorePages=YES;
         return;
     }
-    if([customItemsArray count]<20){
+    if([customItemsArray count]<20 || ![MovieAppConfiguration isConnectedToInternet]){
         _noMorePages=YES;
     }
     for(int i=0;i<[customItemsArray count];i++){
@@ -212,7 +212,8 @@ static CGFloat defaultTableViewCellHeight=92.0f;
                                         else if(_currentOption==SideMenuOptionRatings){
                                             
                                         }
-                                        [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:_currentOption];
+                                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:_currentOption];
+                                        
                                         [self.tvEventsTableView reloadData];
                                     }];
     deleteButton.backgroundColor = [MovieAppConfiguration getPrefferedYellowColor];
@@ -237,7 +238,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
         }
         if(eventToRemove){
             [_tvEvents removeObject:eventToRemove];
-            [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:eventToRemove.id mediaType:[eventToRemove isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
+            //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:eventToRemove.id mediaType:[eventToRemove isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
         }
         
     }

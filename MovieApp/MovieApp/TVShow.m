@@ -1,5 +1,6 @@
 #import "TVShow.h"
 #import "Genre.h"
+#import "GenreDb.h"
 
 static NSString * const YearDateFormat=@"yyyy";
 
@@ -21,6 +22,26 @@ static NSArray *genres=nil;
              @"origin_country":@"originCountries",
              @"rating":@"rating"};
 }
++(NSDictionary *)propertiesMappingForDetails{
+    return @{
+             @"id":@"id",
+             @"name":@"title",
+             @"original_name":@"originalTitle",
+             @"vote_average":@"voteAverage",
+             @"overview":@"overview",
+             @"first_air_date":@"releaseDate",
+             @"vote_count":@"voteCount",
+             @"poster_path":@"posterPath",
+             @"genre_ids":@"genreIDs",
+             @"original_language":@"originalLanguage",
+             @"backdrop_path":@"backdropPath",
+             @"origin_country":@"originCountries",
+             @"rating":@"rating",
+             @"number_of_seasons":@"numberOfSeasons",
+             @"number_of_episodes":@"numberOfEpisodes",
+             @"episode_run_time":@"runtime"             
+             };
+}
 
 -(NSString *)getGenreNameForId:(NSUInteger)genreId{
     for(Genre *genre in genres){
@@ -32,6 +53,20 @@ static NSArray *genres=nil;
 }
 
 +(void)initializeGenres:(NSArray *)genresArray{
+    RLMResults *genresDb=[GenreDb allObjects];
+    
+    if(genresDb.count==0){
+        [[RLMRealm defaultRealm] beginWriteTransaction];
+        for(Genre *genre in genresArray){
+            GenreDb *genreDb=[[GenreDb alloc] init];
+            genreDb.id=genre.genreID;
+            genreDb.genreName=genre.genreName;
+            genreDb.isMovieGenre=NO;
+            [[RLMRealm defaultRealm] addObject:genreDb];
+        }
+        [[RLMRealm defaultRealm] commitWriteTransaction];
+    }  
+    
     genres=genresArray;
 }
 
@@ -64,6 +99,7 @@ static NSArray *genres=nil;
     newTvShow.releaseDate=searchResultItem.firstAirDate;
     newTvShow.posterPath=searchResultItem.posterPath;
     newTvShow.backdropPath=searchResultItem.backdropPath;
+
     
     return newTvShow;
 }
@@ -71,6 +107,39 @@ static NSArray *genres=nil;
 +(NSArray *)getCriteriaForSorting{
     return @[@"Most popular",@"Latest",@"Highest-rated",@"Airing today",@"On the air"];
     
+}
+
++(instancetype)tvShowWithTVShowDb:(TVShowDb *)tvShowDb{
+    TVShow *newTvShow=[[TVShow alloc]init];
+    
+    newTvShow.id=tvShowDb.id;
+    newTvShow.title=tvShowDb.title;
+    newTvShow.originalTitle=tvShowDb.originalTitle;
+    NSMutableArray *genres=[[NSMutableArray alloc]init];
+    for(GenreDb *genreDb in tvShowDb.genres){
+        [genres addObject:[NSNumber numberWithInteger:genreDb.id]];
+    }
+    newTvShow.genreIDs=genres;
+    newTvShow.voteAverage=tvShowDb.voteAverage;
+    newTvShow.voteCount=tvShowDb.voteCount;
+    newTvShow.overview=tvShowDb.overview;
+    newTvShow.releaseDate=tvShowDb.releaseDate;
+    newTvShow.posterPath=tvShowDb.posterPath;
+    newTvShow.backdropPath=tvShowDb.backdropPath;
+    newTvShow.rating=tvShowDb.usersRating;
+    newTvShow.duration=tvShowDb.duration;
+    newTvShow.isInRatings=tvShowDb.isInRatings;
+    newTvShow.isInFavorites=tvShowDb.isInFavorites;
+    newTvShow.isInWatchlist=tvShowDb.isInWatchlist;
+    
+    return newTvShow;
+}
++(NSArray *)tvShowsArrayFromRLMArray:(RLMResults *)results{
+    NSMutableArray *tvShows=[[NSMutableArray alloc] init];
+    for(TVShowDb *tvShowDb in results){
+        [tvShows addObject:[TVShow tvShowWithTVShowDb:tvShowDb]];
+    }
+    return tvShows;
 }
 
 @end

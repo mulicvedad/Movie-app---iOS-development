@@ -1,10 +1,11 @@
 #import "TrailerTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <KeychainItemWrapper.h>
+#import "DatabaseManager.h"
 
 #define FontSize18 18
 #define FontSize12 12
-static NSString * const YearDateFormat=@"yyyy";
+static NSString * const YearDateFormat=@"yyyy";//placeholder375x260
 static NSString * const WideImagePlaceholder=@"yyyy";
 static CGFloat const DefaultHeightWidthRatio=1.689;
 static CGFloat const StartPointX=0.5;
@@ -60,15 +61,34 @@ static NSString *WatchlistNormalImageName=@"watchlist";
 }
 
 -(void)setupWithTVEvent:(TVEvent *)tvEvent{
-    NSURL *imageUrl=nil;
+    
     if(tvEvent.backdropPath){
-        imageUrl=[NSURL URLWithString:[BaseImageUrlForWidth500 stringByAppendingString:tvEvent.backdropPath ]];
+        NSString *imageUrlPath=[BaseImageUrlForWidth500 stringByAppendingString:tvEvent.backdropPath ];
+        UIImage *uiImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:imageUrlPath];
+        
+        if(uiImage){
+            self.trailerImageView.image=uiImage;
+        }
+        else if([MovieAppConfiguration isConnectedToInternet]){
+            [self.trailerImageView sd_setImageWithURL:[NSURL URLWithString:imageUrlPath] placeholderImage:[UIImage  imageNamed:WideImagePlaceholder] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:imageUrlPath];
+                
+            }];
+        }
+        else{
+            [self.trailerImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:WideImagePlaceholder]];
+            
+        }
     }
-    [self.trailerImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:WideImagePlaceholder]];
+    else{
+        [self.trailerImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:WideImagePlaceholder]];
+    }
+
+
     NSString *releaseYear;
     NSString *originalTitle;
     releaseYear=([tvEvent getReleaseYear]) ? [tvEvent getReleaseYear] : @"Year not found";
-    originalTitle=(tvEvent.originalTitle) ? tvEvent.originalTitle : @"Title not found";
+    originalTitle=(tvEvent.title) ? tvEvent.title : @"Title not found";
     
     NSMutableAttributedString *titleAttributedString=[[NSMutableAttributedString alloc] initWithString:originalTitle attributes:@{NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:FontSize18 isBold:YES], NSForegroundColorAttributeName:[UIColor whiteColor]}];
     

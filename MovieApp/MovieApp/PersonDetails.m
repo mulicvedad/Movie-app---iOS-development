@@ -33,4 +33,20 @@ static NSString * const BirthdayDateFormat=@"yyyy-mm-dd";
     }
     return birthInfo;
 }
+
+
++(PersonDetails *)personDetailsWithPersonDetailsDb:(PersonDetailsDb *)personDetailsDb{
+    PersonDetails *newPerson=[[PersonDetails alloc] init];
+    
+    newPerson.id=personDetailsDb.id;
+    newPerson.name=personDetailsDb.name;
+    newPerson.placeOfBirth=personDetailsDb.placeOfBirth;
+    newPerson.profilePath=personDetailsDb.profilePath;
+    newPerson.homepageUrlPath=personDetailsDb.homepageUrlPath;
+    newPerson.biography=personDetailsDb.biography;
+    newPerson.birthday=personDetailsDb.birthday;
+    newPerson.deathday=personDetailsDb.deathday;
+    
+    return newPerson;
+}
 @end

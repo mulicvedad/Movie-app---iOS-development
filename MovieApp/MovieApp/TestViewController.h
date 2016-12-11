@@ -1,6 +1,4 @@
 #import <UIKit/UIKit.h>
-#import "StudentMaster.h"
-#import "StudentBachelor.h"
 #import <Realm/RLMRealm.h>
 
 @interface TestViewController : UIViewController

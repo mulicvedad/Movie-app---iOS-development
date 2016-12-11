@@ -7,6 +7,7 @@
 #import "DataProviderService.h"
 #import "TVEventsViewController.h"
 #import "VirtualDataStorage.h"
+#import "DatabaseManager.h"
 
 #define SearchResultsPageSize 20
 
@@ -54,7 +55,7 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row>((_numberOfPagesLoaded-1)*SearchResultsPageSize+10) && !_isDownloaderActive){
+    if(indexPath.row>((_numberOfPagesLoaded-1)*SearchResultsPageSize+10) && !_isDownloaderActive && !_noMorePages){
         _isDownloaderActive=YES;
         [[DataProviderService sharedDataProviderService] performMultiSearchWithQuery:_query page:_numberOfPagesLoaded+1 returnTo:self];
     }
@@ -70,7 +71,15 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 }
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
-
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        _results=[[NSMutableArray alloc] initWithArray:customItemsArray];
+        _noMorePages=YES;
+        [self.tableView reloadData];
+        return;
+    }
+    if(customItemsArray.count<20 ){
+        _noMorePages=YES;
+    }
     for(int i=0;i<[customItemsArray count];i++){
         SearchResultItem *currentItem=(SearchResultItem *)customItemsArray[i];
         if([currentItem.mediaType isEqualToString:MovieMediaType]){
@@ -96,6 +105,7 @@ static CGFloat const ResultItemDefaultHeight=92.0f;
 }
 
 -(void)showTvEventDetailsForTvEventAtRow:(NSUInteger)row{
+    [[DatabaseManager sharedDatabaseManager] addTVEvent:_results[row] toCollection:CollectionTypeLatest];
     [_delegateForSegue performSegueWithIdentifier:EventDetailsSegueIdentifier sender:_results[row]];
     
 }

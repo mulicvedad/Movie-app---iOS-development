@@ -24,4 +24,27 @@ static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
     }
     return dateString;
 }
+
++(TVShowEpisode *)episodeWithEpisodeDb:(TVShowEpisodeDb *)episodeDb{
+    TVShowEpisode *newEpisode=[[TVShowEpisode alloc] init];
+    
+    newEpisode.id=episodeDb.id;
+    newEpisode.airDate=episodeDb.airDate;
+    newEpisode.name=episodeDb.name;
+    newEpisode.overview=episodeDb.overview;
+    newEpisode.episodeNumber=episodeDb.episodeNumber;
+    newEpisode.seasonNumber=episodeDb.seasonNumber;
+    newEpisode.voteAverage=episodeDb.voteAverage;
+    
+    return newEpisode;
+}
+
++(NSArray *)episodesArrayWithRLMArray:(RLMResults *)results{
+    NSMutableArray *newEpisodes=[[NSMutableArray alloc] init];
+    for(TVShowEpisodeDb *episodeDb in results){
+        [newEpisodes addObject:[TVShowEpisode episodeWithEpisodeDb:episodeDb]];
+    }
+    return newEpisodes;
+}
+
 @end

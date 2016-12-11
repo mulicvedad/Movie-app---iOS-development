@@ -101,7 +101,7 @@ NSString *MoviesNotificationsEnabledNSUserDefaultsKey=@"moviesNotificationsenabl
     return @[@"Movies",@"TV Shows"];
 }
 
-+(NSString *)getStringRepresentationOfSideMenuOption:(SideMenuOption) option{
++(NSString *)getStringRepresentationOfSideMenuOption:(SideMenuOption)option{
     NSString *value=@"";
     switch (option) {
         case SideMenuOptionFavorites:
@@ -123,6 +123,9 @@ NSString *MoviesNotificationsEnabledNSUserDefaultsKey=@"moviesNotificationsenabl
     return value;
 }
 
++(BOOL)isConnectedToInternet{
+    return YES;
+}
 
 
 

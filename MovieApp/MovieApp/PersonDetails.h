@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "PersonDetailsDb.h"
 
 @interface PersonDetails : NSObject
 @property (nonatomic) NSUInteger id;
@@ -12,5 +13,7 @@
 
 +(NSDictionary *)propertiesMapping;
 -(NSString *)getBirthInfo;
+
++(PersonDetails *)personDetailsWithPersonDetailsDb:(PersonDetailsDb *)personDetailsDb;
 
 @end

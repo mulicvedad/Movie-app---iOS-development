@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "TVShowEpisodeDb.h"
 
 @interface TVShowEpisode : NSObject
 
@@ -13,4 +14,7 @@
 +(NSDictionary *)propertiesMapping;
 
 -(NSString *)getFormattedAirDate;
+
++(TVShowEpisode *)episodeWithEpisodeDb:(TVShowEpisodeDb *)episodeDb;
++(NSArray *)episodesArrayWithRLMArray:(RLMResults *)results;
 @end
