@@ -53,6 +53,8 @@
     BOOL _isCastCarouselCollectionViewSetup;
     BOOL _isGalleryCarouselCollectionViewSetup;
     
+    BOOL _unrated;
+    
     id<TVEventsCollectionsStateChangeHandler> _delegate;
     GalleryCarouselCollectionViewDelegate *_galleryDelegate;
 }
@@ -114,6 +116,8 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     _seasons=[[NSMutableArray alloc]init];
     
     self.navigationItem.title=_mainTvEvent.title;
+    
+    
     
 }
 
@@ -201,8 +205,13 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         }
         else if(indexPath.row==1){
             RatingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[RatingTableViewCell cellIdentifier] forIndexPath:indexPath];
-            
-            [cell setupWithRating:_mainTvEvent.voteAverage delegate:self];
+            if([[DatabaseManager sharedDatabaseManager] containsTVEventInRatings:_mainTvEvent]){
+                _mainTvEvent.rating=[[DatabaseManager sharedDatabaseManager] getRatingForTVEvent:_mainTvEvent];
+            }
+            if(_mainTvEvent.voteCount==0 || _mainTvEvent.voteAverage==0.0f){
+                _unrated=YES;
+            }
+            [cell setupWithRating:_unrated ? (float)_mainTvEvent.rating : _mainTvEvent.voteAverage delegate:self];
             if(![[DataProviderService sharedDataProviderService] isUserLoggedIn]){
                 [cell hideRating];
             }
@@ -574,10 +583,7 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
 
 
 -(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
-    if(_delegate){
-        [_delegate addedTVEventWithID:tvEventID toCollectionOfType:typeOfCollection];
-    }
-        if(_mainTvEvent.id==tvEventID){
+    if(_mainTvEvent.id==tvEventID){
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
                     _mainTvEvent.isInFavorites=YES;
@@ -594,15 +600,10 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
             [self.tableView reloadData];
          
     }
-   // [[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:_mainTvEvent toCollection:typeOfCollection];
-    [[DatabaseManager sharedDatabaseManager] addTVEvent:_mainTvEvent toCollection:[DataProviderService collectionTypeFromSideMenuOption:typeOfCollection]];
     
 }
 
 -(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
-    if(_delegate){
-        [_delegate removedTVEventWithID:tvEventID fromCollectionOfType:typeOfCollection];
-    }
     if(_mainTvEvent.id==tvEventID){
         switch (typeOfCollection) {
             case SideMenuOptionFavorites:
@@ -621,15 +622,15 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
         
         
     }
-   // [[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:[_mainTvEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:typeOfCollection];
-    [[DatabaseManager sharedDatabaseManager] removeTVEvent:_mainTvEvent fromCollection:[DataProviderService collectionTypeFromSideMenuOption:typeOfCollection]];
 }
 
 -(void)didRateTVEvent:(CGFloat)rating{
-    if(_mainTvEvent.voteAverage==0.0f){
+    _mainTvEvent.rating=rating;
+    if(_unrated){
         _mainTvEvent.voteAverage=rating;
-        [self.tableView reloadData];
+
     }
+    [self.tableView reloadData];
     
 }
 

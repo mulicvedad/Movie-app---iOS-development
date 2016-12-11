@@ -1,5 +1,6 @@
 #import "DatabaseManager.h"
 #import "MovieDetails.h"
+#import "DataProviderService.h"
 
 @interface DatabaseManager (){
     RLMRealm *_realm;
@@ -61,6 +62,17 @@ static DatabaseManager *_uniqueInstance;
     }
     return nil;
 }
+-(NSArray *)getRatedTVEventsOfType:(MediaType)mediaType{
+    if(mediaType==MovieType){
+        RLMResults *results=[MovieDb objectsWhere:@"isInRatings=YES"];
+        return [Movie moviesArrayFromRLMArray:results];
+    }
+    else{
+        RLMResults *results=[TVShowDb objectsWhere:@"isInRatings=YES"];
+        return [TVShow tvShowsArrayFromRLMArray:results];
+    }
+    return nil;
+}
 
 -(void)removeAllData{
     [_realm beginWriteTransaction];
@@ -71,6 +83,30 @@ static DatabaseManager *_uniqueInstance;
 -(void)updateData{
     //wat to do
 }
+-(void)addToRatingsTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType rating:(float)rating{
+    TVEventDb *tvEventDb;
+    if(mediaType==MovieType){
+        tvEventDb=[MovieDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvEventId]];
+    }
+    else{
+        tvEventDb=[TVShowDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvEventId]];
+
+    }
+   
+    [_realm beginWriteTransaction];
+    
+    float newAverage=(tvEventDb.voteCount*tvEventDb.voteAverage-tvEventDb.usersRating+rating)/(tvEventDb.voteCount+1);
+    tvEventDb.voteAverage=newAverage;
+    tvEventDb.usersRating=rating;
+    tvEventDb.isInRatings=YES;
+    if(tvEventDb.voteAverage<0.1f){
+        tvEventDb.voteAverage=(float)rating;
+        tvEventDb.voteCount=1;
+    }
+    
+    [_realm commitWriteTransaction];
+}
+
 -(void)addTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollection:(CollectionType)collectionType{
     TVEvent *tvEvent;
     if(mediaType==MovieType){
@@ -110,7 +146,8 @@ static DatabaseManager *_uniqueInstance;
     }
     [_realm beginWriteTransaction];
     
-    [tvEventDb setValue:@"NO" forKey:[DatabaseManager keyForCollectionType:collectionType]];
+    //[tvEventDb setValue:[NSNumber numberWithBool:NO] forKey:[DatabaseManager keyForCollectionType:collectionType]];
+    [self helperRemoveTVEvent:tvEventDb fromCollection:collectionType];
     
     [_realm commitWriteTransaction];
 }
@@ -137,7 +174,6 @@ static DatabaseManager *_uniqueInstance;
     else{
         results=[TVShowDb objectsWhere:where];
     }
-    int tmp=results.count;
     return results.count!=0;
 }
 -(BOOL)containsTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediaType inCollection:(CollectionType)collection{
@@ -152,8 +188,28 @@ static DatabaseManager *_uniqueInstance;
     
     return results.count;
 }
--(void)removeAllITVEventsFromCollection:(CollectionType)collectionType{
-    //not implemented - probably wont be needed
+-(void)removeUserRelatedInfo{
+    [self removeAllTVEventsFromCollection:CollectionTypeFavorites];
+    [self removeAllTVEventsFromCollection:CollectionTypeWatchlist];
+    [self removeAllTVEventsFromCollection:CollectionTypeRatings];
+}
+
+-(void)removeAllTVEventsFromCollection:(CollectionType)collectionType{
+    RLMResults *movies=[MovieDb allObjects];
+
+    [_realm beginWriteTransaction];
+    
+    for(MovieDb *movieDb in movies){
+        //[movieDb setValue:[NSNumber numberWithBool:NO] forKey:[DatabaseManager keyForCollectionType:collectionType]];
+        [self helperRemoveTVEvent:movieDb fromCollection:collectionType];
+    }
+    RLMResults *tvShows=[TVShowDb allObjects];
+    for(TVShowDb *tvShowDb in tvShows){
+        //[tvShowDb setValue:[NSNumber numberWithBool:NO] forKey:[DatabaseManager keyForCollectionType:collectionType]];
+        [self helperRemoveTVEvent:tvShowDb fromCollection:collectionType];
+    }
+    
+    [_realm commitWriteTransaction];
 }
 -(void)addTVEventsFromArray:(NSArray *)tvEvents toCollection:(CollectionType)collection{
     
@@ -171,8 +227,12 @@ static DatabaseManager *_uniqueInstance;
                 MovieDb *existingMovie=[MovieDb objectForPrimaryKey:[NSNumber numberWithUnsignedInteger:tvEvent.id]];
                 
                 if(existingMovie){
-                    [existingMovie setValue:@"YES" forKey:[DatabaseManager keyForCollectionType:collection]];
+                    if(collection==CollectionTypeRatings){
+                        existingMovie.usersRating=tvEvent.rating;
+                    }
                     
+                    //[existingMovie setValue:[NSNumber numberWithBool:YES] forKey:[DatabaseManager keyForCollectionType:collection]];
+                    [self helperAddTVEvent:existingMovie toCollection:collection];
                 }
                 else{
                     MovieDb *newMovie = [[MovieDb alloc] initWithMovie:(Movie *)tvEvent];
@@ -181,7 +241,9 @@ static DatabaseManager *_uniqueInstance;
                         RLMResults *results=[GenreDb objectsWhere:@"id=%d AND isMovieGenre=YES", genreID];
                         [newMovie.genres addObjects:results];
                     }
-                    [newMovie setValue:@"YES" forKey:[DatabaseManager keyForCollectionType:collection]];
+                    NSString *key=[DatabaseManager keyForCollectionType:collection];
+                    //[newMovie setValue:[NSNumber numberWithBool:YES] forKey:key];
+                    [self helperAddTVEvent:newMovie toCollection:collection];
                     [_realm addOrUpdateObject:newMovie];
                 }
             }
@@ -192,8 +254,11 @@ static DatabaseManager *_uniqueInstance;
                 
                 if([results count]){
                     TVShowDb *existingTVShow=results[0];
-                    [existingTVShow setValue:@"YES" forKey:[DatabaseManager keyForCollectionType:collection]];
-                    
+                    if(collection==CollectionTypeRatings){
+                        existingTVShow.usersRating=tvEvent.rating;
+                    }
+                    //[existingTVShow setValue:[NSNumber numberWithBool:YES] forKey:[DatabaseManager keyForCollectionType:collection]];
+                    [self helperAddTVEvent:existingTVShow toCollection:collection];
                 }
                 else{
                     TVShowDb *newTVShow = [[TVShowDb alloc] initWithTVShow:(TVShow *)tvEvent];
@@ -202,7 +267,8 @@ static DatabaseManager *_uniqueInstance;
                         RLMResults *results=[GenreDb objectsWhere:@"id=%d AND isMovieGenre=NO", genreID];
                         [newTVShow.genres addObjects:results];
                     }
-                    [newTVShow setValue:@"YES" forKey:[DatabaseManager keyForCollectionType:collection]];
+                    //[newTVShow setValue:[NSNumber numberWithBool:YES]forKey:[DatabaseManager keyForCollectionType:collection]];
+                    [self helperAddTVEvent:newTVShow toCollection:collection];
                     [_realm addOrUpdateObject:newTVShow];
                 }
             }
@@ -555,7 +621,78 @@ static DatabaseManager *_uniqueInstance;
     
     
 }
+-(NSInteger)getRatingForTVEvent:(TVEvent *)tvEvent{
+    TVEventDb *tvEventDb=[self modelForTVEvent:tvEvent];
+    return tvEventDb.usersRating;
+}
 
+-(void)offlineModeAddTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollectionIn:(CollectionType)collectionType shouldRemove:(BOOL)shouldRemove{
+    [self addTVEventWithID:tvEventId mediaType:mediaType toCollection:collectionType];
+    NSString *where=[NSString stringWithFormat:@"tvEventID=%d AND collection=%d",(int)tvEventId, (int)collectionType];
+    RLMResults *actions=[ActionDb objectsWhere:where];
+    ActionDb *currentAction;
+    if(actions.count>0){
+        currentAction=actions[0];
+    }
+    else{
+        currentAction=[[ActionDb alloc] init];
+    }
+    
+    
+    [_realm beginWriteTransaction];
+    
+    currentAction.tvEventID=tvEventId;
+    currentAction.collection=(NSInteger)collectionType;
+    currentAction.shouldRemove=shouldRemove;
+    if(actions.count==0){
+        [_realm addObject:currentAction];
+    }
+    [_realm commitWriteTransaction];
+}
+
+-(void)offlineModeRateTVEventWithID:(NSInteger)tvEventID meidaType:(MediaType)mediaType rating:(NSInteger)rating{
+    [self addToRatingsTVEventWithID:tvEventID mediaType:mediaType rating:rating];
+    NSString *where=[NSString stringWithFormat:@"tvEventID=%d AND collection=%d",(int)tvEventID, (int)CollectionTypeRatings];
+    RLMResults *actions=[ActionDb objectsWhere:where];
+    ActionDb *currentAction;
+    if(actions.count>0){
+        currentAction=actions[0];
+    }
+    else{
+        currentAction=[[ActionDb alloc] init];
+    }
+    
+    
+    [_realm beginWriteTransaction];
+    
+    currentAction.tvEventID=tvEventID;
+    currentAction.collection=(NSInteger)CollectionTypeRatings;
+    currentAction.shouldRemove=NO;
+    currentAction.rating=rating;
+    if(actions.count==0){
+        [_realm addObject:currentAction];
+    }
+    
+    [_realm commitWriteTransaction];
+}
+
+-(void)connectionEstablished{
+    RLMResults *actions=[ActionDb allObjects];
+    for(ActionDb *action in actions){
+        if(action.collection==(NSInteger)CollectionTypeRatings){
+            [[DataProviderService sharedDataProviderService] rateTVEventWithID:action.tvEventID rating:action.rating mediaType:(MediaType)action.mediaType responseHandler:self];
+        }
+        else if(action.collection==(NSInteger)CollectionTypeFavorites){
+            [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:action.tvEventID mediaType:(MediaType)action.mediaType remove:action.shouldRemove responseHandler:self];
+        }
+        else if(action.collection==(NSInteger)CollectionTypeWatchlist){
+            [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:action.tvEventID mediaType:(MediaType)action.mediaType remove:action.shouldRemove responseHandler:self];
+        }
+        else{
+            @throw NSInternalInconsistencyException;
+        }
+    }
+}
 +(NSString *)keyForCollectionType:(CollectionType)collection{
     switch (collection) {
         case CollectionTypeLatest:
@@ -582,4 +719,121 @@ static DatabaseManager *_uniqueInstance;
     }
 
 }
+
+-(void)addedTVEventWithID:(NSUInteger)tvEventID toCollectionOfType:(SideMenuOption)typeOfCollection{
+    NSString *where=[NSString stringWithFormat:@"tvEventID=%d AND collection=%d",(int)tvEventID, (int)[DataProviderService collectionTypeFromSideMenuOption:typeOfCollection]];
+    RLMResults *actions=[ActionDb objectsWhere:where];
+    
+    [_realm beginWriteTransaction];
+    
+    [_realm deleteObjects:actions];
+    
+    [_realm commitWriteTransaction];
+}
+
+-(void)removedTVEventWithID:(NSUInteger)tvEventID fromCollectionOfType:(SideMenuOption)typeOfCollection{
+    NSString *where=[NSString stringWithFormat:@"tvEventID=%d AND collection=%d",(int)tvEventID, (int)[DataProviderService collectionTypeFromSideMenuOption:typeOfCollection]];
+    RLMResults *actions=[ActionDb objectsWhere:where];
+    
+    [_realm beginWriteTransaction];
+    
+    [_realm deleteObjects:actions];
+    
+    [_realm commitWriteTransaction];
+}
+
+-(NSArray *)getTVEventsForSearchQuery:(NSString *)query{
+    NSString *where=[NSString stringWithFormat:@"title CONTAINS[c] '%@'", query];
+    RLMResults *moviesDb=[MovieDb objectsWhere:where];
+    RLMResults *tvShowsDb=[TVShowDb objectsWhere:where];
+
+    NSMutableArray *tvEvents=[[NSMutableArray alloc] initWithArray:[Movie moviesArrayFromRLMArray:moviesDb]];
+    [tvEvents addObjectsFromArray:[TVShow tvShowsArrayFromRLMArray:tvShowsDb]];
+    
+    
+    return  tvEvents;
+}
+
+
+-(void)addAccountDetails:(AccountDetails *)accountDetails{
+    
+    RLMResults *accounts=[AccountDetailsDb allObjects];
+    AccountDetailsDb *newAccountDb=[AccountDetailsDb accountDetailsDbWithAccountDetails:accountDetails];
+    
+    [_realm beginWriteTransaction];
+    
+    [_realm deleteObjects:accounts];
+    [_realm addOrUpdateObject:newAccountDb];
+    
+    [_realm commitWriteTransaction];
+}
+-(AccountDetails *)getAccountDetailsForID:(NSInteger)accountId{
+    RLMResults *accounts=[AccountDetailsDb allObjects];
+    return [AccountDetails accountDetailsWithAccountDetailsDb:accounts[0]];
+}
+
+-(void)helperAddTVEvent:(TVEventDb *)tvEvent toCollection:(CollectionType)collection{
+    switch (collection) {
+        case CollectionTypeLatest:
+            tvEvent.isInLatest=YES;
+            break;
+        case CollectionTypePopular:
+            tvEvent.isInPopular=YES;
+            break;
+        case CollectionTypeHighestRated:
+            tvEvent.isInHighestRated=YES;
+            break;
+        case CollectionTypeOnTheAir:
+            ((TVShowDb *)tvEvent).isOnTheAir=YES;
+            break;
+        case CollectionTypeAiringToday:
+            ((TVShowDb *)tvEvent).isAiringToday=YES;
+            break;
+        case CollectionTypeFavorites:
+            tvEvent.isInFavorites=YES;
+            break;
+        case CollectionTypeWatchlist:
+            tvEvent.isInWatchlist=YES;
+            break;
+        case CollectionTypeRatings:
+            tvEvent.isInRatings=YES;
+            break;
+        default:
+            @throw NSInvalidArgumentException;
+            break;
+    }
+}
+
+-(void)helperRemoveTVEvent:(TVEventDb *)tvEvent fromCollection:(CollectionType)collection{
+    switch (collection) {
+        case CollectionTypeLatest:
+            tvEvent.isInLatest=NO;
+            break;
+        case CollectionTypePopular:
+            tvEvent.isInPopular=NO;
+            break;
+        case CollectionTypeHighestRated:
+            tvEvent.isInHighestRated=NO;
+            break;
+        case CollectionTypeOnTheAir:
+            ((TVShowDb *)tvEvent).isOnTheAir=NO;
+            break;
+        case CollectionTypeAiringToday:
+            ((TVShowDb *)tvEvent).isAiringToday=NO;
+            break;
+        case CollectionTypeFavorites:
+            tvEvent.isInFavorites=NO;
+            break;
+        case CollectionTypeWatchlist:
+            tvEvent.isInWatchlist=NO;
+            break;
+        case CollectionTypeRatings:
+            tvEvent.isInRatings=NO;
+            break;
+        default:
+            @throw NSInvalidArgumentException;
+            break;
+    }
+}
+
 @end

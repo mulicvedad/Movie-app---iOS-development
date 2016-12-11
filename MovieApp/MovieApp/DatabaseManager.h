@@ -21,13 +21,19 @@
 #import "PersonDetailsDb.h"
 #import "PersonDetails.h"
 #import "IntegerObjectDb.h"
+#import "ActionDb.h"
+#import "AccountDetailsDb.h"
+#import "AccountDetails.h"
+#import "TVEventsCollectionsStateChangeHandler.h"
 
-@interface DatabaseManager : NSObject<DataStorageProtocol>
+@interface DatabaseManager : NSObject<DataStorageProtocol, TVEventsCollectionsStateChangeHandler>
+
 +(instancetype)sharedDatabaseManager;
--(void)removeAllITVEventsFromCollection:(CollectionType)collectionType;
+-(void)removeAllTVEventsFromCollection:(CollectionType)collectionType;
 -(void)removeTVEvent:(TVEvent *)tvEvent fromCollection:(CollectionType)collectionType;
 -(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType;
 -(void)addTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollection:(CollectionType)collectionType;
+-(void)addToRatingsTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType rating:(float)rating;
 -(void)addTVEventsFromArray:(NSArray *)tvEvents toCollection:(CollectionType)collection;
 -(void)addTVShowSeason:(TvShowSeason *)season toTVShowWithID:(NSInteger)tvShowID;
 -(void)addTVShowSeasonsFromArray:(NSArray *)seasons toTVShowWithID:(NSInteger)tvShowID;
@@ -60,6 +66,12 @@
 -(NSArray *)getCastMembersForTVShowWithID:(NSInteger)tvShowID easonNumber:(NSInteger)seasonNumber episodeNumber:(NSInteger)episodeNumber;
 -(UIImage *)getUIImageFromImageDbWithID:(NSString *)imageDbId;
 -(void)updateTVEvent:(NSInteger)tvEventID withTVEventDetails:(TVEventDetails *)tvEventDetails;
-
-
+-(NSInteger)getRatingForTVEvent:(TVEvent *)tvEvent;
+-(void)offlineModeAddTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollectionIn:(CollectionType)collectionType shouldRemove:(BOOL)shouldRemove;
+-(void)offlineModeRateTVEventWithID:(NSInteger)tvEventID meidaType:(MediaType)mediaType rating:(NSInteger)rating;
+-(void)connectionEstablished;
+-(void)addAccountDetails:(AccountDetails *)accountDetails;
+-(AccountDetails *)getAccountDetailsForID:(NSInteger)accountId;
+-(NSArray *)getTVEventsForSearchQuery:(NSString *)query;
+-(void)removeUserRelatedInfo;
 @end

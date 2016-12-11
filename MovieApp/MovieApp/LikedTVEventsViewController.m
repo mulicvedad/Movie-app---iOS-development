@@ -134,7 +134,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
         _noMorePages=YES;
         return;
     }
-    if([customItemsArray count]<20){
+    if([customItemsArray count]<20 || ![MovieAppConfiguration isConnectedToInternet]){
         _noMorePages=YES;
     }
     for(int i=0;i<[customItemsArray count];i++){
@@ -213,6 +213,7 @@ static CGFloat defaultTableViewCellHeight=92.0f;
                                             
                                         }
                                         //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:_currentOption];
+                                        
                                         [self.tvEventsTableView reloadData];
                                     }];
     deleteButton.backgroundColor = [MovieAppConfiguration getPrefferedYellowColor];

@@ -31,6 +31,7 @@
 }
 @end
 
+static const NSUInteger TVEventsPageSize=20;
 @implementation DataProviderService
 static DataProviderService *sharedService;
 
@@ -38,6 +39,7 @@ static DataProviderService *sharedService;
     if(!sharedService){
         sharedService=[[DataProviderService alloc]init];
         [sharedService configure];
+        
     }
     return sharedService;
 }
@@ -146,6 +148,7 @@ static DataProviderService *sharedService;
             tvEvents=[[DatabaseManager sharedDatabaseManager] getTVShowsOfCollection:collection];
 
         }
+      
         [delegate updateReceiverWithNewData:tvEvents info:nil];
         return;
     }
@@ -168,6 +171,7 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
+                                                  CollectionType ct = [DataProviderService collectionTypeFromCriterion:criterion];
                                                   [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:tvEvents toCollection:[DataProviderService collectionTypeFromCriterion:criterion]];
                                                   [delegate updateReceiverWithNewData:tvEvents info:@{CriterionDictionaryKey:[DataProviderService getCriteriaForSorting][criterion]}];
                                                   
@@ -454,7 +458,12 @@ static DataProviderService *sharedService;
 }
 
 -(void)performMultiSearchWithQuery:(NSString *)query page:(NSUInteger)page returnTo:(id<ItemsArrayReceiver>)dataHandler{
-    //if there is no connection return search results from database
+    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSArray *results=[[DatabaseManager sharedDatabaseManager] getTVEventsForSearchQuery:query];
+        [dataHandler updateReceiverWithNewData:results info:nil];
+        return;
+    }
     
     NSDictionary *queryParams = @{QueryParameterName : query,
                                   PageQueryParameterName:[NSNumber numberWithUnsignedInteger:page],
@@ -637,6 +646,11 @@ static DataProviderService *sharedService;
     else{
         sessionID=[self getSessionID];
     }
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        [[DatabaseManager sharedDatabaseManager] offlineModeRateTVEventWithID:tvEventID meidaType:mediaType rating:rating];
+        [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionRatings];
+        return;
+    }
     NSMutableDictionary *postObject=[NSMutableDictionary dictionaryWithDictionary:@{ValueParameterName : [NSNumber numberWithFloat:rating]}];
     
     RKObjectMapping *postObjectMapping=[RKObjectMapping requestMapping];
@@ -653,6 +667,7 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         PostResponse *response=mappingResult.array[0];
         if(response.statusCode==AddedSucessfullyPostResponseStatusCode || response.statusCode==UpdatedSucessfullyPostResponseStatusCode){
+            [[DatabaseManager sharedDatabaseManager] addToRatingsTVEventWithID:tvEventID mediaType:mediaType rating:rating];
             [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionRatings];
         }
         else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){
@@ -671,6 +686,17 @@ static DataProviderService *sharedService;
     else{
         sessionID=[self getSessionID];
     }
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        [[DatabaseManager sharedDatabaseManager] offlineModeAddTVEventWithID:tvEventID mediaType:mediaType toCollectionIn:CollectionTypeFavorites shouldRemove:shouldRemove];
+        if(shouldRemove){
+            [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionFavorites];
+        }
+        else{
+            [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionFavorites];
+        }
+
+        return;
+    }
     FavoritePostObject *postObject=[[FavoritePostObject alloc] initWithMediaID:tvEventID mediaType:mediaType status:!shouldRemove];
     
     RKObjectMapping *postObjectMapping=[RKObjectMapping requestMapping];
@@ -687,9 +713,11 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         PostResponse *response=mappingResult.array[0];
         if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+            [[DatabaseManager sharedDatabaseManager] addTVEventWithID:tvEventID mediaType:mediaType toCollection:CollectionTypeFavorites];
             [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionFavorites];
         }
         else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){
+            [[DatabaseManager sharedDatabaseManager] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:CollectionTypeFavorites];
             [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionFavorites];
         }
 
@@ -706,7 +734,18 @@ static DataProviderService *sharedService;
     else{
         sessionID=[self getSessionID];
     }
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        [[DatabaseManager sharedDatabaseManager] offlineModeAddTVEventWithID:tvEventID mediaType:mediaType toCollectionIn:CollectionTypeWatchlist shouldRemove:shouldRemove];
+        
+        if(shouldRemove){
+            [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionWatchlist];
+        }
+        else{
+            [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionWatchlist];
+        }
+        
+        return;
+    }
     WatchlistPostObject *postObject=[[WatchlistPostObject alloc] initWithMediaID:tvEventID mediaType:mediaType status:!shouldRemove];
     
     RKObjectMapping *postObjectMapping=[RKObjectMapping requestMapping];
@@ -723,9 +762,11 @@ static DataProviderService *sharedService;
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         PostResponse *response=mappingResult.array[0];
         if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+            [[DatabaseManager sharedDatabaseManager] addTVEventWithID:tvEventID mediaType:mediaType toCollection:CollectionTypeWatchlist];
             [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionWatchlist];
         }
         else if(response.statusCode==RemovedSucessfullyPostResponseStatusCode){
+            [[DatabaseManager sharedDatabaseManager] removeTVEventWithID:tvEventID mediaType:mediaType fromCollection:CollectionTypeWatchlist];
             [responseHandler removedTVEventWithID:tvEventID fromCollectionOfType:SideMenuOptionWatchlist];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -780,7 +821,12 @@ static DataProviderService *sharedService;
     else{
         sessionID=[self getSessionID];
     }
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        AccountDetails *accountDetails=[[DatabaseManager sharedDatabaseManager] getAccountDetailsForID:0];
+        NSArray *results=[[NSArray alloc] initWithObjects:accountDetails, nil];
+        [dataHandler updateReceiverWithNewData:results info:nil];
+        return;
+    }
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   SessionIDParameterName: sessionID};
 
@@ -788,6 +834,7 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   [dataHandler updateReceiverWithNewData:mappingResult.array info:nil];
+                                                  [[DatabaseManager sharedDatabaseManager] addAccountDetails:mappingResult.array[0]];
                                                   
                                               }
                                               failure:^(RKObjectRequestOperation *operation, NSError *error) {

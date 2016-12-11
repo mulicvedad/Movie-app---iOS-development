@@ -53,17 +53,19 @@ static NSArray *genres=nil;
 }
 
 +(void)initializeGenres:(NSArray *)genresArray{
-    /*
-    [[RLMRealm defaultRealm] beginWriteTransaction];
-    for(Genre *genre in genresArray){
-        GenreDb *genreDb=[[GenreDb alloc] init];
-        genreDb.id=genre.genreID;
-        genreDb.genreName=genre.genreName;
-        genreDb.isMovieGenre=NO;
-        [[RLMRealm defaultRealm] addObject:genreDb];
-    }
-    [[RLMRealm defaultRealm] commitWriteTransaction];
-    */
+    RLMResults *genresDb=[GenreDb allObjects];
+    
+    if(genresDb.count==0){
+        [[RLMRealm defaultRealm] beginWriteTransaction];
+        for(Genre *genre in genresArray){
+            GenreDb *genreDb=[[GenreDb alloc] init];
+            genreDb.id=genre.genreID;
+            genreDb.genreName=genre.genreName;
+            genreDb.isMovieGenre=NO;
+            [[RLMRealm defaultRealm] addObject:genreDb];
+        }
+        [[RLMRealm defaultRealm] commitWriteTransaction];
+    }  
     
     genres=genresArray;
 }

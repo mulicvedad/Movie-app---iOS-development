@@ -1,8 +1,9 @@
 #import "RatingViewController.h"
 #import "Movie.h"
+#import "DatabaseManager.h"
 
 @interface RatingViewController (){
-    CGFloat _rating;
+    NSInteger _rating;
     id<AddTVEventToCollectionDelegate> _delegate;
 }
 @end
@@ -18,12 +19,21 @@ static NSString * RatingsImageName=@"rate-this";
 }
 
 -(void)configure{
-    
-    _rating=0.0f;
+
+    _rating=[[DatabaseManager sharedDatabaseManager] getRatingForTVEvent:self.tvEvent];
+    if(_rating<0.1f){
+        _rating=5;
+    }
 
     for(int i=0;i<[self.starsStackView.subviews count];i++){
         UIImageView *starImageView=self.starsStackView.subviews[i];
-        starImageView.image=[UIImage imageNamed:RatingsImageName];
+        if(i<_rating){
+            starImageView.image=[UIImage imageNamed:RatingsSelectedImageName];
+        }
+        else{
+            starImageView.image=[UIImage imageNamed:RatingsImageName];
+        }
+        
         
     }
     if(self.tvEvent.title){
@@ -102,7 +112,7 @@ static NSString * RatingsImageName=@"rate-this";
         
     }
     
-    _rating=(CGFloat)sender.view.tag;
+    _rating=sender.view.tag;
 }
 -(void)setDelegate:(id<AddTVEventToCollectionDelegate>)delegate{
     _delegate=delegate;

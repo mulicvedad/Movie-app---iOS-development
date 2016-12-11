@@ -61,6 +61,8 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     [self.ratingLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.releaseDateLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.genreLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
+    //self.viewForGradient.layer.shouldRasterize = YES;
+    //self.viewForGradient.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     UITapGestureRecognizer *favoritesTapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAddToFavoritesImageView:)];
     UITapGestureRecognizer *watchlistTapGestureRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAddToWatchlistImageView:)];
@@ -119,6 +121,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     
     self.genreLabel.text =  genresRepresentation;
     self.ratingLabel.text=[NSString stringWithFormat:@"%.1f", tvEvent.voteAverage];
+    
     if(tvEvent.posterPath){
         UIImage *uiImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
         if(uiImage){

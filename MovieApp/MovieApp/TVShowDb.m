@@ -23,6 +23,8 @@
     self.isInRatings=tvShow.isInRatings;
     self.voteCount=tvShow.voteCount;
     self.voteAverage=tvShow.voteAverage;
+    self.usersRating=tvShow.rating;
+
     
     return self;
 }

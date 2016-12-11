@@ -1,6 +1,7 @@
 #import <Realm/Realm.h>
 #import "TVEventDb.h"
 #import "TVShowSeasonDb.h"
+#import "TVEventDetails.h"
 
 @class TVShow;
 

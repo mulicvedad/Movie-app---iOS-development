@@ -23,7 +23,7 @@
 @property BOOL isInLatest;
 @property BOOL isInPopular;
 @property BOOL isInHighestRated;
-@property float usersRating;
+@property NSInteger usersRating;
 @property NSInteger duration;
 @property RLMArray<GenreDb *><GenreDb> *genres;
 @property RLMArray<CastMemberDb *><CastMemberDb> *castMembers;
