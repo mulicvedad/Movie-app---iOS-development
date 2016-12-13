@@ -1,5 +1,4 @@
 #import "Movie.h"
-#import "DataProviderService.h"
 #import "Genre.h"
 #import "GenreDb.h"
 static NSString * const DefaultDateFormat=@"dd MMMM yyyy";
@@ -138,6 +137,29 @@ static NSArray *genres=nil;
     return movies;
 }
 
+- (void)encodeWithCoder:(NSCoder *)encoder {
 
+    [encoder encodeObject:[NSNumber numberWithUnsignedInteger:self.id] forKey:@"id"];
+    [encoder encodeObject:self.title forKey:@"title"];
+    [encoder encodeObject:[NSNumber numberWithFloat:self.voteAverage] forKey:@"voteAverage"];
+    [encoder encodeObject:self.posterPath forKey:@"posterPath"];
+    [encoder encodeObject:self.overview forKey:@"overview"];
+
+
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
+
+        NSNumber *numId=[decoder decodeObjectForKey:@"id"];
+        NSNumber *numVoteAverage=[decoder decodeObjectForKey:@"voteAverage"];
+        self.id = [numId unsignedIntegerValue];
+        self.title = [decoder decodeObjectForKey:@"title"];
+        self.posterPath = [decoder decodeObjectForKey:@"posterPath"];
+        self.voteAverage=[numVoteAverage floatValue];
+        self.overview=[decoder decodeObjectForKey:@"overview"];
+    }
+    return self;
+}
 
 @end

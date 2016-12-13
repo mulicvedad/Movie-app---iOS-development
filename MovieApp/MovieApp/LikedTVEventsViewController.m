@@ -4,6 +4,7 @@
 #import "TVEventDetailsTableViewController.h"
 #import "VirtualDataStorage.h"
 #import "LikedTVEventTableViewCell.h"
+#import "DatabaseManager.h"
 
 #define TvEventsPageSize 20
 
@@ -141,14 +142,22 @@ static CGFloat defaultTableViewCellHeight=92.0f;
         TVEvent *currentTVEvent=customItemsArray[i];
         if(_currentOption==SideMenuOptionWatchlist){
             currentTVEvent.isInWatchlist=YES;
-            if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
+            if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:currentTVEvent]){
                 currentTVEvent.isInFavorites=YES;
+            }
+            else{
+                currentTVEvent.isInFavorites=NO;
+
             }
         }
         else if(_currentOption==SideMenuOptionFavorites){
             currentTVEvent.isInFavorites=YES;
-            if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
+            if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:currentTVEvent]){
                 currentTVEvent.isInWatchlist=YES;
+            }
+            else{
+                currentTVEvent.isInWatchlist=NO;
+
             }
         }
         

@@ -43,6 +43,11 @@ extern NSString *EmptyWatchlistFontAwesomeCode;
 extern NSString *TVShowsNotificationsEnabledNSUserDefaultsKey;
 extern NSString *MoviesNotificationsEnabledNSUserDefaultsKey;
 
+extern NSString *LatestMoviesUserDefaultsKey;
+extern NSString *AppGroupSuiteName;
+extern NSString *ShouldOpenMovieUserDefaultsKey;
+extern NSString *SelectedMovieUserDefaultsKey;
+
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
 +(NSURL *)getApiBaseURL;

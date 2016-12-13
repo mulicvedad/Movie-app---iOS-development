@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainMovieWidgetTableViewCell" rowHeight="77" id="KGk-i7-Jjw" customClass="MainMovieWidgetTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="334" height="77"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="334" height="76"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYH-y7-Lcu">
+                        <rect key="frame" x="48" y="10" width="276" height="19"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1j-Ea-RVd">
+                        <rect key="frame" x="64" y="33" width="30" height="14"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-filled" translatesAutoresizingMaskIntoConstraints="NO" id="eZS-zE-tfw">
+                        <rect key="frame" x="48" y="34" width="12" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="VrM-Fp-K60"/>
+                            <constraint firstAttribute="height" constant="12" id="W3L-uc-46t"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="movie-poster" translatesAutoresizingMaskIntoConstraints="NO" id="RnT-bQ-Fdv">
+                        <rect key="frame" x="0.0" y="10" width="40" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="21k-XE-Bmc"/>
+                            <constraint firstAttribute="height" constant="60" id="dRK-M5-hPS"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="WYH-y7-Lcu" firstAttribute="top" secondItem="RnT-bQ-Fdv" secondAttribute="top" id="8Ah-uI-V7m"/>
+                    <constraint firstItem="m1j-Ea-RVd" firstAttribute="centerY" secondItem="eZS-zE-tfw" secondAttribute="centerY" id="Djw-Jb-d68"/>
+                    <constraint firstItem="eZS-zE-tfw" firstAttribute="leading" secondItem="RnT-bQ-Fdv" secondAttribute="trailing" constant="8" id="XjC-Ea-CrS"/>
+                    <constraint firstItem="RnT-bQ-Fdv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="clz-7P-1Pw"/>
+                    <constraint firstAttribute="trailing" secondItem="WYH-y7-Lcu" secondAttribute="trailing" constant="10" id="fio-7B-rHd"/>
+                    <constraint firstItem="RnT-bQ-Fdv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="hnw-2M-lQj"/>
+                    <constraint firstItem="WYH-y7-Lcu" firstAttribute="leading" secondItem="RnT-bQ-Fdv" secondAttribute="trailing" constant="8" id="nxK-7x-o2i"/>
+                    <constraint firstItem="eZS-zE-tfw" firstAttribute="top" secondItem="WYH-y7-Lcu" secondAttribute="bottom" constant="5" id="skH-mo-Bia"/>
+                    <constraint firstItem="m1j-Ea-RVd" firstAttribute="leading" secondItem="eZS-zE-tfw" secondAttribute="trailing" constant="4" id="vST-14-1Ww"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="posterImageView" destination="RnT-bQ-Fdv" id="Joe-7X-f6E"/>
+                <outlet property="ratingLabel" destination="m1j-Ea-RVd" id="G0K-wg-nKW"/>
+                <outlet property="titleLabel" destination="WYH-y7-Lcu" id="G4I-YQ-W7n"/>
+            </connections>
+            <point key="canvasLocation" x="33" y="167.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="movie-poster" width="87" height="127"/>
+        <image name="star-filled" width="18" height="19"/>
+    </resources>
+</document>

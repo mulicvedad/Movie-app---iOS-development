@@ -10,3 +10,7 @@ pod 'FontAwesome-iOS'
 pod ‘Realm’
 pod ‘MWPhotoBrowser’
 end
+
+target 'TodayWidget' do
+pod 'SDWebImage', '~> 3.8'
+end

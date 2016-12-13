@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.atlantbh.internship.MovieApp</string>
+			</array>
+			<key>CFBundleURLName</key>
+            <array>
+                <string>MovieApp</string>
+            </array>
+		</dict>
+	</array>
 	<key>BoxOfficeAPI</key>
 	<string>http://www.boxofficemojo.com/data/rss.php?file=topstories.xml</string>
 	<key>CFBundleDevelopmentRegion</key>
