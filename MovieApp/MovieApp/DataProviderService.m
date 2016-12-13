@@ -32,6 +32,7 @@
 @end
 
 static const NSUInteger TVEventsPageSize=20;
+
 @implementation DataProviderService
 static DataProviderService *sharedService;
 
@@ -171,7 +172,24 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  CollectionType ct = [DataProviderService collectionTypeFromCriterion:criterion];
+                                                  if(criterion==LATEST){
+                                                      NSMutableArray *latestMovies=[[NSMutableArray alloc] initWithCapacity:7];
+                                                      for(int i=0;i<7 && i<tvEvents.count;i++){
+                                                          TVEvent *currentTVEvent=tvEvents[i];
+                                                          TVEvent *tvEvent=[[TVEvent alloc] init];
+                                                          tvEvent.id=currentTVEvent.id;
+                                                          tvEvent.title=currentTVEvent.title;
+                                                          tvEvent.voteAverage=currentTVEvent.voteAverage;
+                                                          tvEvent.posterPath=currentTVEvent.posterPath;
+                                                          NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:tvEvent];
+
+                                                          [latestMovies addObject:encodedObject];
+                                                      }
+                                                      NSUserDefaults *std=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
+                                                      [std setObject:latestMovies forKey:LatestMoviesUserDefaultsKey];
+                                                      NSArray *tmp=[std objectForKey:LatestMoviesUserDefaultsKey];
+
+                                                  }
                                                   [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:tvEvents toCollection:[DataProviderService collectionTypeFromCriterion:criterion]];
                                                   [delegate updateReceiverWithNewData:tvEvents info:@{CriterionDictionaryKey:[DataProviderService getCriteriaForSorting][criterion]}];
                                                   

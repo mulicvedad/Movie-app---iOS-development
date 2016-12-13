@@ -67,11 +67,12 @@ static DataProviderService *downloader=nil;
     //[[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     //[self setupGenres];
-    
+  
     if([MovieAppConfiguration isConnectedToInternet]){
         //[[DatabaseManager sharedDatabaseManager] connectionEstablished];
     }
-    
+    NSUserDefaults *stdtitis=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
+    NSArray *movs=[stdtitis objectForKey:LatestMoviesUserDefaultsKey];
     return YES;
 }
 
@@ -108,6 +109,10 @@ static DataProviderService *downloader=nil;
     
     [Movie initializeGenres:movieGenres];
     [TVShow initializeGenres:tvShowGenres];
+}
+
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+    return YES;
 }
 
 @end

@@ -241,7 +241,6 @@ static DatabaseManager *_uniqueInstance;
                         RLMResults *results=[GenreDb objectsWhere:@"id=%d AND isMovieGenre=YES", genreID];
                         [newMovie.genres addObjects:results];
                     }
-                    NSString *key=[DatabaseManager keyForCollectionType:collection];
                     //[newMovie setValue:[NSNumber numberWithBool:YES] forKey:key];
                     [self helperAddTVEvent:newMovie toCollection:collection];
                     [_realm addOrUpdateObject:newMovie];

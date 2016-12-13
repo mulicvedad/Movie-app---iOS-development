@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		342DE74C183436C25BF32A8D /* libPods-TodayWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 721C85EDADD9589D2B13BB05 /* libPods-TodayWidget.a */; };
 		CE04AB011DEA77AE001C9FC5 /* GalleryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04AAFF1DEA77AE001C9FC5 /* GalleryCollectionViewCell.m */; };
 		CE04AB021DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE04AB001DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib */; };
 		CE04AB061DEDA0A9001C9FC5 /* GalleryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04AB041DEDA0A9001C9FC5 /* GalleryTableViewCell.m */; };
@@ -104,6 +105,16 @@
 		CE948EA51DD1784D00EF6262 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE948EA41DD1784D00EF6262 /* RatingViewController.m */; };
 		CE9BED951DFA41C4002BD559 /* ActionDb.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BED941DFA41C4002BD559 /* ActionDb.m */; };
 		CE9BED981DFBB4F6002BD559 /* AccountDetailsDb.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BED971DFBB4F6002BD559 /* AccountDetailsDb.m */; };
+		CE9BED9F1DFE153D002BD559 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9BED9E1DFE153D002BD559 /* NotificationCenter.framework */; };
+		CE9BEDA31DFE153D002BD559 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDA21DFE153D002BD559 /* TodayViewController.m */; };
+		CE9BEDA61DFE153D002BD559 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDA41DFE153D002BD559 /* MainInterface.storyboard */; };
+		CE9BEDAA1DFE153D002BD559 /* TodayWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE9BED9D1DFE153D002BD559 /* TodayWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE9BEDB31DFE3044002BD559 /* MovieWidgetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDB11DFE3044002BD559 /* MovieWidgetTableViewCell.m */; };
+		CE9BEDB41DFE3044002BD559 /* MovieWidgetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDB21DFE3044002BD559 /* MovieWidgetTableViewCell.xib */; };
+		CE9BEDB51DFE3ABC002BD559 /* TVEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF6C5A11DA459D80008160F /* TVEvent.m */; };
+		CE9BEDB71DFE3C6F002BD559 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDB61DFE3C6F002BD559 /* Media.xcassets */; };
+		CE9BEDBC1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDBA1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m */; };
+		CE9BEDBD1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDBB1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib */; };
 		CE9D55D61DDB45CA00A4F70A /* LikedTVEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */; };
 		CE9D55D71DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */; };
 		CEA09E701DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA09E6F1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m */; };
@@ -170,12 +181,35 @@
 			remoteGlobalIDString = CE741D2E1D91ED5D0081C33A;
 			remoteInfo = MovieApp;
 		};
+		CE9BEDA81DFE153D002BD559 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE741D271D91ED5D0081C33A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE9BED9C1DFE153D002BD559;
+			remoteInfo = TodayWidget;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE9BEDAE1DFE153D002BD559 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE9BEDAA1DFE153D002BD559 /* TodayWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.release.xcconfig"; sourceTree = "<group>"; };
+		33BB03756ECBD2A3AD62EC03 /* Pods-TodayWidget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodayWidget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TodayWidget/Pods-TodayWidget.debug.xcconfig"; sourceTree = "<group>"; };
 		3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp.debug.xcconfig"; sourceTree = "<group>"; };
 		62BDEE23B07756E1D461645C /* libPods-MovieApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MovieApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		721C85EDADD9589D2B13BB05 /* libPods-TodayWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TodayWidget.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE04AAFE1DEA77AE001C9FC5 /* GalleryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryCollectionViewCell.h; sourceTree = "<group>"; };
 		CE04AAFF1DEA77AE001C9FC5 /* GalleryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryCollectionViewCell.m; sourceTree = "<group>"; };
 		CE04AB001DEA77AE001C9FC5 /* GalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -365,6 +399,20 @@
 		CE9BED941DFA41C4002BD559 /* ActionDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionDb.m; sourceTree = "<group>"; };
 		CE9BED961DFBB4F6002BD559 /* AccountDetailsDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailsDb.h; sourceTree = "<group>"; };
 		CE9BED971DFBB4F6002BD559 /* AccountDetailsDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDetailsDb.m; sourceTree = "<group>"; };
+		CE9BED9D1DFE153D002BD559 /* TodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE9BED9E1DFE153D002BD559 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		CE9BEDA11DFE153D002BD559 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		CE9BEDA21DFE153D002BD559 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		CE9BEDA51DFE153D002BD559 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		CE9BEDA71DFE153D002BD559 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE9BEDB01DFE3044002BD559 /* MovieWidgetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieWidgetTableViewCell.h; sourceTree = "<group>"; };
+		CE9BEDB11DFE3044002BD559 /* MovieWidgetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieWidgetTableViewCell.m; sourceTree = "<group>"; };
+		CE9BEDB21DFE3044002BD559 /* MovieWidgetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieWidgetTableViewCell.xib; sourceTree = "<group>"; };
+		CE9BEDB61DFE3C6F002BD559 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		CE9BEDB81DFE4C5E002BD559 /* TodayWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodayWidget.entitlements; sourceTree = "<group>"; };
+		CE9BEDB91DFF89FD002BD559 /* MainMovieWidgetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMovieWidgetTableViewCell.h; sourceTree = "<group>"; };
+		CE9BEDBA1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMovieWidgetTableViewCell.m; sourceTree = "<group>"; };
+		CE9BEDBB1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMovieWidgetTableViewCell.xib; sourceTree = "<group>"; };
 		CE9D55D31DDB45CA00A4F70A /* LikedTVEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikedTVEventTableViewCell.h; sourceTree = "<group>"; };
 		CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikedTVEventTableViewCell.m; sourceTree = "<group>"; };
 		CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LikedTVEventTableViewCell.xib; sourceTree = "<group>"; };
@@ -451,6 +499,7 @@
 		CEF93FAA1DADE40F005028F5 /* SeasonsTableViewCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeasonsTableViewCellDelegate.h; sourceTree = "<group>"; };
 		CEFE5F071DA6ED9700D5B275 /* Genre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Genre.h; sourceTree = "<group>"; };
 		CEFE5F081DA6ED9700D5B275 /* Genre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Genre.m; sourceTree = "<group>"; };
+		FDD2C34DDE537C4C329D6DB4 /* Pods-TodayWidget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodayWidget.release.xcconfig"; path = "Pods/Target Support Files/Pods-TodayWidget/Pods-TodayWidget.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -476,6 +525,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE9BED9A1DFE153D002BD559 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9BED9F1DFE153D002BD559 /* NotificationCenter.framework in Frameworks */,
+				342DE74C183436C25BF32A8D /* libPods-TodayWidget.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -484,6 +542,8 @@
 			children = (
 				3BE3CE64F8B24CB83F4DF077 /* Pods-MovieApp.debug.xcconfig */,
 				040F34BBEE8EEA7AB088BBF0 /* Pods-MovieApp.release.xcconfig */,
+				33BB03756ECBD2A3AD62EC03 /* Pods-TodayWidget.debug.xcconfig */,
+				FDD2C34DDE537C4C329D6DB4 /* Pods-TodayWidget.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -541,6 +601,7 @@
 				CE741D311D91ED5D0081C33A /* MovieApp */,
 				CE741D4B1D91ED5E0081C33A /* MovieAppTests */,
 				CE741D561D91ED5E0081C33A /* MovieAppUITests */,
+				CE9BEDA01DFE153D002BD559 /* TodayWidget */,
 				CE741D301D91ED5D0081C33A /* Products */,
 				CE83C6721D9D5BA1008ECA96 /* Frameworks */,
 				1188DC2E813450C36908CF3A /* Pods */,
@@ -553,6 +614,7 @@
 				CE741D2F1D91ED5D0081C33A /* MovieApp.app */,
 				CE741D481D91ED5E0081C33A /* MovieAppTests.xctest */,
 				CE741D531D91ED5E0081C33A /* MovieAppUITests.xctest */,
+				CE9BED9D1DFE153D002BD559 /* TodayWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -834,8 +896,37 @@
 				CE83C6751D9D5BA8008ECA96 /* CoreData.framework */,
 				CE83C6731D9D5BA1008ECA96 /* CFNetwork.framework */,
 				62BDEE23B07756E1D461645C /* libPods-MovieApp.a */,
+				CE9BED9E1DFE153D002BD559 /* NotificationCenter.framework */,
+				721C85EDADD9589D2B13BB05 /* libPods-TodayWidget.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE9BEDA01DFE153D002BD559 /* TodayWidget */ = {
+			isa = PBXGroup;
+			children = (
+				CE9BEDB81DFE4C5E002BD559 /* TodayWidget.entitlements */,
+				CE9BEDAF1DFE300D002BD559 /* Views */,
+				CE9BEDA11DFE153D002BD559 /* TodayViewController.h */,
+				CE9BEDA21DFE153D002BD559 /* TodayViewController.m */,
+				CE9BEDA41DFE153D002BD559 /* MainInterface.storyboard */,
+				CE9BEDA71DFE153D002BD559 /* Info.plist */,
+				CE9BEDB61DFE3C6F002BD559 /* Media.xcassets */,
+			);
+			path = TodayWidget;
+			sourceTree = "<group>";
+		};
+		CE9BEDAF1DFE300D002BD559 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CE9BEDB01DFE3044002BD559 /* MovieWidgetTableViewCell.h */,
+				CE9BEDB11DFE3044002BD559 /* MovieWidgetTableViewCell.m */,
+				CE9BEDB21DFE3044002BD559 /* MovieWidgetTableViewCell.xib */,
+				CE9BEDB91DFF89FD002BD559 /* MainMovieWidgetTableViewCell.h */,
+				CE9BEDBA1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m */,
+				CE9BEDBB1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		CEA2FB911DE8DD2F006BC152 /* Database models */ = {
@@ -889,10 +980,12 @@
 				4981398C4CBFB41B60ADA053 /* [CP] Embed Pods Frameworks */,
 				2EC62BD9F044B3DCACF46D51 /* [CP] Copy Pods Resources */,
 				CE76A0FC1DB77AA400725CA1 /* ShellScript */,
+				CE9BEDAE1DFE153D002BD559 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CE9BEDA91DFE153D002BD559 /* PBXTargetDependency */,
 			);
 			name = MovieApp;
 			productName = MovieApp;
@@ -935,6 +1028,26 @@
 			productReference = CE741D531D91ED5E0081C33A /* MovieAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		CE9BED9C1DFE153D002BD559 /* TodayWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE9BEDAD1DFE153D002BD559 /* Build configuration list for PBXNativeTarget "TodayWidget" */;
+			buildPhases = (
+				FEBC8E7738BD8DA5D5488A29 /* [CP] Check Pods Manifest.lock */,
+				CE9BED991DFE153D002BD559 /* Sources */,
+				CE9BED9A1DFE153D002BD559 /* Frameworks */,
+				CE9BED9B1DFE153D002BD559 /* Resources */,
+				A87E9C5DBB2EB31D421B3D03 /* [CP] Embed Pods Frameworks */,
+				B155653BDE275D3D98F00BAE /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TodayWidget;
+			productName = TodayWidget;
+			productReference = CE9BED9D1DFE153D002BD559 /* TodayWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -949,6 +1062,9 @@
 						DevelopmentTeam = DH5LGL8R5Y;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -965,6 +1081,16 @@
 						DevelopmentTeam = DH5LGL8R5Y;
 						ProvisioningStyle = Automatic;
 						TestTargetID = CE741D2E1D91ED5D0081C33A;
+					};
+					CE9BED9C1DFE153D002BD559 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = DH5LGL8R5Y;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -984,6 +1110,7 @@
 				CE741D2E1D91ED5D0081C33A /* MovieApp */,
 				CE741D471D91ED5E0081C33A /* MovieAppTests */,
 				CE741D521D91ED5E0081C33A /* MovieAppUITests */,
+				CE9BED9C1DFE153D002BD559 /* TodayWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -1049,6 +1176,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE9BED9B1DFE153D002BD559 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9BEDB41DFE3044002BD559 /* MovieWidgetTableViewCell.xib in Resources */,
+				CE9BEDB71DFE3C6F002BD559 /* Media.xcassets in Resources */,
+				CE9BEDBD1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib in Resources */,
+				CE9BEDA61DFE153D002BD559 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1097,6 +1235,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A87E9C5DBB2EB31D421B3D03 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TodayWidget/Pods-TodayWidget-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B155653BDE275D3D98F00BAE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TodayWidget/Pods-TodayWidget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CE76A0FC1DB77AA400725CA1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1109,6 +1277,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/Fabric/run 614270a54fcf753709b0ffc990bbc21463bc8fa4 d1ef6a6e3cd4e72ce0170f07aeded300b1b5198744d9ae5c21eb6fac6ef887fe";
+		};
+		FEBC8E7738BD8DA5D5488A29 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1240,6 +1423,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE9BED991DFE153D002BD559 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9BEDB51DFE3ABC002BD559 /* TVEvent.m in Sources */,
+				CE9BEDBC1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m in Sources */,
+				CE9BEDB31DFE3044002BD559 /* MovieWidgetTableViewCell.m in Sources */,
+				CE9BEDA31DFE153D002BD559 /* TodayViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1252,6 +1446,11 @@
 			isa = PBXTargetDependency;
 			target = CE741D2E1D91ED5D0081C33A /* MovieApp */;
 			targetProxy = CE741D541D91ED5E0081C33A /* PBXContainerItemProxy */;
+		};
+		CE9BEDA91DFE153D002BD559 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE9BED9C1DFE153D002BD559 /* TodayWidget */;
+			targetProxy = CE9BEDA81DFE153D002BD559 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1270,6 +1469,14 @@
 				CE741D411D91ED5D0081C33A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CE9BEDA41DFE153D002BD559 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE9BEDA51DFE153D002BD559 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1455,6 +1662,36 @@
 			};
 			name = Release;
 		};
+		CE9BEDAB1DFE153D002BD559 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33BB03756ECBD2A3AD62EC03 /* Pods-TodayWidget.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TodayWidget/TodayWidget.entitlements;
+				DEVELOPMENT_TEAM = DH5LGL8R5Y;
+				INFOPLIST_FILE = TodayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atlantbh.internship.MovieApp.TodayWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CE9BEDAC1DFE153D002BD559 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDD2C34DDE537C4C329D6DB4 /* Pods-TodayWidget.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TodayWidget/TodayWidget.entitlements;
+				DEVELOPMENT_TEAM = DH5LGL8R5Y;
+				INFOPLIST_FILE = TodayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atlantbh.internship.MovieApp.TodayWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1490,6 +1727,15 @@
 			buildConfigurations = (
 				CE741D631D91ED5E0081C33A /* Debug */,
 				CE741D641D91ED5E0081C33A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE9BEDAD1DFE153D002BD559 /* Build configuration list for PBXNativeTarget "TodayWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE9BEDAB1DFE153D002BD559 /* Debug */,
+				CE9BEDAC1DFE153D002BD559 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -72,6 +72,33 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSUserDefaults *std=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
+    if([std boolForKey:ShouldOpenMovieUserDefaultsKey]){
+        [std setBool:NO forKey:ShouldOpenMovieUserDefaultsKey];
+        NSData *movieData=[std objectForKey:SelectedMovieUserDefaultsKey];
+        TVEvent *movie=[NSKeyedUnarchiver unarchiveObjectWithData:movieData];
+        Movie *newMovie=[[Movie alloc] init];
+        newMovie.id=movie.id;
+        newMovie.title=movie.title;
+        newMovie.posterPath=movie.posterPath;
+        newMovie.voteAverage=movie.voteAverage;
+        if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:newMovie]){
+            newMovie.isInFavorites=YES;
+        }
+        else{
+            newMovie.isInFavorites=NO;
+            
+        }
+        if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:newMovie]){
+            newMovie.isInWatchlist=YES;
+        }
+        else{
+            newMovie.isInWatchlist=NO;
+            
+        }
+        [self performSegueWithIdentifier:EventDetailsSegueIdentifier sender:newMovie];
+        
+    }
     _numberOfPagesLoaded=0;
     _tvEvents=[[NSMutableArray alloc]init];
     self.isMovieViewController=(self.tabBarController.selectedIndex==1) ? YES:NO;
@@ -542,11 +569,9 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
     MediaType mediaType= [_tvEvents[indexPathRow] isKindOfClass:[Movie class]] ? MovieType : TVShowType;
     TVEvent *currentTVEvent=_tvEvents[indexPathRow];
     if(typeOfCollection==SideMenuOptionFavorites){
-        BOOL isis=currentTVEvent.isInFavorites;
         [[DataProviderService sharedDataProviderService] favoriteTVEventWithID:currentTVEvent.id mediaType:mediaType remove:currentTVEvent.isInFavorites responseHandler:self];
     }
     else{
-        BOOL isis=currentTVEvent.isInWatchlist;
 
         [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:currentTVEvent.id  mediaType:mediaType remove:currentTVEvent.isInWatchlist responseHandler:self];
 

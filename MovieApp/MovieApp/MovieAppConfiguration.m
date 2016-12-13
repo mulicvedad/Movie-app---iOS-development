@@ -19,7 +19,10 @@ NSString *EmptyWatchlistFontAwesomeCode=@"\uf097";
 NSString *TVShowsNotificationsEnabledNSUserDefaultsKey=@"tvShowsNotificationsenabled";
 NSString *MoviesNotificationsEnabledNSUserDefaultsKey=@"moviesNotificationsenabled";
 
-
+NSString *LatestMoviesUserDefaultsKey=@"latestMovies";
+NSString *AppGroupSuiteName=@"group.com.atlantbh.internship.MovieApp";
+NSString *ShouldOpenMovieUserDefaultsKey=@"shouldOpenTVEvent";
+NSString *SelectedMovieUserDefaultsKey=@"selectedMovie";
 
 @implementation MovieAppConfiguration
 
