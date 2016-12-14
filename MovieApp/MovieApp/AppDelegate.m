@@ -69,10 +69,9 @@ static DataProviderService *downloader=nil;
     //[self setupGenres];
   
     if([MovieAppConfiguration isConnectedToInternet]){
-        //[[DatabaseManager sharedDatabaseManager] connectionEstablished];
+        [[DatabaseManager sharedDatabaseManager] connectionEstablished];
     }
-    NSUserDefaults *stdtitis=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
-    NSArray *movs=[stdtitis objectForKey:LatestMoviesUserDefaultsKey];
+   
     return YES;
 }
 
@@ -115,4 +114,14 @@ static DataProviderService *downloader=nil;
     return YES;
 }
 
+-(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
+    
+    UITabBarController *tc=(UITabBarController *)self.window.rootViewController;
+    UINavigationController *navc=tc.childViewControllers[1];
+    UIViewController *vc=navc.childViewControllers[0];
+    
+    [vc restoreUserActivityState:userActivity];
+    
+    return YES;
+}
 @end

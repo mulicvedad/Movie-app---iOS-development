@@ -187,7 +187,7 @@ static DataProviderService *sharedService;
                                                       }
                                                       NSUserDefaults *std=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
                                                       [std setObject:latestMovies forKey:LatestMoviesUserDefaultsKey];
-                                                      NSArray *tmp=[std objectForKey:LatestMoviesUserDefaultsKey];
+                                                      
 
                                                   }
                                                   [[DatabaseManager sharedDatabaseManager] addTVEventsFromArray:tvEvents toCollection:[DataProviderService collectionTypeFromCriterion:criterion]];

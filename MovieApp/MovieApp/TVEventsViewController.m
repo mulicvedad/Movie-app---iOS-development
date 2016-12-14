@@ -20,6 +20,10 @@
 #import <Realm/Realm.h>
 #import "MovieDb.h"
 
+#import <CoreSpotlight/CoreSpotlight.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
+
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
 
@@ -66,7 +70,9 @@ static NSString *LikedTVEventsSegueIdentifier=@"LikedTVEventsSegueIdentifier";
 static NSString *LoginSegueIdentifier=@"LoginSegue";
 static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
-
+static NSString *SearchableItemIdentifierBase=@"com.atlantbh.movieapp";
+static NSString *SearchableItemMovieDomainIdentifier=@"movie";
+static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 @implementation TVEventsViewController
 
@@ -253,6 +259,9 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
+
+    [self setupSearchableContent];
+    
     [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;
@@ -585,13 +594,11 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
             switch (typeOfCollection) {
                 case SideMenuOptionFavorites:
                     currentTVEvent.isInFavorites=YES;
-                    //[[DatabaseManager sharedDatabaseManager] addTVEvent:currentTVEvent toCollection:CollectionTypeFavorites];
-                    //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionFavorites];
+                    
                     break;
                 case SideMenuOptionWatchlist:
                     currentTVEvent.isInWatchlist=YES;
-                    //[[DatabaseManager sharedDatabaseManager] addTVEvent:currentTVEvent toCollection:CollectionTypeWatchlist];
-                    //[[VirtualDataStorage sharedVirtualDataStorage] addTVEvent:currentTVEvent toCollection:SideMenuOptionWatchlist];
+                    
                     break;
                 default:
                     break;
@@ -609,13 +616,11 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
                 switch (typeOfCollection) {
                     case SideMenuOptionFavorites:
                         currentTVEvent.isInFavorites=NO;
-                        //[[DatabaseManager sharedDatabaseManager] removeTVEvent:currentTVEvent fromCollection:CollectionTypeFavorites];
-                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionFavorites];
+                  
                         break;
                     case SideMenuOptionWatchlist:
                         currentTVEvent.isInWatchlist=NO;
-                        //[[DatabaseManager sharedDatabaseManager] removeTVEvent:currentTVEvent fromCollection:CollectionTypeWatchlist];
-                        //[[VirtualDataStorage sharedVirtualDataStorage] removeTVEventWithID:currentTVEvent.id mediaType:[currentTVEvent isKindOfClass:[Movie class]] ? MovieType : TVShowType fromCollection:SideMenuOptionWatchlist];
+                      
                         break;
                     default:
                         break;
@@ -651,24 +656,6 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    /*for(int i=0;i<[_tvEvents count];i++){
-        TVEvent * currentTVEvent=_tvEvents[i];
-        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInFavorites:currentTVEvent]){
-            currentTVEvent.isInFavorites=YES;
-        }
-        else{
-            currentTVEvent.isInFavorites=NO;
-
-        }
-        if([[VirtualDataStorage sharedVirtualDataStorage] containsTVEventInWatchlist:currentTVEvent]){
-            currentTVEvent.isInWatchlist=YES;
-        }
-        else{
-            currentTVEvent.isInWatchlist=NO;
-            
-        }
-    }
-    [self.tvEventsCollectionView reloadData];*/
     for(int i=0;i<[_tvEvents count];i++){
         TVEvent * currentTVEvent=_tvEvents[i];
         if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:currentTVEvent]){
@@ -723,4 +710,108 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
     [self.navigationItem setLeftBarButtonItem:nil];
 }
 
+-(void)setupSearchableContent{
+    NSMutableArray *searchableItems=[[NSMutableArray alloc] init];
+    
+    int rowNum=0;
+    for(TVEvent *tvEvent in _tvEvents){
+        CSSearchableItemAttributeSet *attributeSet=[[CSSearchableItemAttributeSet alloc] initWithItemContentType:(NSString *)kUTTypeText];
+        
+        if(tvEvent.title){
+            attributeSet.title=[NSString stringWithFormat:@"%@ (%@)", tvEvent.title, [tvEvent getReleaseYear]];
+        }
+        else{
+            attributeSet.title=@"Title not found";
+        }
+        
+        
+        NSString *mediaType;
+        if([tvEvent isKindOfClass:[Movie class]]){
+            mediaType=@"Movie";
+        }
+        else{
+            mediaType=@"TV Series";
+            
+        }
+        
+        attributeSet.contentDescription=[NSString stringWithFormat:@"%@ (%@) ",mediaType, [tvEvent getFormattedGenresRepresentation]];
+        
+        UIImage *posterImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
+        if(posterImage){
+            NSData *imageData=UIImageJPEGRepresentation(posterImage, 0.5);
+            attributeSet.thumbnailData= imageData;
+
+        }
+        else{
+            attributeSet.thumbnailData= UIImageJPEGRepresentation([UIImage imageNamed:@"poster-placeholder-new-medium]"], 0.5);
+        }
+        NSMutableArray *keywords=[[NSMutableArray alloc] init];
+       
+        for(int i=0;i<tvEvent.genreIDs.count;i++){
+            [keywords addObject:[tvEvent getGenreNameForId:[(NSNumber *)tvEvent.genreIDs[i] integerValue]]];
+        }
+        [keywords addObject:tvEvent.title];
+        
+        attributeSet.keywords=keywords;
+        NSString *identifier;
+        NSString *domainIdentifier;
+        if([tvEvent isKindOfClass:[Movie class]]){
+            domainIdentifier=SearchableItemMovieDomainIdentifier;
+            identifier=[NSString stringWithFormat:@"%@.%@%d",SearchableItemIdentifierBase, SearchableItemMovieDomainIdentifier,(int)tvEvent.id];
+
+        }
+        else{
+            domainIdentifier=SearchableItemTVShowDomainIdentifier;
+            identifier=[NSString stringWithFormat:@"%@.%@%d",SearchableItemIdentifierBase, SearchableItemTVShowDomainIdentifier,(int)tvEvent.id];
+        }
+        CSSearchableItem *item=[[CSSearchableItem alloc] initWithUniqueIdentifier:identifier domainIdentifier:domainIdentifier attributeSet:attributeSet];
+        
+        [searchableItems addObject:item];
+        
+        rowNum++;
+        
+    }
+    
+    [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError * _Nullable error) {
+        if(error){
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
+
+-(void)restoreUserActivityState:(NSUserActivity *)activity{
+    if([activity.activityType isEqualToString:CSSearchableItemActionType]){
+        NSDictionary *userInfo=activity.userInfo;
+        
+        if(userInfo){
+            NSString *identifier = [userInfo objectForKey:CSSearchableItemActivityIdentifier];
+
+            NSString *numberString;
+            
+            NSScanner *scanner = [NSScanner scannerWithString:identifier];
+            NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+            
+            [scanner scanUpToCharactersFromSet:numbers intoString:NULL];
+
+            [scanner scanCharactersFromSet:numbers intoString:&numberString];
+            
+            NSInteger number = [numberString integerValue];
+            
+            TVEvent *tvEvent;
+            if ([identifier rangeOfString:SearchableItemMovieDomainIdentifier].location != NSNotFound){
+                Movie *movie=[[Movie alloc] init];
+                movie.id=number;
+                tvEvent=movie;
+            }
+            else if([identifier rangeOfString:SearchableItemTVShowDomainIdentifier].location != NSNotFound){
+                TVShow *tvShow=[[TVShow alloc] init];
+                tvShow.id=number;
+                tvEvent=tvShow;
+            }
+            
+            [self performSegueWithIdentifier:EventDetailsSegueIdentifier sender:tvEvent];
+        }
+    }
+}
 @end
