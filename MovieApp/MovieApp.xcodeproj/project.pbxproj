@@ -115,6 +115,9 @@
 		CE9BEDB71DFE3C6F002BD559 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDB61DFE3C6F002BD559 /* Media.xcassets */; };
 		CE9BEDBC1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDBA1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m */; };
 		CE9BEDBD1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDBB1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib */; };
+		CE9BEDC71E00AF9F002BD559 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDC61E00AF9F002BD559 /* ShareViewController.m */; };
+		CE9BEDCA1E00AFA0002BD559 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDC81E00AFA0002BD559 /* MainInterface.storyboard */; };
+		CE9BEDCE1E00AFA0002BD559 /* SocialSharing.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE9BEDC31E00AF9F002BD559 /* SocialSharing.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CE9D55D61DDB45CA00A4F70A /* LikedTVEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */; };
 		CE9D55D71DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */; };
 		CEA09E701DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA09E6F1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m */; };
@@ -188,6 +191,13 @@
 			remoteGlobalIDString = CE9BED9C1DFE153D002BD559;
 			remoteInfo = TodayWidget;
 		};
+		CE9BEDCC1E00AFA0002BD559 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE741D271D91ED5D0081C33A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE9BEDC21E00AF9F002BD559;
+			remoteInfo = SocialSharing;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -197,6 +207,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				CE9BEDCE1E00AFA0002BD559 /* SocialSharing.appex in Embed App Extensions */,
 				CE9BEDAA1DFE153D002BD559 /* TodayWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -413,6 +424,11 @@
 		CE9BEDB91DFF89FD002BD559 /* MainMovieWidgetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMovieWidgetTableViewCell.h; sourceTree = "<group>"; };
 		CE9BEDBA1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMovieWidgetTableViewCell.m; sourceTree = "<group>"; };
 		CE9BEDBB1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMovieWidgetTableViewCell.xib; sourceTree = "<group>"; };
+		CE9BEDC31E00AF9F002BD559 /* SocialSharing.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SocialSharing.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE9BEDC51E00AF9F002BD559 /* ShareViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		CE9BEDC61E00AF9F002BD559 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		CE9BEDC91E00AFA0002BD559 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		CE9BEDCB1E00AFA0002BD559 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE9D55D31DDB45CA00A4F70A /* LikedTVEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikedTVEventTableViewCell.h; sourceTree = "<group>"; };
 		CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikedTVEventTableViewCell.m; sourceTree = "<group>"; };
 		CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LikedTVEventTableViewCell.xib; sourceTree = "<group>"; };
@@ -534,6 +550,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE9BEDC01E00AF9F002BD559 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -602,6 +625,7 @@
 				CE741D4B1D91ED5E0081C33A /* MovieAppTests */,
 				CE741D561D91ED5E0081C33A /* MovieAppUITests */,
 				CE9BEDA01DFE153D002BD559 /* TodayWidget */,
+				CE9BEDC41E00AF9F002BD559 /* SocialSharing */,
 				CE741D301D91ED5D0081C33A /* Products */,
 				CE83C6721D9D5BA1008ECA96 /* Frameworks */,
 				1188DC2E813450C36908CF3A /* Pods */,
@@ -615,6 +639,7 @@
 				CE741D481D91ED5E0081C33A /* MovieAppTests.xctest */,
 				CE741D531D91ED5E0081C33A /* MovieAppUITests.xctest */,
 				CE9BED9D1DFE153D002BD559 /* TodayWidget.appex */,
+				CE9BEDC31E00AF9F002BD559 /* SocialSharing.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -929,6 +954,17 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		CE9BEDC41E00AF9F002BD559 /* SocialSharing */ = {
+			isa = PBXGroup;
+			children = (
+				CE9BEDC51E00AF9F002BD559 /* ShareViewController.h */,
+				CE9BEDC61E00AF9F002BD559 /* ShareViewController.m */,
+				CE9BEDC81E00AFA0002BD559 /* MainInterface.storyboard */,
+				CE9BEDCB1E00AFA0002BD559 /* Info.plist */,
+			);
+			path = SocialSharing;
+			sourceTree = "<group>";
+		};
 		CEA2FB911DE8DD2F006BC152 /* Database models */ = {
 			isa = PBXGroup;
 			children = (
@@ -986,6 +1022,7 @@
 			);
 			dependencies = (
 				CE9BEDA91DFE153D002BD559 /* PBXTargetDependency */,
+				CE9BEDCD1E00AFA0002BD559 /* PBXTargetDependency */,
 			);
 			name = MovieApp;
 			productName = MovieApp;
@@ -1048,6 +1085,23 @@
 			productReference = CE9BED9D1DFE153D002BD559 /* TodayWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		CE9BEDC21E00AF9F002BD559 /* SocialSharing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE9BEDCF1E00AFA0002BD559 /* Build configuration list for PBXNativeTarget "SocialSharing" */;
+			buildPhases = (
+				CE9BEDBF1E00AF9F002BD559 /* Sources */,
+				CE9BEDC01E00AF9F002BD559 /* Frameworks */,
+				CE9BEDC11E00AF9F002BD559 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SocialSharing;
+			productName = SocialSharing;
+			productReference = CE9BEDC31E00AF9F002BD559 /* SocialSharing.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1092,6 +1146,11 @@
 							};
 						};
 					};
+					CE9BEDC21E00AF9F002BD559 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = DH5LGL8R5Y;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = CE741D2A1D91ED5D0081C33A /* Build configuration list for PBXProject "MovieApp" */;
@@ -1111,6 +1170,7 @@
 				CE741D471D91ED5E0081C33A /* MovieAppTests */,
 				CE741D521D91ED5E0081C33A /* MovieAppUITests */,
 				CE9BED9C1DFE153D002BD559 /* TodayWidget */,
+				CE9BEDC21E00AF9F002BD559 /* SocialSharing */,
 			);
 		};
 /* End PBXProject section */
@@ -1184,6 +1244,14 @@
 				CE9BEDB71DFE3C6F002BD559 /* Media.xcassets in Resources */,
 				CE9BEDBD1DFF89FD002BD559 /* MainMovieWidgetTableViewCell.xib in Resources */,
 				CE9BEDA61DFE153D002BD559 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE9BEDC11E00AF9F002BD559 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9BEDCA1E00AFA0002BD559 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1434,6 +1502,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE9BEDBF1E00AF9F002BD559 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9BEDC71E00AF9F002BD559 /* ShareViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1451,6 +1527,11 @@
 			isa = PBXTargetDependency;
 			target = CE9BED9C1DFE153D002BD559 /* TodayWidget */;
 			targetProxy = CE9BEDA81DFE153D002BD559 /* PBXContainerItemProxy */;
+		};
+		CE9BEDCD1E00AFA0002BD559 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE9BEDC21E00AF9F002BD559 /* SocialSharing */;
+			targetProxy = CE9BEDCC1E00AFA0002BD559 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1475,6 +1556,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				CE9BEDA51DFE153D002BD559 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		CE9BEDC81E00AFA0002BD559 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE9BEDC91E00AFA0002BD559 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -1692,6 +1781,32 @@
 			};
 			name = Release;
 		};
+		CE9BEDD01E00AFA0002BD559 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = DH5LGL8R5Y;
+				INFOPLIST_FILE = SocialSharing/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atlantbh.internship.MovieApp.SocialSharing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CE9BEDD11E00AFA0002BD559 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = DH5LGL8R5Y;
+				INFOPLIST_FILE = SocialSharing/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atlantbh.internship.MovieApp.SocialSharing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1739,6 +1854,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		CE9BEDCF1E00AFA0002BD559 /* Build configuration list for PBXNativeTarget "SocialSharing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE9BEDD01E00AFA0002BD559 /* Debug */,
+				CE9BEDD11E00AFA0002BD559 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

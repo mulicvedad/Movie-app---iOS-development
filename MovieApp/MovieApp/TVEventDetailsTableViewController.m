@@ -73,6 +73,10 @@ static CGFloat const defaultGalleryCarouselHeight=200.0f;
 static NSString *CastMemberDetailsSegueIdentifier=@"CastMemberDetailsSegue";
 static NSString *RatingSegueIdentifier=@"RatingSegue";
 
+static NSString *TheMovieDbBaseUrl=@"https://www.themoviedb.org";
+static NSString *MovieDetailsUrlSubpath=@"/movie/";
+static NSString *TVShowDetailsUrlSubpath=@"/movie/";
+
 @implementation TVEventDetailsTableViewController
 
 - (void)viewDidLoad {
@@ -632,6 +636,51 @@ static NSString *RatingSegueIdentifier=@"RatingSegue";
     }
     [self.tableView reloadData];
     
+}
+- (IBAction)shareButtonTapped:(UIBarButtonItem *)sender {
+    NSString *text = _mainTvEvent.title;
+    NSString *tvEventUrlPath;
+    if([_mainTvEvent isKindOfClass:[Movie class]]){
+        tvEventUrlPath=[TheMovieDbBaseUrl stringByAppendingString:MovieDetailsUrlSubpath];
+    }
+    else{
+        tvEventUrlPath=[TheMovieDbBaseUrl stringByAppendingString:TVShowDetailsUrlSubpath];
+    }
+    
+    tvEventUrlPath=[tvEventUrlPath stringByAppendingString:[NSString stringWithFormat:@"%lu", _mainTvEvent.id]];
+    
+    NSURL *tvEventUrl = [NSURL URLWithString:tvEventUrlPath];
+
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    
+    [manager downloadImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth92 stringByAppendingString:_mainTvEvent.posterPath]] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        UIImage *posterPathImage=[UIImage imageNamed:@"poster-placeholder-new-medium"];
+        if(image){
+            posterPathImage=image;
+        }
+        
+        UIActivityViewController *activityController=[[UIActivityViewController alloc] initWithActivityItems:@[text, tvEventUrl, image] applicationActivities:nil];
+        activityController.excludedActivityTypes=@[UIActivityTypeMail,
+                                                   UIActivityTypePrint,
+                                                   UIActivityTypeAirDrop,
+                                                   UIActivityTypeMessage,
+                                                   UIActivityTypePostToVimeo,
+                                                   UIActivityTypePostToWeibo,
+                                                   UIActivityTypeOpenInIBooks,
+                                                   UIActivityTypePostToFlickr,
+                                                   UIActivityTypeAssignToContact,
+                                                   UIActivityTypeAddToReadingList,
+                                                   UIActivityTypeCopyToPasteboard,
+                                                   UIActivityTypeSaveToCameraRoll,
+                                                   UIActivityTypePostToTencentWeibo
+                                                   ];
+        [self presentViewController:activityController animated:YES completion:nil];
+    }];
+   
+   
+
 }
 
 //gallery methods

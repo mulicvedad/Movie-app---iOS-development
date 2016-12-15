@@ -36,6 +36,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
 
 @interface TVEventsCollectionViewCell (){
     id<AddTVEventToCollectionDelegate> _delegate;
+    KeychainItemWrapper *_myKeyChain;
 }
 
 @end
@@ -57,6 +58,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     _myGradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor],
                                (id)[[UIColor blackColor] CGColor],
                                nil];
+    _myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
     [self.viewForGradient.layer insertSublayer:_myGradientLayer atIndex:0];
     [self.ratingLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
     [self.releaseDateLabel setFont:[MovieAppConfiguration getPreferredFontWithSize:FontSize10 isBold:NO]];
@@ -122,31 +124,11 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     self.genreLabel.text =  genresRepresentation;
     self.ratingLabel.text=[NSString stringWithFormat:@"%.1f", tvEvent.voteAverage];
     
-    if(tvEvent.posterPath){
-        UIImage *uiImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
-        if(uiImage){
-            self.posterImageView.image=uiImage;
-        }
-        else if([MovieAppConfiguration isConnectedToInternet]){
-            [self.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PlaceholderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
-                
-            }];
-        }
-        else{
-            self.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
-            
-        }
-    }
-    else{
-        self.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
-    }
     
     self.addToFavoritesImageView.image=[UIImage imageNamed:tvEvent.isInFavorites ? FavoritesSelectedImageName : FavoritesNormalImageName];
     self.addToWatchlistImageView.image=[UIImage imageNamed:tvEvent.isInWatchlist ? WatchlistSelectedImageName : WatchlistNormalImageName];
     
-    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    NSString *username=[_myKeyChain objectForKey:(id)kSecAttrAccount];
     if(!username || [username length]==0){
         self.addToFavoritesImageView.hidden=YES;
         self.addToWatchlistImageView.hidden=YES;

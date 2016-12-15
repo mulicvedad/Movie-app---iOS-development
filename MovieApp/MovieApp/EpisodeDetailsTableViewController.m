@@ -22,7 +22,7 @@
 @end
 
 static NSString * const CastSectionName=@"Cast";
-static NSString * const HeaderTitleStringFormat=@"Season %lu Episode %lu";
+static NSString * const HeaderTitleStringFormat=@"Season %d Episode %d";
 static CGFloat SeparatorCellWidthHeightRatio=18.75f;
 static CGFloat DefaultvideoPlayerHeight=220.0f;
 static CGFloat const DefaultCarouselHeight=180.0f;
@@ -143,7 +143,7 @@ static NSString *CastMemberDetailsSegueIdentifier=@"EpisodeCastMemberDetailsSegu
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if(section==0){
-        return [NSString stringWithFormat:HeaderTitleStringFormat, self.episode.seasonNumber, self.episode.episodeNumber];
+        return [NSString stringWithFormat:HeaderTitleStringFormat, (int)self.episode.seasonNumber, (int)self.episode.episodeNumber];
     }
     
     else if(section==2){

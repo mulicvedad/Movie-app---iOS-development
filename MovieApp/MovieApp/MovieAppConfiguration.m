@@ -24,6 +24,8 @@ NSString *AppGroupSuiteName=@"group.com.atlantbh.internship.MovieApp";
 NSString *ShouldOpenMovieUserDefaultsKey=@"shouldOpenTVEvent";
 NSString *SelectedMovieUserDefaultsKey=@"selectedMovie";
 
+NSString *PosterPlaceholderSmall=@"poster-placeholder-new-medium";
+
 @implementation MovieAppConfiguration
 
 +(NSURL *)getFeedsSourceUrlPath{
@@ -127,7 +129,7 @@ NSString *SelectedMovieUserDefaultsKey=@"selectedMovie";
 }
 
 +(BOOL)isConnectedToInternet{
-    return YES;
+    return NO;
 }
 
 

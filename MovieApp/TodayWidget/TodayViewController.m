@@ -122,10 +122,10 @@ static NSString *PosterPlaceholderImageName=@"movie-poster";
     NCWidgetController *widgetController = [NCWidgetController widgetController];
 
     if(self.movies.count==0){
-       // [widgetController setHasContent:NO forWidgetWithBundleIdentifier:WidgetBundleIdentifier];
+       [widgetController setHasContent:NO forWidgetWithBundleIdentifier:WidgetBundleIdentifier];
     }
     else{
-       // [widgetController setHasContent:YES forWidgetWithBundleIdentifier:WidgetBundleIdentifier];
+       [widgetController setHasContent:YES forWidgetWithBundleIdentifier:WidgetBundleIdentifier];
 
     }
     
