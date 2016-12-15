@@ -23,6 +23,7 @@
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+#import "AlertManager.h"
 
 #define NumberOfSectionsInTable 2
 #define TvEventsPageSize 20
@@ -78,33 +79,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSUserDefaults *std=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
-    if([std boolForKey:ShouldOpenMovieUserDefaultsKey]){
-        [std setBool:NO forKey:ShouldOpenMovieUserDefaultsKey];
-        NSData *movieData=[std objectForKey:SelectedMovieUserDefaultsKey];
-        TVEvent *movie=[NSKeyedUnarchiver unarchiveObjectWithData:movieData];
-        Movie *newMovie=[[Movie alloc] init];
-        newMovie.id=movie.id;
-        newMovie.title=movie.title;
-        newMovie.posterPath=movie.posterPath;
-        newMovie.voteAverage=movie.voteAverage;
-        if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:newMovie]){
-            newMovie.isInFavorites=YES;
-        }
-        else{
-            newMovie.isInFavorites=NO;
-            
-        }
-        if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:newMovie]){
-            newMovie.isInWatchlist=YES;
-        }
-        else{
-            newMovie.isInWatchlist=NO;
-            
-        }
-        [self performSegueWithIdentifier:EventDetailsSegueIdentifier sender:newMovie];
-        
-    }
+    
     _numberOfPagesLoaded=0;
     _tvEvents=[[NSMutableArray alloc]init];
     self.isMovieViewController=(self.tabBarController.selectedIndex==1) ? YES:NO;
@@ -244,11 +219,18 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
-    if(!customItemsArray){
-        [self handleError:[info objectForKey:ErrorDictionaryKey]];
+    if(customItemsArray.count==0 && _tvEvents.count==0){
+        //[self handleError:[info objectForKey:ErrorDictionaryKey]];
+        [AlertManager displaySimpleAlertWithTitle:@"No data" description:@"Check your internet connection!" displayingController:self shouldPopViewController:NO];
+        _noMorePages=YES;
         return;
     }
-    if([customItemsArray count]<20 || ![MovieAppConfiguration isConnectedToInternet]){
+    if([customItemsArray count]<20){
+        _noMorePages=YES;
+    }
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSInteger pagesNumber=customItemsArray.count/20.0;
+        _numberOfPagesLoaded=pagesNumber;
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
@@ -332,7 +314,12 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 -(void)selectedIndexChangedTo:(NSUInteger)newIndex{
     _numberOfPagesLoaded=0;
-    _shouldScrollToTop=YES;
+    if(_tvEvents.count>0){
+        _shouldScrollToTop=YES;
+    }
+    else{
+        _shouldScrollToTop=NO;
+    }
     [_tvEvents removeAllObjects];
     [[DataProviderService sharedDataProviderService] cancelAllRequests];
     _pageDownloaderActive=YES;
@@ -679,9 +666,16 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
+  
    
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if(_tvEvents.count==0 && _noMorePages){
+         [AlertManager displaySimpleAlertWithTitle:@"No data" description:@"Check your internet connection!" displayingController:self shouldPopViewController:NO];
+    }
+   
+}
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.navigationItem.titleView=[[UISearchBar alloc] init];

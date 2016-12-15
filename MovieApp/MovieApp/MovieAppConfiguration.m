@@ -129,7 +129,7 @@ NSString *PosterPlaceholderSmall=@"poster-placeholder-new-medium";
 }
 
 +(BOOL)isConnectedToInternet{
-    return NO;
+    return YES;
 }
 
 

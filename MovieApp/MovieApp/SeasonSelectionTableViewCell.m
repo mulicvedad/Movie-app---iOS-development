@@ -8,7 +8,7 @@
 }
 
 -(void)configure{
-    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 +(NSString *)cellIdentifier{

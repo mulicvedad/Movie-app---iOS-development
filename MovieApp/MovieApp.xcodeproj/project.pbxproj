@@ -118,6 +118,7 @@
 		CE9BEDC71E00AF9F002BD559 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDC61E00AF9F002BD559 /* ShareViewController.m */; };
 		CE9BEDCA1E00AFA0002BD559 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE9BEDC81E00AFA0002BD559 /* MainInterface.storyboard */; };
 		CE9BEDCE1E00AFA0002BD559 /* SocialSharing.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE9BEDC31E00AF9F002BD559 /* SocialSharing.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE9BEDD41E0227B9002BD559 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEDD31E0227B9002BD559 /* AlertManager.m */; };
 		CE9D55D61DDB45CA00A4F70A /* LikedTVEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */; };
 		CE9D55D71DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */; };
 		CEA09E701DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA09E6F1DEA4530002B1351 /* GalleryCarouselCollectionViewDelegate.m */; };
@@ -429,6 +430,8 @@
 		CE9BEDC61E00AF9F002BD559 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		CE9BEDC91E00AFA0002BD559 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		CE9BEDCB1E00AFA0002BD559 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE9BEDD21E0227B9002BD559 /* AlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertManager.h; sourceTree = "<group>"; };
+		CE9BEDD31E0227B9002BD559 /* AlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertManager.m; sourceTree = "<group>"; };
 		CE9D55D31DDB45CA00A4F70A /* LikedTVEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikedTVEventTableViewCell.h; sourceTree = "<group>"; };
 		CE9D55D41DDB45CA00A4F70A /* LikedTVEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikedTVEventTableViewCell.m; sourceTree = "<group>"; };
 		CE9D55D51DDB45CA00A4F70A /* LikedTVEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LikedTVEventTableViewCell.xib; sourceTree = "<group>"; };
@@ -613,6 +616,8 @@
 				CED9E7841DD7E34600A22407 /* LocalNotificationManagerOldVersion.m */,
 				CEBEA8E81DF1986D00489C6B /* DatabaseManager.h */,
 				CEBEA8E91DF1986D00489C6B /* DatabaseManager.m */,
+				CE9BEDD21E0227B9002BD559 /* AlertManager.h */,
+				CE9BEDD31E0227B9002BD559 /* AlertManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1425,6 +1430,7 @@
 				CE5F6E0A1D9DBE2B00142D6C /* MovieAppConfiguration.m in Sources */,
 				CE1FFA1A1DCAA82A006FBF7B /* RequestToken.m in Sources */,
 				CE72729F1D9B38D80073AD6A /* TVEventsCollectionViewCell.m in Sources */,
+				CE9BEDD41E0227B9002BD559 /* AlertManager.m in Sources */,
 				CEEA7CF71D947C9700D90DEF /* TVEventsViewController.m in Sources */,
 				CE5025E61DC383FF007FC9AF /* CastMemberDetailsTableViewController.m in Sources */,
 				CE1FFA051DC8E6B5006FBF7B /* SideMenuTableViewController.m in Sources */,

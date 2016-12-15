@@ -23,56 +23,19 @@
 static DataProviderService *downloader=nil;
 static NSString *SearchableItemMovieDomainIdentifier=@"movie";
 static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
+static NSString *EventDetailsSegueIdentifier=@"ShowDetailsSegue";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    
-    RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
-    // Set the new schema version. This must be greater than the previously used
-    // version (if you've never set a schema version before, the version is 0).
-    config.schemaVersion = 19;
-    
-    // Set the block which will be called automatically when opening a Realm with a
-    // schema version lower than the one set above
-    config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
-        // We haven’t migrated anything yet, so oldSchemaVersion == 0
-        if (oldSchemaVersion < 19) {
-            // Nothing to do!
-            // Realm will automatically detect new properties and removed properties
-            // And will update the schema on disk automatically
-        }
-    };
-    
-    // Tell Realm to use this new configuration object for the default Realm
-    [RLMRealmConfiguration setDefaultConfiguration:config];
-    
-    // Now that we've told Realm how to handle the schema change, opening the file
-    // will automatically perform the migration
-    
-    NSLog(@"BASE: %@",[[RLMRealm defaultRealm] configuration].fileURL);
-    
+    [self setupAccount];
+    [self setupDatabaseMigration];
     [Fabric with:@[[Crashlytics class]]];
-
-    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
-    
-    if(username && [username length]>0 && [MovieAppConfiguration isConnectedToInternet]){
-        [[VirtualDataStorage sharedVirtualDataStorage] updateData];
-    }
-    else if(!username || [username length]==0){
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
-    }
-    NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
-    NSLog(@"%@",tmp);
-    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
-
-  
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+ 
     if([MovieAppConfiguration isConnectedToInternet]){
         [[DatabaseManager sharedDatabaseManager] connectionEstablished];
         [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
-        [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
-        
+        [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];        
     }
     else{
         [self setupGenres];
@@ -117,6 +80,37 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 }
 
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+    UITabBarController *mainTabBarController=(UITabBarController *)self.window.rootViewController;
+    [mainTabBarController setSelectedIndex:1];
+    UINavigationController *moviesNavigationVC=mainTabBarController.childViewControllers[1];
+    UIViewController *moviesViewController=moviesNavigationVC.childViewControllers[0];
+    
+    NSUserDefaults *std=[[NSUserDefaults standardUserDefaults] initWithSuiteName:AppGroupSuiteName];
+    
+    NSData *movieData=[std objectForKey:SelectedMovieUserDefaultsKey];
+    TVEvent *movie=[NSKeyedUnarchiver unarchiveObjectWithData:movieData];
+    Movie *newMovie=[[Movie alloc] init];
+    newMovie.id=movie.id;
+    newMovie.title=movie.title;
+    newMovie.posterPath=movie.posterPath;
+    newMovie.voteAverage=movie.voteAverage;
+    if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:newMovie]){
+        newMovie.isInFavorites=YES;
+    }
+    else{
+        newMovie.isInFavorites=NO;
+    
+    }
+    if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:newMovie]){
+        newMovie.isInWatchlist=YES;
+    }
+    else{
+        newMovie.isInWatchlist=NO;
+        
+    }
+    [moviesViewController performSegueWithIdentifier:EventDetailsSegueIdentifier sender:newMovie];
+        
+    
     return YES;
 }
 
@@ -176,6 +170,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
                 mediaType=TVShowType;
             }
             else{
+                //error
                 return -1;
             }
         }
@@ -183,5 +178,39 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     
     return mediaType;
 
+}
+
+-(void)setupAccount{
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    
+    if(username && [username length]>0 && [MovieAppConfiguration isConnectedToInternet]){
+        [[VirtualDataStorage sharedVirtualDataStorage] updateData];
+    }
+    else if(!username || [username length]==0){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
+    }
+
+}
+
+-(void)setupDatabaseMigration{
+    RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
+    config.schemaVersion = 19;
+    
+    config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+        if (oldSchemaVersion < 19) {
+        }
+    };
+    
+    [RLMRealmConfiguration setDefaultConfiguration:config];
+    [RLMRealm defaultRealm];
+}
+
+-(void)displayLogInfo{
+    NSLog(@"REALM URL: %@",[[RLMRealm defaultRealm] configuration].fileURL);
+
+    NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
+    NSLog(@"OS VERSION MAX ALLOWED: %@",tmp);
 }
 @end
