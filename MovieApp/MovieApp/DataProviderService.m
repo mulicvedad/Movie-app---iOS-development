@@ -737,7 +737,7 @@ static DataProviderService *sharedService;
     
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         PostResponse *response=mappingResult.array[0];
-        if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+        if(response.statusCode==AddedSucessfullyPostResponseStatusCode || response.statusCode==UpdatedSucessfullyPostResponseStatusCode){
             [[DatabaseManager sharedDatabaseManager] addTVEventWithID:tvEventID mediaType:mediaType toCollection:CollectionTypeFavorites];
             [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionFavorites];
         }
@@ -786,7 +786,7 @@ static DataProviderService *sharedService;
     
     [[RKObjectManager sharedManager] postObject:postObject path:subpath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         PostResponse *response=mappingResult.array[0];
-        if(response.statusCode==AddedSucessfullyPostResponseStatusCode){
+        if(response.statusCode==AddedSucessfullyPostResponseStatusCode || response.statusCode==UpdatedSucessfullyPostResponseStatusCode){
             [[DatabaseManager sharedDatabaseManager] addTVEventWithID:tvEventID mediaType:mediaType toCollection:CollectionTypeWatchlist];
             [responseHandler addedTVEventWithID:tvEventID toCollectionOfType:SideMenuOptionWatchlist];
         }

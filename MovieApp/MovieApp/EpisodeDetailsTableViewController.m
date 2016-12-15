@@ -143,7 +143,7 @@ static NSString *CastMemberDetailsSegueIdentifier=@"EpisodeCastMemberDetailsSegu
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if(section==0){
-        return [NSString stringWithFormat:HeaderTitleStringFormat, (int)self.episode.seasonNumber, (int)self.episode.episodeNumber];
+        return [NSString stringWithFormat:HeaderTitleStringFormat, (int)self.episode.seasonNumber+1, (int)self.episode.episodeNumber];
     }
     
     else if(section==2){

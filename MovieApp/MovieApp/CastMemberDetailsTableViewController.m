@@ -12,6 +12,8 @@
 #import "CarouselCollectionViewCell.h"
 #import "TVEventDetailsTableViewController.h"
 
+#import "AlertManager.h"
+
 @interface CastMemberDetailsTableViewController (){
     NSMutableArray *_tvEventCredits;
     PersonDetails *_personDetails;
@@ -193,7 +195,7 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         mainTVEvent.id=currentCredit.id;
       
         TVEventDetailsTableViewController *destVC=segue.destinationViewController;
-        [destVC setMainTvEvent:(TVEvent *)mainTVEvent dalegate:nil];;
+        [destVC setMainTvEvent:mainTVEvent dalegate:nil];;
     }
 }
 -(void)setNeedsReload{
@@ -206,6 +208,8 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
 }
 
 -(void)displayNoDataWarning{
+    [AlertManager displaySimpleAlertWithTitle:@"No data" description:@"\nNo data could be displayed. Check your internet connection!" displayingController:self shouldPopViewController:YES];
+    /*
     NSMutableAttributedString *alertTitle = [[NSMutableAttributedString alloc] initWithString:@"No data" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     NSMutableAttributedString *alertMessage = [[NSMutableAttributedString alloc] initWithString:@"\nNo data could be displayed. Check your internet connection!" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedLightGreyColor],                                                   NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:12 isBold:NO ]}];
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:EmptyString
@@ -228,5 +232,6 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
         subSubView.backgroundColor = [MovieAppConfiguration getPreferredDarkGreyColor];
     }
     [self presentViewController:alert animated:YES completion:nil];
+     */
 }
 @end

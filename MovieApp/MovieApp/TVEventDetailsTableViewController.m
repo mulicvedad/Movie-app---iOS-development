@@ -732,4 +732,22 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
 }
 
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if([[DatabaseManager sharedDatabaseManager] containsTVEventInFavorites:_mainTvEvent]){
+        _mainTvEvent.isInFavorites=YES;
+    }
+    else{
+        _mainTvEvent.isInFavorites=NO;
+    }
+    
+    if([[DatabaseManager sharedDatabaseManager] containsTVEventInWatchlist:_mainTvEvent]){
+        _mainTvEvent.isInWatchlist=YES;
+
+    }
+    else{
+        _mainTvEvent.isInWatchlist=NO;
+    }
+}
+
 @end

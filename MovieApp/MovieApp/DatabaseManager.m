@@ -32,10 +32,10 @@ static DatabaseManager *_uniqueInstance;
 
 -(TVEventDb *)modelForTVEvent:(TVEvent *)tvEvent{
     if([tvEvent isKindOfClass:[Movie class]]){
-        return [MovieDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvEvent.id]];
+        return [MovieDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEvent.id]];
     }
     else{
-        return [TVShowDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvEvent.id]];
+        return [TVShowDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEvent.id]];
     }
 }
 -(NSArray *)getWatchlistOfType:(MediaType)mediaType{
@@ -136,10 +136,10 @@ static DatabaseManager *_uniqueInstance;
 -(void)removeTVEventWithID:(NSInteger)tvEventID mediaType:(MediaType)mediatype fromCollection:(CollectionType)collectionType{
     TVEventDb *tvEventDb;
     if(mediatype==MovieType){
-        tvEventDb=[MovieDb objectForPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+        tvEventDb=[MovieDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
     }
     else{
-        tvEventDb=[TVShowDb objectForPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+        tvEventDb=[TVShowDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
     }
     if(!tvEventDb){
         @throw NSInternalInconsistencyException;
@@ -421,7 +421,7 @@ static DatabaseManager *_uniqueInstance;
             imageDb=[[ImageDb alloc] init];
             imageDb.fullUrlPath=imageDbID;
             [[RLMRealm defaultRealm] beginWriteTransaction];
-            [[RLMRealm defaultRealm] addObject:imageDb];
+            [[RLMRealm defaultRealm] addOrUpdateObject:imageDb];
             [[RLMRealm defaultRealm]commitWriteTransaction];
         }
         if(!imageDb.imageData){
@@ -460,24 +460,34 @@ static DatabaseManager *_uniqueInstance;
         }
         
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            imageView.image=[UIImage imageWithData:imageDb.imageData scale:0.5];
+            if(isDataAvailable){
+                imageView.image=[UIImage imageWithData:imageDb.imageData scale:0.5];
+            }
         });
 
     });
 }
 -(void)addImagesFromArray:(NSArray *)images toTVEvent:(TVEvent *)tvEvent{
-    TVEventDb *tvEventDb=[self modelForTVEvent:tvEvent];
     
-    if(tvEventDb.images.count > 0){
-        return;
-    }
-    [_realm beginWriteTransaction];
-    
-    for(Image *image in images){
-        [tvEventDb.images addObject:[ImageDb imageDbWithImage:image baseUrl:BaseImageUrlForWidth92 imageAsData:nil]];
-    }
-    
-    [_realm commitWriteTransaction];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        TVEventDb *tvEventDb=[self modelForTVEvent:tvEvent];
+        
+        if(tvEventDb.images.count > 0){
+            return;
+        }
+        [[RLMRealm defaultRealm]  beginWriteTransaction];
+        
+        for(Image *image in images){
+            ImageDb *imgDb=[ImageDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[BaseImageUrlForWidth92 stringByAppendingString:image.filePath]];
+            
+            if(!imgDb){
+                [tvEventDb.images addObject:[ImageDb imageDbWithImage:image baseUrl:BaseImageUrlForWidth92 imageAsData:nil]];
+            }
+        }
+        
+        [[RLMRealm defaultRealm]  commitWriteTransaction];
+    });
 }
 
 -(void)addPerson:(PersonDetails *)person{
@@ -500,7 +510,7 @@ static DatabaseManager *_uniqueInstance;
 -(void)addReviewsFromArray:(NSArray *)reviews toMovie:(TVEvent *)movie{
     MovieDb *movieDb=[MovieDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:movie.id]];
     if(!movieDb){
-        @throw NSInternalInconsistencyException;
+        movieDb=[[MovieDb alloc] initWithMovie:(Movie *)movie];
     }
     if(movieDb.reviews.count>0){
         return;
@@ -625,15 +635,19 @@ static DatabaseManager *_uniqueInstance;
     TVEventDb *tvEvent;
     if([tvEventDetails isKindOfClass:[MovieDetails class]]){
         tvEvent=[MovieDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
+        if(!tvEvent){
+            tvEvent=[[MovieDb alloc] init];
+        }
 
     }
     else{
         tvEvent=[TVShowDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:[NSNumber numberWithInteger:tvEventID]];
-
+        if(!tvEvent){
+            tvEvent=[[TVShowDb alloc] init];
+        }
     }
-    if(!tvEvent){
-        @throw NSInternalInconsistencyException;
-    }
+    
+   
     [_realm beginWriteTransaction];
     
     tvEvent.title=tvEventDetails.title;
@@ -655,7 +669,12 @@ static DatabaseManager *_uniqueInstance;
 }
 
 -(void)offlineModeAddTVEventWithID:(NSInteger)tvEventId mediaType:(MediaType)mediaType toCollectionIn:(CollectionType)collectionType shouldRemove:(BOOL)shouldRemove{
-    [self addTVEventWithID:tvEventId mediaType:mediaType toCollection:collectionType];
+    if(shouldRemove){
+        [self removeTVEventWithID:tvEventId mediaType:mediaType fromCollection:collectionType];
+    }
+    else{
+        [self addTVEventWithID:tvEventId mediaType:mediaType toCollection:collectionType];
+    }
     NSString *where=[NSString stringWithFormat:@"tvEventID=%d AND collection=%d",(int)tvEventId, (int)collectionType];
     RLMResults *actions=[ActionDb objectsWhere:where];
     ActionDb *currentAction;
@@ -672,6 +691,8 @@ static DatabaseManager *_uniqueInstance;
     currentAction.tvEventID=tvEventId;
     currentAction.collection=(NSInteger)collectionType;
     currentAction.shouldRemove=shouldRemove;
+    currentAction.mediaType=(NSInteger)mediaType;
+    
     if(actions.count==0){
         [_realm addObject:currentAction];
     }
@@ -717,10 +738,11 @@ static DatabaseManager *_uniqueInstance;
             [[DataProviderService sharedDataProviderService] addToWatchlistTVEventWithID:action.tvEventID mediaType:(MediaType)action.mediaType remove:action.shouldRemove responseHandler:self];
         }
         else{
-            @throw NSInternalInconsistencyException;
+           // @throw NSInternalInconsistencyException;
         }
     }
 }
+
 +(NSString *)keyForCollectionType:(CollectionType)collection{
     switch (collection) {
         case CollectionTypeLatest:
