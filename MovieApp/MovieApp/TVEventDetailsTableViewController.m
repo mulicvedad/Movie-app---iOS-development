@@ -57,6 +57,8 @@
     
     id<TVEventsCollectionsStateChangeHandler> _delegate;
     GalleryCarouselCollectionViewDelegate *_galleryDelegate;
+    
+    UIActivityIndicatorView *_activityView;
 }
 
 @end
@@ -90,6 +92,12 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
     if([_mainTvEvent isKindOfClass:[Movie class]]){
         [[DataProviderService sharedDataProviderService] getVideosForTvEventID:_mainTvEvent.id returnTo:self];
     }
+    _activityView = [[UIActivityIndicatorView alloc]
+                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    _activityView.center=self.view.center;
+    [_activityView startAnimating];
+    [self.view addSubview:_activityView];
     
 }
 
@@ -463,6 +471,10 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
                 }
             }
             _detailsLoaded=YES;
+            
+            [_activityView stopAnimating];
+            [_activityView removeFromSuperview];
+            _activityView=nil;
         }
         else if([customItemsArray[0] isKindOfClass:[Video class]]){
             for(int i=0;i<[customItemsArray count];i++){

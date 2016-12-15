@@ -146,7 +146,7 @@ static NSString *CastMemberDetailsSegueIdentifier=@"EpisodeCastMemberDetailsSegu
         return [NSString stringWithFormat:HeaderTitleStringFormat, (int)self.episode.seasonNumber+1, (int)self.episode.episodeNumber];
     }
     
-    else if(section==2){
+    else if(section==2 && _cast.count>0){
         return CastSectionName;
     }
     
