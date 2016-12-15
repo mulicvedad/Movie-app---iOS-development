@@ -8,6 +8,7 @@
 #import "LoginRequest.h"
 #import <KeychainItemWrapper.h>
 #import "VirtualDataStorage.h"
+#import "AlertManager.h"
 
 @interface NewsFeedTableViewController (){
     NSMutableArray *_news;
@@ -91,7 +92,7 @@ static NSString *SettingsSegueIdentifier=@"FeedSettingsSegue";
         
         [alert addAction:defaultAction];
         [alert addAction:reloadAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        //[self presentViewController:alert animated:YES completion:nil];
     }
     
     
@@ -288,5 +289,11 @@ static NSString *SettingsSegueIdentifier=@"FeedSettingsSegue";
     [self presentViewController:alert animated:YES completion:nil];
     
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    if(_news.count==0 && [MovieAppConfiguration isConnectedToInternet]){
+        [AlertManager displaySimpleAlertWithTitle:@"No data" description:@"Feed cannot be updated. Check your internet connection." displayingController:self shouldPopViewController:NO];
+    }
 }
 @end

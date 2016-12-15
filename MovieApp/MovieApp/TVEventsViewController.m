@@ -175,14 +175,11 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
                 
         }];
     }
+    else if(currentTVEvent.posterPath){
+        [[DatabaseManager sharedDatabaseManager] addImageWithId:[BaseImageUrlForWidth92 stringByAppendingString:currentTVEvent.posterPath] toImageView:cell.posterImageView];
+    }
     else{
-        UIImage *image=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
-        if(image){
-            cell.posterImageView.image=image;
-        }
-        else{
-            cell.posterImageView.image=[UIImage imageNamed: PosterPlaceholderSmall];
-        }
+        cell.posterImageView.image=[UIImage imageNamed: PlaceholderImageName];
     }
 
 
@@ -244,6 +241,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
     _pageDownloaderActive=NO;
+    
     [self.tvEventsCollectionView reloadData];
     if(_shouldScrollToTop){
         _shouldScrollToTop=NO;

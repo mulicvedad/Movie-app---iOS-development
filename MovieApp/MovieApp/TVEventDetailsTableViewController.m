@@ -86,18 +86,18 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
     [self configure];
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=44.0;
+    _activityView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
+    _activityView.center=self.view.center;
+    [_activityView startAnimating];
+    [self.view addSubview:_activityView];
     [[DataProviderService sharedDataProviderService] getDetailsForTvEvent:_mainTvEvent returnTo:self];
     [[DataProviderService sharedDataProviderService] getCreditsForTvEvent:_mainTvEvent returnTo:self];
     if([_mainTvEvent isKindOfClass:[Movie class]]){
         [[DataProviderService sharedDataProviderService] getVideosForTvEventID:_mainTvEvent.id returnTo:self];
     }
-    _activityView = [[UIActivityIndicatorView alloc]
-                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    
-    _activityView.center=self.view.center;
-    [_activityView startAnimating];
-    [self.view addSubview:_activityView];
+   
     
 }
 

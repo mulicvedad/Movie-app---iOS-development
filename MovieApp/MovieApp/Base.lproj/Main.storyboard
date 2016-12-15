@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="S07-PJ-wE3">
             <objects>
-                <tabBarController id="4Dy-Cx-8q8" sceneMemberID="viewController">
+                <tabBarController id="4Dy-Cx-8q8" customClass="MainTabBarController" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" translucent="NO" itemPositioning="centered" id="jPD-i6-omI">
@@ -963,11 +963,11 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="caU-mR-hlb"/>
+        <segue reference="b3H-So-LoW"/>
         <segue reference="VAR-D8-Grm"/>
         <segue reference="AN9-rp-coG"/>
-        <segue reference="hZr-3H-8DO"/>
         <segue reference="UYh-kZ-oaf"/>
+        <segue reference="hZr-3H-8DO"/>
         <segue reference="s2o-aR-6iT"/>
         <segue reference="QTG-iR-DHh"/>
     </inferredMetricsTieBreakers>
