@@ -70,7 +70,7 @@ static NSString *LikedTVEventsSegueIdentifier=@"LikedTVEventsSegueIdentifier";
 static NSString *LoginSegueIdentifier=@"LoginSegue";
 static NSString *SettingsSegueIdentifier=@"SettingsSegue";
 static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
-static NSString *SearchableItemIdentifierBase=@"com.atlantbh.movieapp";
+static NSString *SearchableItemIdentifierBase=@"com.atlantbh.internship";
 static NSString *SearchableItemMovieDomainIdentifier=@"movie";
 static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
@@ -187,37 +187,30 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TVEventsCollectionViewCell *cell = [_tvEventsCollectionView dequeueReusableCellWithReuseIdentifier:[TVEventsCollectionViewCell cellIdentifier] forIndexPath:indexPath];
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    //cell.layer.shouldRasterize = YES;
+    //cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     TVEvent *currentTVEvent=_tvEvents[indexPath.row];
     
-    if(currentTVEvent.posterPath){
-        UIImage *uiImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
-        
-        if([MovieAppConfiguration isConnectedToInternet]){
-            [cell.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PlaceholderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                if(!uiImage){
-                    [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
-                }
+    if([MovieAppConfiguration isConnectedToInternet]){
+        [cell.posterImageView sd_setImageWithURL:[NSURL URLWithString:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]] placeholderImage:[UIImage  imageNamed:PlaceholderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if(image){
+                [[DatabaseManager sharedDatabaseManager] addUIImage:image toImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
+            }
                 
                 
-            }];
-        }
-        else if(uiImage){
-            cell.posterImageView.image=uiImage;
-
-        }
-        else{
-            cell.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
-            
-        }
-        
+        }];
     }
     else{
-        cell.posterImageView.image=[UIImage imageNamed:PlaceholderImageName];
-        
+        UIImage *image=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath]];
+        if(image){
+            cell.posterImageView.image=image;
+        }
+        else{
+            cell.posterImageView.image=[UIImage imageNamed: PosterPlaceholderSmall];
+        }
     }
-    
+
+
     [cell setupWithTvEvent:currentTVEvent indexPathRow:indexPath.row callbackDelegate:self];
     
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
@@ -260,7 +253,11 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
 
-    [self setupSearchableContent];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        [self setupSearchableContent];
+
+    });
     
     [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
@@ -711,6 +708,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 }
 
 -(void)setupSearchableContent{
+   
     NSMutableArray *searchableItems=[[NSMutableArray alloc] init];
     
     int rowNum=0;
@@ -733,18 +731,20 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
             mediaType=@"TV Series";
             
         }
+        NSString *genres=[tvEvent getFormattedGenresRepresentation];
         
-        attributeSet.contentDescription=[NSString stringWithFormat:@"%@ (%@) ",mediaType, [tvEvent getFormattedGenresRepresentation]];
+        attributeSet.contentDescription=[NSString stringWithFormat:@"%@ (%@)",mediaType, genres];
         
-        UIImage *posterImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
-        if(posterImage){
-            NSData *imageData=UIImageJPEGRepresentation(posterImage, 0.5);
-            attributeSet.thumbnailData= imageData;
-
+        attributeSet.thumbnailData= UIImageJPEGRepresentation([UIImage imageNamed:@"poster-placeholder-new-medium]"], 0.5);
+        
+        if(tvEvent.posterPath){
+            UIImage *posterImage=[[DatabaseManager sharedDatabaseManager] getUIImageFromImageDbWithID:[BaseImageUrlForWidth185 stringByAppendingString:tvEvent.posterPath]];
+            if(posterImage){
+                NSData *imageData=UIImageJPEGRepresentation(posterImage, 0.5);
+                attributeSet.thumbnailData= imageData;
+            }
         }
-        else{
-            attributeSet.thumbnailData= UIImageJPEGRepresentation([UIImage imageNamed:@"poster-placeholder-new-medium]"], 0.5);
-        }
+        
         NSMutableArray *keywords=[[NSMutableArray alloc] init];
        
         for(int i=0;i<tvEvent.genreIDs.count;i++){
@@ -764,6 +764,8 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
             domainIdentifier=SearchableItemTVShowDomainIdentifier;
             identifier=[NSString stringWithFormat:@"%@.%@%d",SearchableItemIdentifierBase, SearchableItemTVShowDomainIdentifier,(int)tvEvent.id];
         }
+        
+        
         CSSearchableItem *item=[[CSSearchableItem alloc] initWithUniqueIdentifier:identifier domainIdentifier:domainIdentifier attributeSet:attributeSet];
         
         [searchableItems addObject:item];
@@ -781,6 +783,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 
 -(void)restoreUserActivityState:(NSUserActivity *)activity{
+    
     if([activity.activityType isEqualToString:CSSearchableItemActionType]){
         NSDictionary *userInfo=activity.userInfo;
         
@@ -809,7 +812,9 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
                 tvShow.id=number;
                 tvEvent=tvShow;
             }
-            
+            TVEventDetailsTableViewController *detailsViewController=[[TVEventDetailsTableViewController alloc] init];
+            [detailsViewController setMainTvEvent:tvEvent dalegate:nil];
+
             [self performSegueWithIdentifier:EventDetailsSegueIdentifier sender:tvEvent];
         }
     }

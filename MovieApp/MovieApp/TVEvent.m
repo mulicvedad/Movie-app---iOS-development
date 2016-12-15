@@ -21,15 +21,16 @@ static NSString * const YearDateFormat=@"yyyy";
 
 -(NSString *)getFormattedGenresRepresentation{
     NSMutableString *genresRepresentation=[NSMutableString stringWithString:@""];
-    for(int i=0;i<[self.genreIDs count] && i<2;i++){
+    for(int i=0;i<[self.genreIDs count] && i<3;i++){
         NSUInteger currentID=[(NSNumber *)self.genreIDs[i] unsignedIntegerValue];
         [genresRepresentation appendString:[self getGenreNameForId:currentID]];
         
-        if(i!=[self.genreIDs count]-1){
+        if(i!=[self.genreIDs count]-1 && i!=2){
             [genresRepresentation appendString:@", " ];
         }
         
     }
+    [genresRepresentation stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
     return genresRepresentation;
 }
 

@@ -502,8 +502,15 @@ static DataProviderService *sharedService;
 -(void)getPersonDetailsForID:(NSUInteger)personID returnTo:(id<ItemsArrayReceiver>)dataHandler{
     if(![MovieAppConfiguration isConnectedToInternet]){
         NSMutableArray *personDetails=[[NSMutableArray alloc] init];
-        [personDetails addObject:[[DatabaseManager sharedDatabaseManager] getPersonDetailsForID:personID]];
-        [dataHandler updateReceiverWithNewData:personDetails info:nil];
+        PersonDetails *pDet=[[DatabaseManager sharedDatabaseManager] getPersonDetailsForID:personID];
+        if(pDet){
+            [personDetails addObject:pDet];
+            [dataHandler updateReceiverWithNewData:personDetails info:nil];
+        }
+        else{
+            [dataHandler updateReceiverWithNewData:nil info:nil];
+        }
+        
         return;
     }
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],

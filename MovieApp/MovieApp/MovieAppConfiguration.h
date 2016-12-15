@@ -48,6 +48,8 @@ extern NSString *AppGroupSuiteName;
 extern NSString *ShouldOpenMovieUserDefaultsKey;
 extern NSString *SelectedMovieUserDefaultsKey;
 
+extern NSString *PosterPlaceholderSmall;
+
 +(NSURL *)getFeedsSourceUrlPath;
 +(NSString *)getApiKey;
 +(NSURL *)getApiBaseURL;

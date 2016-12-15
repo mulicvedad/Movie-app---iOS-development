@@ -127,6 +127,12 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
     }
 }
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
+    
+    if(!customItemsArray){
+        [self displayNoDataWarning];
+        return;
+    }
+    
     for(int i=0;i<[customItemsArray count];i++){
         if([customItemsArray[i] isKindOfClass:[PersonDetails class]]){
             _personDetails=customItemsArray[i];
@@ -197,5 +203,30 @@ static NSString *TVEventDetailsSegueIdentifier=@"TVEventDetailsSegue";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+}
+
+-(void)displayNoDataWarning{
+    NSMutableAttributedString *alertTitle = [[NSMutableAttributedString alloc] initWithString:@"No data" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    NSMutableAttributedString *alertMessage = [[NSMutableAttributedString alloc] initWithString:@"\nNo data could be displayed. Check your internet connection!" attributes:@{NSForegroundColorAttributeName:[MovieAppConfiguration getPrefferedLightGreyColor],                                                   NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:12 isBold:NO ]}];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:EmptyString
+                                                                   message:EmptyString
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert setValue:alertTitle forKey:@"attributedTitle"];
+    [alert setValue:alertMessage forKey:@"attributedMessage"];
+    
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action) {
+                                                         [self.navigationController popViewControllerAnimated:YES];
+                                                     }];
+    
+    
+    [alert addAction:okAction];
+    alert.view.tintColor=[MovieAppConfiguration getPrefferedYellowColorWithOpacity:0.5f];
+    UIView *subView = alert.view.subviews.firstObject;
+    UIView *alertContentView = subView.subviews.firstObject;
+    for (UIView *subSubView in alertContentView.subviews) {
+        subSubView.backgroundColor = [MovieAppConfiguration getPreferredDarkGreyColor];
+    }
+    [self presentViewController:alert animated:YES completion:nil];
 }
 @end

@@ -25,15 +25,18 @@ static NSString *NotFoundText=@"Not found";
     _delegate=delegate;
     self.birthInfoLabel.text=[castMemeber getBirthInfo];
     self.biographyLabel.text=castMemeber.biography;
-    NSAttributedString *websiteLink=[[NSAttributedString alloc] initWithString:castMemeber.homepageUrlPath attributes:@{NSLinkAttributeName:[NSURL URLWithString:castMemeber.homepageUrlPath], NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:14 isBold:NO]}];
-    self.websiteTextView.attributedText=websiteLink;
-    
+
     
     self.websiteTextView.linkTextAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:74/255.0 green:144/255.0 blue:226/255.0 alpha:1.0]};
+    
     if(!castMemeber.homepageUrlPath || [castMemeber.homepageUrlPath length]==0){
         self.websiteTextView.text=NotFoundText;
         self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height-30);
         [self setNeedsLayout];
+    }
+    else{
+        NSAttributedString *websiteLink=[[NSAttributedString alloc] initWithString:castMemeber.homepageUrlPath attributes:@{NSLinkAttributeName:[NSURL URLWithString:castMemeber.homepageUrlPath], NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSFontAttributeName:[MovieAppConfiguration getPreferredFontWithSize:14 isBold:NO]}];
+        self.websiteTextView.attributedText=websiteLink;
     }
 
 }

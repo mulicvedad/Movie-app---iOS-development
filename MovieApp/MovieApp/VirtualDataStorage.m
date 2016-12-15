@@ -50,8 +50,8 @@ static id<LocalNotificationHandler> _localNotificationManager;
     if(!sharedDataStorage){
         sharedDataStorage=[[VirtualDataStorage alloc]init];
         [sharedDataStorage configure];
+        
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
-
         _localNotificationManager=[LocalNotificationManager sharedNotificationManager];
 #else
         _localNotificationManager=[LocalNotificationManagerOldVersion sharedNotificationManager];

@@ -413,23 +413,30 @@ static DatabaseManager *_uniqueInstance;
     [_realm commitWriteTransaction];
 }
 -(void)addUIImage:(UIImage *)image toImageDbWithID:(NSString *)imageDbID{
-    ImageDb *imageDb=[ImageDb objectInRealm:_realm forPrimaryKey:imageDbID];
-    if(!imageDb){
-        imageDb=[[ImageDb alloc] init];
-        imageDb.fullUrlPath=imageDbID;
-        [_realm beginWriteTransaction];
-        [_realm addObject:imageDb];
-        [_realm commitWriteTransaction];
-    }
-    [_realm beginWriteTransaction];
     
-    imageDb.imageData= UIImageJPEGRepresentation(image, 0.5);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        ImageDb *imageDb=[ImageDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:imageDbID];
+        if(!imageDb){
+            imageDb=[[ImageDb alloc] init];
+            imageDb.fullUrlPath=imageDbID;
+            [[RLMRealm defaultRealm] beginWriteTransaction];
+            [[RLMRealm defaultRealm] addObject:imageDb];
+            [[RLMRealm defaultRealm]commitWriteTransaction];
+        }
+        if(!imageDb.imageData){
+            [[RLMRealm defaultRealm] beginWriteTransaction];
+            
+            imageDb.imageData= UIImageJPEGRepresentation(image, 0.5);
+            
+            [[RLMRealm defaultRealm] commitWriteTransaction];
+        }
+    });
     
-    [_realm commitWriteTransaction];
 }
 
 -(UIImage *)getUIImageFromImageDbWithID:(NSString *)imageDbId{
-    ImageDb *imageDb=[ImageDb objectInRealm:_realm forPrimaryKey:imageDbId];
+    ImageDb *imageDb=[ImageDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:imageDbId];
     if(!imageDb){
         return nil;
     }
@@ -439,6 +446,25 @@ static DatabaseManager *_uniqueInstance;
     return nil;
 }
 
+-(void)addImageWithId:(NSString *)imageId toImageView:(UIImageView *)imageView{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        ImageDb *imageDb=[ImageDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:imageId];
+        
+        BOOL isDataAvailable;
+        if(!imageDb || !imageDb.imageData){
+            isDataAvailable=NO;
+        }
+        else{
+            isDataAvailable=YES;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            imageView.image=[UIImage imageWithData:imageDb.imageData scale:0.5];
+        });
+
+    });
+}
 -(void)addImagesFromArray:(NSArray *)images toTVEvent:(TVEvent *)tvEvent{
     TVEventDb *tvEventDb=[self modelForTVEvent:tvEvent];
     
@@ -589,6 +615,9 @@ static DatabaseManager *_uniqueInstance;
 
 -(PersonDetails *)getPersonDetailsForID:(NSInteger)personID{
     PersonDetailsDb *personDetailsDb=[PersonDetailsDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:personID]];
+    if(!personDetailsDb){
+        return nil;
+    }
     return [PersonDetails personDetailsWithPersonDetailsDb:personDetailsDb];
 }
 

@@ -10,6 +10,7 @@
 #import "Genre.h"
 
 #import "DatabaseManager.h"
+#import <CoreSpotlight/CoreSpotlight.h>
 
 #define TYPE_KEY @"type"
 
@@ -20,6 +21,8 @@
 
 @implementation AppDelegate
 static DataProviderService *downloader=nil;
+static NSString *SearchableItemMovieDomainIdentifier=@"movie";
+static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -62,14 +65,17 @@ static DataProviderService *downloader=nil;
     }
     NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
     NSLog(@"%@",tmp);
-    [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
-    [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
     //[[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    //[self setupGenres];
+
   
     if([MovieAppConfiguration isConnectedToInternet]){
         [[DatabaseManager sharedDatabaseManager] connectionEstablished];
+        [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];
+        [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[TVShow class] ReturnTo:self];
+        
+    }
+    else{
+        [self setupGenres];
     }
    
     return YES;
@@ -116,12 +122,66 @@ static DataProviderService *downloader=nil;
 
 -(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
     
-    UITabBarController *tc=(UITabBarController *)self.window.rootViewController;
-    UINavigationController *navc=tc.childViewControllers[1];
-    UIViewController *vc=navc.childViewControllers[0];
+    UITabBarController *mainTabBarController=(UITabBarController *)self.window.rootViewController;
+    UINavigationController *moviesNavigationVC=mainTabBarController.childViewControllers[1];
+    UINavigationController *tvshowsNavigationVC=mainTabBarController.childViewControllers[2];
+    UIWindow *moviesWindow=moviesNavigationVC.view.window;
+    UIWindow *tvshowsWindow=tvshowsNavigationVC.view.window;
     
-    [vc restoreUserActivityState:userActivity];
+    UIViewController *viewController;
+    if(moviesWindow){
+        viewController=moviesNavigationVC.childViewControllers[0];
+    }
+    else if(tvshowsWindow){
+        viewController=tvshowsNavigationVC.childViewControllers[0];
+    }
+    else{
+        if([self mediaTypeOfUserActivity:userActivity] == MovieType){
+            [mainTabBarController setSelectedIndex:1];
+            viewController=moviesNavigationVC.childViewControllers[0];
+        }
+        else{
+            [mainTabBarController setSelectedIndex:2];
+            viewController=tvshowsNavigationVC.childViewControllers[0];
+        }
+    }
+
+    
+    [viewController restoreUserActivityState:userActivity];
     
     return YES;
+}
+
+-(MediaType)mediaTypeOfUserActivity:(NSUserActivity *)activity{
+    MediaType mediaType;
+    if([activity.activityType isEqualToString:CSSearchableItemActionType]){
+        NSDictionary *userInfo=activity.userInfo;
+        
+        if(userInfo){
+            NSString *identifier = [userInfo objectForKey:CSSearchableItemActivityIdentifier];
+            
+            NSString *numberString;
+            
+            NSScanner *scanner = [NSScanner scannerWithString:identifier];
+            NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+            
+            [scanner scanUpToCharactersFromSet:numbers intoString:NULL];
+            
+            [scanner scanCharactersFromSet:numbers intoString:&numberString];
+            
+            if ([identifier rangeOfString:SearchableItemMovieDomainIdentifier].location != NSNotFound){
+                mediaType=MovieType;
+            }
+            else if([identifier rangeOfString:SearchableItemTVShowDomainIdentifier].location != NSNotFound){
+                mediaType=TVShowType;
+            }
+            else{
+                return -1;
+            }
+        }
+    }
+    
+    return mediaType;
+
 }
 @end
