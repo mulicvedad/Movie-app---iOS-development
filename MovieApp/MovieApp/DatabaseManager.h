@@ -74,4 +74,6 @@
 -(AccountDetails *)getAccountDetailsForID:(NSInteger)accountId;
 -(NSArray *)getTVEventsForSearchQuery:(NSString *)query;
 -(void)removeUserRelatedInfo;
+-(void)addImageWithId:(NSString *)imageId toImageView:(UIImageView *)imageView;
+
 @end

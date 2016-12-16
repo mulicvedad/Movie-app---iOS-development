@@ -8,6 +8,7 @@
 #import "SeasonSelectionTableViewCell.h"
 #import "SimpleCollectionViewCell.h"
 #import "EpisodeDetailsTableViewController.h"
+#import "NoDataTableViewCell.h"
 
 #define FontSize16 16
 #define NumberOfSections 2;
@@ -46,6 +47,7 @@ enum{
     [self.tableView registerNib:[UINib nibWithNibName:[SeparatorTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeparatorTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[YearTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[YearTableViewCell cellIdentifier]];
     [self.tableView registerNib:[UINib nibWithNibName:[SeasonSelectionTableViewCell cellIClassName] bundle:nil] forCellReuseIdentifier:[SeasonSelectionTableViewCell cellIdentifier]];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([NoDataTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([NoDataTableViewCell class]) ];
     
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=44.0;
@@ -64,7 +66,12 @@ enum{
         return 2;
     }
     else{
-        return 2*[_episodes count]-1;
+        if(_episodes.count>0){
+            return 2*[_episodes count]-1;
+        }
+        else{
+            return 1;
+        }
     }
 }
 
@@ -87,7 +94,7 @@ enum{
         
     }
     else if(indexPath.section==EpisodesListSection){
-        if(_episodes){
+        if(_episodes.count>0){
             if(indexPath.row%2==0){
                 TVShowEpisode *currentEpisode=_episodes[indexPath.row/2];
                 EpisodeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[EpisodeTableViewCell cellIdentifier] forIndexPath:indexPath];
@@ -101,9 +108,13 @@ enum{
                 return cell;
             }
         }
-        
+        else{
+            NoDataTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([NoDataTableViewCell class]) forIndexPath:indexPath];
+            return cell;
+        }
         
     }
+   
     return nil;
     
 }

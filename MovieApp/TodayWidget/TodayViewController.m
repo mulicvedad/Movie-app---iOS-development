@@ -23,13 +23,15 @@ static NSString *PosterPlaceholderImageName=@"movie-poster";
     [super viewDidLoad];
     [self configure];
     [self updateMovies];
-
-   // [self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];
+    self.preferredContentSize=CGSizeMake(self.view.frame.size.width, 320.0);
+    //[self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];
 }
 
 -(void)configure{
     [self.moviesTableView registerNib:[UINib nibWithNibName:NSStringFromClass([MovieWidgetTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([MovieWidgetTableViewCell class])];
     [self.moviesTableView registerNib:[UINib nibWithNibName:NSStringFromClass([MainMovieWidgetTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([MainMovieWidgetTableViewCell class])];
+    
+    self.moviesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
@@ -129,5 +131,11 @@ static NSString *PosterPlaceholderImageName=@"movie-poster";
 
     }
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    CGRect frame=self.moviesTableView.frame;
+    self.moviesTableView.frame=CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 320.0f);
 }
 @end

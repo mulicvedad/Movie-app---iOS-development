@@ -106,12 +106,7 @@ static id<LocalNotificationHandler> _localNotificationManager;
     _noMoreWatchlistMovies=NO;
     _noMoreRatedTVShows=NO;
     _noMoreRatedMovies=NO;
-    [_favoriteMovies removeAllObjects];
-    [_favoriteTVShows removeAllObjects];
-    [_watchListMovies removeAllObjects];
-    [_watchListTVShows removeAllObjects];
-    [_ratedTVShows removeAllObjects];
-    [_ratedTVShows removeAllObjects];
+    
 
 }
 

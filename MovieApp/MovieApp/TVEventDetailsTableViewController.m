@@ -57,6 +57,8 @@
     
     id<TVEventsCollectionsStateChangeHandler> _delegate;
     GalleryCarouselCollectionViewDelegate *_galleryDelegate;
+    
+    UIActivityIndicatorView *_activityView;
 }
 
 @end
@@ -84,12 +86,18 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
     [self configure];
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=44.0;
+    _activityView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
+    _activityView.center=self.view.center;
+    [_activityView startAnimating];
+    [self.view addSubview:_activityView];
     [[DataProviderService sharedDataProviderService] getDetailsForTvEvent:_mainTvEvent returnTo:self];
     [[DataProviderService sharedDataProviderService] getCreditsForTvEvent:_mainTvEvent returnTo:self];
     if([_mainTvEvent isKindOfClass:[Movie class]]){
         [[DataProviderService sharedDataProviderService] getVideosForTvEventID:_mainTvEvent.id returnTo:self];
     }
+   
     
 }
 
@@ -242,6 +250,7 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
         }
         else if(indexPath.row==3 || indexPath.row==5){
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
+
             return cell;
         }
     }
@@ -261,6 +270,7 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
         }
         else{
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
+
             return cell;
         }
     }
@@ -277,6 +287,7 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
         }
         else{
             SeparatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[SeparatorTableViewCell cellIdentifier] forIndexPath:indexPath];
+
             return cell;
         }
     }
@@ -311,6 +322,11 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if([_mainTvEvent isKindOfClass:[TVShow class]] && _seasons.count==0){
+        if(indexPath.section==1 && (indexPath.row==3 || indexPath.row==5)){
+            return 0;
+        }
+    }
     if(indexPath.section==0){
         if(indexPath.row==0){
             
@@ -340,6 +356,7 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
         else if(indexPath.row==2){
             return UITableViewAutomaticDimension;
         }
+    
         else if((indexPath.row==3 || indexPath.row==5) && [_images count]>0 ){
             return [self getHeightForCellWithDivisor:SeparatorCellWidthHeightRatio];
             
@@ -463,6 +480,10 @@ static NSString *TVShowDetailsUrlSubpath=@"/movie/";
                 }
             }
             _detailsLoaded=YES;
+            
+            [_activityView stopAnimating];
+            [_activityView removeFromSuperview];
+            _activityView=nil;
         }
         else if([customItemsArray[0] isKindOfClass:[Video class]]){
             for(int i=0;i<[customItemsArray count];i++){

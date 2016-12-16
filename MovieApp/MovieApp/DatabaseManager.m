@@ -9,6 +9,7 @@
 @end
 
 static DatabaseManager *_uniqueInstance;
+static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
 
 @implementation DatabaseManager
 +(instancetype)sharedDatabaseManager{
@@ -451,21 +452,23 @@ static DatabaseManager *_uniqueInstance;
                                              (unsigned long)NULL), ^(void) {
         ImageDb *imageDb=[ImageDb objectInRealm:[RLMRealm defaultRealm] forPrimaryKey:imageId];
         
-        BOOL isDataAvailable;
-        if(!imageDb || !imageDb.imageData){
-            isDataAvailable=NO;
+        UIImage *image=nil;
+        if(imageDb && imageDb.imageData){
+            image=[UIImage imageWithData:imageDb.imageData scale:0.5];
         }
-        else{
-            isDataAvailable=YES;
-        }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if(isDataAvailable){
-                imageView.image=[UIImage imageWithData:imageDb.imageData scale:0.5];
+            if(image){
+                imageView.image=image;
+            }
+            else{
+                imageView.image=[UIImage imageNamed:PlaceholderImageName];
             }
         });
 
     });
+    
+
 }
 -(void)addImagesFromArray:(NSArray *)images toTVEvent:(TVEvent *)tvEvent{
     
@@ -614,12 +617,21 @@ static DatabaseManager *_uniqueInstance;
 -(NSArray *)getCastMembersForTVShowWithID:(NSInteger)tvShowID easonNumber:(NSInteger)seasonNumber episodeNumber:(NSInteger)episodeNumber{
     TVShowDb *tvShowDb=[TVShowDb objectInRealm:_realm forPrimaryKey:[NSNumber numberWithInteger:tvShowID]];
     if(!tvShowDb){
-        @throw NSInternalInconsistencyException;
+        //@throw NSInternalInconsistencyException;
     }
-    
-    TVShowEpisodeDb *episodeDb=tvShowDb.seasons[seasonNumber].episodes[episodeNumber];
-    
-    return [CastMember castMembersArrayWithRLMArray:(RLMResults *)episodeDb.cast];
+    TVShowEpisodeDb *episodeDb=nil;
+    if(tvShowDb.seasons.count>seasonNumber){
+        if(tvShowDb.seasons[seasonNumber].episodes.count>episodeNumber){
+            episodeDb=tvShowDb.seasons[seasonNumber].episodes[episodeNumber];
+        }
+    }
+    if(episodeDb){
+        return [CastMember castMembersArrayWithRLMArray:(RLMResults *)episodeDb.cast];
+
+    }
+    else{
+        return nil;
+    }
 }
 
 

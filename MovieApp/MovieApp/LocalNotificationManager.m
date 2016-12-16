@@ -1,6 +1,7 @@
 #import "LocalNotificationManager.h"
 #import "TVShowEpisode.h"
 #import "VirtualDataStorage.h"
+#import "DatabaseManager.h"
 
 static LocalNotificationManager *sharedNotificationManager;
 static CGFloat numberOfSecondsInOneDay=24.0f*60*60;
@@ -56,6 +57,7 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
         isToday=YES;
     }
     else{
+        return;
         [dateFormatter setDateFormat:@"EEEE HH:mm"];
         dateString=[dateFormatter stringFromDate:tvEvent.releaseDate];
         
@@ -114,7 +116,7 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
 
 -(void)removeAllNotificationsForMovies{
     NSMutableArray *notificationsIdentifiers=[[NSMutableArray alloc]init];
-    NSArray *movies=[[VirtualDataStorage sharedVirtualDataStorage] getWatchlistOfType:MovieType];
+    NSArray *movies=[[DatabaseManager sharedDatabaseManager] getWatchlistOfType:MovieType];
     for(TVEvent *tvEvent in movies){
         if(tvEvent.releaseDate){
             if(!([tvEvent.releaseDate compare:[NSDate date]] == NSOrderedAscending)){
@@ -128,7 +130,7 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
 
 -(void)removeAllNotificationsForTVShows{
     NSMutableArray *notificationsIdentifiers=[[NSMutableArray alloc]init];
-    NSArray *tvShows=[[VirtualDataStorage sharedVirtualDataStorage] getWatchlistOfType:TVShowType];
+    NSArray *tvShows=[[DatabaseManager sharedDatabaseManager] getWatchlistOfType:TVShowType];
     for(TVEvent *tvEvent in tvShows){
         if(tvEvent.releaseDate){
             if(!([tvEvent.releaseDate compare:[NSDate date]] == NSOrderedAscending)){
@@ -140,7 +142,7 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
 }
 
 -(void)scheduleMoviesNotifications{
-    NSArray *movies=[[VirtualDataStorage sharedVirtualDataStorage] getWatchlistOfType:MovieType];
+    NSArray *movies=[[DatabaseManager sharedDatabaseManager] getWatchlistOfType:MovieType];
     for(TVEvent *tvEvent in movies){
         if(tvEvent.releaseDate){
             if(!([tvEvent.releaseDate compare:[NSDate date]] == NSOrderedAscending)){
@@ -161,10 +163,11 @@ static NSString *TVShowNotificationCategoryName=@"tvshow";
     testEvent.id=13121312;
     TVEvent *testEvent2=[[TVEvent alloc] init];
     testEvent2.title=@"Harry Potter and The Prisoners of Azkhaban";
-    testEvent2.releaseDate=[NSDate dateWithTimeIntervalSinceNow:numberOfSecondsInOneDay+20];
+    testEvent2.releaseDate=[NSDate dateWithTimeIntervalSinceNow:15];
     testEvent2.id=12131213;
     [self addNotificationAboutTVEvent:testEvent isEpisode:NO];
     [self addNotificationAboutTVEvent:testEvent2 isEpisode:NO];
     
 }
+
 @end

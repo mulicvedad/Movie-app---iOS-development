@@ -52,7 +52,8 @@ static NSArray *genres=nil;
 
 +(void)initializeGenres:(NSArray *)genresArray{
     
-    RLMResults *genresDb=[GenreDb allObjects];
+    RLMResults *genresDb=[GenreDb objectsWhere:@"isMovieGenre=YES"];
+    
     if(genresDb.count==0){
         [[RLMRealm defaultRealm] beginWriteTransaction];
         for(Genre *genre in genresArray){

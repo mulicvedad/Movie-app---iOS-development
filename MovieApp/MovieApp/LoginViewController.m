@@ -83,6 +83,7 @@ static CGFloat ContainerViewOffsetWithKeyboard=50.0;
     KeychainItemWrapper *myWrapper=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
     [myWrapper setObject:self.usernameTextField.text forKey:(id)kSecAttrAccount];
     [myWrapper setObject:sessionID forKey:(id)kSecValueData];
+    [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
     [[VirtualDataStorage sharedVirtualDataStorage] updateData];
     [self.navigationController popViewControllerAnimated:YES];
 }

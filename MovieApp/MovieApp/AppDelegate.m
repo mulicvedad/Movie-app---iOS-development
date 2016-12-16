@@ -26,11 +26,10 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 static NSString *EventDetailsSegueIdentifier=@"ShowDetailsSegue";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    [self setupAccount];
     [self setupDatabaseMigration];
+    [self setupAccount];
     [Fabric with:@[[Crashlytics class]]];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
  
     if([MovieAppConfiguration isConnectedToInternet]){
         [[DatabaseManager sharedDatabaseManager] connectionEstablished];
@@ -212,5 +211,11 @@ static NSString *EventDetailsSegueIdentifier=@"ShowDetailsSegue";
 
     NSString *tmp=[NSString stringWithFormat:@"%d",__IPHONE_OS_VERSION_MAX_ALLOWED];
     NSLog(@"OS VERSION MAX ALLOWED: %@",tmp);
+}
+
+-(void)emptyDatabase{
+    [[RLMRealm defaultRealm] beginWriteTransaction];
+    [[RLMRealm defaultRealm] deleteAllObjects];
+    [[RLMRealm defaultRealm] commitWriteTransaction];
 }
 @end

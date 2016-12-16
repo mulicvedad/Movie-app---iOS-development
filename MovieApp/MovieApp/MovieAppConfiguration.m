@@ -1,4 +1,5 @@
 #import "MovieAppConfiguration.h"
+#import "Reachability.h"
 
 NSString * const RegularHelveticaFontName=@"HelveticaNeue";
 NSString * const BoldHelveticaFontName=@"HelveticaNeue";
@@ -129,7 +130,15 @@ NSString *PosterPlaceholderSmall=@"poster-placeholder-new-medium";
 }
 
 +(BOOL)isConnectedToInternet{
-    return YES;
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+        return  YES;
+    }
+    else {
+        return NO;
+    }
+    
 }
 
 
