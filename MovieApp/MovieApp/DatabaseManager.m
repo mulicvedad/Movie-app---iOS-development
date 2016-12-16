@@ -467,6 +467,8 @@ static NSString *PlaceholderImageName=@"poster-placeholder-new-medium";
         });
 
     });
+    
+
 }
 -(void)addImagesFromArray:(NSArray *)images toTVEvent:(TVEvent *)tvEvent{
     

@@ -59,7 +59,7 @@
                                     <outlet property="delegate" destination="2Fh-7f-BmS" id="uMQ-V8-cA5"/>
                                 </connections>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D9O-QQ-JdD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D9O-QQ-JdD">
                                 <rect key="frame" x="0.0" y="74" width="375" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -215,13 +215,6 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RRq-uP-j9v">
-                                        <rect key="frame" x="102" y="321" width="172" height="30"/>
-                                        <state key="normal" title="Open test view controller"/>
-                                        <connections>
-                                            <segue destination="zBf-iE-KD2" kind="show" id="cd8-rT-Mwe"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -231,7 +224,6 @@
                                     <constraint firstItem="dg9-AH-2lh" firstAttribute="leading" secondItem="foO-FI-sKu" secondAttribute="leading" constant="30" id="BkY-W5-q0d"/>
                                     <constraint firstItem="o72-me-IQw" firstAttribute="top" secondItem="faz-fF-7Bf" secondAttribute="bottom" id="Fas-BB-Pz5"/>
                                     <constraint firstItem="Deb-WA-rzp" firstAttribute="centerX" secondItem="foO-FI-sKu" secondAttribute="centerX" id="NQs-4U-N95"/>
-                                    <constraint firstItem="RRq-uP-j9v" firstAttribute="centerX" secondItem="foO-FI-sKu" secondAttribute="centerX" id="OOQ-zk-x4K"/>
                                     <constraint firstAttribute="trailing" secondItem="faz-fF-7Bf" secondAttribute="trailing" constant="40" id="QjS-Vy-63F"/>
                                     <constraint firstItem="Afz-Hm-hfm" firstAttribute="centerX" secondItem="foO-FI-sKu" secondAttribute="centerX" id="SRd-D5-rL4"/>
                                     <constraint firstItem="faz-fF-7Bf" firstAttribute="leading" secondItem="foO-FI-sKu" secondAttribute="leading" constant="40" id="T2u-5c-jsf"/>
@@ -244,7 +236,6 @@
                                     <constraint firstItem="o72-me-IQw" firstAttribute="leading" secondItem="foO-FI-sKu" secondAttribute="leading" constant="30" id="kjG-JM-9C9"/>
                                     <constraint firstItem="ZIm-Wk-C8c" firstAttribute="top" secondItem="foO-FI-sKu" secondAttribute="top" constant="20" id="mP5-s9-4cB"/>
                                     <constraint firstAttribute="trailing" secondItem="o72-me-IQw" secondAttribute="trailing" constant="30" id="pQB-rD-XQm"/>
-                                    <constraint firstItem="Deb-WA-rzp" firstAttribute="top" secondItem="RRq-uP-j9v" secondAttribute="bottom" constant="5" id="qOq-Wb-haG"/>
                                     <constraint firstItem="faz-fF-7Bf" firstAttribute="top" secondItem="ZIm-Wk-C8c" secondAttribute="bottom" constant="10" id="tqW-2l-2hJ"/>
                                 </constraints>
                             </view>
@@ -285,23 +276,23 @@
                         <viewControllerLayoutGuide type="bottom" id="Tyk-o0-ma9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3rd-hQ-ND1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MD3-ru-r71">
-                                <rect key="frame" x="33" y="137" width="42" height="21"/>
+                                <rect key="frame" x="33" y="93" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odX-aP-C2X">
-                                <rect key="frame" x="33" y="170" width="42" height="21"/>
+                                <rect key="frame" x="33" y="126" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E2C-43-N5J">
-                                <rect key="frame" x="33" y="93" width="116" height="30"/>
+                                <rect key="frame" x="33" y="49" width="116" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="116" id="U4q-X5-YqO"/>
@@ -314,7 +305,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsx-pa-0ze">
-                                <rect key="frame" x="186" y="93" width="119" height="30"/>
+                                <rect key="frame" x="186" y="49" width="119" height="30"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title="Obrisi studenta">
                                     <color key="titleColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -324,7 +315,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5B5-5U-kZG">
-                                <rect key="frame" x="33" y="204" width="42" height="21"/>
+                                <rect key="frame" x="33" y="160" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -963,13 +954,13 @@
         <image name="tv-inactive" width="23" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b3H-So-LoW"/>
-        <segue reference="VAR-D8-Grm"/>
+        <segue reference="jDt-M6-KIs"/>
         <segue reference="AN9-rp-coG"/>
+        <segue reference="b3H-So-LoW"/>
         <segue reference="UYh-kZ-oaf"/>
         <segue reference="hZr-3H-8DO"/>
-        <segue reference="s2o-aR-6iT"/>
         <segue reference="QTG-iR-DHh"/>
+        <segue reference="s2o-aR-6iT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

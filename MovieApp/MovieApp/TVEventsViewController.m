@@ -19,6 +19,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Realm/Realm.h>
 #import "MovieDb.h"
+#import "Reachability.h"
 
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -47,6 +48,9 @@
     UIView *_shadowView;
     
     UIBarButtonItem *_menuButtonItem;
+    
+    BOOL _isConnected;
+    Reachability *_internetReachable;
     
 }
 
@@ -90,6 +94,13 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     [self configureNotifications];
     [self configureSearchController];
     _menuButtonItem=self.menuButton;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionChanged:) name:kReachabilityChangedNotification object:nil];
+    _internetReachable = [Reachability reachabilityForInternetConnection];
+
+    [_internetReachable startNotifier];
+    
+    _isConnected=[MovieAppConfiguration isConnectedToInternet];
     
 }
 
@@ -176,7 +187,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
         }];
     }
     else if(currentTVEvent.posterPath){
-        [[DatabaseManager sharedDatabaseManager] addImageWithId:[BaseImageUrlForWidth92 stringByAppendingString:currentTVEvent.posterPath] toImageView:cell.posterImageView];
+        [[DatabaseManager sharedDatabaseManager] addImageWithId:[BaseImageUrlForWidth185 stringByAppendingString:currentTVEvent.posterPath] toImageView:cell.posterImageView];
     }
     else{
         cell.posterImageView.image=[UIImage imageNamed: PlaceholderImageName];
@@ -216,8 +227,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
 
 
 -(void)updateReceiverWithNewData:(NSArray *)customItemsArray info:(NSDictionary *)info{
-    if(customItemsArray.count==0 && _tvEvents.count==0){
-        //[self handleError:[info objectForKey:ErrorDictionaryKey]];
+    if(customItemsArray.count==0 && _tvEvents.count==0 && ![MovieAppConfiguration isConnectedToInternet]){
         [AlertManager displaySimpleAlertWithTitle:@"No data" description:@"Check your internet connection!" displayingController:self shouldPopViewController:NO];
         _noMorePages=YES;
         return;
@@ -225,9 +235,8 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     if([customItemsArray count]<20){
         _noMorePages=YES;
     }
+    
     if(![MovieAppConfiguration isConnectedToInternet]){
-        NSInteger pagesNumber=customItemsArray.count/20.0;
-        _numberOfPagesLoaded=pagesNumber;
         _noMorePages=YES;
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
@@ -533,13 +542,14 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-                                                              [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
-                                                              [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
-                                                              
+                                                             // [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
+                                                             // [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
+                                                              [myKeyChain resetKeychainItem];
                                                               [[DatabaseManager sharedDatabaseManager] removeUserRelatedInfo];
                                                               [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
                                                               [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
-                                                              [self.tvEventsCollectionView reloadData];
+                                                              //[self.tvEventsCollectionView reloadData];
+                                                              [self connectionChanged:nil];
                                                           }];
     
     
@@ -810,5 +820,40 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
             [self performSegueWithIdentifier:EventDetailsSegueIdentifier sender:tvEvent];
         }
     }
+}
+
+-(void)connectionChanged:(NSNotification *)notification{
+    
+        _numberOfPagesLoaded=0;
+        if(_tvEvents.count>0){
+            [_tvEvents removeAllObjects];
+            _noMorePages=NO;
+            _numberOfPagesLoaded=0;
+            [self.tvEventsCollectionView reloadData];
+        }
+        else{
+            _shouldScrollToTop=NO;
+        }
+        
+        [[DataProviderService sharedDataProviderService] cancelAllRequests];
+        _pageDownloaderActive=YES;
+        [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)_selectedIndex page:1 returnToHandler:self];
+    
+   
+    
+}
+
+-(BOOL)connectionChanged{
+    if(_isConnected != [MovieAppConfiguration isConnectedToInternet]){
+        _isConnected=[MovieAppConfiguration isConnectedToInternet];
+        
+        return YES;
+    }
+    return NO;
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 @end

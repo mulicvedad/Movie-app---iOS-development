@@ -47,9 +47,10 @@ static NSString *TVShowNotificationCategoryName=@"TV Show";
         dateString=[@"Today: " stringByAppendingString:[dateFormatter stringFromDate:tvEvent.releaseDate]];
         //if episode air date is today we will get notification soon
         isToday=YES;
-        triggerDate=[NSDate dateWithTimeIntervalSinceNow:episodeNotificationTimeInterval];
+        triggerDate=[NSDate dateWithTimeIntervalSinceNow:episodeNotificationTimeInterval+60*60];
     }
     else{
+        return;
         [dateFormatter setDateFormat:@"EEEE HH:mm"];
         dateString=[dateFormatter stringFromDate:tvEvent.releaseDate];
         
@@ -119,7 +120,7 @@ static NSString *TVShowNotificationCategoryName=@"TV Show";
     testEvent.id=13121312;
     TVEvent *testEvent2=[[TVEvent alloc] init];
     testEvent2.title=@"Harry Potter and The Prisoners of Azkhaban";
-    testEvent2.releaseDate=[NSDate dateWithTimeIntervalSinceNow:numberOfSecondsInOneDay+20];
+    testEvent2.releaseDate=[NSDate dateWithTimeIntervalSinceNow:20];
     testEvent2.id=12131213;
     [self addNotificationAboutTVEvent:testEvent isEpisode:NO];
     [self addNotificationAboutTVEvent:testEvent2 isEpisode:NO];

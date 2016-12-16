@@ -3,11 +3,11 @@
 #import "LocalNotificationHandler.h"
 #import "AccountDetails.h"
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 #import "LocalNotificationManager.h"
-#else
+//#else
 #import "LocalNotificationManagerOldVersion.h"
-#endif
+//#endif
 
 @interface SettingsViewController (){
     BOOL _movieNotificationsEnabled;
@@ -33,11 +33,11 @@ static NSString *InactiveToggleImageName=@"toggle-inactive";
     tapRecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTVShowNotificationsToggle)];
     [self.tvShowNotificationsToggleImageView addGestureRecognizer:tapRecognizer];
     
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
     _notificationHandler=[LocalNotificationManager sharedNotificationManager];
-#else
-    _notificationHandler=[LocalNotificationManagerOldVersion sharedNotificationManager];
-#endif
+//#else
+    //_notificationHandler=[LocalNotificationManagerOldVersion sharedNotificationManager];
+//#endif
     
     _movieNotificationsEnabled=[[NSUserDefaults standardUserDefaults] boolForKey:MoviesNotificationsEnabledNSUserDefaultsKey];
     _tvShowNotificationsEnabled=[[NSUserDefaults standardUserDefaults] boolForKey:TVShowsNotificationsEnabledNSUserDefaultsKey];

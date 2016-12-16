@@ -32,6 +32,7 @@
 @end
 
 static const NSUInteger TVEventsPageSize=20;
+static KeychainItemWrapper *_myKeyChain;
 
 @implementation DataProviderService
 static DataProviderService *sharedService;
@@ -39,6 +40,7 @@ static DataProviderService *sharedService;
 +(DataProviderService *)sharedDataProviderService{
     if(!sharedService){
         sharedService=[[DataProviderService alloc]init];
+        _myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
         [sharedService configure];
         
     }
@@ -172,7 +174,7 @@ static DataProviderService *sharedService;
                                            parameters:queryParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   NSArray *tvEvents = [NSMutableArray arrayWithArray: mappingResult.array];
-                                                  if(criterion==LATEST){
+                                                  if(criterion==LATEST && currentClass==[Movie class]){
                                                       NSMutableArray *latestMovies=[[NSMutableArray alloc] initWithCapacity:7];
                                                       for(int i=0;i<7 && i<tvEvents.count;i++){
                                                           TVEvent *currentTVEvent=tvEvents[i];
@@ -800,8 +802,8 @@ static DataProviderService *sharedService;
 }
 
 -(BOOL)isUserLoggedIn{
-    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+
+    NSString *username=[_myKeyChain objectForKey:(id)kSecAttrAccount];
     if(!username  || [username length]==0){
         return NO;
     }
@@ -811,8 +813,8 @@ static DataProviderService *sharedService;
 }
 
 -(NSString *)getSessionID{
-    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-    NSString *sessionID=[myKeyChain objectForKey:(id)kSecValueData];
+    //KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *sessionID=[_myKeyChain objectForKey:(id)kSecValueData];
     return sessionID;
 }
 

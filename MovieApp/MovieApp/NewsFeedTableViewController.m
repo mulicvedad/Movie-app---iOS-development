@@ -271,9 +271,10 @@ static NSString *SettingsSegueIdentifier=@"FeedSettingsSegue";
     UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault
                                                       handler:^(UIAlertAction * action) {
                                                           KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
-                                                          [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
-                                                          [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
-                                                          [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
+                                                     //     [myKeyChain setObject:EmptyString forKey:(id)kSecAttrAccount];
+                                                          [myKeyChain resetKeychainItem];
+                                                       //   [myKeyChain setObject:EmptyString forKey:(id)kSecValueData];
+                                                    //      [[VirtualDataStorage sharedVirtualDataStorage] removeAllData];
                                                           
                                                       }];
     
