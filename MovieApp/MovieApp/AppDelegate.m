@@ -30,7 +30,7 @@ static NSString *EventDetailsSegueIdentifier=@"ShowDetailsSegue";
     [self setupAccount];
     [Fabric with:@[[Crashlytics class]]];
     //[[UIApplication sharedApplication] cancelAllLocalNotifications];
- 
+    
     if([MovieAppConfiguration isConnectedToInternet]){
         [[DatabaseManager sharedDatabaseManager] connectionEstablished];
         [[DataProviderService sharedDataProviderService] getGenresForTvEvent:[Movie class] ReturnTo:self];

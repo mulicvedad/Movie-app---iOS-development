@@ -5,6 +5,8 @@
 #import "VirtualDataStorage.h"
 #import "LikedTVEventTableViewCell.h"
 #import "DatabaseManager.h"
+#import "Reachability.h"
+#import "AlertManager.h"
 
 #define TvEventsPageSize 20
 
@@ -20,6 +22,9 @@
     BOOL _pageDownloaderActive;
     BOOL _shouldScrollToTop;
     BOOL _refresh;
+    
+    Reachability *_internetReachable;
+
 }
 
 @end
@@ -37,6 +42,11 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     [super viewDidLoad];
     [self configure];
     [self fetchTVEventsForPageNumber:_numberOfPagesLoaded+1];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionChanged:) name:kReachabilityChangedNotification object:nil];
+    _internetReachable = [Reachability reachabilityForInternetConnection];
+    
+    [_internetReachable startNotifier];
+    
 }
 
 -(void)configure{
@@ -174,7 +184,11 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 
 
 -(void)handleError:(NSError *)error{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:RequestFailedMessageTitle
+    if(self.view.window){
+        [AlertManager displaySimpleAlertWithTitle:@"No data" description:@"Check your internet connection." displayingController:self shouldPopViewController:NO];
+
+    }
+    /*UIAlertController* alert = [UIAlertController alertControllerWithTitle:RequestFailedMessageTitle
                                                                    message:RequestFailedMessage
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
@@ -193,7 +207,8 @@ static CGFloat defaultTableViewCellHeight=92.0f;
     
     [alert addAction:defaultAction];
     [alert addAction:reloadAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:nil];*/
+    
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -255,5 +270,26 @@ static CGFloat defaultTableViewCellHeight=92.0f;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tvEventsTableView reloadData];
+}
+
+-(void)connectionChanged:(NSNotification *)notification{
+    
+    _numberOfPagesLoaded=0;
+    if(_tvEvents.count>0){
+        [_tvEvents removeAllObjects];
+        _noMorePages=NO;
+        _numberOfPagesLoaded=0;
+        [self.tvEventsTableView reloadData];
+    }
+    else{
+        _shouldScrollToTop=NO;
+    }
+    
+    [[DataProviderService sharedDataProviderService] cancelAllRequests];
+    _pageDownloaderActive=YES;
+    [self fetchTVEventsForPageNumber:1];
+    
+    
+    
 }
 @end

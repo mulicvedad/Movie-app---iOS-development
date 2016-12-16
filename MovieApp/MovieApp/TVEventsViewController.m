@@ -52,6 +52,8 @@
     BOOL _isConnected;
     Reachability *_internetReachable;
     
+    BOOL _isUserLoggedIn;
+    
 }
 
 @end
@@ -101,6 +103,15 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     [_internetReachable startNotifier];
     
     _isConnected=[MovieAppConfiguration isConnectedToInternet];
+    
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    if(!username  || [username length]==0){
+        _isUserLoggedIn=NO;
+    }
+    else{
+        _isUserLoggedIn=YES;
+    }
     
 }
 
@@ -192,10 +203,18 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     else{
         cell.posterImageView.image=[UIImage imageNamed: PlaceholderImageName];
     }
-
+    
+    
 
     [cell setupWithTvEvent:currentTVEvent indexPathRow:indexPath.row callbackDelegate:self];
-    
+    if(_isUserLoggedIn){
+        cell.addToFavoritesImageView.hidden=NO;
+        cell.addToWatchlistImageView.hidden=NO;
+    }
+    else{
+        cell.addToFavoritesImageView.hidden=YES;
+        cell.addToWatchlistImageView.hidden=YES;
+    }
     if((indexPath.row>(_numberOfPagesLoaded-1)*TvEventsPageSize+10) && !_pageDownloaderActive && !_noMorePages){
         _pageDownloaderActive=YES;
         [[DataProviderService sharedDataProviderService] getTvEventsByCriterion:(Criterion)_selectedIndex page:_numberOfPagesLoaded+1 returnToHandler:self];
@@ -241,11 +260,11 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     }
     [_tvEvents addObjectsFromArray:customItemsArray];
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+   /* dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
                                              (unsigned long)NULL), ^(void) {
         [self setupSearchableContent];
 
-    });
+    });*/
     
     [self dataStorageReadyNotificationHandler];
     _numberOfPagesLoaded++;
@@ -549,6 +568,7 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
                                                               [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TVShowsNotificationsEnabledNSUserDefaultsKey];
                                                               [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MoviesNotificationsEnabledNSUserDefaultsKey];
                                                               //[self.tvEventsCollectionView reloadData];
+                                                              _isUserLoggedIn=NO;
                                                               [self connectionChanged:nil];
                                                           }];
     
@@ -674,6 +694,15 @@ static NSString *SearchableItemTVShowDomainIdentifier=@"tv";
     UITextField *searchTextField = [ self.searchController.searchBar valueForKey:TextFieldPropertyName];
     searchTextField.backgroundColor = [UIColor darkGrayColor];
     searchTextField.textColor=[MovieAppConfiguration getPreferredTextColorForSearchBar];
+    
+    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
+    if(!username  || [username length]==0){
+        _isUserLoggedIn=NO;
+    }
+    else{
+        _isUserLoggedIn=YES;
+    }
   
    
 }

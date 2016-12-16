@@ -620,7 +620,19 @@ static DataProviderService *sharedService;
     else{
         sessionID=[self getSessionID];
     }
-    
+    if(![MovieAppConfiguration isConnectedToInternet]){
+        NSArray *ratings;
+        if(mediaType==MovieType){
+            ratings=[[DatabaseManager sharedDatabaseManager] getMoviesOfCollection:CollectionTypeRatings];
+            
+        }
+        else{
+            ratings=[[DatabaseManager sharedDatabaseManager] getTVShowsOfCollection:CollectionTypeRatings];
+        }
+        [dataHandler updateReceiverWithNewData:ratings info:@{SideMenuOptionDictionaryKey:[NSNumber numberWithInt:SideMenuOptionRatings]}];
+        return;
+        
+    }
     NSDictionary *queryParams = @{APIKeyParameterName : [MovieAppConfiguration getApiKey],
                                   SessionIDParameterName: sessionID,
                                   PageQueryParameterName: [NSNumber numberWithUnsignedInteger:pageNumber],
@@ -802,7 +814,7 @@ static DataProviderService *sharedService;
 }
 
 -(BOOL)isUserLoggedIn{
-
+     _myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
     NSString *username=[_myKeyChain objectForKey:(id)kSecAttrAccount];
     if(!username  || [username length]==0){
         return NO;
