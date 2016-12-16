@@ -127,7 +127,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
     self.addToFavoritesImageView.image=[UIImage imageNamed:tvEvent.isInFavorites ? FavoritesSelectedImageName : FavoritesNormalImageName];
     self.addToWatchlistImageView.image=[UIImage imageNamed:tvEvent.isInWatchlist ? WatchlistSelectedImageName : WatchlistNormalImageName];
     
-    KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
+    /*KeychainItemWrapper *myKeyChain=[[KeychainItemWrapper alloc] initWithIdentifier:KeyChainItemWrapperIdentifier accessGroup:nil];
     NSString *username=[myKeyChain objectForKey:(id)kSecAttrAccount];
      if(!username || [username length]==0){
      self.addToFavoritesImageView.hidden=YES;
@@ -136,7 +136,7 @@ static NSString *WatchlistNormalImageName=@"watchlist";
      else{
      self.addToFavoritesImageView.hidden=NO;
      self.addToWatchlistImageView.hidden=NO;
-     }
+     }*/
    
     
     
